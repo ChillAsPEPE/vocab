@@ -1,11 +1,11 @@
 {
   "name": "word-viewer-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Interactive Vocabulary Learner",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",

@@ -5,43 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kelly의 어휘 학습</title>
     <style>
-        /* 기본 스타일 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; }
         body.no-scroll { overflow: hidden; }
-
-        /* 레이아웃 */
+        .chapter-content h2:focus { outline: 2px solid #007bff; }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
         .header { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .content { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-
-        /* 내비게이션 & 컨트롤 */
         .navigation-controls { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; }
         .nav-button-group { display: flex; align-items: center; gap: 10px; }
         .chapter-links-container { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
         .nav-label { font-weight: 600; color: #495057; font-size: 14px; margin-right: 9px; }
-
-        /* 버튼 스타일 */
         .toggle-btn { background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
         .toggle-btn:hover { background: #5a6268; }
         .toggle-btn.active-btn { background-color: #007bff; color: white; }
-        
-        /* 챕터 링크 */
         .chapter-link { display: inline-block; padding: 5px; text-decoration: none; color: #007bff; border: none; border-bottom: 1px solid #007bff; font-weight: 500; font-size: 10px; transition: all 0.3s ease; min-width: 25px; text-align: center; }
         .chapter-link:hover, .chapter-link.active { background: #007bff; color: white; border-bottom-color: white; transform: scale(1.1); }
-
-        /* 본문 내용 */
         .chapter-content h2 { color: #2c3e50; margin-bottom: 30px; text-align: center; font-size: 28px; border-bottom: 3px solid #007bff; padding-bottom: 10px; }
         .sentence-pair { margin-bottom: 25px; }
         .english-text { font-size: 18px; line-height: 1.8; margin-bottom: 10px; color: #2c3e50; }
         .korean-text { font-size: 16px; line-height: 1.7; color: #666; font-style: italic; background: #f8f9fa; padding: 10px 15px; border-left: 4px solid #007bff; border-radius: 0 5px 5px 0; }
-        
-        /* ★★★ 복원된 부분: 단어 하이퍼링크 및 강조 스타일 ★★★ */
         .word-link { color: #007bff; font-weight: 600; padding: 2px 4px; border-radius: 3px; background: rgba(0, 123, 255, 0.1); cursor: pointer; transition: all 0.3s ease; text-decoration: underline; }
         .word-link:hover { background: rgba(0, 123, 255, 0.3); transform: scale(1.05); }
         .word-target-kr { color: #dc3545; font-weight: 600; padding: 2px 4px; border-radius: 3px; background: rgba(220, 53, 69, 0.1); }
-
-        /* 바텀 시트(Bottom Sheet) 스타일 */
         .bottom-sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .bottom-sheet-overlay.show { opacity: 1; visibility: visible; }
         .bottom-sheet-panel { background-color: white; width: 100%; max-width: 1000px; height: 65vh; border-radius: 16px 16px 0 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; }
@@ -58,8 +44,6 @@
         .index-item:last-child { border-bottom: none; }
         .index-number { font-weight: 600; color: #007bff; margin-right: 12px; min-width: 25px; }
         .index-title { color: #495057; font-size: 14px; }
-
-        /* 단어 정보 팝업 스타일 */
         .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 2000; animation: fadeIn 0.3s ease; }
         .popup-overlay.show { display: flex; align-items: center; justify-content: center; }
         .popup-content { background: white; max-width: 400px; width: 90%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); animation: slideIn 0.3s ease; position: relative; }
@@ -89,7 +73,6 @@
                     <%- number_navigation %>
                 </div>
             </div>
-            
             <%- chapters_html %>
         </div>
     </div>
@@ -117,6 +100,7 @@
     <script>
         const wordData = <%- word_data_js %>;
         const allWords = <%- all_words_json %>;
+        const contentHash = "<%- content_hash %>";
         let translationVisible = false;
 
         const bottomSheet = document.getElementById('bottomSheet');
@@ -127,12 +111,10 @@
         function openSheet(type) {
             const indexBtn = document.getElementById('index-toggle-btn');
             const wordListBtn = document.getElementById('word-list-toggle-btn');
-            
             if (bottomSheet.classList.contains('show') && currentSheet === type) {
                 closeSheet();
                 return;
             }
-
             if (type === 'index') {
                 bottomSheetTitle.textContent = '목차';
                 bottomSheetContent.innerHTML = document.getElementById('indexNavigationTemplate').innerHTML;
@@ -144,7 +126,6 @@
                 wordListBtn.classList.add('active-btn');
                 indexBtn.classList.remove('active-btn');
             }
-
             currentSheet = type;
             bottomSheet.classList.add('show');
             document.body.classList.add('no-scroll');
@@ -160,30 +141,42 @@
 
         function toggleIndex() { openSheet('index'); }
         function toggleWordList() { openSheet('word'); }
-        
+
         function showChapter(chapterIndex) {
             closeSheet();
-            const chapters = document.querySelectorAll('.chapter-content');
-            chapters.forEach(chapter => { chapter.style.display = 'none'; });
-            const links = document.querySelectorAll('.chapter-link');
-            links.forEach(link => { link.classList.remove('active'); });
+            document.querySelectorAll('.chapter-content').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
             const selectedChapter = document.getElementById('chapter-' + chapterIndex);
             if (selectedChapter) {
                 selectedChapter.style.display = 'block';
-                const koreanTexts = selectedChapter.querySelectorAll('.korean-text');
-                koreanTexts.forEach(text => { text.style.display = translationVisible ? 'block' : 'none'; });
+                selectedChapter.querySelectorAll('.korean-text').forEach(text => { text.style.display = translationVisible ? 'block' : 'none'; });
+                const titleElement = selectedChapter.querySelector('h2');
+                if (titleElement) {
+                    titleElement.setAttribute('tabindex', '-1');
+                    titleElement.focus();
+                }
             }
-            if (links[chapterIndex]) { links[chapterIndex].classList.add('active'); }
+            const activeLink = document.querySelector(`.chapter-link[href="#chapter-${chapterIndex}-${contentHash}"]`);
+            if (activeLink) activeLink.classList.add('active');
+        }
+
+        function handleNavigation() {
+            const hash = window.location.hash;
+            let chapterIndex = 0;
+            if (hash && hash.startsWith('#chapter-')) {
+                const parts = hash.substring(1).split('-');
+                if (parts.length >= 2) {
+                    const indexFromHash = parseInt(parts[1], 10);
+                    if (!isNaN(indexFromHash)) chapterIndex = indexFromHash;
+                }
+            }
+            showChapter(chapterIndex);
         }
 
         function toggleTranslation() {
             translationVisible = !translationVisible;
-            const koreanTexts = document.querySelectorAll('.korean-text');
-            koreanTexts.forEach(text => {
-                text.style.display = translationVisible ? 'block' : 'none';
-            });
-            const toggleBtn = document.getElementById('translation-toggle-btn');
-            toggleBtn.classList.toggle('active-btn', translationVisible);
+            document.querySelectorAll('.korean-text').forEach(text => { text.style.display = translationVisible ? 'block' : 'none'; });
+            document.getElementById('translation-toggle-btn').classList.toggle('active-btn', translationVisible);
         }
 
         function buildWordTable() {
@@ -208,7 +201,7 @@
                 headerKeys.forEach(key => {
                     const cell = document.createElement('td');
                     let cellData = word[key];
-                    if (Array.isArray(cellData)) { cellData = cellData.join(', '); }
+                    if (Array.isArray(cellData)) cellData = cellData.join(', ');
                     cell.textContent = cellData || '';
                     row.appendChild(cell);
                 });
@@ -239,11 +232,11 @@
             overlay.classList.add('show');
             document.body.classList.add('no-scroll');
         }
+
         function closePopup() {
             const overlay = document.getElementById('wordPopupOverlay');
             if (overlay) { 
-                overlay.classList.remove('show'); 
-                // 바텀 시트가 열려있지 않을 때만 body 스크롤 복원
+                overlay.classList.remove('show');
                 if (!bottomSheet.classList.contains('show')) {
                     document.body.classList.remove('no-scroll');
                 }
@@ -252,55 +245,29 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             buildWordTable(); 
-            if (Object.keys(wordData).length > 0 && document.querySelectorAll('.chapter-content').length > 0) {
-                showChapter(0);
-            }
-            
-            // ★★★ 복원된 부분: 단어 링크 클릭 이벤트 리스너 ★★★
+            handleNavigation();
+
             document.body.addEventListener('click', function(e) {
-                // 시트 내부의 목차 아이템 클릭 처리
-                if (e.target.closest('.index-item')) {
-                    const item = e.target.closest('.index-item');
-                    // showChapter 함수를 호출하기 위해 chapter 인덱스를 찾아야 함.
-                    // 간단한 구현을 위해, 모든 index-item을 찾아 몇 번째인지 확인
-                    const allItems = Array.from(document.querySelectorAll('#indexNavigationTemplate .index-item'));
-                    const chapterIndex = allItems.indexOf(item);
-                    if (chapterIndex > -1) {
-                        showChapter(chapterIndex);
-                    }
-                    return;
-                }
+                const indexItem = e.target.closest('.index-item');
+                const wordLink = e.target.closest('.word-link');
 
-                // 본문 단어 링크 클릭 처리
-                if (e.target.classList.contains('word-link')) {
-                    const wordId = e.target.getAttribute('data-word-id');
-                    if (wordId) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        showWordPopup(wordId);
-                    }
+                if (indexItem && indexItem.dataset.href) {
+                    e.preventDefault();
+                    window.location.hash = indexItem.dataset.href;
+                    closeSheet();
+                } else if (wordLink && wordLink.dataset.wordId) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showWordPopup(wordLink.dataset.wordId);
                 }
             });
             
-            document.getElementById('wordPopupOverlay').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closePopup();
-                }
-            });
-
-            bottomSheet.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeSheet();
-                }
-            });
-
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closePopup();
-                    closeSheet();
-                }
-            });
+            document.getElementById('wordPopupOverlay').addEventListener('click', e => { if(e.target === e.currentTarget) closePopup(); });
+            bottomSheet.addEventListener('click', e => { if(e.target === e.currentTarget) closeSheet(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') { closePopup(); closeSheet(); }});
         });
+
+        window.addEventListener('hashchange', handleNavigation, false);
     </script>
 </body>
 </html>
