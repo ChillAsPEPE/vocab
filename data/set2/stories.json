@@ -1,0 +1,554 @@
+{
+    "stories": [
+        {
+            "chapter_title": "The Silent Betrayal",
+            "chapter_num": 0,
+            "story_sentences": [
+                {
+                    "english": "In the world of espionage, every agent seeks an <word id='_advantage' class='word-eng-link'>advantage</word> over their rivals.",
+                    "korean": "첩보의 세계에서 모든 요원은 경쟁자보다 <word id='_advantage' class='word-target-kr'>이익</word>을 얻고자 한다."
+                },
+                {
+                    "english": "Our current troubles <word id='_arise_from' class='word-eng-link'>arise from</word> a security leak discovered last week.",
+                    "korean": "우리의 현재 문제들은 지난주에 발견된 보안 유출<word id='_arise_from' class='word-target-kr'>에서 기인하다</word>."
+                },
+                {
+                    "english": "The primary <word id='_barrier' class='word-eng-link'>barrier</word> to our mission is a heavily encrypted data vault.",
+                    "korean": "우리 임무의 주된 <word id='_barrier' class='word-target-kr'>장애물</word>은 강력하게 암호화된 데이터 금고이다."
+                },
+                {
+                    "english": "We cannot afford to have anyone <word id='_betray' class='word-eng-link'>betray</word> the team at this critical moment.",
+                    "korean": "이 중대한 순간에 팀을 <word id='_betray' class='word-target-kr'>배신하다</word>는 사람이 있어서는 안 된다."
+                },
+                {
+                    "english": "Our goal is to <word id='_bind' class='word-eng-link'>bind</word> the enemy's communication lines, creating a window for our operation.",
+                    "korean": "우리의 목표는 적의 통신선을 <word id='_bind' class='word-target-kr'>묶다</word>가, 작전을 위한 기회의 창을 만드는 것이다."
+                },
+                {
+                    "english": "As the fog rolled in, it began to <word id='_blur' class='word-eng-link'>blur</word> the lines between the dock and the dark water.",
+                    "korean": "안개가 몰려오면서 부두와 어두운 물 사이의 경계를 <word id='_blur' class='word-target-kr'>흐리게 하다</word> 시작했다."
+                },
+                {
+                    "english": "The agent found a clever way to <word id='_circumvent' class='word-eng-link'>circumvent</word> the laser security system.",
+                    "korean": "그 요원은 레이저 보안 시스템을 <word id='_circumvent' class='word-target-kr'>우회하다</word> 영리한 방법을 찾아냈다."
+                },
+                {
+                    "english": "His movements were surprisingly <word id='_clumsy' class='word-eng-link'>clumsy</word> for a trained professional, which made his partner suspicious.",
+                    "korean": "그의 움직임은 훈련된 전문가치고는 놀라울 정도로 <word id='_clumsy' class='word-target-kr'>서투른</word> 것이어서, 그의 파트너를 의심하게 만들었다."
+                },
+                {
+                    "english": "The operation will <word id='_commence' class='word-eng-link'>commence</word> at midnight, and the agent's professional <word id='_conduct' class='word-eng-link'>conduct</word> will be key to its success.",
+                    "korean": "작전은 자정에 <word id='_commence' class='word-target-kr'>시작하다</word> 것이며, 요원의 전문적인 <word id='_conduct' class='word-target-kr'>행동</word>이 성공의 열쇠가 될 것이다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Fundamental Contradiction",
+            "chapter_num": 1,
+            "story_sentences": [
+                {
+                    "english": "Following his partner's suspicious behavior, Agent Thorne knew he had to <word id='_conserve' class='word-eng-link'>conserve</word> his energy for the confrontation that would surely come.",
+                    "korean": "파트너의 의심스러운 행동에 이어, 요원 쏜은 분명히 다가올 대결을 위해 자신의 에너지를 <word id='_conserve' class='word-target-kr'>보존하다</word>야 한다는 것을 알았다."
+                },
+                {
+                    "english": "There was a clear <word id='_contradiction' class='word-eng-link'>contradiction</word> in his partner’s story about his whereabouts last night.",
+                    "korean": "어젯밤 그의 행방에 대한 파트너의 이야기에는 명백한 <word id='_contradiction' class='word-target-kr'>모순</word>이 있었다."
+                },
+                {
+                    "english": "Thorne's investigation would <word id='_culminate' class='word-eng-link'>culminate</word> in a tense meeting at the <word id='_height' class='word-eng-link'>height</word> of the city's tallest skyscraper.",
+                    "korean": "쏜의 조사는 도시 최고층 빌딩의 <word id='_height' class='word-target-kr'>절정</word>에서 긴장감 넘치는 만남으로 <word id='_culminate' class='word-target-kr'>-로 끝나다</word> 것이었다."
+                },
+                {
+                    "english": "He needed to <word id='_delineate' class='word-eng-link'>delineate</word> the exact nature of the betrayal before making his move.",
+                    "korean": "그는 움직이기 전에 배신의 정확한 성격을 <word id='_delineate' class='word-target-kr'>윤곽을 그리다</word> 필요가 있었다."
+                },
+                {
+                    "english": "The traitor was promised a generous <word id='_donation' class='word-eng-link'>donation</word> to his secret account for the intel.",
+                    "korean": "배신자는 정보의 대가로 그의 비밀 계좌에 두둑한 <word id='_donation' class='word-target-kr'>기증</word>을 약속받았다."
+                },
+                {
+                    "english": "With the evidence gathered, Thorne decided to <word id='_embark_on' class='word-eng-link'>embark on</word> the final stage of his personal mission.",
+                    "korean": "증거를 수집한 쏜은 그의 개인적인 임무의 마지막 단계를 <word id='_embark_on' class='word-target-kr'>시작하다, 착수하다</word>기로 결심했다."
+                },
+                {
+                    "english": "The very <word id='_foundation' class='word-eng-link'>foundation</word> of their team was shaken by this act of treason.",
+                    "korean": "이 반역 행위로 인해 그들 팀의 바로 그 <word id='_foundation' class='word-target-kr'>기초</word>가 흔들렸다."
+                },
+                {
+                    "english": "A <word id='_fundamental' class='word-eng-link'>fundamental</word> rule had been broken, and only a <word id='_handful' class='word-eng-link'>handful</word> of agents could be trusted now.",
+                    "korean": "<word id='_fundamental' class='word-target-kr'>근본적인</word> 규칙이 깨졌고, 이제 신뢰할 수 있는 요원은 <word id='_handful' class='word-target-kr'>소량, 소수</word>에 불과했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "Origin of a Microbe",
+            "chapter_num": 2,
+            "story_sentences": [
+                {
+                    "english": "The traitor was not working alone; he had an <word id='_identical' class='word-eng-link'>identical</word> twin who was also an enemy agent.",
+                    "korean": "그 배신자는 혼자가 아니었다; 그에게는 적 요원이기도 한 <word id='_identical' class='word-target-kr'>동일한</word> 쌍둥이가 있었다."
+                },
+                {
+                    "english": "This new information was a major <word id='_impediment' class='word-eng-link'>impediment</word> to Thorne's plan.",
+                    "korean": "이 새로운 정보는 쏜의 계획에 큰 <word id='_impediment' class='word-target-kr'>장애</word>였다."
+                },
+                {
+                    "english": "He could not <word id='_justify' class='word-eng-link'>justify</word> taking action without concrete proof of the twin's involvement.",
+                    "korean": "그는 쌍둥이의 연루에 대한 구체적인 증거 없이는 조치를 취하는 것을 <word id='_justify' class='word-target-kr'>증명하다</word> 수 없었다."
+                },
+                {
+                    "english": "Thorne began to <word id='_lament' class='word-eng-link'>lament</word> his decision to work on this case alone.",
+                    "korean": "쏜은 이 사건을 혼자 맡기로 한 자신의 결정을 <word id='_lament' class='word-target-kr'>슬퍼하다</word> 시작했다."
+                },
+                {
+                    "english": "The stolen data was about a dangerous <word id='_microorganism' class='word-eng-link'>microorganism</word> engineered as a weapon.",
+                    "korean": "도난당한 데이터는 무기로 조작된 위험한 <word id='_microorganism' class='word-target-kr'>미생물</word>에 관한 것이었다."
+                },
+                {
+                    "english": "The thought of a biological attack made him <word id='_moody' class='word-eng-link'>moody</word> and anxious.",
+                    "korean": "생물학적 공격에 대한 생각은 그를 <word id='_moody' class='word-target-kr'>우울한</word>하고 불안하게 만들었다."
+                },
+                {
+                    "english": "He had to find the <word id='_origin' class='word-eng-link'>origin</word> of this plot before it was too late.",
+                    "korean": "그는 너무 늦기 전에 이 음모의 <word id='_origin' class='word-target-kr'>발생, 근원</word>을 찾아야만 했다."
+                },
+                {
+                    "english": "He couldn't <word id='_predict' class='word-eng-link'>predict</word> the enemy's next move, but he was making <word id='_progress' class='word-eng-link'>progress</word> tracking their communications.",
+                    "korean": "그는 적의 다음 움직임을 <word id='_predict' class='word-target-kr'>예측하다</word> 수 없었지만, 그들의 통신을 추적하는 데 <word id='_progress' class='word-target-kr'>발전</word>을 보이고 있었다."
+                },
+                {
+                    "english": "He managed to <word id='_scoop' class='word-eng-link'>scoop</word> up a fragment of their encrypted messages.",
+                    "korean": "그는 암호화된 메시지의 파편을 <word id='_scoop' class='word-target-kr'>긁어 모으다</word> 데 성공했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "A Singular Score",
+            "chapter_num": 3,
+            "story_sentences": [
+                {
+                    "english": "If he could decrypt the message, he would <word id='_score' class='word-eng-link'>score</word> a major victory against the organization.",
+                    "korean": "만약 그가 메시지를 해독할 수 있다면, 그는 조직을 상대로 큰 승리를 <word id='_score' class='word-target-kr'>얻다</word> 될 것이다."
+                },
+                {
+                    "english": "The decrypted file was not text, but a musical <word id='_score' class='word-eng-link'>score</word>.",
+                    "korean": "해독된 파일은 텍스트가 아니라 음악 <word id='_score' class='word-target-kr'>악보</word>였다."
+                },
+                {
+                    "english": "Each note seemed to be a <word id='_scrap' class='word-eng-link'>scrap</word> of a larger code.",
+                    "korean": "각 음표는 더 큰 코드의 <word id='_scrap' class='word-target-kr'>파편</word>인 것처럼 보였다."
+                },
+                {
+                    "english": "This method of communication was <word id='_singularly' class='word-eng-link'>singularly</word> brilliant and hard to crack.",
+                    "korean": "이 통신 방법은 <word id='_singularly' class='word-target-kr'>각별히</word> 뛰어나고 해독하기 어려웠다."
+                },
+                {
+                    "english": "Thorne knew he needed a <word id='_skilled' class='word-eng-link'>skilled</word> cryptographer who specialized in musical steganography.",
+                    "korean": "쏜은 음악 스테가노그래피를 전문으로 하는 <word id='_skilled' class='word-target-kr'>숙련된</word> 암호 해독가가 필요하다는 것을 알았다."
+                },
+                {
+                    "english": "The musical <word id='_stem' class='word-eng-link'>stem</word> on the sheet music had unusual markings.",
+                    "korean": "악보 위의 음악적 <word id='_stem' class='word-target-kr'>어간</word>에는 특이한 표시가 있었다."
+                },
+                {
+                    "english": "His job was to <word id='_stem' class='word-eng-link'>stem</word> the flow of information to the enemy.",
+                    "korean": "그의 임무는 적으로의 정보 흐름을 <word id='_stem' class='word-target-kr'>막다</word> 것이었다."
+                },
+                {
+                    "english": "He believed the plan for the attack would <word id='_stem' class='word-eng-link'>stem</word> from the decoded melody.",
+                    "korean": "그는 공격 계획이 해독된 멜로디에서 <word id='_stem' class='word-target-kr'>유래하다</word> 것이라고 믿었다."
+                },
+                {
+                    "english": "With the decoded location, he could finally <word id='_subdue' class='word-eng-link'>subdue</word> the enemy agents.",
+                    "korean": "해독된 위치 정보로 그는 마침내 적 요원들을 <word id='_subdue' class='word-target-kr'>정복하다</word> 수 있었다."
+                },
+                {
+                    "english": "A friendly government agreed to <word id='_subsidize' class='word-eng-link'>subsidize</word> his operation to prevent the attack.",
+                    "korean": "한 우호적인 정부가 공격을 막기 위한 그의 작전을 <word id='_subsidize' class='word-target-kr'>후원하다</word>는 데 동의했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Unanimous Decision",
+            "chapter_num": 4,
+            "story_sentences": [
+                {
+                    "english": "The decision to raid the location was made with <word id='_unanimity' class='word-eng-link'>unanimity</word> from the agency's leadership.",
+                    "korean": "그 장소를 급습하기로 한 결정은 기관 지도부의 <word id='_unanimity' class='word-target-kr'>(만장) 일치</word>로 내려졌다."
+                },
+                {
+                    "english": "The enemy's plan was an <word id='_alloy' class='word-eng-link'>alloy</word> of biological terror and financial chaos.",
+                    "korean": "적의 계획은 생물학적 테러와 금융 혼란의 <word id='_alloy' class='word-target-kr'>혼합하다</word>물이었다."
+                },
+                {
+                    "english": "There was <word id='_barely' class='word-eng-link'>barely</word> enough time to assemble the team before the planned attack.",
+                    "korean": "<word id='_barely' class='word-target-kr'>거의 ~ 않다, (간신히)</word> 계획된 공격 전에 팀을 구성할 시간이 있었다."
+                },
+                {
+                    "english": "The enemy agents were held in <word id='_captivity' class='word-eng-link'>captivity</word> in a secret mountain facility.",
+                    "korean": "적 요원들은 비밀 산악 시설에 <word id='_captivity' class='word-target-kr'>속박, 감금</word>되어 있었다."
+                },
+                {
+                    "english": "Thorne felt the cold <word id='_clasp' class='word-eng-link'>clasp</word> of fear, but he pushed it aside.",
+                    "korean": "쏜은 차가운 공포의 <word id='_clasp' class='word-target-kr'>잡다</word>을 느꼈지만, 그것을 옆으로 밀어냈다."
+                },
+                {
+                    "english": "The <word id='_cohesion' class='word-eng-link'>cohesion</word> of the assault team was remarkable under pressure.",
+                    "korean": "공격팀의 <word id='_cohesion' class='word-target-kr'>결합, 유대(감)</word>은 압박 속에서도 놀라웠다."
+                },
+                {
+                    "english": "It was rare for an agent's personal hunch and official intelligence to <word id='_coincide' class='word-eng-link'>coincide</word> so perfectly.",
+                    "korean": "요원의 개인적인 직감과 공식 정보가 그렇게 완벽하게 <word id='_coincide' class='word-target-kr'>의견이 일치하다</word>는 것은 드문 일이었다."
+                },
+                {
+                    "english": "The moment the raid began had to <word id='_coincide' class='word-eng-link'>coincide</word> with a city-wide power outage they had arranged.",
+                    "korean": "급습이 시작되는 순간은 그들이 준비한 도시 전역의 정전과 <word id='_coincide' class='word-target-kr'>동시에 일어나다</word>야 했다."
+                },
+                {
+                    "english": "The enemy's hidden laboratory was of a <word id='_colossal' class='word-eng-link'>colossal</word> size.",
+                    "korean": "적의 숨겨진 실험실은 <word id='_colossal' class='word-target-kr'>거대한</word> 크기였다."
+                },
+                {
+                    "english": "The amount of data recovered was <word id='_considerable' class='word-eng-link'>considerable</word> and would take months to analyze.",
+                    "korean": "회수된 데이터의 양은 <word id='_considerable' class='word-target-kr'>상당한</word> 규모였고 분석하는 데 몇 달이 걸릴 것이었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "Converging Defects",
+            "chapter_num": 5,
+            "story_sentences": [
+                {
+                    "english": "A <word id='_considerable' class='word-eng-link'>considerable</word> amount of evidence pointed to a high-ranking mole.",
+                    "korean": "<word id='_considerable' class='word-target-kr'>중요한</word> 양의 증거가 고위급 내부 스파이를 지목했다."
+                },
+                {
+                    "english": "Multiple lines of inquiry began to <word id='_converge' class='word-eng-link'>converge</word> on one suspect: Director Evans.",
+                    "korean": "여러 수사선이 한 명의 용의자인 에반스 국장에게로 <word id='_converge' class='word-target-kr'>집중되다</word> 시작했다."
+                },
+                {
+                    "english": "They found the <word id='_corpse' class='word-eng-link'>corpse</word> of a security guard who had discovered the lab.",
+                    "korean": "그들은 실험실을 발견했던 경비원의 <word id='_corpse' class='word-target-kr'>시체</word>를 발견했다."
+                },
+                {
+                    "english": "Evans seemed to <word id='_covet' class='word-eng-link'>covet</word> power above all else, making him vulnerable to blackmail.",
+                    "korean": "에반스는 다른 무엇보다도 권력을 <word id='_covet' class='word-target-kr'>갈망하다</word>는 것 같았고, 이는 그를 협박에 취약하게 만들었다."
+                },
+                {
+                    "english": "His greatest <word id='_defection' class='word-eng-link'>defection</word> was his gambling addiction, a critical character <word id='_defection' class='word-eng-link'>defection</word> for a man in his position.",
+                    "korean": "그의 가장 큰 <word id='_defection' class='word-target-kr'>배반</word>은 그의 도박 중독이었는데, 이는 그의 지위에 있는 사람에게는 치명적인 성격적 <word id='_defection' class='word-target-kr'>결점</word>이었다."
+                },
+                {
+                    "english": "The agency had to <word id='_deprive' class='word-eng-link'>deprive</word> him of his security clearance immediately.",
+                    "korean": "기관은 즉시 그의 보안 인가를 <word id='_deprive' class='word-target-kr'>박탈하다</word>야 했다."
+                },
+                {
+                    "english": "The paperwork involved in the process was incredibly <word id='_dull' class='word-eng-link'>dull</word> but necessary.",
+                    "korean": "그 과정에 관련된 서류 작업은 믿을 수 없을 정도로 <word id='_dull' class='word-target-kr'>지루한</word>했지만 필요했다."
+                },
+                {
+                    "english": "Thorne's next <word id='_endeavor' class='word-eng-link'>endeavor</word> was to turn Evans into a double agent.",
+                    "korean": "쏜의 다음 <word id='_endeavor' class='word-target-kr'>노력하다, 애쓰다</word>은 에반스를 이중 스파이로 만드는 것이었다."
+                },
+                {
+                    "english": "A <word id='_flock' class='word-eng-link'>flock</word> of reporters gathered outside the headquarters, sensing a major story.",
+                    "korean": "큰 기사를 감지한 기자 <word id='_flock' class='word-target-kr'>무리</word>가 본부 밖에 모여들었다."
+                },
+                {
+                    "english": "Thorne presented a <word id='_generous' class='word-eng-link'>generous</word> offer to Evans: cooperate and avoid prison.",
+                    "korean": "쏜은 에반스에게 <word id='_generous' class='word-target-kr'>관대한</word> 제안을 했다: 협력하고 감옥을 피하라는 것이었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Intolerant Margin",
+            "chapter_num": 6,
+            "story_sentences": [
+                {
+                    "english": "The government agreed to <word id='_grant' class='word-eng-link'>grant</word> Evans immunity in exchange for his full cooperation.",
+                    "korean": "정부는 그의 전적인 협력을 대가로 에반스에게 면책권을 <word id='_grant' class='word-target-kr'>주다, 수여하다</word>기로 합의했다."
+                },
+                {
+                    "english": "Thorne had to <word id='_hustle' class='word-eng-link'>hustle</word> to get everything set up before Evans's next meeting with his contacts.",
+                    "korean": "쏜은 에반스가 접선책들과 다음 회의를 하기 전에 모든 것을 준비하기 위해 <word id='_hustle' class='word-target-kr'>서두르다</word>야 했다."
+                },
+                {
+                    "english": "He felt a sudden <word id='_push' class='word-eng-link'>push</word> from an unseen person in the crowded subway station.",
+                    "korean": "그는 붐비는 지하철역에서 보이지 않는 사람으로부터 갑작스러운 <word id='_push' class='word-target-kr'>밀다</word>을 느꼈다."
+                },
+                {
+                    "english": "He was now in an <word id='_intermediate' class='word-eng-link'>intermediate</word> stage of the operation, caught between the agency and its enemies.",
+                    "korean": "그는 이제 기관과 적들 사이에 끼어 작전의 <word id='_intermediate' class='word-target-kr'>중간의</word> 단계에 있었다."
+                },
+                {
+                    "english": "The enemy organization was known to be <word id='_intolerant' class='word-eng-link'>intolerant</word> of failure.",
+                    "korean": "그 적 조직은 실패에 <word id='_intolerant' class='word-target-kr'>편협한</word> 것으로 알려져 있었다."
+                },
+                {
+                    "english": "Despite the high stakes, Thorne remained a <word id='_kind' class='word-eng-link'>kind</word> and compassionate leader to his team.",
+                    "korean": "높은 판돈에도 불구하고, 쏜은 그의 팀에게 <word id='_kind' class='word-target-kr'>친절한</word>하고 인정 많은 리더로 남았다."
+                },
+                {
+                    "english": "He knew there was a <word id='_limit' class='word-eng-link'>limit</word> to how much pressure Evans could handle.",
+                    "korean": "그는 에반스가 감당할 수 있는 압박의 <word id='_limit' class='word-target-kr'>경계, 한계</word>가 있다는 것을 알았다."
+                },
+                {
+                    "english": "The agency had to <word id='_limit' class='word-eng-link'>limit</word> Evans's access to sensitive files during this time.",
+                    "korean": "기관은 이 기간 동안 에반스의 민감한 파일 접근을 <word id='_limit' class='word-target-kr'>제한하다</word>야 했다."
+                },
+                {
+                    "english": "The operation was running on a razor-thin <word id='_margin' class='word-eng-link'>margin</word> of error.",
+                    "korean": "그 작전은 아주 얇은 오차의 <word id='_margin' class='word-target-kr'>가장자리</word> 위에서 진행되고 있었다."
+                },
+                {
+                    "english": "The enemy was not a formal army but a well-funded <word id='_militia' class='word-eng-link'>militia</word> with advanced technology.",
+                    "korean": "적은 정규군이 아니라 첨단 기술을 갖춘 자금이 풍부한 <word id='_militia' class='word-target-kr'>시민군</word>이었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "On the Spot",
+            "chapter_num": 7,
+            "story_sentences": [
+                {
+                    "english": "<word id='_moreover' class='word-eng-link'>moreover</word>, they had insiders in several governments.",
+                    "korean": "<word id='_moreover' class='word-target-kr'>게다가</word>, 그들은 여러 정부에 내부자들을 두고 있었다."
+                },
+                {
+                    "english": "It was <word id='_necessary' class='word-eng-link'>necessary</word> to act quickly before the militia could move their lab.",
+                    "korean": "시민군이 실험실을 옮기기 전에 신속하게 행동하는 것이 <word id='_necessary' class='word-target-kr'>필수적인</word>이었다."
+                },
+                {
+                    "english": "Thorne's plan was to <word id='_obstruct' class='word-eng-link'>obstruct</word> their escape route while the main team secured the asset.",
+                    "korean": "쏜의 계획은 주팀이 자산을 확보하는 동안 그들의 탈출로를 <word id='_obstruct' class='word-target-kr'>막다</word> 것이었다."
+                },
+                {
+                    "english": "Evans had to make a decision <word id='_on_the_spot' class='word-eng-link'>on the spot</word> when his contact changed the meeting location.",
+                    "korean": "접선책이 만남의 장소를 변경했을 때 에반스는 <word id='_on_the_spot' class='word-target-kr'>즉시</word> 결정을 내려야 했다."
+                },
+                {
+                    "english": "Thorne worried that Evans might still be <word id='_partial' class='word-eng-link'>partial</word> to his former allies.",
+                    "korean": "쏜은 에반스가 여전히 그의 이전 동맹들에게 <word id='_partial' class='word-target-kr'>편파적인</word>일 수 있다고 걱정했다."
+                },
+                {
+                    "english": "Evans sent a <word id='_petition' class='word-eng-link'>petition</word> through his lawyer, asking for protection for his family.",
+                    "korean": "에반스는 변호사를 통해 가족 보호를 요청하는 <word id='_petition' class='word-target-kr'>간청하다</word>서를 보냈다."
+                },
+                {
+                    "english": "The safe house was located by a <word id='_placid' class='word-eng-link'>placid</word> lake, a stark contrast to the turbulent situation.",
+                    "korean": "안전 가옥은 <word id='_placid' class='word-target-kr'>평온한</word> 호숫가에 위치해 있어, 격동적인 상황과 극명한 대조를 이루었다."
+                },
+                {
+                    "english": "The cave they used as a headquarters had a high <word id='_porosity' class='word-eng-link'>porosity</word>, making it damp and cold.",
+                    "korean": "그들이 본부로 사용했던 동굴은 <word id='_porosity' class='word-target-kr'>다공성</word>이 높아 축축하고 추웠다."
+                },
+                {
+                    "english": "Thorne hoped to <word id='_reform' class='word-eng-link'>reform</word> the agency's protocols after this crisis was over.",
+                    "korean": "쏜은 이 위기가 끝난 후 기관의 규약을 <word id='_reform' class='word-target-kr'>개정하다</word>기를 바랐다."
+                },
+                {
+                    "english": "The militia's leader was known for his <word id='_rigid' class='word-eng-link'>rigid</word> ideology and refusal to negotiate.",
+                    "korean": "그 시민군의 지도자는 그의 <word id='_rigid' class='word-target-kr'>엄격한</word> 이념과 협상 거부로 알려져 있었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Decided Opposition",
+            "chapter_num": 8,
+            "story_sentences": [
+                {
+                    "english": "His plans were always <word id='_rigid' class='word-eng-link'>rigid</word> and inflexible, which was a weakness Thorne could exploit.",
+                    "korean": "그의 계획은 항상 <word id='_rigid' class='word-target-kr'>단단한</word>하고 융통성이 없었으며, 이는 쏜이 이용할 수 있는 약점이었다."
+                },
+                {
+                    "english": "Thorne was ready to <word id='_blame' class='word-eng-link'>blame</word> himself if the plan failed, but he wouldn't show it.",
+                    "korean": "쏜은 계획이 실패하면 자신을 <word id='_blame' class='word-target-kr'>비난하다</word> 준비가 되어 있었지만, 티를 내지는 않을 것이었다."
+                },
+                {
+                    "english": "The enemy's command center was <word id='_chaotic' class='word-eng-link'>chaotic</word> after Evans fed them false information.",
+                    "korean": "에반스가 그들에게 거짓 정보를 흘린 후 적의 지휘 본부는 <word id='_chaotic' class='word-target-kr'>무질서한</word> 상태였다."
+                },
+                {
+                    "english": "It was difficult to <word id='_comprehend' class='word-eng-link'>comprehend</word> the full extent of their network.",
+                    "korean": "그들의 네트워크 전체 범위를 <word id='_comprehend' class='word-target-kr'>이해하다</word> 것은 어려웠다."
+                },
+                {
+                    "english": "Rescuing the captured scientists would be a <word id='_creditable' class='word-eng-link'>creditable</word> achievement for the agency.",
+                    "korean": "포로로 잡힌 과학자들을 구출하는 것은 기관에게 <word id='_creditable' class='word-target-kr'>명예로운</word> 업적이 될 것이다."
+                },
+                {
+                    "english": "Thorne's stance was <word id='_decided' class='word-eng-link'>decided</word>; there would be no negotiation with the terrorists.",
+                    "korean": "쏜의 입장은 <word id='_decided' class='word-target-kr'>단호한</word>했다; 테러리스트들과의 협상은 없을 것이다."
+                },
+                {
+                    "english": "Their primary goal was to <word id='_displace' class='word-eng-link'>displace</word> the militia from their mountain fortress.",
+                    "korean": "그들의 주요 목표는 산악 요새에서 시민군을 <word id='_displace' class='word-target-kr'>대체하다</word> 것이었다."
+                },
+                {
+                    "english": "The plan was to <word id='_enclose' class='word-eng-link'>enclose</word> the entire area and cut off all escape.",
+                    "korean": "계획은 전체 지역을 <word id='_enclose' class='word-target-kr'>에워싸다</word>고 모든 탈출로를 차단하는 것이었다."
+                },
+                {
+                    "english": "Such a large-scale operation would <word id='_entail' class='word-eng-link'>entail</word> significant risks.",
+                    "korean": "그렇게 대규모의 작전은 상당한 위험을 <word id='_entail' class='word-target-kr'>-을 수반하다</word> 것이다."
+                },
+                {
+                    "english": "Thorne had to <word id='_excel' class='word-eng-link'>excel</word> in strategy to outsmart his opponent.",
+                    "korean": "쏜은 상대를 압도하기 위해 전략에서 <word id='_excel' class='word-target-kr'>능가하다, 빼어나다</word>야 했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Forbidden Infrastructure",
+            "chapter_num": 9,
+            "story_sentences": [
+                {
+                    "english": "This wasn't a typical military operation; it belonged to a different <word id='_genre' class='word-eng-link'>genre</word> of conflict entirely.",
+                    "korean": "이것은 전형적인 군사 작전이 아니었다; 그것은 완전히 다른 <word id='_genre' class='word-target-kr'>유형</word>의 충돌에 속했다."
+                },
+                {
+                    "english": "Maps and satellite images helped to <word id='_illustrate' class='word-eng-link'>illustrate</word> the complexity of the fortress.",
+                    "korean": "지도와 위성 사진은 요새의 복잡성을 <word id='_illustrate' class='word-target-kr'>설명하다</word> 데 도움이 되었다."
+                },
+                {
+                    "english": "The enemy had built a sophisticated <word id='_infrastructure' class='word-eng-link'>infrastructure</word> deep inside the mountain.",
+                    "korean": "적은 산 깊숙한 곳에 정교한 <word id='_infrastructure' class='word-target-kr'>하부구조</word>를 구축했다."
+                },
+                {
+                    "english": "The agency's rules <word id='_inhibit' class='word-eng-link'>inhibit</word> direct engagement without presidential approval.",
+                    "korean": "기관의 규정은 대통령의 승인 없이는 직접적인 교전을 <word id='_inhibit' class='word-target-kr'>금지하다</word>다."
+                },
+                {
+                    "english": "The rescue mission would <word id='_involve' class='word-eng-link'>involve</word> a team of ten elite specialists.",
+                    "korean": "구출 임무는 10명의 정예 전문가 팀을 <word id='_involve' class='word-target-kr'>-을 수반하다</word> 것이다."
+                },
+                {
+                    "english": "The enemy used a front company to <word id='_lease' class='word-eng-link'>lease</word> the land from the local government.",
+                    "korean": "적은 위장 회사를 이용해 지방 정부로부터 땅을 <word id='_lease' class='word-target-kr'>임대하다</word>했다."
+                },
+                {
+                    "english": "Thorne prepared his team; <word id='_likewise' class='word-eng-link'>likewise</word>, the support crews readied the aircraft.",
+                    "korean": "쏜은 그의 팀을 준비시켰다; <word id='_likewise' class='word-target-kr'>마찬가지로, 또한</word>, 지원 인력들은 항공기를 준비했다."
+                },
+                {
+                    "english": "Their window of opportunity was extremely <word id='_limited' class='word-eng-link'>limited</word>.",
+                    "korean": "그들의 기회의 창은 극도로 <word id='_limited' class='word-target-kr'>제한된</word>이었다."
+                },
+                {
+                    "english": "The tracking device was designed to <word id='_lodge_in' class='word-eng-link'>lodge in</word> the sole of a target's shoe.",
+                    "korean": "추적 장치는 목표물의 신발 밑창에 <word id='_lodge_in' class='word-target-kr'>박다, 꽂아 넣다</word>도록 설계되었다."
+                },
+                {
+                    "english": "During the infiltration, the agents had to <word id='_mingle' class='word-eng-link'>mingle</word> with the workers at a nearby mining camp.",
+                    "korean": "잠입하는 동안, 요원들은 근처 광산 캠프의 노동자들과 <word id='_mingle' class='word-target-kr'>섞다</word>야 했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Perilous Obligation",
+            "chapter_num": 10,
+            "story_sentences": [
+                {
+                    "english": "Every agent has an <word id='_obligation' class='word-eng-link'>obligation</word> to protect national security, no matter the cost.",
+                    "korean": "모든 요원은 어떤 대가를 치르더라도 국가 안보를 보호할 <word id='_obligation' class='word-target-kr'>의무</word>가 있다."
+                },
+                {
+                    "english": "Circumstances would <word id='_oblige' class='word-eng-link'>oblige</word> Thorne to make a difficult choice.",
+                    "korean": "상황은 쏜에게 어려운 선택을 하도록 <word id='_oblige' class='word-target-kr'>강요하다</word> 것이었다."
+                },
+                {
+                    "english": "He had to <word id='_offer' class='word-eng-link'>offer</word> himself as bait to draw out the leader.",
+                    "korean": "그는 지도자를 끌어내기 위해 자신을 미끼로 <word id='_offer' class='word-target-kr'>제공하다</word>야 했다."
+                },
+                {
+                    "english": "<word id='_on_occasion' class='word-eng-link'>on occasion</word>, he wondered if he would survive this mission.",
+                    "korean": "<word id='_on_occasion' class='word-target-kr'>가끔</word>, 그는 이 임무에서 살아남을 수 있을지 궁금했다."
+                },
+                {
+                    "english": "His instincts told him to <word id='_oppose' class='word-eng-link'>oppose</word> the plan, but he had no other choice.",
+                    "korean": "그의 본능은 그 계획에 <word id='_oppose' class='word-target-kr'>반대하다</word>라고 말했지만, 다른 선택지가 없었다."
+                },
+                {
+                    "english": "The team had to <word id='_pare' class='word-eng-link'>pare</word> down their equipment to the bare essentials for the climb.",
+                    "korean": "팀은 등반을 위해 장비를 필수품만 남기고 <word id='_pare' class='word-target-kr'>껍질을 벗기다, 삭감하다</word>야 했다."
+                },
+                {
+                    "english": "The mission was filled with <word id='_peril' class='word-eng-link'>peril</word> at every turn.",
+                    "korean": "그 임무는 매 순간 <word id='_peril' class='word-target-kr'>위기</word>로 가득 차 있었다."
+                },
+                {
+                    "english": "The enemy combatants were <word id='_predominately' class='word-eng-link'>predominately</word> ex-special forces.",
+                    "korean": "적 전투원들은 <word id='_predominately' class='word-target-kr'>주로</word> 전직 특수부대 출신이었다."
+                },
+                {
+                    "english": "The intense heat from the desert floor would <word id='_refract' class='word-eng-link'>refract</word> the light, making it hard to see.",
+                    "korean": "사막 바닥의 강렬한 열기는 빛을 <word id='_refract' class='word-target-kr'>굴절시키다</word>여 시야를 어렵게 만들 것이었다."
+                },
+                {
+                    "english": "His job was to <word id='_render' class='word-eng-link'>render</word> the enemy's air defense system useless.",
+                    "korean": "그의 임무는 적의 방공 시스템을 쓸모없게 <word id='_render' class='word-target-kr'>-을 표현하다</word> 것이었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Price of Renown",
+            "chapter_num": 11,
+            "story_sentences": [
+                {
+                    "english": "The agency promised to <word id='_render' class='word-eng-link'>render</word> all necessary aid to his family if he didn't return.",
+                    "korean": "기관은 그가 돌아오지 않을 경우 그의 가족에게 필요한 모든 도움을 <word id='_render' class='word-target-kr'>주다</word>고 약속했다."
+                },
+                {
+                    "english": "Thorne wasn't interested in <word id='_renown' class='word-eng-link'>renown</word>; he only cared about the mission's success.",
+                    "korean": "쏜은 <word id='_renown' class='word-target-kr'>명성</word>에는 관심이 없었다; 그는 오직 임무의 성공에만 신경 썼다."
+                },
+                {
+                    "english": "The fortress's automated defenses were designed to <word id='_repel' class='word-eng-link'>repel</word> any unauthorized approach.",
+                    "korean": "요새의 자동 방어 시스템은 어떠한 무단 접근도 <word id='_repel' class='word-target-kr'>물리치다</word>도록 설계되었다."
+                },
+                {
+                    "english": "After the mission, he would need time to <word id='_restore' class='word-eng-link'>restore</word> his health and mind.",
+                    "korean": "임무가 끝난 후, 그는 자신의 건강과 마음을 <word id='_restore' class='word-target-kr'>복구하다</word>할 시간이 필요할 것이다."
+                },
+                {
+                    "english": "The enemy lab's lack of proper <word id='_sanitation' class='word-eng-link'>sanitation</word> was appalling and dangerous.",
+                    "korean": "적 실험실의 적절한 <word id='_sanitation' class='word-target-kr'>공중위생</word>의 부재는 끔찍하고 위험했다."
+                },
+                {
+                    "english": "He did not <word id='_savor' class='word-eng-link'>savor</word> the moment of victory, only the relief that it was over.",
+                    "korean": "그는 승리의 순간을 <word id='_savor' class='word-target-kr'>맛</word>보지 않고, 그것이 끝났다는 안도감만을 느꼈다."
+                },
+                {
+                    "english": "The team had to <word id='_spare' class='word-eng-link'>spare</word> no expense to acquire the needed technology.",
+                    "korean": "팀은 필요한 기술을 얻기 위해 비용을 <word id='_spare' class='word-target-kr'>절약하다</word>해서는 안 되었다."
+                },
+                {
+                    "english": "He asked the tech chief if she could <word id='_spare' class='word-eng-link'>spare</word> a moment to look at the code.",
+                    "korean": "그는 기술팀장에게 코드를 살펴볼 시간을 <word id='_spare' class='word-target-kr'>주다, (시간을) 할애하다</word> 수 있는지 물었다."
+                },
+                {
+                    "english": "The cool night air was <word id='_stimulating' class='word-eng-link'>stimulating</word> after hours in the stuffy command van.",
+                    "korean": "답답한 지휘 밴에서 몇 시간 보낸 후 시원한 밤공기는 <word id='_stimulating' class='word-target-kr'>활기(자극)를 주는</word> 것이었다."
+                },
+                {
+                    "english": "The leader's actions <word id='_typify' class='word-eng-link'>typify</word> the fanaticism of the entire group.",
+                    "korean": "지도자의 행동은 그룹 전체의 광신주의를 <word id='_typify' class='word-target-kr'>대표하다</word>다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "And Yet...",
+            "chapter_num": 12,
+            "story_sentences": [
+                {
+                    "english": "The final assault was a <word id='_wholesale' class='word-eng-link'>wholesale</word> attack on the enemy's compound.",
+                    "korean": "최종 공격은 적의 부지에 대한 <word id='_wholesale' class='word-target-kr'>대규모의</word> 공격이었다."
+                },
+                {
+                    "english": "They had won the battle, <word id='_yet' class='word-eng-link'>yet</word> Thorne felt the war was far from over.",
+                    "korean": "그들은 전투에서 이겼다, <word id='_yet' class='word-target-kr'>그럼에도 불구하고</word> 쏜은 전쟁이 끝나려면 멀었다고 느꼈다."
+                }
+            ]
+        }
+    ]
+}
