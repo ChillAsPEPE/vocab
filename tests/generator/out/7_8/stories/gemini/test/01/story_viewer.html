@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대화형 어휘 학습 뷰어</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 0px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .nav-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .chapter-link {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 3px;
+            text-decoration: none;
+            color: #007bff;
+            /* border: 1px solid #007bff; 제거 */
+            /* border-radius: 50%; 제거 */
+            border: none; /* 다른 테두리 제거 */
+            border-bottom: 1px solid #007bff; /* 밑줄 추가 */
+            font-weight: 500;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            min-width: 35px;
+            text-align: center;
+        }
+
+        .chapter-link:hover {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white; /* hover 시 밑줄 색상 변경 */
+            transform: scale(1.1);
+        }
+
+        .chapter-link.active {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white; /* active 시 밑줄 색상 변경 */
+        }
+
+        .toggle-index-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+
+        .toggle-index-btn:hover {
+            background: #5a6268;
+        }
+
+        .index-navigation {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .index-navigation.show {
+            display: block;
+        }
+
+        .index-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .index-item:hover {
+            background: #f8f9fa;
+        }
+
+        .index-number {
+            font-weight: 600;
+            color: #007bff;
+            margin-right: 12px;
+            min-width: 25px;
+        }
+
+        .index-title {
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .chapter-btn {
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .chapter-btn:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .chapter-btn.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .translate-icon-btn {
+            background-color: transparent; /* 버튼 배경 투명하게 */
+            border: none;                 /* 버튼 테두리 제거 */
+            padding: 2px;                 /* 버튼 내부 여백 줄이기 (아이콘 주변 공간) */
+            margin: 0;                    /* 버튼 외부 여백 제거 */
+            cursor: pointer;              /* 마우스 오버 시 커서 변경 */
+            display: inline-flex;         /* SVG 아이콘을 버튼 내에서 정렬하기 용이하도록 설정 */
+            align-items: center;          /* 수직 중앙 정렬 */
+            justify-content: center;      /* 수평 중앙 정렬 */
+            line-height: 0;               /* 버튼 내부에 불필요한 추가 공간 제거 */
+        }
+
+        .translate-icon-btn:hover {
+            background: transparent; /* Slightly lighter bronze on hover */
+            transform: scale(1.1); /* Subtle scale instead of translateY */
+            border-color: #a89b7a; /* Brighter brass on hover */
+        }
+
+        .translate-icon-btn svg {
+            stroke: #e6d4a6; /* Aged gold for steampunk icon */
+            width: 20px;
+            height: 20px;
+        }
+
+
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chapter-content h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .sentence-pair {
+            margin-bottom: 25px;
+        }
+
+        .english-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .korean-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #666;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-left: 4px solid #007bff;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* 단어 링크 스타일 */
+        .word-link {
+            color: #007bff;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+            background: rgba(0, 123, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: underline;
+        }
+
+        .word-link:hover {
+            background: rgba(0, 123, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* 한국어 대상 단어 스타일 */
+        .word-target-kr {
+            color: #dc3545;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        /* 팝업 모달 스타일 */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup-overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-content {
+            background: white;
+            max-width: 400px;
+            width: 90%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px 10px;
+            border-bottom: 2px solid #f1f3f4;
+        }
+
+        .popup-header h3 {
+            color: #007bff;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .popup-body {
+            padding: 20px 25px 25px;
+        }
+
+        .popup-body p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .popup-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .popup-body strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .chapter-link {
+                padding: 6px 8px;
+                min-width: 25px; /* 모바일에서 더 작게 */
+                font-size: 10px;
+            }
+            .container {
+                padding: 10px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .chapter-content h2 {
+                font-size: 24px;
+            }
+            .english-text {
+                font-size: 16px;
+            }
+            .korean-text {
+                font-size: 14px;
+            }
+            .toggle-index-btn {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="navigation">
+                <span class="nav-label">Chapters:</span>
+                <a href="javascript:void(0)" class="chapter-link active" onclick="showChapter(0)">1</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(1)">2</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(2)">3</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(3)">4</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(4)">5</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(5)">6</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(6)">7</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(7)">8</a>
+                <button class="toggle-index-btn" onclick="toggleIndex()">목차 보기</button>
+                <button class="translate-icon-btn" onclick="toggleTranslation()" title="Toggle Translation">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" stroke="lightskyblue"></circle> {/* 하늘색 테두리 */}
+                        <path d="M2 12h20" stroke="dodgerblue"></path> {/* 파란색 가로선 */}
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10" stroke="dodgerblue"></path> {/* 파란색 세로 곡선 */}
+                        <path d="M12 2a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10" stroke="dodgerblue"></path> {/* 파란색 세로 곡선 */}
+                    </svg>
+                </button>
+            </div>
+
+            <div id="indexNavigation" class="index-navigation">
+                <div class="index-item" onclick="showChapter(0)">
+                    <span class="index-number">1.</span>
+                    <span class="index-title">The Dawn of Discontent</span>
+                </div>
+                <div class="index-item" onclick="showChapter(1)">
+                    <span class="index-number">2.</span>
+                    <span class="index-title">The Burden of Change</span>
+                </div>
+                <div class="index-item" onclick="showChapter(2)">
+                    <span class="index-number">3.</span>
+                    <span class="index-title">The Looming Crisis</span>
+                </div>
+                <div class="index-item" onclick="showChapter(3)">
+                    <span class="index-number">4.</span>
+                    <span class="index-title">The Seeds of Rebellion</span>
+                </div>
+                <div class="index-item" onclick="showChapter(4)">
+                    <span class="index-number">5.</span>
+                    <span class="index-title">A Rival's Rise</span>
+                </div>
+                <div class="index-item" onclick="showChapter(5)">
+                    <span class="index-number">6.</span>
+                    <span class="index-title">The Unfolding Plot</span>
+                </div>
+                <div class="index-item" onclick="showChapter(6)">
+                    <span class="index-number">7.</span>
+                    <span class="index-title">The Rebel's Gambit</span>
+                </div>
+                <div class="index-item" onclick="showChapter(7)">
+                    <span class="index-number">8.</span>
+                    <span class="index-title">The Zenith of a New Era</span>
+                </div>
+            </div>
+
+            
+        <div id="chapter-0" class="chapter-content">
+            <h2>The Dawn of Discontent</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The old laws that once governed the realm were about to be <span class="word-link" data-word-id="_abolish">abolished</span>.</p>
+                    <p class="korean-text" style="display: none;">한때 왕국을 다스렸던 옛 법들은 이제 <span class="word-target-kr">폐지되려고</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">An ancient <span class="word-link" data-word-id="_adage">adage</span> warned against hasty changes, but the new council ignored it.</p>
+                    <p class="korean-text" style="display: none;">오랜 <span class="word-target-kr">속담</span>은 성급한 변화를 경고했지만, 새로운 의회는 이를 무시했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The city's <span class="word-link" data-word-id="_aesthetic">aesthetic</span> was transforming, reflecting a modern but sterile vision.</p>
+                    <p class="korean-text" style="display: none;">도시의 <span class="word-target-kr">미적인</span> 모습은 현대적이지만 무미건조한 비전을 반영하며 변화하고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">These changes would <span class="word-link" data-word-id="_affect">affect</span> everyone, from the highest noble to the humblest citizen.</p>
+                    <p class="korean-text" style="display: none;">이러한 변화는 가장 높은 귀족부터 가장 겸손한 시민에 이르기까지 모든 사람에게 <span class="word-target-kr">영향을 미칠</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Some leaders decided to <span class="word-link" data-word-id="_affect_2">affect</span> an air of indifference, pretending not to care about the public's concerns.</p>
+                    <p class="korean-text" style="display: none;">일부 지도자들은 대중의 우려에 대해 신경 쓰지 않는 척, 무관심한 태도를 <span class="word-target-kr">가장하기로</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Every minor <span class="word-link" data-word-id="_alteration">alteration</span> caused a ripple effect throughout society.</p>
+                    <p class="korean-text" style="display: none;">모든 사소한 <span class="word-target-kr">변경</span>은 사회 전반에 파급 효과를 일으켰다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The lack of basic <span class="word-link" data-word-id="_amenity">amenity</span> for the common folk became a growing issue.</p>
+                    <p class="korean-text" style="display: none;">서민들을 위한 기본적인 <span class="word-target-kr">편의 시설</span>의 부족은 점차 커지는 문제가 되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">It was <span class="word-link" data-word-id="_approximately">approximately</span> dawn when the first protests began.</p>
+                    <p class="korean-text" style="display: none;">첫 시위가 시작되었을 때는 <span class="word-target-kr">대략</span> 새벽 무렵이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Even the skilled <span class="word-link" data-word-id="_artisan">artisan</span> found it difficult to make a living under the new regulations.</p>
+                    <p class="korean-text" style="display: none;">숙련된 <span class="word-target-kr">장인</span>조차 새로운 규제 아래에서 생계를 유지하기 어려워했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">They tried to <span class="word-link" data-word-id="_bear">bear</span> the weight of changes, hoping for a better future.</p>
+                    <p class="korean-text" style="display: none;">그들은 더 나은 미래를 희망하며 변화의 무게를 <span class="word-target-kr">견디려고</span> 노력했다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-1" class="chapter-content" style='display: none;'>
+            <h2>The Burden of Change</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The merchants found it hard to <span class="word-link" data-word-id="_bear_2">bear</span> fruit from their labor.</p>
+                    <p class="korean-text" style="display: none;">상인들은 그들의 노동에서 결실을 <span class="word-target-kr">맺기</span> 어려웠다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The treasury could no longer <span class="word-link" data-word-id="_bear_3">bear</span> the burden of the lavish projects, leading to an economic downturn.</p>
+                    <p class="korean-text" style="display: none;">국고는 더 이상 호화로운 프로젝트의 부담을 <span class="word-target-kr">감당할</span> 수 없었고, 이는 경제 침체로 이어졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Despite the <span class="word-link" data-word-id="_bountiful">bountiful</span> harvests, the food distribution was unjust, leading to scarcity in some areas.</p>
+                    <p class="korean-text" style="display: none;"><span class="word-target-kr">풍부한</span> 수확에도 불구하고, 식량 분배는 불공평하여 일부 지역에서는 부족 사태가 발생했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">People began to <span class="word-link" data-word-id="_dispute">dispute</span> the council's decisions openly in the streets.</p>
+                    <p class="korean-text" style="display: none;">사람들은 거리에서 공공연히 의회의 결정에 <span class="word-target-kr">논쟁하기</span> 시작했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">This widespread <span class="word-link" data-word-id="_dispute_2">dispute</span> threatened to plunge the nation into chaos.</p>
+                    <p class="korean-text" style="display: none;">이러한 광범위한 <span class="word-target-kr">논쟁</span>은 국가를 혼란에 빠뜨릴 위협이 되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The future of the kingdom became <span class="word-link" data-word-id="_dubious">dubious</span>, clouded by uncertainty.</p>
+                    <p class="korean-text" style="display: none;">왕국의 미래는 불확실성으로 뒤덮여 <span class="word-target-kr">의심스러워졌다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Their natural <span class="word-link" data-word-id="_faculty">faculty</span> for adaptation was severely tested.</p>
+                    <p class="korean-text" style="display: none;">적응을 위한 그들의 타고난 <span class="word-target-kr">능력</span>이 혹독하게 시험받았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">In every <span class="word-link" data-word-id="_field">field</span> of society, discontent was growing.</p>
+                    <p class="korean-text" style="display: none;">사회의 모든 <span class="word-target-kr">분야</span>에서 불만이 커지고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Yet, the common folk remained <span class="word-link" data-word-id="_guiltless">guiltless</span> of any wrongdoing, simply trying to survive.</p>
+                    <p class="korean-text" style="display: none;">그러나 서민들은 어떤 잘못도 <span class="word-target-kr">결백한</span> 채, 그저 생존하려 애썼다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">An <span class="word-link" data-word-id="_influx">influx</span> of refugees from the struggling regions began to arrive in the capital.</p>
+                    <p class="korean-text" style="display: none;">어려움을 겪는 지역에서 수도로 <span class="word-target-kr">유입</span>되는 난민들이 도착하기 시작했다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-2" class="chapter-content" style='display: none;'>
+            <h2>The Looming Crisis</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The capital city's resources threatened to <span class="word-link" data-word-id="_inundate">inundate</span> under the sheer number of newcomers.</p>
+                    <p class="korean-text" style="display: none;">수도 도시의 자원은 엄청난 수의 신참자들로 인해 <span class="word-target-kr">감당할 수 없을</span> 정도가 될 위협에 처했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The council tried to <span class="word-link" data-word-id="_lure">lure</span> people back to the countryside with promises of land.</p>
+                    <p class="korean-text" style="display: none;">의회는 토지를 약속하며 사람들을 시골로 다시 <span class="word-target-kr">유혹하려</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The pressure on the city to <span class="word-link" data-word-id="_mount">mount</span> relief efforts quickly became immense.</p>
+                    <p class="korean-text" style="display: none;">도시가 구호 활동을 <span class="word-target-kr">시작해야</span> 하는 압력은 빠르게 엄청나졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The demands for change continued to <span class="word-link" data-word-id="_mount_2">mount</span> with each passing day.</p>
+                    <p class="korean-text" style="display: none;">변화를 요구하는 목소리는 날마다 계속 <span class="word-target-kr">증가했다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Life for many citizens had become increasingly <span class="word-link" data-word-id="_mundane">mundane</span> and bleak.</p>
+                    <p class="korean-text" style="display: none;">많은 시민들에게 삶은 점점 더 <span class="word-target-kr">평범하고</span> 암울해졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A small rebel group managed to <span class="word-link" data-word-id="_outstrip">outstrip</span> the royal guard in a daring raid.</p>
+                    <p class="korean-text" style="display: none;">작은 반군 단체는 대담한 습격에서 왕실 경비대를 <span class="word-target-kr">능가하는</span> 데 성공했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Their actions were highly <span class="word-link" data-word-id="_pertinent">pertinent</span> to the growing unrest among the populace.</p>
+                    <p class="korean-text" style="display: none;">그들의 행동은 대중들 사이에서 커지는 불안과 매우 <span class="word-target-kr">관련이 있었다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">To <span class="word-link" data-word-id="_preclude">preclude</span> further violence, a general strike was announced.</p>
+                    <p class="korean-text" style="display: none;">더 이상의 폭력을 <span class="word-target-kr">막기 위해</span> 총파업이 선언되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The people vowed to <span class="word-link" data-word-id="_refrain">refrain</span> from work until their demands were met.</p>
+                    <p class="korean-text" style="display: none;">사람들은 그들의 요구가 충족될 때까지 일하는 것을 <span class="word-target-kr">중단하겠다고</span> 맹세했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The number of participants was <span class="word-link" data-word-id="_roughly">roughly</span> estimated to be in the tens of thousands.</p>
+                    <p class="korean-text" style="display: none;">참가자의 수는 <span class="word-target-kr">대략</span> 수만 명으로 추정되었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-3" class="chapter-content" style='display: none;'>
+            <h2>The Seeds of Rebellion</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The protest had the <span class="word-link" data-word-id="_semblance">semblance</span> of a chaotic festival, yet an underlying tension was palpable.</p>
+                    <p class="korean-text" style="display: none;">시위는 혼란스러운 축제의 <span class="word-target-kr">외관</span>을 가지고 있었지만, 내재된 긴장감은 분명히 느껴졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">There was a strange <span class="word-link" data-word-id="_semblance_2">semblance</span> between the current unrest and the revolution of old.</p>
+                    <p class="korean-text" style="display: none;">현재의 불안과 옛 혁명 사이에는 이상한 <span class="word-target-kr">유사성</span>이 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The council members, with their <span class="word-link" data-word-id="_sophisticated">sophisticated</span> arguments, tried to calm the masses.</p>
+                    <p class="korean-text" style="display: none;"><span class="word-target-kr">복잡한</span> 논리를 가진 의회 의원들은 대중을 진정시키려 노력했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">This marked a new <span class="word-link" data-word-id="_stage">stage</span> in the kingdom's history, a turning point.</p>
+                    <p class="korean-text" style="display: none;">이는 왕국 역사상 새로운 <span class="word-target-kr">단계</span>이자 전환점이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The atmosphere in the city grew <span class="word-link" data-word-id="_thick">thick</span> with anticipation and fear.</p>
+                    <p class="korean-text" style="display: none;">도시의 분위기는 기대와 두려움으로 <span class="word-target-kr">빽빽해졌다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text"><span class="word-link" data-word-id="_thus">Thus</span>, the king was forced to address the people directly.</p>
+                    <p class="korean-text" style="display: none;"><span class="word-target-kr">따라서</span> 왕은 직접 백성들에게 연설해야만 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Even a <span class="word-link" data-word-id="_tiny">tiny</span> concession from the crown could have changed the tide.</p>
+                    <p class="korean-text" style="display: none;">왕실의 <span class="word-target-kr">작은</span> 양보라도 흐름을 바꿀 수 있었을 것이다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">However, the king's rule was seen as increasingly <span class="word-link" data-word-id="_tyrannical">tyrannical</span> by the populace.</p>
+                    <p class="korean-text" style="display: none;">하지만 왕의 통치는 백성들에게 점점 더 <span class="word-target-kr">독재적</span>이라고 여겨졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The kingdom was on the <span class="word-link" data-word-id="_verge">verge</span> of open rebellion.</p>
+                    <p class="korean-text" style="display: none;">왕국은 공공연한 반란의 <span class="word-target-kr">경계</span>에 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Meanwhile, an old <span class="word-link" data-word-id="_acquaintance">acquaintance</span> of the king secretly planned his own move.</p>
+                    <p class="korean-text" style="display: none;">한편, 왕의 오랜 <span class="word-target-kr">지인</span>은 은밀히 자신만의 계획을 세웠다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-4" class="chapter-content" style='display: none;'>
+            <h2>A Rival's Rise</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">He sought to <span class="word-link" data-word-id="_acquire">acquire</span> enough support to challenge the throne himself.</p>
+                    <p class="korean-text" style="display: none;">그는 왕좌에 도전할 충분한 지지를 <span class="word-target-kr">얻으려</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His <span class="word-link" data-word-id="_affection">affection</span> for the kingdom was genuine, but his methods were questionable.</p>
+                    <p class="korean-text" style="display: none;">왕국에 대한 그의 <span class="word-target-kr">애정</span>은 진심이었지만, 그의 방법은 의심스러웠다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Many nobles began to <span class="word-link" data-word-id="_agree">agree</span> with his secret proposals.</p>
+                    <p class="korean-text" style="display: none;">많은 귀족들이 그의 은밀한 제안에 <span class="word-target-kr">동의하기</span> 시작했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The royal guards were kept on <span class="word-link" data-word-id="_alert">alert</span> due to the rising tensions.</p>
+                    <p class="korean-text" style="display: none;">왕실 경비병들은 고조되는 긴장 때문에 <span class="word-target-kr">경계</span> 태세를 유지했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The usurper's charisma began to <span class="word-link" data-word-id="_allure">allure</span> the disenchanted populace.</p>
+                    <p class="korean-text" style="display: none;">찬탈자의 카리스마는 불만을 품은 대중을 <span class="word-target-kr">유혹하기</span> 시작했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His speeches would <span class="word-link" data-word-id="_amplify">amplify</span> their hopes and grievances.</p>
+                    <p class="korean-text" style="display: none;">그의 연설은 그들의 희망과 불만을 <span class="word-target-kr">증폭시켰다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The king's reign, once fertile, was becoming as <span class="word-link" data-word-id="_arid">arid</span> as a desert.</p>
+                    <p class="korean-text" style="display: none;">한때 비옥했던 왕의 통치는 사막처럼 <span class="word-target-kr">메마르고</span> 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">People began to <span class="word-link" data-word-id="_ascribe">ascribe</span> all their misfortunes to the current monarchy.</p>
+                    <p class="korean-text" style="display: none;">사람들은 모든 불행을 현 군주제에 <span class="word-target-kr">돌리기</span> 시작했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The rebel leader promised to <span class="word-link" data-word-id="_compensate">compensate</span> those who had suffered under the old regime.</p>
+                    <p class="korean-text" style="display: none;">반란군은 구 체제하에서 고통받았던 사람들에게 <span class="word-target-kr">보상하겠다고</span> 약속했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He planned to <span class="word-link" data-word-id="_configure">configure</span> a new system of governance.</p>
+                    <p class="korean-text" style="display: none;">그는 새로운 통치 체제를 <span class="word-target-kr">구축할</span> 계획이었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-5" class="chapter-content" style='display: none;'>
+            <h2>The Unfolding Plot</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The proposed changes were <span class="word-link" data-word-id="_drastic">drastic</span>, promising a complete overhaul of society.</p>
+                    <p class="korean-text" style="display: none;">제안된 변화는 사회의 완전한 개혁을 약속하는 <span class="word-target-kr">과격한</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The old guard tried to <span class="word-link" data-word-id="_embarrass">embarrass</span> the rebel leader with rumors, but it had little effect.</p>
+                    <p class="korean-text" style="display: none;">구세력은 소문으로 반란군 지도자를 <span class="word-target-kr">당황하게</span> 하려 했지만, 효과는 미미했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His rise to power would <span class="word-link" data-word-id="_empower">empower</span> the common people like never before.</p>
+                    <p class="korean-text" style="display: none;">그의 권력 상승은 전례 없이 평민들에게 <span class="word-target-kr">힘을 실어줄</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A secret <span class="word-link" data-word-id="_gathering">gathering</span> of loyalists plotted against the rebel leader.</p>
+                    <p class="korean-text" style="display: none;">충성파들의 비밀 <span class="word-target-kr">모임</span>은 반란군 지도자를 상대로 음모를 꾸몄다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">They aimed to <span class="word-link" data-word-id="_haul">haul</span> him down from his newfound popularity.</p>
+                    <p class="korean-text" style="display: none;">그들은 그의 새로 얻은 인기로부터 그를 <span class="word-target-kr">끌어내리는</span> 것을 목표로 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The threat was <span class="word-link" data-word-id="_immediate">immediate</span>, requiring swift action from the rebels.</p>
+                    <p class="korean-text" style="display: none;">위협은 <span class="word-target-kr">즉각적이었고</span>, 반군들의 신속한 조치가 필요했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The loyalists hoped their numbers would <span class="word-link" data-word-id="_increase">increase</span> with time.</p>
+                    <p class="korean-text" style="display: none;">충성파들은 시간이 지남에 따라 자신들의 수가 <span class="word-target-kr">늘어나기를</span> 바랐다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A shadow began to <span class="word-link" data-word-id="_loom">loom</span> over the rebel camp as the loyalists' plot unfolded.</p>
+                    <p class="korean-text" style="display: none;">충성파들의 음모가 전개되면서 반군 진영에 그림자가 <word id='_loom' class='word-eng-link'>어렴풋이 나타나기</word> 시작했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The rebel leader had to be careful not to <span class="word-link" data-word-id="_overtax">overtax</span> his resources.</p>
+                    <p class="korean-text" style="display: none;">반란군 지도자는 자신의 자원을 <span class="word-target-kr">지나치게 사용하지</span> 않도록 조심해야 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">It was a <span class="word-link" data-word-id="_paradox">paradox</span>: to gain control, he had to risk losing everything.</p>
+                    <p class="korean-text" style="display: none;">그것은 <span class="word-target-kr">모순</span>이었다: 통제권을 얻기 위해 그는 모든 것을 잃을 위험을 감수해야 했다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-6" class="chapter-content" style='display: none;'>
+            <h2>The Rebel's Gambit</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The influence of the rebel leader was <span class="word-link" data-word-id="_pervasive">pervasive</span>, reaching every corner of the kingdom.</p>
+                    <p class="korean-text" style="display: none;">반란군 지도자의 영향력은 왕국의 모든 곳에 <span class="word-target-kr">만연해 있었다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His message was <span class="word-link" data-word-id="_pleasing">pleasing</span> to the ears of the oppressed citizens.</p>
+                    <p class="korean-text" style="display: none;">그의 메시지는 억압받는 시민들의 귀에 <span class="word-target-kr">마음에 들었다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The <span class="word-link" data-word-id="_primary">primary</span> goal was to establish a fair and just society.</p>
+                    <p class="korean-text" style="display: none;"><span class="word-target-kr">주된</span> 목표는 공정하고 정의로운 사회를 수립하는 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He aimed to ensure every citizen received what was <span class="word-link" data-word-id="_proper">proper</span> for them.</p>
+                    <p class="korean-text" style="display: none;">그는 모든 시민이 그들에게 <span class="word-target-kr">적절한</span> 것을 받도록 보장하는 것을 목표로 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The loyalists planned to <span class="word-link" data-word-id="_retaliate">retaliate</span> swiftly against any rebel advancement.</p>
+                    <p class="korean-text" style="display: none;">충성파들은 어떤 반군 진격에도 신속하게 <span class="word-target-kr">보복할</span> 계획이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Their counter-attack would <span class="word-link" data-word-id="_serve">serve</span> as a warning to others.</p>
+                    <p class="korean-text" style="display: none;">그들의 반격은 다른 이들에게 경고로 <span class="word-target-kr">작용할</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">However, the rebel general was <span class="word-link" data-word-id="_shrewd">shrewd</span> and anticipated their moves.</p>
+                    <p class="korean-text" style="display: none;">하지만 반군 장군은 <span class="word-target-kr">영리했고</span> 그들의 움직임을 예상했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He decided to <span class="word-link" data-word-id="_simulate">simulate</span> a retreat to draw them into a trap.</p>
+                    <p class="korean-text" style="display: none;">그는 그들을 함정으로 유인하기 위해 퇴각을 <word id='_simulate' class='word-eng-link'>가장하기로</word> 결정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Not a single <span class="word-link" data-word-id="_speck">speck</span> of dust was left unturned in his meticulous planning.</p>
+                    <p class="korean-text" style="display: none;">그의 세심한 계획에는 <span class="word-target-kr">한 점</span>의 먼지도 남기지 않았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He left no <span class="word-link" data-word-id="_speck_2">speck</span> of detail to chance, ensuring victory.</p>
+                    <p class="korean-text" style="display: none;">그는 <span class="word-target-kr">조금의</span> 세부 사항도 우연에 맡기지 않아 승리를 확실히 했다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-7" class="chapter-content" style='display: none;'>
+            <h2>The Zenith of a New Era</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The rebel army continued to <span class="word-link" data-word-id="_strive">strive</span> forward, driven by their cause.</p>
+                    <p class="korean-text" style="display: none;">반란군은 그들의 대의명분에 이끌려 계속 <span class="word-target-kr">전진했다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">One might <span class="word-link" data-word-id="_suppose">suppose</span> their morale was unbreakable.</p>
+                    <p class="korean-text" style="display: none;">그들의 사기가 꺾이지 않는다고 <span class="word-target-kr">가정할</span> 수도 있다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Their swift victory came as a <span class="word-link" data-word-id="_surprise">surprise</span> to the complacent loyalists.</p>
+                    <p class="korean-text" style="display: none;">그들의 신속한 승리는 안일한 충성파들에게 <span class="word-target-kr">놀라움</span>으로 다가왔다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The people decided to <span class="word-link" data-word-id="_treat">treat</span> the rebel leader as their liberator.</p>
+                    <p class="korean-text" style="display: none;">백성들은 반란군 지도자를 그들의 해방자로 <span class="word-target-kr">대접하기로</span> 결정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He was ready to <span class="word-link" data-word-id="_undertake">undertake</span> the immense responsibility of rebuilding the nation.</p>
+                    <p class="korean-text" style="display: none;">그는 나라를 재건하는 막대한 책임을 <span class="word-target-kr">떠맡을</span> 준비가 되어 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A new <span class="word-link" data-word-id="_variant">variant</span> of governance was about to be implemented.</p>
+                    <p class="korean-text" style="display: none;">새로운 형태의 통치 <span class="word-target-kr">변형</span>이 시행될 참이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The new kingdom reached its <span class="word-link" data-word-id="_zenith">zenith</span> under his benevolent rule.</p>
+                    <p class="korean-text" style="display: none;">새로운 왕국은 그의 자비로운 통치 아래 <span class="word-target-kr">정점</span>에 도달했다.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- 팝업 모달 -->
+    <div id="wordPopupOverlay" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3 id="popupTerm">단어</h3>
+                <button class="close-btn" onclick="closePopup()">&times;</button>
+            </div>
+            <div class="popup-body">
+                <p id="popupMeaning"><strong>뜻:</strong> </p>
+                <p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 단어 데이터
+        const wordData = {
+        "_abolish": {
+            term: "abolish",
+            kor_meaning: "\ud3d0\uc9c0\ud558\ub2e4",
+            synonyms: "annul, nullify, revoke"
+        },
+        "_adage": {
+            term: "adage",
+            kor_meaning: "\uc18d\ub2f4, \uae08\uc5b8",
+            synonyms: "proverb, saying, maxim"
+        },
+        "_aesthetic": {
+            term: "aesthetic",
+            kor_meaning: "\ubbf8\uc801\uc778",
+            synonyms: "artistic"
+        },
+        "_affect": {
+            term: "affect",
+            kor_meaning: "\uc5d0 \uc601\ud5a5\uc744 \ubbf8\uce58\ub2e4",
+            synonyms: "influence, impact"
+        },
+        "_affect_2": {
+            term: "affect",
+            kor_meaning: "\uc778 \uccb4\ud558\ub2e4",
+            synonyms: "pretend, feign, assume"
+        },
+        "_alteration": {
+            term: "alteration",
+            kor_meaning: "\ubcc0\uacbd, \uc218\uc815",
+            synonyms: "change, modification, variation, adjustment"
+        },
+        "_amenity": {
+            term: "amenity",
+            kor_meaning: "\ud3b8\uc758 \uc2dc\uc124, \ucf8c\uc801\uc131",
+            synonyms: "facility, convenience"
+        },
+        "_approximately": {
+            term: "approximately",
+            kor_meaning: "\ub300\ub7b5",
+            synonyms: "about, roughly, nearly, almost"
+        },
+        "_artisan": {
+            term: "artisan",
+            kor_meaning: "\uc219\ub828\uacf5",
+            synonyms: "craftsman"
+        },
+        "_bear": {
+            term: "bear",
+            kor_meaning: "\uc6b4\ubc18\ud558\ub2e4",
+            synonyms: "carry, transport, convey"
+        },
+        "_bear_2": {
+            term: "bear",
+            kor_meaning: "\uc0dd\uc0b0\ud558\ub2e4",
+            synonyms: "yield, provide, produce"
+        },
+        "_bear_3": {
+            term: "bear",
+            kor_meaning: "(\ubb34\uac8c\ub97c) \uc9c0\ud0f1\ud558\ub2e4, \uacac\ub514\ub2e4",
+            synonyms: "support, hold, sustain, stand, endure"
+        },
+        "_bountiful": {
+            term: "bountiful",
+            kor_meaning: "\ud48d\ubd80\ud55c",
+            synonyms: "plentiful, abundant, ample, prolific, liberal"
+        },
+        "_dispute": {
+            term: "dispute",
+            kor_meaning: "\ub17c\uc7c1\ud558\ub2e4",
+            synonyms: "argue, debate"
+        },
+        "_dispute_2": {
+            term: "dispute",
+            kor_meaning: "\ub17c\uc7c1",
+            synonyms: "argument, disagreement, debate, controversy"
+        },
+        "_dubious": {
+            term: "dubious",
+            kor_meaning: "\uc758\uc2ec\uc2a4\ub7ec\uc6b4",
+            synonyms: "arguable, doubtful, questionable, speculative"
+        },
+        "_faculty": {
+            term: "faculty",
+            kor_meaning: "\ub2a5\ub825",
+            synonyms: "ability, capacity, aptitude"
+        },
+        "_field": {
+            term: "field",
+            kor_meaning: "\ubd84\uc57c",
+            synonyms: "area, domain, sphere"
+        },
+        "_guiltless": {
+            term: "guiltless",
+            kor_meaning: "\uacb0\ubc31\ud55c",
+            synonyms: "sinless, blameless, innocent"
+        },
+        "_influx": {
+            term: "influx",
+            kor_meaning: "\uc720\uc785, \uc1c4\ub3c4",
+            synonyms: "arrival, incoming"
+        },
+        "_inundate": {
+            term: "inundate",
+            kor_meaning: "\ubb3c\uc5d0 \uc7a0\uae30\uac8c \ud558\ub2e4",
+            synonyms: "flood, deluge, swamp, submerge"
+        },
+        "_lure": {
+            term: "lure",
+            kor_meaning: "\uc720\ud639\ud558\ub2e4",
+            synonyms: "attract, draw, seduce, allure, decoy, entice"
+        },
+        "_mount": {
+            term: "mount",
+            kor_meaning: "\uc624\ub974\ub2e4",
+            synonyms: "ascend, climb, scale"
+        },
+        "_mount_2": {
+            term: "mount",
+            kor_meaning: "\uc99d\uac00\ud558\ub2e4",
+            synonyms: "increase, multiply, grow, rise, amplify"
+        },
+        "_mundane": {
+            term: "mundane",
+            kor_meaning: "\ud3c9\ubc94\ud55c",
+            synonyms: "ordinary, routine, commonplace"
+        },
+        "_outstrip": {
+            term: "outstrip",
+            kor_meaning: "\uc55e\uc9c0\ub974\ub2e4",
+            synonyms: "surpass, outrun, exceed, excel"
+        },
+        "_pertinent": {
+            term: "pertinent",
+            kor_meaning: "\uad00\ub828\ub41c",
+            synonyms: "relevant, applicable"
+        },
+        "_preclude": {
+            term: "preclude",
+            kor_meaning: "\uc608\ubc29\ud558\ub2e4, \ub9c9\ub2e4",
+            synonyms: "prevent, forestall, obviate"
+        },
+        "_refrain": {
+            term: "refrain",
+            kor_meaning: "\uc911\ub2e8\ud558\ub2e4",
+            synonyms: "pause, stop, avoid, cease"
+        },
+        "_roughly": {
+            term: "roughly",
+            kor_meaning: "\ub300\ub7b5",
+            synonyms: "approximately, nearly, about, almost"
+        },
+        "_semblance": {
+            term: "semblance",
+            kor_meaning: "\uc678\uad00",
+            synonyms: "appearance"
+        },
+        "_semblance_2": {
+            term: "semblance",
+            kor_meaning: "\uc720\uc0ac\uc131",
+            synonyms: "analogy, similarity, likeness"
+        },
+        "_sophisticated": {
+            term: "sophisticated",
+            kor_meaning: "\ubcf5\uc7a1\ud55c",
+            synonyms: "complex, complicated, civilized"
+        },
+        "_stage": {
+            term: "stage",
+            kor_meaning: "\ub2e8\uacc4",
+            synonyms: "level, phase, period"
+        },
+        "_thick": {
+            term: "thick",
+            kor_meaning: "\ube7d\ube7d\ud55c",
+            synonyms: "dense, compact"
+        },
+        "_thus": {
+            term: "thus",
+            kor_meaning: "\ub530\ub77c\uc11c",
+            synonyms: "consequently, therefore, accordingly"
+        },
+        "_tiny": {
+            term: "tiny",
+            kor_meaning: "\uc791\uc740",
+            synonyms: "little, minuscule, small"
+        },
+        "_tyrannical": {
+            term: "tyrannical",
+            kor_meaning: "\ub3c5\uc7ac\uc801\uc778",
+            synonyms: "despotic, oppressive, arbitrary"
+        },
+        "_verge": {
+            term: "verge",
+            kor_meaning: "\uacbd\uacc4, \uac00\uc7a5\uc790\ub9ac",
+            synonyms: "brink, rim, margin, border"
+        },
+        "_acquaintance": {
+            term: "acquaintance",
+            kor_meaning: "\uc544\ub294 \uce5c\uad6c, \uc9c0\uc778",
+            synonyms: "associate, companion"
+        },
+        "_acquire": {
+            term: "acquire",
+            kor_meaning: "\uc5bb\ub2e4",
+            synonyms: "obtain, secure, win, earn, get, attain, achieve"
+        },
+        "_affection": {
+            term: "affection",
+            kor_meaning: "\uc560\uc815",
+            synonyms: "attachment, amity, love"
+        },
+        "_agree": {
+            term: "agree",
+            kor_meaning: "\ub3d9\uc758\ud558\ub2e4",
+            synonyms: "assent, accede, concede"
+        },
+        "_alert": {
+            term: "alert",
+            kor_meaning: "\uacbd\uacc4\ud558\ub294",
+            synonyms: "attentive, vigilant, wary"
+        },
+        "_allure": {
+            term: "allure",
+            kor_meaning: "\ub04c\ub2e4, \uc720\ud639\ud558\ub2e4",
+            synonyms: "appeal, attract, lure, entice"
+        },
+        "_amplify": {
+            term: "amplify",
+            kor_meaning: "\ub298\ub9ac\ub2e4, \uc99d\ud3ed\uc2dc\ud0a4\ub2e4",
+            synonyms: "enlarge, expand, magnify, increase, augment"
+        },
+        "_arid": {
+            term: "arid",
+            kor_meaning: "\uba54\ub9c8\ub978",
+            synonyms: "dry, sterile, waterless, barren"
+        },
+        "_ascribe": {
+            term: "ascribe",
+            kor_meaning: "\ub3cc\ub9ac\ub2e4",
+            synonyms: "attribute, impute, refer"
+        },
+        "_compensate": {
+            term: "compensate",
+            kor_meaning: "\ubcf4\uc0c1\ud558\ub2e4",
+            synonyms: "atone, offset, make up for"
+        },
+        "_configure": {
+            term: "configure",
+            kor_meaning: "\ud615\ud0dc\ub97c \ub9cc\ub4e4\ub2e4",
+            synonyms: "shape, form, mold"
+        },
+        "_drastic": {
+            term: "drastic",
+            kor_meaning: "\uacfc\uaca9\ud55c, \uadf9\ub2e8\uc801\uc778",
+            synonyms: "extreme, desperate, radical"
+        },
+        "_embarrass": {
+            term: "embarrass",
+            kor_meaning: "\ubb34\uc548\ucf00 \ud558\ub2e4",
+            synonyms: "abash, discomfort"
+        },
+        "_empower": {
+            term: "empower",
+            kor_meaning: "\uc790\uaca9\uc744 \uc8fc\ub2e4",
+            synonyms: "authorize, warrant, permit, enable"
+        },
+        "_gathering": {
+            term: "gathering",
+            kor_meaning: "\ubaa8\uc784",
+            synonyms: "assembly, congregation"
+        },
+        "_haul": {
+            term: "haul",
+            kor_meaning: "\ub04c\uc5b4 \ub2f9\uae30\ub2e4.",
+            synonyms: "pull, tug, drag, heave"
+        },
+        "_immediate": {
+            term: "immediate",
+            kor_meaning: "\uc778\uc811\ud55c",
+            synonyms: "nearest, close, next"
+        },
+        "_increase": {
+            term: "increase",
+            kor_meaning: "\ub298\ub9ac\ub2e4",
+            synonyms: "augment, enlarge, escalate, multiply, expand"
+        },
+        "_loom": {
+            term: "loom",
+            kor_meaning: "\uc5b4\ub834\ud48b\uc774 \ub098\ud0c0\ub098\ub2e4",
+            synonyms: "emerge, appear, take shape"
+        },
+        "_overtax": {
+            term: "overtax",
+            kor_meaning: "\uc9c0\ub098\uce58\uac8c \uacfc\uc138\ud558\ub2e4",
+            synonyms: "burden heavily"
+        },
+        "_paradox": {
+            term: "paradox",
+            kor_meaning: "\ubaa8\uc21c",
+            synonyms: "contradiction"
+        },
+        "_pervasive": {
+            term: "pervasive",
+            kor_meaning: "\ub9cc\uc5f0\ud558\ub294",
+            synonyms: "widespread, prevalent"
+        },
+        "_pleasing": {
+            term: "pleasing",
+            kor_meaning: "\ub9c8\uc74c\uc5d0 \ub4dc\ub294",
+            synonyms: "attractive, agreeable"
+        },
+        "_primary": {
+            term: "primary",
+            kor_meaning: "\uadfc\ubcf8\uc801\uc778",
+            synonyms: "fundamental, elementary, basic"
+        },
+        "_proper": {
+            term: "proper",
+            kor_meaning: "\uc801\ub2f9\ud55c",
+            synonyms: "suitable, correct, appropriate, adapted"
+        },
+        "_retaliate": {
+            term: "retaliate",
+            kor_meaning: "\ubcf4\uc218\ud558\ub2e4",
+            synonyms: "avenge, revenge"
+        },
+        "_serve": {
+            term: "serve",
+            kor_meaning: "\ub3c4\uc6c0\uc774 \ub418\ub2e4",
+            synonyms: "suit, function as, suffice, answer"
+        },
+        "_shrewd": {
+            term: "shrewd",
+            kor_meaning: "\uc608\ub9ac\ud55c, \ub0a0\uce74\ub85c\uc6b4",
+            synonyms: "astute, keen, acute, clever"
+        },
+        "_simulate": {
+            term: "simulate",
+            kor_meaning: "\ud749\ub0b4\ub0b4\ub2e4",
+            synonyms: "imitate, pretend, feign"
+        },
+        "_speck": {
+            term: "speck",
+            kor_meaning: "\uc5bc\ub8e9",
+            synonyms: "spot, splotch, stain"
+        },
+        "_speck_2": {
+            term: "speck",
+            kor_meaning: "\uc18c\ub7c9",
+            synonyms: "particle, atom, fragment"
+        },
+        "_strive": {
+            term: "strive",
+            kor_meaning: "\ub178\ub825\ud558\ub2e4",
+            synonyms: "try, endeavor, struggle"
+        },
+        "_suppose": {
+            term: "suppose",
+            kor_meaning: "\uac00\uc815\ud558\ub2e4",
+            synonyms: "assume, presume"
+        },
+        "_surprise": {
+            term: "surprise",
+            kor_meaning: "\ub180\ub77c\uac8c \ud558\ub2e4",
+            synonyms: "amaze, astound, startle, astonish, daze"
+        },
+        "_treat": {
+            term: "treat",
+            kor_meaning: "\ub300\uc811\ud558\ub2e4",
+            synonyms: "serve, deal with, handle"
+        },
+        "_undertake": {
+            term: "undertake",
+            kor_meaning: "\ub5a0\ub9e1\ub2e4",
+            synonyms: "assume, take over"
+        },
+        "_variant": {
+            term: "variant",
+            kor_meaning: "\ubcc0\ud615, \ubcc0\uc218",
+            synonyms: "variation, modification"
+        },
+        "_zenith": {
+            term: "zenith",
+            kor_meaning: "\uc815\uc810, \uc815\uc0c1",
+            synonyms: "apex, peak, tip, climax"
+        },
+        };
+
+        let translationVisible = false;
+
+        // 챕터 전환 함수
+        function showChapter(chapterIndex) {
+            // 모든 챕터 숨기기
+            const chapters = document.querySelectorAll('.chapter-content');
+            chapters.forEach(chapter => {
+                chapter.style.display = 'none';
+            });
+
+            // 모든 링크에서 active 클래스 제거
+            const links = document.querySelectorAll('.chapter-link');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // 선택된 챕터 보이기
+            const selectedChapter = document.getElementById('chapter-' + chapterIndex);
+            if (selectedChapter) {
+                selectedChapter.style.display = 'block';
+
+                // 현재 번역 상태에 따라 한국어 문장 표시/숨김
+                const koreanTexts = selectedChapter.querySelectorAll('.korean-text');
+                koreanTexts.forEach(text => {
+                    text.style.display = translationVisible ? 'block' : 'none';
+                });
+            }
+
+            // 선택된 링크에 active 클래스 추가
+            if (links[chapterIndex]) {
+                links[chapterIndex].classList.add('active');
+            }
+
+            // 목차가 열려있으면 닫기
+            const indexNav = document.getElementById('indexNavigation');
+            if (indexNav && indexNav.classList.contains('show')) {
+                toggleIndex();
+            }
+        }
+
+        // 목차 토글 함수
+        function toggleIndex() {
+            const indexNav = document.getElementById('indexNavigation');
+            const toggleBtn = document.querySelector('.toggle-index-btn');
+
+            if (indexNav.classList.contains('show')) {
+                indexNav.classList.remove('show');
+                toggleBtn.textContent = '목차 보기';
+            } else {
+                indexNav.classList.add('show');
+                toggleBtn.textContent = '목차 숨기기';
+            }
+        }
+
+        // 번역 토글 함수
+
+        function toggleTranslation() {
+            translationVisible = !translationVisible;
+            const koreanTexts = document.querySelectorAll('.korean-text');
+
+            koreanTexts.forEach(text => {
+                text.style.display = translationVisible ? 'block' : 'none';
+            });
+
+            const toggleBtn = document.querySelector('.translate-icon-btn');
+            toggleBtn.setAttribute('title', translationVisible ? 'Hide Translation' : 'Show Translation');
+        }
+
+        // 단어 팝업 표시 함수
+        function showWordPopup(wordId) {
+            console.log('단어 팝업 표시:', wordId);
+
+            const wordInfo = wordData[wordId];
+            if (!wordInfo) {
+                console.error('단어 정보를 찾을 수 없습니다:', wordId);
+                alert('단어 정보를 찾을 수 없습니다: ' + wordId);
+                return;
+            }
+
+            // 팝업 요소들 가져오기
+            const overlay = document.getElementById('wordPopupOverlay');
+            const termElement = document.getElementById('popupTerm');
+            const meaningElement = document.getElementById('popupMeaning');
+            const synonymsElement = document.getElementById('popupSynonyms');
+
+            if (!overlay || !termElement || !meaningElement || !synonymsElement) {
+                console.error('팝업 요소를 찾을 수 없습니다');
+                return;
+            }
+
+            // 팝업 내용 설정
+            termElement.textContent = wordInfo.term;
+            meaningElement.innerHTML = '<strong>뜻:</strong> ' + wordInfo.kor_meaning;
+
+            if (wordInfo.synonyms && wordInfo.synonyms.trim()) {
+                synonymsElement.innerHTML = '<strong>동의어:</strong> ' + wordInfo.synonyms;
+                synonymsElement.style.display = 'block';
+            } else {
+                synonymsElement.style.display = 'none';
+            }
+
+            // 팝업 표시
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+
+            console.log('팝업 표시 완료');
+        }
+
+        // 팝업 닫기 함수
+        function closePopup() {
+            const overlay = document.getElementById('wordPopupOverlay');
+            if (overlay) {
+                overlay.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('페이지 로드됨');
+            console.log('단어 데이터 개수:', Object.keys(wordData).length);
+
+            // 첫 번째 챕터 표시
+            showChapter(0);
+
+            // 단어 클릭 이벤트 리스너 (이벤트 위임)
+            document.body.addEventListener('click', function(e) {
+                if (e.target.classList.contains('word-link')) {
+                    const wordId = e.target.getAttribute('data-word-id');
+                    if (wordId) {
+                        console.log('단어 클릭됨:', wordId);
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showWordPopup(wordId);
+                    }
+                }
+            });
+
+            // 팝업 오버레이 클릭 시 닫기
+            document.getElementById('wordPopupOverlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closePopup();
+                }
+            });
+
+            // ESC 키로 팝업 닫기
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closePopup();
+                }
+            });
+
+            console.log('이벤트 리스너 설정 완료');
+
+            // 단어 요소 개수 확인
+            setTimeout(function() {
+                const wordElements = document.querySelectorAll('.word-link');
+                console.log('발견된 단어 요소 수:', wordElements.length);
+                if (wordElements.length > 0) {
+                    console.log('첫 번째 단어 요소:', wordElements[0].textContent, wordElements[0].getAttribute('data-word-id'));
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

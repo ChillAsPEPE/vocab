@@ -1,0 +1,39 @@
+제시한 이미지들에서 데이터를 추출해서 아래와 같은 형식으로 정리해줘.
+"num" 의 값은 순차적으로 연결해서 순번을 새로 매겨줘.
+
+"words": [
+    {
+      "num": "0",
+      "id": "_abreast", // HTML 내에서 고유 식별자로 사용될 ID (보통 단어 자체를 소문자로 변경 후 앞에 _를 붙임)
+      "term": "abreast",
+      "synonyms": ["alongside", "in a row"],
+      "kor_meaning": "나란히"
+    },
+    {
+      "num": "1",
+      "id": "_affectation",
+      "term": "affectation",
+      "synonyms": ["airs", "pretense"],
+      "kor_meaning": "가식"
+    },
+    {
+      "num": "2",
+      "id": "_ally",
+      "term": "ally",
+      "synonyms": ["confederate", "associate"],
+      "kor_meaning": "동맹을 맺다"
+    },
+    {
+      "num": "3",
+      "id": "_anonymous",
+      "term": "anonymous",
+      "synonyms": ["unnamed", "unknown", "unsigned"],
+      "kor_meaning": "익명의"
+    },
+    {
+      "num": "4",
+      "id": "_anticipate",
+      "term": "anticipate",
+      "synonyms": ["foresee", "forecast", "foretell", "predict"],
+      "kor_meaning": "예상하다"
+    }

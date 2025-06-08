@@ -1,0 +1,272 @@
+입력파일 : word_table.json
+
+
+
+---
+
+
+
+**[AI 처리용 명확화된 요청서]**
+
+
+
+**1. 기본 설정 및 목표:**
+
+
+
+* **입력 데이터:** `word_table.json` 파일 (업로드된 파일 형식). 이 파일은 "words"라는 키 아래에 단어 객체들의 배열을 포함합니다. 각 단어 객체는 "num", "id", "term", "synonyms", "kor_meaning" 필드를 가집니다.
+
+* **출력 목표:** 입력된 단어 데이터를 기반으로, 여러 챕터로 구성된 스토리를 생성합니다. 각 챕터는 지정된 JSON 형식으로 구성되며, 이 챕터 JSON 객체들의 배열을 최종 결과물로 생성합니다.
+
+* **전역 변수 (처리 중 상태 관리용):**
+
+    * `begin_index`: 현재 챕터에서 사용할 단어 목록의 시작 인덱스 (초기값: 0).
+
+    * `words_per_chapter`: 각 챕터당 포함할 단어의 개수 (고정값: 10).
+
+    * `current_chapter_number`: 현재 생성 중인 챕터의 번호 (초기값: 0, 0부터 시작).
+
+    * `GENERATED_CHAPTER_JSON_OBJECTS`: 생성된 모든 챕터 JSON 객체를 저장할 리스트 (초기값: 빈 리스트 `[]`).
+
+
+
+**2. 전체 실행 흐름:**
+
+
+
+* **반복 조건:** `begin_index`가 `word_table.json` 내 `words` 배열의 총 개수보다 작을 동안, 아래 **[챕터 JSON 생성 규칙]**을 반복적으로 수행합니다.
+
+* **반복 수행 내용:**
+
+    1.  **[챕터 JSON 생성 규칙]**을 실행하여 단일 챕터 JSON 객체를 반환받습니다.
+
+    2.  반환된 챕터 JSON 객체를 `GENERATED_CHAPTER_JSON_OBJECTS` 리스트에 추가합니다.
+
+    3.  `begin_index` 값을 `begin_index + words_per_chapter`로 업데이트합니다.
+
+    4.  `current_chapter_number` 값을 `current_chapter_number + 1`로 업데이트합니다.
+
+
+
+* **최종 반환:** 모든 단어가 처리되어 반복이 종료되면, 아래 예시처럼 GENERATED_CHAPTER_JSON_OBJECTS 리스트를 값으로 가지는 "stories" 키를 포함한 단일 JSON 객체를 최종 결과로 반환합니다.
+
+    {
+
+      "stories": [
+
+        // 여기에 GENERATED_CHAPTER_JSON_OBJECTS 리스트의 내용이 들어갑니다.
+
+        {
+
+        "chapter_title": "...",
+
+        "chapter_num": 0,
+
+        "story_sentences": [...]
+
+        },
+
+        {
+
+        "chapter_title": "...",
+
+        "chapter_num": 1,
+
+        "story_sentences": [...]
+
+        }
+
+        // ...
+
+    ]
+
+    }
+
+
+
+**3. [챕터 JSON 생성 규칙]:**
+
+
+
+이 규칙은 한 챕터 분량의 스토리를 포함하는 단일 JSON 객체를 생성하여 반환합니다.
+
+
+
+* **입력:**
+
+    * `word_table.json` (전체 단어 데이터).
+
+    * `begin_index` (현재 챕터 단어 시작 위치).
+
+    * `words_per_chapter` (챕터당 단어 수).
+
+    * `current_chapter_number` (현재 챕터 번호).
+
+    * (선택 사항) `GENERATED_CHAPTER_JSON_OBJECTS` 리스트의 마지막 요소 (이전 챕터의 내용, `current_chapter_number > 0`일 경우 스토리 연속성 참고용).
+
+
+
+* **규칙 상세:**
+
+
+
+    1.  **대상 단어 선정:**
+
+        * `word_table.json`의 `words` 배열에서, "num" 필드 값이 문자열로 된 숫자입니다. 이 "num"을 정수로 변환하여 `begin_index` 부터 `(begin_index + words_per_chapter - 1)`까지의 범위에 해당하는 단어 객체들을 선택합니다. 이 단어들이 현재 챕터에서 사용될 핵심 단어들입니다.
+
+        * 선택된 각 단어 객체로부터 "term", "id", "kor_meaning" 값을 추출하여 활용합니다.
+
+
+
+    2.  **스토리 문장 생성:**
+
+        * **영어 스토리 문장:**
+
+            * 스토리는 일관된 줄거리와 주제를 가져야 하며, 독자의 흥미를 유발할 수 있도록 구성합니다.
+
+            * 1단계에서 선정된 모든 "term"을 최소 한 번 이상 포함하는 영어 스토리 문장들을 생성합니다.
+
+            * 문장을 구성하는 "term" 이외의 단어는 2500단어 필수 단어 수준으로 비교적 쉬운 단어들로 구성합니다.
+
+
+
+    3. "term" 사용에 대한 요구사항
+
+        a. 한 문장에는 0개에서 2개까지의 "term"을 포함할 수 있습니다. 그 이상의 "term"을 포함할 수는 없습니다.
+
+        b. 의미의 일치:
+
+            * 각 "term"은 word_table.json에 명시된 "synonyms"와 "kor_meaning"의 의미와 정확히 일치하는 문맥에서 사용해야 합니다.
+
+            * "term"을 해당 "synonyms" 또는 "kor_meaning"으로 대체해도 문장의 의미가 자연스럽고 정확하게 유지되어야 합니다.
+
+
+
+        c. 품사 일치:
+
+            * "term"은 "kor_meaning"의 품사와 동일한 품사로 문장에서 사용해야 합니다.
+
+                예) "term"이 "act"이고 "kor_meaning"이 "행동" (명사)이라면, "term"은 문장에서 명사로 사용해야 합니다.
+
+                예) "term"이 "act"이고 "kor_meaning"이 "행동하다" (동사)라면, "term"은 문장에서 동사로 사용해야 합니다.
+
+
+
+            * 추가 예시 데이터
+
+                "term": "abreast", "synonyms": ["alongside", "in a row"], "kor_meaning": "나란히" (부사)
+
+                문장: "The two spies walked <word id="_abreast" class="word-eng-link">abreast</word> in the moonlit courtyard."
+
+                의미 확인: "abreast"는 나란히를 의미하며, "alongside", "in a row", "나란히" (부사, "나란히")와 일치.
+
+                품사 확인: "abreast"는 부사로 사용 (walked를 수식), "나란히" (부사)와 품사 일치.
+
+                대체 확인:
+
+                "alongside"로 대체: "The two spies walked alongside in the moonlit courtyard." (자연스럽고 정확)
+
+                "in a row"로 대체: "The two spies walked in a row in the moonlit courtyard." (자연스럽고 정확)
+
+                "나란히" (영어로 "side by side"): "The two spies walked side by side in the moonlit courtyard." (자연스럽고 정확)
+
+                추가 설명
+
+                이 규칙은 "term"이 의미적, 문법적 제약을 준수하며 신중히 사용되도록 보장합니다.
+
+                동일한 "term"이 서로 다른 의미로 여러 항목에 등장 (예: "radical")하는 경우, 각 항목의 "synonyms"와 "kor_meaning"을 해당 문장에서 따라야 합니다.
+
+
+
+            * 만약 `current_chapter_number`가 0보다 클 경우, `GENERATED_CHAPTER_JSON_OBJECTS`의 마지막 챕터 내용에 자연스럽게 이어지도록 스토리를 구성합니다. (예: 이전 챕터의 마지막 사건이나 분위기를 이어받아 시작).
+
+
+
+        * **문장 단위 객체화:**
+
+            * 생성된 영어 스토리를 개별 문장으로 나눕니다.
+
+            * 각 영어 문장 및 해당 한국어 번역 문장에 대해 다음 JSON 객체 형식을 구성합니다:
+
+                ```json
+
+                {
+
+                  "english": "...",
+
+                  "korean": "..."
+
+                }
+
+                ```
+
+            * **`english` 필드:** 영어 문장. 문장 내에 포함된 핵심 "term"은 다음 HTML 형식으로 변환합니다:
+
+                `<word id='{original_id_value}' class='word-eng-link'>{term_value}</word>`
+
+                * `{original_id_value}`: 해당 "term"의 원본 데이터 "id" 필드 값 (예: "_abreast").
+
+                * `{term_value}`: 해당 "term" (예: "abreast").
+
+            * **`korean` 필드:** 위 영어 문장을 자연스럽게 한국어로 번역한 문장. 번역된 문장 내에서, 영어 "term"에 해당하는 "kor_meaning" 부분을 다음 HTML 형식으로 변환합니다:
+
+                `<word id='{original_id_value}' class='word-target-kr'>{kor_meaning_value}</word>`
+
+                * `{original_id_value}`: 영어 문장에서 사용된 것과 동일한 "id" 값.
+
+                * `{kor_meaning_value}`: 해당 "term"의 원본 데이터 "kor_meaning" 값 (예: "나란히").
+
+
+
+    3.  **챕터 JSON 객체 구성:**
+
+        * `chapter_title` (문자열): 현재 챕터의 내용을 잘 나타내는 창의적인 영어 제목을 생성합니다.
+
+        * `chapter_num` (정수): `current_chapter_number` 값을 사용합니다.
+
+        * `story_sentences` (배열): 2.b 단계에서 생성된 문장 단위 JSON 객체들을 순서대로 포함하는 배열입니다.
+
+
+
+    4.  **반환:** 최종적으로 아래와 같은 구조를 가진 단일 챕터 JSON 객체를 반환합니다:
+
+
+
+        ```json
+
+        {
+
+          "chapter_title": "예시: Echoes in the Alley",
+
+          "chapter_num": 0,
+
+          "story_sentences": [
+
+            {
+
+              "english": "The old detective, Miller, tried to keep <word id='_abreast' class='word-eng-link'>abreast</word> of the new recruit, Sarah, as they walked down the rain-slicked alley.",
+
+              "korean": "늙은 형사 밀러는 신참인 사라와 비에 젖은 골목길을 걸으며 그녀와 <word id='_abreast' class='word-target-kr'>나란히</word> 가려고 애썼다."
+
+            },
+
+            {
+
+              "english": "Sarah, young and eager, showed no <word id='_affectation' class='word-eng-link'>affectation</word> in her straightforward approach to the grim scene.",
+
+              "korean": "젊고 열정적인 사라는 침울한 현장에 대한 그녀의 솔직한 접근 방식에서 어떤 <word id='_affectation' class='word-target-kr'>가식</word>도 보이지 않았다."
+
+            }
+
+            // ... (해당 챕터의 나머지 문장 객체들)
+
+          ]
+
+        }
+
+        ```
+
+
+
+---
+

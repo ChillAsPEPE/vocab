@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대화형 어휘 학습 뷰어 (CSS Only)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 체크박스와 라디오 버튼 숨기기 */
+        .translation-toggle,
+        .index-toggle,
+        .chapter-radio {
+            display: none;
+        }
+
+        .header {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 0px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .nav-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .chapter-links {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .chapter-link {
+            display: inline-block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #007bff;
+            border: none;
+            border-bottom: 1px solid #007bff;
+            font-weight: 500;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            min-width: 35px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .chapter-link:hover {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white;
+            transform: scale(1.1);
+        }
+
+        /* 모든 챕터 숨기기 */
+        .chapter-content {
+            display: none;
+        }
+
+        /* 라디오 버튼 기반 챕터 표시 */
+        .chapter-radio:nth-of-type(1):checked ~ .content .chapter-0,
+        .chapter-radio:nth-of-type(2):checked ~ .content .chapter-1,
+        .chapter-radio:nth-of-type(3):checked ~ .content .chapter-2,
+        .chapter-radio:nth-of-type(4):checked ~ .content .chapter-3,
+        .chapter-radio:nth-of-type(5):checked ~ .content .chapter-4,
+        .chapter-radio:nth-of-type(6):checked ~ .content .chapter-5,
+        .chapter-radio:nth-of-type(7):checked ~ .content .chapter-6,
+        .chapter-radio:nth-of-type(8):checked ~ .content .chapter-7,
+        .chapter-radio:nth-of-type(9):checked ~ .content .chapter-8,
+        .chapter-radio:nth-of-type(10):checked ~ .content .chapter-9,
+        .chapter-radio:nth-of-type(11):checked ~ .content .chapter-10,
+        .chapter-radio:nth-of-type(12):checked ~ .content .chapter-11,
+        .chapter-radio:nth-of-type(13):checked ~ .content .chapter-12,
+        .chapter-radio:nth-of-type(14):checked ~ .content .chapter-13,
+        .chapter-radio:nth-of-type(15):checked ~ .content .chapter-14,
+        .chapter-radio:nth-of-type(16):checked ~ .content .chapter-15,
+        .chapter-radio:nth-of-type(17):checked ~ .content .chapter-16,
+        .chapter-radio:nth-of-type(18):checked ~ .content .chapter-17,
+        .chapter-radio:nth-of-type(19):checked ~ .content .chapter-18,
+        .chapter-radio:nth-of-type(20):checked ~ .content .chapter-19 {
+            display: block;
+        }
+
+        /* 활성 챕터 링크 스타일 */
+        .chapter-radio:nth-of-type(1):checked ~ .header .chapter-links .chapter-link:nth-child(1),
+        .chapter-radio:nth-of-type(2):checked ~ .header .chapter-links .chapter-link:nth-child(2),
+        .chapter-radio:nth-of-type(3):checked ~ .header .chapter-links .chapter-link:nth-child(3),
+        .chapter-radio:nth-of-type(4):checked ~ .header .chapter-links .chapter-link:nth-child(4),
+        .chapter-radio:nth-of-type(5):checked ~ .header .chapter-links .chapter-link:nth-child(5),
+        .chapter-radio:nth-of-type(6):checked ~ .header .chapter-links .chapter-link:nth-child(6),
+        .chapter-radio:nth-of-type(7):checked ~ .header .chapter-links .chapter-link:nth-child(7),
+        .chapter-radio:nth-of-type(8):checked ~ .header .chapter-links .chapter-link:nth-child(8),
+        .chapter-radio:nth-of-type(9):checked ~ .header .chapter-links .chapter-link:nth-child(9),
+        .chapter-radio:nth-of-type(10):checked ~ .header .chapter-links .chapter-link:nth-child(10),
+        .chapter-radio:nth-of-type(11):checked ~ .header .chapter-links .chapter-link:nth-child(11),
+        .chapter-radio:nth-of-type(12):checked ~ .header .chapter-links .chapter-link:nth-child(12),
+        .chapter-radio:nth-of-type(13):checked ~ .header .chapter-links .chapter-link:nth-child(13),
+        .chapter-radio:nth-of-type(14):checked ~ .header .chapter-links .chapter-link:nth-child(14),
+        .chapter-radio:nth-of-type(15):checked ~ .header .chapter-links .chapter-link:nth-child(15),
+        .chapter-radio:nth-of-type(16):checked ~ .header .chapter-links .chapter-link:nth-child(16),
+        .chapter-radio:nth-of-type(17):checked ~ .header .chapter-links .chapter-link:nth-child(17),
+        .chapter-radio:nth-of-type(18):checked ~ .header .chapter-links .chapter-link:nth-child(18),
+        .chapter-radio:nth-of-type(19):checked ~ .header .chapter-links .chapter-link:nth-child(19),
+        .chapter-radio:nth-of-type(20):checked ~ .header .chapter-links .chapter-link:nth-child(20) {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white;
+        }
+
+        .toggle-index-btn,
+        .translate-icon-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+
+        .translate-icon-btn {
+            background-color: transparent;
+            padding: 2px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-index-btn:hover {
+            background: #5a6268;
+        }
+
+        .translate-icon-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .translate-icon-btn svg {
+            stroke: #e6d4a6;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* 목차 토글 */
+        .index-navigation {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .index-toggle:checked ~ .header .index-navigation {
+            display: block;
+        }
+
+        .index-toggle:checked ~ .header .toggle-index-btn {
+            background: #5a6268;
+        }
+
+        .index-toggle:checked ~ .header .toggle-index-btn::after {
+            content: " 숨기기";
+        }
+
+        .toggle-index-btn::after {
+            content: " 보기";
+        }
+
+        .index-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+        }
+
+        .index-item:hover {
+            background: #f8f9fa;
+        }
+
+        .index-number {
+            font-weight: 600;
+            color: #007bff;
+            margin-right: 12px;
+            min-width: 25px;
+        }
+
+        .index-title {
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chapter-content h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .sentence-pair {
+            margin-bottom: 25px;
+        }
+
+        .english-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .korean-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #666;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-left: 4px solid #007bff;
+            border-radius: 0 5px 5px 0;
+            display: none;
+        }
+
+        /* 번역 토글 */
+        .translation-toggle:checked ~ .content .korean-text {
+            display: block;
+        }
+
+        /* 단어 링크 스타일 */
+        .word-link {
+            position: relative;
+            color: #007bff;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+            background: rgba(0, 123, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: underline;
+        }
+
+        .word-link:hover {
+            background: rgba(0, 123, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* 툴팁 스타일 */
+        .word-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: normal;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            text-decoration: none;
+            min-width: 200px;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        .word-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #333;
+        }
+
+        .word-link:hover .word-tooltip {
+            opacity: 1;
+        }
+
+        /* 한국어 대상 단어 스타일 */
+        .word-target-kr {
+            color: #dc3545;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .chapter-link {
+                padding: 6px 8px;
+                min-width: 25px;
+                font-size: 10px;
+            }
+            .container {
+                padding: 10px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .chapter-content h2 {
+                font-size: 24px;
+            }
+            .english-text {
+                font-size: 16px;
+            }
+            .korean-text {
+                font-size: 14px;
+            }
+            .toggle-index-btn {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            .word-tooltip {
+                white-space: normal;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" id="translation-toggle" class="translation-toggle">
+    <input type="checkbox" id="index-toggle" class="index-toggle">
+    <input type="radio" name="chapter" id="chapter-radio-0" class="chapter-radio" checked>
+<input type="radio" name="chapter" id="chapter-radio-1" class="chapter-radio" >
+<input type="radio" name="chapter" id="chapter-radio-2" class="chapter-radio" >
+<input type="radio" name="chapter" id="chapter-radio-3" class="chapter-radio" >
+<input type="radio" name="chapter" id="chapter-radio-4" class="chapter-radio" >
+<input type="radio" name="chapter" id="chapter-radio-5" class="chapter-radio" >
+<input type="radio" name="chapter" id="chapter-radio-6" class="chapter-radio" >
+<input type="radio" name="chapter" id="chapter-radio-7" class="chapter-radio" >
+
+
+    <div class="header">
+        <div class="navigation"><span class="nav-label">Chapters:</span><div class="chapter-links"><label for="chapter-radio-0" class="chapter-link">1</label><label for="chapter-radio-1" class="chapter-link">2</label><label for="chapter-radio-2" class="chapter-link">3</label><label for="chapter-radio-3" class="chapter-link">4</label><label for="chapter-radio-4" class="chapter-link">5</label><label for="chapter-radio-5" class="chapter-link">6</label><label for="chapter-radio-6" class="chapter-link">7</label><label for="chapter-radio-7" class="chapter-link">8</label></div><label for="index-toggle" class="toggle-index-btn">목차 보기</label><label for="translation-toggle" class="translate-icon-btn" title="Toggle Translation">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" stroke="lightskyblue"></circle>
+            <path d="M2 12h20" stroke="dodgerblue"></path>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10" stroke="dodgerblue"></path>
+            <path d="M12 2a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10" stroke="dodgerblue"></path>
+        </svg>
+    </label></div>
+        <div class="index-navigation">
+            <label for="chapter-radio-0" class="index-item">
+                <span class="index-number">1.</span>
+                <span class="index-title">The Cartographer's Secret</span>
+            </label>
+        
+            <label for="chapter-radio-1" class="index-item">
+                <span class="index-number">2.</span>
+                <span class="index-title">The Guardian's Warning</span>
+            </label>
+        
+            <label for="chapter-radio-2" class="index-item">
+                <span class="index-number">3.</span>
+                <span class="index-title">The Price of Knowledge</span>
+            </label>
+        
+            <label for="chapter-radio-3" class="index-item">
+                <span class="index-number">4.</span>
+                <span class="index-title">Separate Truths and Sparse Clues</span>
+            </label>
+        
+            <label for="chapter-radio-4" class="index-item">
+                <span class="index-number">5.</span>
+                <span class="index-title">The Agile Maneuver and the Break With Tradition</span>
+            </label>
+        
+            <label for="chapter-radio-5" class="index-item">
+                <span class="index-number">6.</span>
+                <span class="index-title">The Durable Deception and the Fabricated Truth</span>
+            </label>
+        
+            <label for="chapter-radio-6" class="index-item">
+                <span class="index-number">7.</span>
+                <span class="index-title">The Liken Plan and the Prolonged Stakeout</span>
+            </label>
+        
+            <label for="chapter-radio-7" class="index-item">
+                <span class="index-number">8.</span>
+                <span class="index-title">Retaining Hope and the Shabby Disguise</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="content">
+        
+        <div class="chapter-content chapter-0">
+            <h2>The Cartographer's Secret</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">Elara, a young historian, examined the <span class="word-link">archaic
+                    <span class="word-tooltip">
+                        <strong>archaic</strong><br>
+                        뜻: 고대의
+                        <br>동의어: ancient, antiquated, antique
+                    </span>
+                </span> map, its faded lines running <span class="word-link">abreast
+                    <span class="word-tooltip">
+                        <strong>abreast</strong><br>
+                        뜻: 나란히
+                        <br>동의어: alongside, in a row
+                    </span>
+                </span> of cryptic symbols she had never encountered.</p>
+                    <p class="korean-text">젊은 역사학자 엘라라는 <span class="word-target-kr">고대의</span> 지도를 살폈는데, 그 희미한 선들은 그녀가 전에 본 적 없는 비밀스러운 기호들과 <span class="word-target-kr">나란히</span> 이어져 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">She maintained a professional composure, any personal excitement hidden beneath a layer of scholarly <span class="word-link">affectation
+                    <span class="word-tooltip">
+                        <strong>affectation</strong><br>
+                        뜻: 가식
+                        <br>동의어: airs, pretense
+                    </span>
+                </span> as her mentor observed her.</p>
+                    <p class="korean-text">그녀는 지도교수가 지켜보는 가운데 학자적인 <span class="word-target-kr">가식</span> 아래 개인적인 흥분을 감추며 전문가적인 평정을 유지했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">She did not <span class="word-link">anticipate
+                    <span class="word-tooltip">
+                        <strong>anticipate</strong><br>
+                        뜻: 예상하다
+                        <br>동의어: foresee, forecast, foretell, predict
+                    </span>
+                </span> that this discovery would lead her into a perilous journey.</p>
+                    <p class="korean-text">그녀는 이 발견이 자신을 위험한 여정으로 이끌 것이라고는 <span class="word-target-kr">예상하지</span> 못했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Soon, she realized she needed an <span class="word-link">ally
+                    <span class="word-tooltip">
+                        <strong>ally</strong><br>
+                        뜻: 동맹을 맺다
+                        <br>동의어: confederate, associate
+                    </span>
+                </span>, perhaps an <span class="word-link">anonymous
+                    <span class="word-tooltip">
+                        <strong>anonymous</strong><br>
+                        뜻: 익명의
+                        <br>동의어: unnamed, unknown, unsigned
+                    </span>
+                </span> benefactor who understood the map's true meaning, if she were to decipher its secrets.</p>
+                    <p class="korean-text">곧 그녀는 지도의 비밀을 해독하려면 지도의 참된 의미를 이해하는, 그녀와 <span class="word-target-kr">동맹을 맺을</span> 사람, 어쩌면 <span class="word-target-kr">익명의</span> 후원자가 필요하다는 것을 깨달았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A peculiar <span class="word-link">aspect
+                    <span class="word-tooltip">
+                        <strong>aspect</strong><br>
+                        뜻: 측면, 양상
+                        <br>동의어: regard, respect, side, sense, angle
+                    </span>
+                </span> of the map was a series of almost imperceptible dots, a strange <span class="word-link">behavior
+                    <span class="word-tooltip">
+                        <strong>behavior</strong><br>
+                        뜻: 행동
+                        <br>동의어: conduct, doing, actions, practices
+                    </span>
+                </span> for a cartographer of that era, suggesting a hidden code.</p>
+                    <p class="korean-text">지도의 한 가지 특이한 <span class="word-target-kr">측면, 양상</span>은 거의 감지할 수 없는 일련의 점들이었는데, 이는 그 시대 지도 제작자로서는 이상한 <span class="word-target-kr">행동</span>으로 숨겨진 암호를 암시했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Her <span class="word-link">ceaseless
+                    <span class="word-tooltip">
+                        <strong>ceaseless</strong><br>
+                        뜻: 끊임없는
+                        <br>동의어: constant, uninterrupted, eternal
+                    </span>
+                </span> research began to <span class="word-link">change
+                    <span class="word-tooltip">
+                        <strong>change</strong><br>
+                        뜻: 변화시키다
+                        <br>동의어: alter, vary, turn into, transform
+                    </span>
+                </span> her understanding of known history, hinting at a forgotten civilization.</p>
+                    <p class="korean-text">그녀의 <span class="word-target-kr">끊임없는</span> 연구는 기존 역사에 대한 그녀의 이해를 <span class="word-target-kr">변화시키기</span> 시작했고, 잊혀진 문명을 암시했다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="chapter-content chapter-1">
+            <h2>The Guardian's Warning</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">Elara, being an <span class="word-link">enterprising
+                    <span class="word-tooltip">
+                        <strong>enterprising</strong><br>
+                        뜻: 진취적인
+                        <br>동의어: energetic, ambitious, adventurous
+                    </span>
+                </span> researcher, decided to seek out a reclusive scholar rumored to possess texts that could <span class="word-link">elucidate
+                    <span class="word-tooltip">
+                        <strong>elucidate</strong><br>
+                        뜻: 명료하게 하다
+                        <br>동의어: clarify, clear up, enlighten, shed light on
+                    </span>
+                </span> the map's obscure symbols.</p>
+                    <p class="korean-text"><span class="word-target-kr">진취적인</span> 연구가였던 엘라라는 지도의 모호한 상징들을 <span class="word-target-kr">명료하게 해줄</span> 수 있는 문헌들을 소장하고 있다는 소문이 있는 은둔 학자를 찾아 나서기로 결심했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The scholar's initial response was <span class="word-link">equivocal
+                    <span class="word-tooltip">
+                        <strong>equivocal</strong><br>
+                        뜻: 애매한
+                        <br>동의어: ambiguous, enigmatical, obscure
+                    </span>
+                </span>, and her visit seemed to cause a slight <span class="word-link">disturbance
+                    <span class="word-tooltip">
+                        <strong>disturbance</strong><br>
+                        뜻: 혼란
+                        <br>동의어: agitation, disorder, confusion
+                    </span>
+                </span> in his otherwise quiet life, making her wary.</p>
+                    <p class="korean-text"><span class="word-target-kr">애매한</span> 것이었고, 그녀의 방문은 그의 평온했던 삶에 약간의 <span class="word-target-kr">혼란</span>을 야기하는 듯하여 그녀를 경계하게 만들었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He spoke of an ancient <span class="word-link">confederacy
+                    <span class="word-tooltip">
+                        <strong>confederacy</strong><br>
+                        뜻: 연합, 동맹
+                        <br>동의어: ally, alliance, confederation
+                    </span>
+                </span> of guardians who had sworn to protect the civilization's secrets, and how they would <span class="word-link">fortify
+                    <span class="word-tooltip">
+                        <strong>fortify</strong><br>
+                        뜻: 강화하다
+                        <br>동의어: strengthen, reinforce, intensify
+                    </span>
+                </span> their defenses against any intruders.</p>
+                    <p class="korean-text">그는 그 문명의 비밀을 지키기로 맹세한 고대 수호자들의 <span class="word-target-kr">연합, 동맹</span>에 대해 이야기했고, 그들이 침입자들에 맞서 어떻게 방어를 <span class="word-target-kr">강화할</span> 것인지에 대해서도 언급했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The allure of the forgotten knowledge continued to <span class="word-link">entice
+                    <span class="word-tooltip">
+                        <strong>entice</strong><br>
+                        뜻: 유혹하다
+                        <br>동의어: lure, allure, tempt, seduce
+                    </span>
+                </span> Elara, even though the path threatened to <span class="word-link">cut
+                    <span class="word-tooltip">
+                        <strong>cut</strong><br>
+                        뜻: 나누다
+                        <br>동의어: sever, chop, divide
+                    </span>
+                </span> the connections she had with the conventional academic world.</p>
+                    <p class="korean-text">잊혀진 지식의 매력은 엘라라를 계속 <span class="word-target-kr">유혹했고</span>, 비록 그 길이 그녀가 기존 학계와 맺고 있던 연결고리들을 <span class="word-target-kr">나눌</span> 위험이 있을지라도 그러했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The scholar also hinted at a <span class="word-link">frightful
+                    <span class="word-tooltip">
+                        <strong>frightful</strong><br>
+                        뜻: 무시무시한
+                        <br>동의어: horrible, dreadful, fearful, awful
+                    </span>
+                </span> cataclysm that led to the civilization's end, a power so immense it could <span class="word-link">exterminate
+                    <span class="word-tooltip">
+                        <strong>exterminate</strong><br>
+                        뜻: 멸종시키다
+                        <br>동의어: die out, eradicate
+                    </span>
+                </span> entire populations.</p>
+                    <p class="korean-text">학자는 또한 그 문명의 종말을 가져온 <span class="word-target-kr">무시무시한</span> 대재앙, 즉 전 인구를 <span class="word-target-kr">멸종시킬</span> 수 있을 만큼 엄청난 힘에 대해서도 암시했다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="chapter-content chapter-2">
+            <h2>The Price of Knowledge</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The scholar's <span class="word-link">reference
+                    <span class="word-tooltip">
+                        <strong>reference</strong><br>
+                        뜻: 언급
+                        <br>동의어: allusion, mention
+                    </span>
+                </span> to the cataclysm described a <span class="word-link">mammoth
+                    <span class="word-tooltip">
+                        <strong>mammoth</strong><br>
+                        뜻: 거대한
+                        <br>동의어: huge, gigantic, large
+                    </span>
+                </span> wave of destruction, a truth so horrifying Elara almost wanted to <span class="word-link">lose sight of
+                    <span class="word-tooltip">
+                        <strong>lose sight of</strong><br>
+                        뜻: 잊다
+                        <br>동의어: forget
+                    </span>
+                </span> her quest.</p>
+                    <p class="korean-text"><span class="word-target-kr">언급</span>은 <span class="word-target-kr">거대한</span> 파괴의 물결을 묘사했는데, 너무나 끔찍한 진실이어서 엘라라는 거의 자신의 탐구를 <span class="word-target-kr">잊고</span> 싶을 정도였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">But her resolve returned; she decided to first understand the <span class="word-link">nuts and bolts
+                    <span class="word-tooltip">
+                        <strong>nuts and bolts</strong><br>
+                        뜻: ~의 기본
+                        <br>동의어: basic, practical, details of
+                    </span>
+                </span> of the ancient guardians' defensive strategies, hoping to <span class="word-link">improve
+                    <span class="word-tooltip">
+                        <strong>improve</strong><br>
+                        뜻: 개선하다
+                        <br>동의어: enhance, refine, enrich, improve, ameliorate
+                    </span>
+                </span> her chances of a peaceful approach.</p>
+                    <p class="korean-text">그러나 그녀의 결의는 되살아났고, 평화로운 접근 가능성을 <span class="word-target-kr">개선하기</span> 위해 먼저 고대 수호자들 방어 전략의 <span class="word-target-kr">~의 기본</span>을 이해하기로 결정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The scholar, seeing her determination, reluctantly agreed to <span class="word-link">permit
+                    <span class="word-tooltip">
+                        <strong>permit</strong><br>
+                        뜻: 허락하다
+                        <br>동의어: let, allow
+                    </span>
+                </span> her access to a hidden chamber where old records were kept <span class="word-link">separate
+                    <span class="word-tooltip">
+                        <strong>separate</strong><br>
+                        뜻: 분리하다
+                        <br>동의어: divide, part, sever, disunite, split
+                    </span>
+                </span> from his main collection.</p>
+                    <p class="korean-text">학자는 그녀의 결심을 보고 마지못해 그의 주요 소장품과 <span class="word-target-kr">분리하여</span> 보관된 고대 기록들이 있는 숨겨진 방으로의 접근을 <span class="word-target-kr">허락하기로</span> 동의했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">These records revealed that the civilization faced not only external threats but also a <span class="word-link">radical
+                    <span class="word-tooltip">
+                        <strong>radical</strong><br>
+                        뜻: 근본적인
+                        <br>동의어: fundamental, basic
+                    </span>
+                </span> internal shift in philosophy, which some factions considered a <span class="word-link">radical
+                    <span class="word-tooltip">
+                        <strong>radical</strong><br>
+                        뜻: 근본적인
+                        <br>동의어: fundamental, basic
+                    </span>
+                </span>, dangerous departure from their traditions.</p>
+                    <p class="korean-text">이 기록들은 그 문명이 외부의 위협뿐만 아니라 철학에서의 <span class="word-target-kr">근본적인</span> 내부 변화에 직면했으며, 일부 파벌들은 이를 전통으로부터의 <span class="word-target-kr">급진적인</span> 위험한 이탈로 간주했음을 드러냈다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">No one, not even the ruling class, seemed to have <span class="word-link">immunity
+                    <span class="word-tooltip">
+                        <strong>immunity</strong><br>
+                        뜻: 면제
+                        <br>동의어: protection, exemption
+                    </span>
+                </span> from the consequences of these growing divisions and the eventual cataclysm.</p>
+                    <p class="korean-text">지배 계급조차도 이러한 커져가는 분열과 궁극적인 대재앙의 결과로부터 <span class="word-target-kr">면제</span>를 받은 사람은 아무도 없는 듯했다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="chapter-content chapter-3">
+            <h2>Separate Truths and Sparse Clues</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">Lena managed to <span class="word-link">separate
+                    <span class="word-tooltip">
+                        <strong>separate</strong><br>
+                        뜻: 분리하다
+                        <br>동의어: divide, part, sever, disunite, split
+                    </span>
+                </span> coded messages from mundane diary entries, but actionable intelligence was <span class="word-link">sparse
+                    <span class="word-tooltip">
+                        <strong>sparse</strong><br>
+                        뜻: 희박한
+                        <br>동의어: scanty, meager
+                    </span>
+                </span>.</p>
+                    <p class="korean-text">레나는 암호화된 메시지들을 평범한 일기 항목들로부터 <span class="word-target-kr">분리해</span> 냈지만, 실행 가능한 정보는 <span class="word-target-kr">희박했다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Each deciphered clue would <span class="word-link">sting
+                    <span class="word-tooltip">
+                        <strong>sting</strong><br>
+                        뜻: 따끔따끔하게 하다
+                        <br>동의어: smart, tingle
+                    </span>
+                </span> with the realization of how close, yet how far, they were from catching the culprits.</p>
+                    <p class="korean-text">해독된 각 단서는 범인들을 잡는 데 얼마나 가까우면서도 얼마나 멀리 있는지를 깨닫게 하며 <span class="word-target-kr">따끔따끔하게 했다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles decided to <span class="word-link">support
+                    <span class="word-tooltip">
+                        <strong>support</strong><br>
+                        뜻: 지지하다
+                        <br>동의어: assist, back, advocate
+                    </span>
+                </span> a risky undercover operation, hoping to gather more <span class="word-link">tangible
+                    <span class="word-tooltip">
+                        <strong>tangible</strong><br>
+                        뜻: 실재적인
+                        <br>동의어: concrete, real, substantial
+                    </span>
+                </span> evidence.</p>
+                    <p class="korean-text">마일즈는 더 <span class="word-target-kr">실재적인</span> 증거를 수집하기를 바라며 위험한 잠복 근무를 <span class="word-target-kr">지지하기로</span> 결정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He knew he would have to <span class="word-link">tolerate
+                    <span class="word-tooltip">
+                        <strong>tolerate</strong><br>
+                        뜻: 참다
+                        <br>동의어: endure, stand, persist, bear
+                    </span>
+                </span> a great deal of uncertainty, and carefully <span class="word-link">train
+                    <span class="word-tooltip">
+                        <strong>train</strong><br>
+                        뜻: ~로 향하게 하다
+                        <br>동의어: aim, head
+                    </span>
+                </span> his focus on the primary suspects.</p>
+                    <p class="korean-text">그는 많은 불확실성을 <span class="word-target-kr">참아야</span> 하고, 주 용의자들에게 그의 초점을 신중하게 <span class="word-target-kr">~로 향하게 해야</span> 한다는 것을 알았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The evidence, once pieced together, painted an <span class="word-link">unambiguous
+                    <span class="word-tooltip">
+                        <strong>unambiguous</strong><br>
+                        뜻: 명확한
+                        <br>동의어: clear, distinct, definite
+                    </span>
+                </span> picture of the thieves' next target, leaving <span class="word-link">virtually
+                    <span class="word-tooltip">
+                        <strong>virtually</strong><br>
+                        뜻: 사실상
+                        <br>동의어: in fact, practically
+                    </span>
+                </span> no doubt.</p>
+                    <p class="korean-text">증거들이 하나로 맞춰졌을 때, 도둑들의 다음 목표에 대한 <span class="word-target-kr">명확한</span> 그림이 그려졌고, <span class="word-target-kr">사실상</span> 의심의 여지가 없었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">With <span class="word-link">virtually
+                    <span class="word-tooltip">
+                        <strong>virtually</strong><br>
+                        뜻: 사실상
+                        <br>동의어: in fact, practically
+                    </span>
+                </span> all preparations made, they remained <span class="word-link">wary
+                    <span class="word-tooltip">
+                        <strong>wary</strong><br>
+                        뜻: 주의 깊은
+                        <br>동의어: cautious, distrustful, heedful, alert
+                    </span>
+                </span> of leaks from within the department, knowing the <span class="word-link">wealth
+                    <span class="word-tooltip">
+                        <strong>wealth</strong><br>
+                        뜻: 풍부함
+                        <br>동의어: affluence, abundance, profusion
+                    </span>
+                </span> of information the thieves possessed could include informants on the police force.</p>
+                    <p class="korean-text"><span class="word-target-kr">거의</span> 모든 준비가 완료되었지만, 그들은 도둑들이 가진 정보의 <span class="word-target-kr">풍부함</span> 속에 경찰 내 정보원이 포함될 수 있다는 것을 알고 부서 내부로부터의 누출을 <span class="word-target-kr">주의 깊게</span> 경계했다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="chapter-content chapter-4">
+            <h2>The Agile Maneuver and the Break With Tradition</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The thieves were known to be incredibly <span class="word-link">agile
+                    <span class="word-tooltip">
+                        <strong>agile</strong><br>
+                        뜻: 민첩한
+                        <br>동의어: quick, light, nimble
+                    </span>
+                </span>, capable of navigating complex security systems with ease, and their hideout was in an <span class="word-link">ample
+                    <span class="word-tooltip">
+                        <strong>ample</strong><br>
+                        뜻: 넓은
+                        <br>동의어: large, spacious, vast, capacious
+                    </span>
+                </span>, abandoned warehouse district.</p>
+                    <p class="korean-text">도둑들은 믿을 수 없을 정도로 <span class="word-target-kr">민첩하여</span> 복잡한 보안 시스템을 쉽게 통과할 수 있는 것으로 알려졌으며, 그들의 은신처는 <span class="word-target-kr">넓은</span> 버려진 창고 지구에 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">They seemed to choose their targets <span class="word-link">arbitrarily
+                    <span class="word-tooltip">
+                        <strong>arbitrarily</strong><br>
+                        뜻: 임의로
+                        <br>동의어: randomly
+                    </span>
+                </span>, yet each theft was executed with precision, a signature style that almost made them <span class="word-link">break with
+                    <span class="word-tooltip">
+                        <strong>break with</strong><br>
+                        뜻: 관계를 끊다
+                        <br>동의어: discontinue an association
+                    </span>
+                </span> their pattern of untraceability.</p>
+                    <p class="korean-text">그들은 목표물을 <span class="word-target-kr">임의로</span> 선택하는 것처럼 보였지만, 각 절도는 정밀하게 실행되었으며, 이는 거의 추적 불가능이라는 그들의 패턴을 <span class="word-target-kr">그만두게</span> 만들 뻔한 특징적인 스타일이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The detective decided to <span class="word-link">break with
+                    <span class="word-tooltip">
+                        <strong>break with</strong><br>
+                        뜻: 관계를 끊다
+                        <br>동의어: discontinue an association
+                    </span>
+                </span> conventional police procedure and set a trap using a piece of art with a tracking device of blinding <span class="word-link">brightness
+                    <span class="word-tooltip">
+                        <strong>brightness</strong><br>
+                        뜻: 빛
+                        <br>동의어: radiance
+                    </span>
+                </span> when activated.</p>
+                    <p class="korean-text">형사는 기존의 경찰 절차와 <span class="word-target-kr">관계를 끊고</span> 활성화 시 눈부신 <span class="word-target-kr">빛</span>을 내는 추적 장치가 부착된 미술품을 이용해 덫을 놓기로 결정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He hoped this would <span class="word-link">conjure
+                    <span class="word-tooltip">
+                        <strong>conjure</strong><br>
+                        뜻: 불러내다, 상기시키다
+                        <br>동의어: recall
+                    </span>
+                </span> an image of an easy score, and also tried to <span class="word-link">conjure
+                    <span class="word-tooltip">
+                        <strong>conjure</strong><br>
+                        뜻: 불러내다, 상기시키다
+                        <br>동의어: recall
+                    </span>
+                </span> up some courage in the informant to testify by offering protection.</p>
+                    <p class="korean-text">그는 이것이 쉬운 목표물이라는 이미지를 <span class="word-target-kr">불러내길</span> 바랐고, 또한 보호를 제안함으로써 정보원에게 증언할 용기를 <span class="word-target-kr">간청하려</span> 노력했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Their inside man was a <span class="word-link">correspondent
+                    <span class="word-tooltip">
+                        <strong>correspondent</strong><br>
+                        뜻: 일치
+                        <br>동의어: agreement, concord, harmony
+                    </span>
+                </span> for an art magazine, whose regular <span class="word-link">correspondent
+                    <span class="word-tooltip">
+                        <strong>correspondent</strong><br>
+                        뜻: 일치
+                        <br>동의어: agreement, concord, harmony
+                    </span>
+                </span> with the art world gave him unique access and an air of legitimacy.</p>
+                    <p class="korean-text">그들의 내부자는 미술 잡지의 <span class="word-target-kr">통신원</span>이었는데, 미술계와의 정기적인 <span class="word-target-kr">서신 왕래</span>는 그에게 독특한 접근성과 합법적인 분위기를 제공했다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="chapter-content chapter-5">
+            <h2>The Durable Deception and the Fabricated Truth</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The thieves' organization was surprisingly <span class="word-link">durable
+                    <span class="word-tooltip">
+                        <strong>durable</strong><br>
+                        뜻: 지속되는
+                        <br>동의어: lasting, enduring, constant
+                    </span>
+                </span>, having evaded capture for years, led by a mysterious figure known only as 'The <span class="word-link">Dwarf
+                    <span class="word-tooltip">
+                        <strong>dwarf</strong><br>
+                        뜻: 난쟁이
+                        <br>동의어: pygmy
+                    </span>
+                </span>' due to his short stature but immense influence.</p>
+                    <p class="korean-text">도둑들의 조직은 놀라울 정도로 <span class="word-target-kr">지속되었으며</span>, 작은 키에도 불구하고 엄청난 영향력을 가진 '그 <span class="word-target-kr">난쟁이</span>'로만 알려진 수수께끼의 인물에 의해 수년간 체포를 피해왔다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Many believed this criminal mastermind to be <span class="word-link">extinct
+                    <span class="word-tooltip">
+                        <strong>extinct</strong><br>
+                        뜻: 멸종된
+                        <br>동의어: vanished, defunct
+                    </span>
+                </span>, a legend of the underworld, but recent activities proved otherwise.</p>
+                    <p class="korean-text">많은 사람들은 이 범죄의 거물이 <span class="word-target-kr">멸종된</span>, 지하 세계의 전설이라고 믿었지만, 최근의 활동은 그렇지 않다는 것을 증명했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The detectives had to <span class="word-link">fabricate
+                    <span class="word-tooltip">
+                        <strong>fabricate</strong><br>
+                        뜻: 만들어내다
+                        <br>동의어: make, build, construct, concoct
+                    </span>
+                </span> a believable backstory for their undercover officer, ensuring every <span class="word-link">flake
+                    <span class="word-tooltip">
+                        <strong>flake</strong><br>
+                        뜻: 파편
+                        <br>동의어: bit, chip
+                    </span>
+                </span> of his assumed identity was consistent.</p>
+                    <p class="korean-text">형사들은 잠복 경찰관을 위해 믿을 만한 배경 이야기를 <span class="word-target-kr">만들어내야</span> 했고, 그가 꾸민 신분의 모든 <span class="word-target-kr">파편</span>이 일관되도록 해야 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles harbored a personal <span class="word-link">grudge
+                    <span class="word-tooltip">
+                        <strong>grudge</strong><br>
+                        뜻: 원한
+                        <br>동의어: malice, spite, malevolence
+                    </span>
+                </span> against The Dwarf, whose actions had indirectly caused great <span class="word-link">harm
+                    <span class="word-tooltip">
+                        <strong>harm</strong><br>
+                        뜻: 손해
+                        <br>동의어: damage, mischief, detriment
+                    </span>
+                </span> to a close friend years ago.</p>
+                    <p class="korean-text">마일즈는 몇 년 전 그의 행동이 간접적으로 친한 친구에게 큰 <span class="word-target-kr">손해</span>를 입혔던 '그 난쟁이'에 대해 개인적인 <span class="word-target-kr">원한</span>을 품고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He believed the informant, though once a criminal, was now essentially <span class="word-link">innocent
+                    <span class="word-tooltip">
+                        <strong>innocent</strong><br>
+                        뜻: 결백한
+                        <br>동의어: sinless, blameless, guiltless
+                    </span>
+                </span> in this particular series of heists, merely a pawn caught <span class="word-link">in the course
+                    <span class="word-tooltip">
+                        <strong>in the course</strong><br>
+                        뜻: ~동안에
+                        <br>동의어: during
+                    </span>
+                </span> of the gang's operations.</p>
+                    <p class="korean-text">그는 정보원이 한때 범죄자였지만, 이 특정한 연쇄 강도 사건에서는 본질적으로 <span class="word-target-kr">결백하며</span>, 단지 조직의 작전 <span class="word-target-kr">동안에</span> 붙잡힌 졸에 불과하다고 믿었다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="chapter-content chapter-6">
+            <h2>The Liken Plan and the Prolonged Stakeout</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The plan was to <span class="word-link">leave
+                    <span class="word-tooltip">
+                        <strong>leave</strong><br>
+                        뜻: 떠나다
+                        <br>동의어: depart
+                    </span>
+                </span> the baited artwork in a gallery, and Miles couldn't help but <span class="word-link">liken
+                    <span class="word-tooltip">
+                        <strong>liken</strong><br>
+                        뜻: 비유하다
+                        <br>동의어: compare, equate, match, parallel
+                    </span>
+                </span> their elaborate trap to a spider's web.</p>
+                    <p class="korean-text">계획은 미끼가 된 미술품을 갤러리에 <span class="word-target-kr">떠나보내는 것</span>이었고, 마일즈는 그들의 정교한 덫을 거미줄에 <span class="word-target-kr">비유하지</span> 않을 수 없었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He <span class="word-link">literally
+                    <span class="word-tooltip">
+                        <strong>literally</strong><br>
+                        뜻: 실제로
+                        <br>동의어: really, actually
+                    </span>
+                </span> held his breath as the gallery owner, a <span class="word-link">moderate
+                    <span class="word-tooltip">
+                        <strong>moderate</strong><br>
+                        뜻: 온건한
+                        <br>동의어: gentle, temperate, reasonable, mild
+                    </span>
+                </span> man not easily swayed, agreed to their risky proposal.</p>
+                    <p class="korean-text">쉽사리 동요하지 않는 <span class="word-target-kr">온건한</span> 성격의 갤러리 주인이 그들의 위험한 제안에 동의했을 때, 그는 <span class="word-target-kr">실제로</span> 숨을 참았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">They would have to <span class="word-link">prolong
+                    <span class="word-tooltip">
+                        <strong>prolong</strong><br>
+                        뜻: 연장하다
+                        <br>동의어: extend, lengthen, protract
+                    </span>
+                </span> their surveillance, hoping to <span class="word-link">purify
+                    <span class="word-tooltip">
+                        <strong>purify</strong><br>
+                        뜻: 정화하다
+                        <br>동의어: clear, purge, cleanse
+                    </span>
+                </span> the city of The Dwarf's influence once and for all.</p>
+                    <p class="korean-text">그들은 감시를 <span class="word-target-kr">연장해야</span> 했고, 도시에서 '그 난쟁이'의 영향을 완전히 <span class="word-target-kr">정화하기를</span> 바랐다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Lena found a <span class="word-link">reasonable
+                    <span class="word-tooltip">
+                        <strong>reasonable</strong><br>
+                        뜻: 이치에 맞는
+                        <br>동의어: rational, logical, sensible
+                    </span>
+                </span> explanation for the gang's choice of targets in the diary; they were selecting pieces made with <span class="word-link">refined
+                    <span class="word-tooltip">
+                        <strong>refined</strong><br>
+                        뜻: 정제된
+                        <br>동의어: purified, clarified, distilled
+                    </span>
+                </span> gold, easily melted down.</p>
+                    <p class="korean-text">레나는 일기장에서 그 조직의 목표물 선택에 대한 <span class="word-target-kr">이치에 맞는</span> 설명을 발견했다; 그들은 쉽게 녹일 수 있는 <span class="word-target-kr">정제된</span> 금으로 만들어진 작품들을 선택하고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles wanted to <span class="word-link">reprove
+                    <span class="word-tooltip">
+                        <strong>reprove</strong><br>
+                        뜻: 꾸짖다
+                        <br>동의어: rebuke, reproach, admonish
+                    </span>
+                </span> himself for not seeing this pattern earlier; the clues were there, like a <span class="word-link">resilient
+                    <span class="word-tooltip">
+                        <strong>resilient</strong><br>
+                        뜻: 탄력 있는
+                        <br>동의어: rebounding, elastic
+                    </span>
+                </span> thread woven through their crimes.</p>
+                    <p class="korean-text">마일즈는 이 패턴을 더 일찍 보지 못한 자신을 <span class="word-target-kr">꾸짖고</span> 싶었다; 단서들은 마치 그들의 범죄를 관통하는 <span class="word-target-kr">탄력 있는</span> 실처럼 거기에 있었다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="chapter-content chapter-7">
+            <h2>Retaining Hope and the Shabby Disguise</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">They had to <span class="word-link">retain
+                    <span class="word-tooltip">
+                        <strong>retain</strong><br>
+                        뜻: 유지하다
+                        <br>동의어: keep, maintain, preserve
+                    </span>
+                </span> a sense of hope, even though leads were becoming <span class="word-link">scarce
+                    <span class="word-tooltip">
+                        <strong>scarce</strong><br>
+                        뜻: 부족한
+                        <br>동의어: rare, limited, deficient, insufficient
+                    </span>
+                </span> as the days turned into weeks.</p>
+                    <p class="korean-text">며칠이 몇 주로 바뀌면서 단서가 <span class="word-target-kr">부족해지고</span> 있었음에도 불구하고 그들은 희망을 <span class="word-target-kr">유지해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The <span class="word-link">scope
+                    <span class="word-tooltip">
+                        <strong>scope</strong><br>
+                        뜻: 범위
+                        <br>동의어: extent, range, space
+                    </span>
+                </span> of The Dwarf's operation was wider than they imagined, and the undercover officer had to adopt a <span class="word-link">shabby
+                    <span class="word-tooltip">
+                        <strong>shabby</strong><br>
+                        뜻: 초라한
+                        <br>동의어: ragged, beggarly, poor
+                    </span>
+                </span> appearance to blend in with the lower echelons of the art underworld.</p>
+                    <p class="korean-text">'그 난쟁이'의 작전 <span class="word-target-kr">범위</span>는 그들이 상상했던 것보다 넓었고, 잠복 경찰관은 미술계 암흑가의 하층민들과 어울리기 위해 <span class="word-target-kr">초라한</span> 모습을 해야 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">It was a <span class="word-link">short-lived
+                    <span class="word-tooltip">
+                        <strong>short-lived</strong><br>
+                        뜻: 단기간의
+                        <br>동의어: lasting for only short period
+                    </span>
+                </span> assignment for many before him who failed to <span class="word-link">solidify
+                    <span class="word-tooltip">
+                        <strong>solidify</strong><br>
+                        뜻: 결속시키다
+                        <br>동의어: unify, consolidate
+                    </span>
+                </span> their cover.</p>
+                    <p class="korean-text">그것은 위장을 <span class="word-target-kr">결속시키지</span> 못하고 실패했던 그 이전의 많은 사람들에게는 <span class="word-target-kr">단기간의</span> 임무였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The evidence needed to be <span class="word-link">substantial
+                    <span class="word-tooltip">
+                        <strong>substantial</strong><br>
+                        뜻: 튼튼한
+                        <br>동의어: strong, sturdy, solid
+                    </span>
+                </span> enough to ensure a conviction, as The Dwarf had a reputation for slipping through legal loopholes.</p>
+                    <p class="korean-text">'그 난쟁이'는 법적 허점을 빠져나가는 것으로 유명했기 때문에, 유죄 판결을 확실히 하기 위해서는 증거가 <span class="word-target-kr">튼튼해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A <span class="word-link">substantial
+                    <span class="word-tooltip">
+                        <strong>substantial</strong><br>
+                        뜻: 튼튼한
+                        <br>동의어: strong, sturdy, solid
+                    </span>
+                </span> amount of planning went into the final confrontation, which was set to occur in a seemingly <span class="word-link">vacant
+                    <span class="word-tooltip">
+                        <strong>vacant</strong><br>
+                        뜻: 텅 빈
+                        <br>동의어: empty, void, unoccupied
+                    </span>
+                </span> auction house.</p>
+                    <p class="korean-text">겉보기에는 <span class="word-target-kr">텅 빈</span> 경매장에서 벌어질 예정인 마지막 대결에는 <span class="word-target-kr">상당한</span> 양의 계획이 투입되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">This <span class="word-link">villain
+                    <span class="word-tooltip">
+                        <strong>villain</strong><br>
+                        뜻: 악당
+                        <br>동의어: rascal, scoundrel
+                    </span>
+                </span>, The Dwarf, was always <span class="word-link">wary of
+                    <span class="word-tooltip">
+                        <strong>wary of</strong><br>
+                        뜻: 조심(경계)하는
+                        <br>동의어: distrustful, cautious, watchful
+                    </span>
+                </span> traps, his paranoia as legendary as his heists.</p>
+                    <p class="korean-text">이 <span class="word-target-kr">악당</span>, '그 난쟁이'는 항상 함정을 <span class="word-target-kr">조심(경계)했고</span>, 그의 편집증은 그의 강도 행각만큼이나 전설적이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The only clue to his true identity was a <span class="word-link">shriveled
+                    <span class="word-tooltip">
+                        <strong>shriveled</strong><br>
+                        뜻: 시든
+                        <br>동의어: shriveled, withered, shrunken
+                    </span>
+                </span> rose he supposedly left at each crime scene, a peculiar calling card.</p>
+                    <p class="korean-text">그의 진짜 정체에 대한 유일한 단서는 그가 각 범죄 현장에 남겼다고 알려진 <span class="word-target-kr">시든</span> 장미 한 송이, 기묘한 명함이었다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,558 @@
+{
+    "stories": [
+        {
+            "chapter_title": "The Forsaken Mission",
+            "chapter_num": 0,
+            "story_sentences": [
+                {
+                    "english": "Agent Leo received the gut-wrenching order: he had to <word id='_abandon' class='word-eng-link'>abandon</word> his long-term post.",
+                    "korean": "요원 레오는 가슴 아픈 명령을 받았다: 그는 오랜 기간 지켜온 그의 주둔지를 <word id='_abandon' class='word-target-kr'>버려야</word> 했다."
+                },
+                {
+                    "english": "A slow-acting poison coursed through his veins, and his only hope was a rumored <word id='_antidote' class='word-eng-link'>antidote</word>.",
+                    "korean": "느리게 작용하는 독이 그의 혈관을 타고 흘렀고, 그의 유일한 희망은 소문으로만 듣던 <word id='_antidote' class='word-target-kr'>치료법</word>이었다."
+                },
+                {
+                    "english": "A message, left on his screen, was both cryptic and <word id='_conspicuous' class='word-eng-link'>conspicuous</word> in the silent command center.",
+                    "korean": "그의 화면에 남겨진 메시지는 암호 같았지만, 조용한 지휘 본부 안에서 <word id='_conspicuous' class='word-target-kr'>눈에 잘 띄었다</word>."
+                },
+                {
+                    "english": "This was a <word id='_critical' class='word-eng-link'>critical</word> moment; every decision could mean life or death.",
+                    "korean": "이것은 <word id='_critical' class='word-target-kr'>중요한</word> 순간이었다; 모든 결정이 삶과 죽음을 의미할 수 있었다."
+                },
+                {
+                    "english": "He had to quickly <word id='_discriminate' class='word-eng-link'>discriminate</word> between allies and the traitors within his own agency.",
+                    "korean": "그는 자신의 기관 내 동료들과 배신자들을 신속하게 <word id='_discriminate' class='word-target-kr'>구별해야</word> 했다."
+                },
+                {
+                    "english": "The file on his desk mentioned a project related to a cybernetic creature's <word id='_dorsal' class='word-eng-link'>dorsal</word> armor.",
+                    "korean": "그의 책상 위 파일에는 사이버네틱 생물의 <word id='_dorsal' class='word-target-kr'>등 부분의</word> 갑옷과 관련된 프로젝트가 언급되어 있었다."
+                },
+                {
+                    "english": "His new, unauthorized mission was to <word id='_eliminate' class='word-eng-link'>eliminate</word> the cell responsible for the poison and <word id='_fuse' class='word-eng-link'>fuse</word> the two pieces of intel he possessed.",
+                    "korean": "그의 새로운, 승인되지 않은 임무는 독을 만든 조직을 <word id='_eliminate' class='word-target-kr'>제거하고</word> 그가 가진 두 개의 정보를 <word id='_fuse' class='word-target-kr'>결합하는</word> 것이었다."
+                },
+                {
+                    "english": "Their base was located in the remote <word id='_hinterland' class='word-eng-link'>hinterland</word>, far from any city.",
+                    "korean": "그들의 기지는 어떤 도시로부터도 멀리 떨어진 외딴 <word id='_hinterland' class='word-target-kr'>배후지</word>에 위치해 있었다."
+                },
+                {
+                    "english": "He made one last, <word id='_earnest' class='word-eng-link'>earnest</word> call to his only trusted contact, Anya.",
+                    "korean": "그는 그의 유일하게 신뢰하는 연락책인 아냐에게 마지막으로 <word id='_earnest' class='word-target-kr'>진지한</word> 전화를 걸었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Weight of Data",
+            "chapter_num": 1,
+            "story_sentences": [
+                {
+                    "english": "Leo felt a deep sense of <word id='_kinship' class='word-eng-link'>kinship</word> with Anya, a bond forged in past missions.",
+                    "korean": "레오는 과거 임무에서 형성된 유대감, 아냐에 대한 깊은 <word id='_kinship' class='word-target-kr'>혈연 관계</word>와도 같은 감정을 느꼈다."
+                },
+                {
+                    "english": "She sent him a secure drive, <word id='_laden' class='word-eng-link'>laden</word> with the Syndicate's encrypted files.",
+                    "korean": "그녀는 그에게 신디케이트의 암호화된 파일이 <word id='_laden' class='word-target-kr'>(짐처럼) 실은</word> 보안 드라이브를 보냈다."
+                },
+                {
+                    "english": "He found a piece of <word id='_lumber' class='word-eng-link'>lumber</word> with strange markings near the pickup point.",
+                    "korean": "그는 수령 지점 근처에서 이상한 표시가 있는 <word id='_lumber' class='word-target-kr'>목재</word> 조각을 발견했다."
+                },
+                {
+                    "english": "The decoded files would surely <word id='_mirror' class='word-eng-link'>mirror</word> the enemy's twisted ambitions.",
+                    "korean": "해독된 파일들은 분명 적의 뒤틀린 야망을 <word id='_mirror' class='word-target-kr'>반영할</word> 것이었다."
+                },
+                {
+                    "english": "Their trust was <word id='_mutual' class='word-eng-link'>mutual</word>, an unspoken agreement in a world of lies.",
+                    "korean": "그들의 신뢰는 거짓의 세계에서 무언의 합의인, <word id='_mutual' class='word-target-kr'>상호간의</word> 것이었다."
+                },
+                {
+                    "english": "With the data, the formula for the antidote was finally <word id='_obtainable' class='word-eng-link'>obtainable</word>.",
+                    "korean": "그 데이터 덕분에, 해독제 공식은 마침내 <word id='_obtainable' class='word-target-kr'>손에 넣을 수 있는</word> 것이 되었다."
+                },
+                {
+                    "english": "He had to quickly <word id='_patch' class='word-eng-link'>patch</word> a gash on his arm from a recent skirmish.",
+                    "korean": "그는 최근의 작은 접전에서 생긴 팔의 깊은 상처를 재빨리 <word id='_patch' class='word-target-kr'>수선해야</word> 했다."
+                },
+                {
+                    "english": "He knew Anya would <word id='_protest' class='word-eng-link'>protest</word> his next move, but he had no choice.",
+                    "korean": "그는 아냐가 그의 다음 행동에 <word id='_protest' class='word-target-kr'>항의할</word> 것을 알았지만, 선택의 여지가 없었다."
+                },
+                {
+                    "english": "It was a <word id='_rash' class='word-eng-link'>rash</word> plan, but time was running out. He could only hope to <word id='_recall' class='word-eng-link'>recall</word> the exact layout of the base.",
+                    "korean": "그것은 <word id='_rash' class='word-target-kr'>경솔한</word> 계획이었지만, 시간이 얼마 남지 않았다. 그는 기지의 정확한 배치를 <word id='_recall' class='word-target-kr'>회상하기</word>를 바랄 뿐이었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Whispering Past",
+            "chapter_num": 2,
+            "story_sentences": [
+                {
+                    "english": "As he prepared, Leo began to <word id='_recite' class='word-eng-link'>recite</word> old training protocols to focus his mind.",
+                    "korean": "준비를 하면서, 레오는 마음을 집중하기 위해 오래된 훈련 규범을 <word id='_recite' class='word-target-kr'>암송하기</word> 시작했다."
+                },
+                {
+                    "english": "He needed to <word id='_regain' class='word-eng-link'>regain</word> his strength before the infiltration.",
+                    "korean": "그는 잠입 전에 그의 힘을 <word id='_regain' class='word-target-kr'>되찾을</word> 필요가 있었다."
+                },
+                {
+                    "english": "Anya's data would <word id='_reinforce' class='word-eng-link'>reinforce</word> his suspicions about a mole in the agency.",
+                    "korean": "아냐의 데이터는 기관 내의 첩자에 대한 그의 의심을 <word id='_reinforce' class='word-target-kr'>강화할</word> 것이었다."
+                },
+                {
+                    "english": "Every piece of information was <word id='_relevant_to' class='word-eng-link'>relevant to</word> his survival.",
+                    "korean": "모든 정보 조각은 그의 생존과 <word id='_relevant_to' class='word-target-kr'>관련된</word> 것이었다."
+                },
+                {
+                    "english": "He took a moment to <word id='_reminisce' class='word-eng-link'>reminisce</word> about a simpler time, a luxury he couldn't afford.",
+                    "korean": "그는 잠시 더 단순했던 시절을 <word id='_reminisce' class='word-target-kr'>추억해볼</word> 여유를 가졌지만, 그것은 그에게 사치였다."
+                },
+                {
+                    "english": "He would not live to <word id='_repent' class='word-eng-link'>repent</word> his actions; he had to succeed.",
+                    "korean": "그는 그의 행동을 <word id='_repent' class='word-target-kr'>후회하기</word> 위해 살지는 않을 것이었다; 그는 성공해야만 했다."
+                },
+                {
+                    "english": "He had to formally <word id='_resign' class='word-eng-link'>resign</word> from his duty to pursue this path, a fact that pained him.",
+                    "korean": "그는 이 길을 추구하기 위해 그의 임무를 공식적으로 <word id='_resign' class='word-target-kr'>포기해야</word> 했고, 그 사실이 그를 고통스럽게 했다."
+                },
+                {
+                    "english": "The cybernetic creature was designed to <word id='_secrete' class='word-eng-link'>secrete</word> the very poison he was fighting.",
+                    "korean": "그 사이버네틱 생물은 그가 싸우고 있는 바로 그 독을 <word id='_secrete' class='word-target-kr'>분비하도록</word> 설계되었다."
+                },
+                {
+                    "english": "He found a small herb that could <word id='_soothe' class='word-eng-link'>soothe</word> the burning sensation on his skin and decided to <word id='_stay' class='word-eng-link'>stay</word> hidden until nightfall.",
+                    "korean": "그는 피부의 타는 듯한 감각을 <word id='_soothe' class='word-target-kr'>달래줄</word> 수 있는 작은 약초를 발견했고, 해가 질 때까지 숨어서 <word id='_stay' class='word-target-kr'>머무르기</word>로 결정했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Unseen Balance",
+            "chapter_num": 3,
+            "story_sentences": [
+                {
+                    "english": "The lab had a <word id='_surplus' class='word-eng-link'>surplus</word> of chemicals, making it highly volatile.",
+                    "korean": "연구실에는 <word id='_surplus' class='word-target-kr'>나머지</word> 화학 물질이 많아 매우 불안정했다."
+                },
+                {
+                    "english": "Leo felt a <word id='_tear' class='word-eng-link'>tear</word> in the fabric of his reality, a profound sense of loss.",
+                    "korean": "레오는 그의 현실 구조에 <word id='_tear' class='word-target-kr'>찢어짐</word>을, 깊은 상실감을 느꼈다."
+                },
+                {
+                    "english": "He had to <word id='_swear' class='word-eng-link'>swear</word> to himself that he would see this through to the end.",
+                    "korean": "그는 이것을 끝까지 해내겠다고 스스로에게 <word id='_swear' class='word-target-kr'>맹세해야</word> 했다."
+                },
+                {
+                    "english": "The edge of the facility was lined with a <word id='_toothed' class='word-eng-link'>toothed</word> metal fence.",
+                    "korean": "시설 가장자리는 <word id='_toothed' class='word-target-kr'>들쑥날쑥한</word> 금속 울타리로 둘러싸여 있었다."
+                },
+                {
+                    "english": "The Syndicate's goal was to <word id='_transform' class='word-eng-link'>transform</word> ordinary citizens into mindless puppets.",
+                    "korean": "신디케이트의 목표는 평범한 시민들을 생각 없는 꼭두각시로 <word id='_transform' class='word-target-kr'>변형시키는</word> 것이었다."
+                },
+                {
+                    "english": "Anya was the only person he knew was completely <word id='_trustworthy' class='word-eng-link'>trustworthy</word>.",
+                    "korean": "아냐는 그가 알기에 완전히 <word id='_trustworthy' class='word-target-kr'>믿을 수 있는</word> 유일한 사람이었다."
+                },
+                {
+                    "english": "The power dynamic in the region had become dangerously <word id='_unbalanced' class='word-eng-link'>unbalanced</word>.",
+                    "korean": "그 지역의 권력 역학은 위험할 정도로 <word id='_unbalanced' class='word-target-kr'>균형을 잃게</word> 되었다."
+                },
+                {
+                    "english": "The Syndicate's pursuit of him was <word id='_unrelenting' class='word-eng-link'>unrelenting</word>.",
+                    "korean": "그에 대한 신디케이트의 추격은 <word id='_unrelenting' class='word-target-kr'>무자비했다</word>."
+                },
+                {
+                    "english": "Their approach was cold and <word id='_utilitarian' class='word-eng-link'>utilitarian</word>, seeing people only as tools.",
+                    "korean": "그들의 접근 방식은 사람들을 단지 도구로만 보는, 차갑고 <word id='_utilitarian' class='word-target-kr'>실용주의의</word> 것이었다."
+                },
+                {
+                    "english": "He discovered a great <word id='_variety' class='word-eng-link'>variety</word> of flora in the hinterland, one of which held the key to the antidote.",
+                    "korean": "그는 그 배후지에서 엄청난 <word id='_variety' class='word-target-kr'>다양성</word>의 식물군을 발견했고, 그 중 하나가 해독제의 열쇠를 쥐고 있었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Root of Betrayal",
+            "chapter_num": 4,
+            "story_sentences": [
+                {
+                    "english": "Another <word id='_variety2' class='word-eng-link'>variety</word> of plant was used to create the poison itself.",
+                    "korean": "또 다른 <word id='_variety2' class='word-target-kr'>종류</word>의 식물이 독 자체를 만드는 데 사용되었다."
+                },
+                {
+                    "english": "The main <word id='_advantage' class='word-eng-link'>advantage</word> he had was the element of surprise.",
+                    "korean": "그가 가진 주된 <word id='_advantage' class='word-target-kr'>이익</word>은 기습이라는 요소였다."
+                },
+                {
+                    "english": "The conspiracy seemed to <word id='_arise_from' class='word-eng-link'>arise from</word> the highest levels of government.",
+                    "korean": "그 음모는 정부의 최고위층<word id='_arise_from' class='word-target-kr'>에서 기인하는</word> 것 같았다."
+                },
+                {
+                    "english": "He had to get past a significant security <word id='_bar' class='word-eng-link'>bar</word> at the entrance.",
+                    "korean": "그는 입구에 있는 상당한 보안 <word id='_bar' class='word-target-kr'>장애물</word>을 통과해야 했다."
+                },
+                {
+                    "english": "He couldn't believe a trusted colleague would <word id='_betray' class='word-eng-link'>betray</word> the agency.",
+                    "korean": "그는 신뢰하던 동료가 기관을 <word id='_betray' class='word-target-kr'>배신할</word> 것이라고 믿을 수 없었다."
+                },
+                {
+                    "english": "He used a special rope to <word id='_bind' class='word-eng-link'>bind</word> the gate controls, keeping them open.",
+                    "korean": "그는 문 제어 장치를 <word id='_bind' class='word-target-kr'>묶어</word> 계속 열려 있도록 하는 데 특별한 밧줄을 사용했다."
+                },
+                {
+                    "english": "The poison was designed to slowly <word id='_blur' class='word-eng-link'>blur</word> the victim's memory.",
+                    "korean": "그 독은 희생자의 기억을 서서히 <word id='_blur' class='word-target-kr'>흐리게 하도록</word> 설계되었다."
+                },
+                {
+                    "english": "He found a way to <word id='_circumvent' class='word-eng-link'>circumvent</word> the main patrol route.",
+                    "korean": "그는 주 순찰 경로를 <word id='_circumvent' class='word-target-kr'>우회할</word> 방법을 찾았다."
+                },
+                {
+                    "english": "His movements, usually precise, felt <word id='_clumsy' class='word-eng-link'>clumsy</word> due to the poison's effects.",
+                    "korean": "평소에는 정확했던 그의 움직임이 독의 효과 때문에 <word id='_clumsy' class='word-target-kr'>서투르게</word> 느껴졌다."
+                },
+                {
+                    "english": "The final phase of his plan was about to <word id='_commence' class='word-eng-link'>commence</word>.",
+                    "korean": "그의 계획의 마지막 단계가 막 <word id='_commence' class='word-target-kr'>시작되려</word> 하고 있었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "Paradox of Trust",
+            "chapter_num": 5,
+            "story_sentences": [
+                {
+                    "english": "His every <word id='_conduct' class='word-eng-link'>conduct</word> from now on had to be flawless.",
+                    "korean": "지금부터 그의 모든 <word id='_conduct' class='word-target-kr'>행동</word>은 흠잡을 데 없어야 했다."
+                },
+                {
+                    "english": "He had to <word id='_conserve' class='word-eng-link'>conserve</word> his energy for the final confrontation.",
+                    "korean": "그는 마지막 대결을 위해 에너지를 <word id='_conserve' class='word-target-kr'>보존해야</word> 했다."
+                },
+                {
+                    "english": "The traitor's loyalty to the agency was a complete <word id='_contradiction' class='word-eng-link'>contradiction</word>.",
+                    "korean": "배신자의 기관에 대한 충성심은 완전한 <word id='_contradiction' class='word-target-kr'>모순</word>이었다."
+                },
+                {
+                    "english": "He hoped his efforts would <word id='_culminate' class='word-eng-link'>culminate</word> in the Syndicate's downfall.",
+                    "korean": "그는 그의 노력이 신디케이트의 몰락<word id='_culminate' class='word-target-kr'>으로 끝나기</word>를 바랐다."
+                },
+                {
+                    "english": "The blueprints helped him <word id='_delineate' class='word-eng-link'>delineate</word> the safest path through the facility.",
+                    "korean": "청사진은 그가 시설을 통과하는 가장 안전한 경로의 <word id='_delineate' class='word-target-kr'>윤곽을 그리도록</word> 도왔다."
+                },
+                {
+                    "english": "He discovered the Syndicate was funded by a large, anonymous <word id='_donation' class='word-eng-link'>donation</word>.",
+                    "korean": "그는 신디케이트가 거액의 익명 <word id='_donation' class='word-target-kr'>기증</word>으로 자금을 지원받았다는 것을 발견했다."
+                },
+                {
+                    "english": "He was ready to <word id='_embark_on' class='word-eng-link'>embark on</word> the most dangerous part of his mission.",
+                    "korean": "그는 임무의 가장 위험한 부분에 <word id='_embark_on' class='word-target-kr'>착수할</word> 준비가 되어 있었다."
+                },
+                {
+                    "english": "The Syndicate's entire operation was built on a <word id='_foundation' class='word-eng-link'>foundation</word> of lies.",
+                    "korean": "신디케이트의 모든 작전은 거짓의 <word id='_foundation' class='word-target-kr'>기초</word> 위에 세워졌다."
+                },
+                {
+                    "english": "Understanding their motive was <word id='_fundamental' class='word-eng-link'>fundamental</word> to stopping them.",
+                    "korean": "그들의 동기를 이해하는 것은 그들을 막는 데 <word id='_fundamental' class='word-target-kr'>근본적인</word> 것이었다."
+                },
+                {
+                    "english": "Only a <word id='_handful' class='word-eng-link'>handful</word> of people knew the full truth.",
+                    "korean": "오직 <word id='_handful' class='word-target-kr'>소수의</word> 사람들만이 모든 진실을 알고 있었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Apex of Deceit",
+            "chapter_num": 6,
+            "story_sentences": [
+                {
+                    "english": "Leo reached the <word id='_height' class='word-eng-link'>height</word> of the main tower, where the central computer was located.",
+                    "korean": "레오는 중앙 컴퓨터가 위치한 주 타워의 <word id='_height' class='word-target-kr'>절정</word>에 도달했다."
+                },
+                {
+                    "english": "He found two data chips that were completely <word id='_identical' class='word-eng-link'>identical</word>, one of which was a trap.",
+                    "korean": "그는 완전히 <word id='_identical' class='word-target-kr'>동일한</word> 두 개의 데이터 칩을 발견했고, 그 중 하나는 함정이었다."
+                },
+                {
+                    "english": "The poison was a major <word id='_impediment' class='word-eng-link'>impediment</word> to his physical abilities.",
+                    "korean": "독은 그의 신체 능력에 주요한 <word id='_impediment' class='word-target-kr'>장애</word>였다."
+                },
+                {
+                    "english": "He had to <word id='_justify' class='word-eng-link'>justify</word> his rogue actions by exposing the whole truth.",
+                    "korean": "그는 모든 진실을 폭로함으로써 자신의 독단적인 행동을 <word id='_justify' class='word-target-kr'>증명해야</word> 했다."
+                },
+                {
+                    "english": "He could only <word id='_lament' class='word-eng-link'>lament</word> the colleagues he had lost to the conspiracy.",
+                    "korean": "그는 음모로 잃은 동료들을 그저 <word id='_lament' class='word-target-kr'>슬퍼할</word> 수밖에 없었다."
+                },
+                {
+                    "english": "The poison was derived from a genetically engineered <word id='_microorganism' class='word-eng-link'>microorganism</word>.",
+                    "korean": "그 독은 유전적으로 조작된 <word id='_microorganism' class='word-target-kr'>미생물</word>에서 유래되었다."
+                },
+                {
+                    "english": "The files revealed the lead scientist was notoriously <word id='_moody' class='word-eng-link'>moody</word> and unstable.",
+                    "korean": "파일들은 수석 과학자가 악명 높게 <word id='_moody' class='word-target-kr'>우울하고</word> 불안정하다는 것을 드러냈다."
+                },
+                {
+                    "english": "He finally found the <word id='_origin' class='word-eng-link'>origin</word> of the conspiracy: a disgraced former agent.",
+                    "korean": "그는 마침내 음모의 <word id='_origin' class='word-target-kr'>근원</word>을 찾았다: 불명예를 안은 전직 요원."
+                },
+                {
+                    "english": "He couldn't <word id='_predict' class='word-eng-link'>predict</word> the former agent's next move.",
+                    "korean": "그는 그 전직 요원의 다음 움직임을 <word id='_predict' class='word-target-kr'>예측할</word> 수 없었다."
+                },
+                {
+                    "english": "Despite the setbacks, he was making steady <word id='_progress' class='word-eng-link'>progress</word> toward his goal.",
+                    "korean": "좌절에도 불구하고, 그는 목표를 향해 꾸준한 <word id='_progress' class='word-target-kr'>발전</word>을 이루고 있었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Price of Victory",
+            "chapter_num": 7,
+            "story_sentences": [
+                {
+                    "english": "Leo used a small device to <word id='_scoop' class='word-eng-link'>scoop</word> up a sample of the antidote.",
+                    "korean": "레오는 해독제 샘플을 <word id='_scoop' class='word-target-kr'>긁어 모으기</word> 위해 작은 장치를 사용했다."
+                },
+                {
+                    "english": "He had to <word id='_score' class='word-eng-link'>score</word> a victory against the Syndicate to save countless lives.",
+                    "korean": "그는 수많은 생명을 구하기 위해 신디케이트를 상대로 승리를 <word id='_score' class='word-target-kr'>얻어야</word> 했다."
+                },
+                {
+                    "english": "He found a torn musical <word id='_score2' class='word-eng-link'>score</word> that contained a hidden code.",
+                    "korean": "그는 숨겨진 코드가 담긴 찢어진 음악 <word id='_score2' class='word-target-kr'>악보</word>를 발견했다."
+                },
+                {
+                    "english": "A tiny <word id='_scrap' class='word-eng-link'>scrap</word> of paper held the final password.",
+                    "korean": "아주 작은 종이 <word id='_scrap' class='word-target-kr'>파편</word>에 마지막 암호가 적혀 있었다."
+                },
+                {
+                    "english": "This mission felt <word id='_singularly' class='word-eng-link'>singularly</word> personal and important.",
+                    "korean": "이 임무는 <word id='_singularly' class='word-target-kr'>각별히</word> 개인적이고 중요하게 느껴졌다."
+                },
+                {
+                    "english": "He was a highly <word id='_skilled' class='word-eng-link'>skilled</word> operative, but the odds were against him.",
+                    "korean": "그는 매우 <word id='_skilled' class='word-target-kr'>숙련된</word> 요원이었지만, 승산은 그에게 불리했다."
+                },
+                {
+                    "english": "The code was hidden in the word <word id='_stem' class='word-eng-link'>stem</word> of a botanical document.",
+                    "korean": "코드는 식물학 문서의 단어 <word id='_stem' class='word-target-kr'>어간</word>에 숨겨져 있었다."
+                },
+                {
+                    "english": "He had to find a way to <word id='_stem2' class='word-eng-link'>stem</word> the flow of reinforcements. He knew this problem would <word id='_stem3' class='word-eng-link'>stem</word> from their advanced alert system.",
+                    "korean": "그는 증원군의 흐름을 <word id='_stem2' class='word-target-kr'>막을</word> 방법을 찾아야 했다. 그는 이 문제가 그들의 발전된 경보 시스템에서 <word id='_stem3' class='word-target-kr'>유래할</word> 것임을 알고 있었다."
+                },
+                {
+                    "english": "He was determined to <word id='_subdue' class='word-eng-link'>subdue</word> the rogue agent and bring him to justice.",
+                    "korean": "그는 그 불량 요원을 <word id='_subdue' class='word-target-kr'>정복하고</word> 그를 정의의 심판대에 세우기로 결심했다."
+                },
+                {
+                    "english": "He discovered that his own agency refused to <word id='_subsidize' class='word-eng-link'>subsidize</word> any rescue attempt for him, confirming the betrayal.",
+                    "korean": "그는 자신의 기관이 그에 대한 어떠한 구조 시도도 <word id='_subsidize' class='word-target-kr'>후원하기</word>를 거부했다는 사실을 발견했고, 이는 배신을 확신케 했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "Echoes of Unanimity",
+            "chapter_num": 8,
+            "story_sentences": [
+                {
+                    "english": "The old council's decision to disband the program had lacked <word id='_unanimity' class='word-eng-link'>unanimity</word>, leading to this crisis.",
+                    "korean": "프로그램을 해체하기로 한 옛 위원회의 결정은 <word id='_unanimity' class='word-target-kr'>(만장) 일치</word>가 부족했고, 이 위기를 초래했다."
+                },
+                {
+                    "english": "The poison was an <word id='_alloy' class='word-eng-link'>alloy</word> of organic toxins and metallic nanoparticles.",
+                    "korean": "그 독은 유기 독소와 금속성 나노 입자의 <word id='_alloy' class='word-target-kr'>혼합물</word>이었다."
+                },
+                {
+                    "english": "He had <word id='_barely' class='word-eng-link'>barely</word> escaped the initial trap set for him.",
+                    "korean": "그는 자신을 위해 설치된 초기 함정에서 <word id='_barely' class='word-target-kr'>거의</word> 탈출하지 못할 뻔했다."
+                },
+                {
+                    "english": "The scientist had been held in <word id='_captivity' class='word-eng-link'>captivity</word> for months, forced to work.",
+                    "korean": "그 과학자는 몇 달 동안 <word id='_captivity' class='word-target-kr'>속박</word> 상태로 붙잡혀 강제로 일해야 했다."
+                },
+                {
+                    "english": "Leo felt the cold <word id='_clasp' class='word-eng-link'>clasp</word> of fear, but he pushed it aside.",
+                    "korean": "레오는 두려움의 차가운 <word id='_clasp' class='word-target-kr'>움켜쥠</word>을 느꼈지만, 그것을 밀어냈다."
+                },
+                {
+                    "english": "The <word id='_cohesion' class='word-eng-link'>cohesion</word> of the Syndicate's followers was disturbingly strong.",
+                    "korean": "신디케이트 추종자들의 <word id='_cohesion' class='word-target-kr'>결속력</word>은 불안할 정도로 강했다."
+                },
+                {
+                    "english": "His arrival was set to <word id='_coincide' class='word-eng-link'>coincide</word> with a major system reboot.",
+                    "korean": "그의 도착은 주요 시스템 재부팅과 <word id='_coincide' class='word-target-kr'>동시에 일어나도록</word> 설정되었다."
+                },
+                {
+                    "english": "His views on justice did not <word id='_coincide2' class='word-eng-link'>coincide</word> with the agency's anymore.",
+                    "korean": "정의에 대한 그의 견해는 더 이상 기관의 견해와 <word id='_coincide2' class='word-target-kr'>의견이 일치하지</word> 않았다."
+                },
+                {
+                    "english": "The Syndicate was planning a <word id='_colossal' class='word-eng-link'>colossal</word> attack on a major city.",
+                    "korean": "신디케이트는 주요 도시에 대한 <word id='_colossal' class='word-target-kr'>거대한</word> 공격을 계획하고 있었다."
+                },
+                {
+                    "english": "The amount of data to analyze was <word id='_considerable' class='word-eng-link'>considerable</word>.",
+                    "korean": "분석해야 할 데이터의 양은 <word id='_considerable' class='word-target-kr'>상당했다</word>."
+                }
+            ]
+        },
+        {
+            "chapter_title": "Converging Fates",
+            "chapter_num": 9,
+            "story_sentences": [
+                {
+                    "english": "The risk involved was <word id='_considerable2' class='word-eng-link'>considerable</word>, but necessary.",
+                    "korean": "수반되는 위험은 <word id='_considerable2' class='word-target-kr'>중요했지만</word> 필요했다."
+                },
+                {
+                    "english": "All clues began to <word id='_converge' class='word-eng-link'>converge</word> on one suspect: the former agent.",
+                    "korean": "모든 단서가 한 명의 용의자, 즉 전직 요원에게로 <word id='_converge' class='word-target-kr'>집중되기</word> 시작했다."
+                },
+                {
+                    "english": "In the medical bay, he saw the <word id='_corpse' class='word-eng-link'>corpse</word> of the scientist, a victim of the Syndicate's cruelty.",
+                    "korean": "의무실에서 그는 신디케이트의 잔혹함의 희생자인 과학자의 <word id='_corpse' class='word-target-kr'>시체</word>를 보았다."
+                },
+                {
+                    "english": "The rogue agent seemed to <word id='_covet' class='word-eng-link'>covet</word> power above all else.",
+                    "korean": "그 불량 요원은 다른 무엇보다도 권력을 <word id='_covet' class='word-target-kr'>갈망하는</word> 것 같았다."
+                },
+                {
+                    "english": "The scientist's only <word id='_defection' class='word-eng-link'>defection</word> was a small, hidden journal of his work.",
+                    "korean": "과학자의 유일한 <word id='_defection' class='word-target-kr'>결점</word>은 그의 작업에 대한 작고 숨겨진 일지였다."
+                },
+                {
+                    "english": "The agent's <word id='_defection2' class='word-eng-link'>defection</word> to the Syndicate was the ultimate betrayal.",
+                    "korean": "그 요원의 신디케이트로의 <word id='_defection2' class='word-target-kr'>배반</word>은 궁극적인 배신이었다."
+                },
+                {
+                    "english": "The Syndicate's plan was to <word id='_deprive' class='word-eng-link'>deprive</word> the world of its leaders.",
+                    "korean": "신디케이트의 계획은 세상의 지도자들을 <word id='_deprive' class='word-target-kr'>박탈하는</word> 것이었다."
+                },
+                {
+                    "english": "The work was repetitive and <word id='_dull' class='word-eng-link'>dull</word>, but it had to be done.",
+                    "korean": "그 작업은 반복적이고 <word id='_dull' class='word-target-kr'>지루했지만</word>, 해야만 했다."
+                },
+                {
+                    "english": "His <word id='_endeavor' class='word-eng-link'>endeavor</word> to find the truth was all that mattered.",
+                    "korean": "진실을 찾으려는 그의 <word id='_endeavor' class='word-target-kr'>노력</word>이 전부였다."
+                },
+                {
+                    "english": "A <word id='_flock' class='word-eng-link'>flock</word> of birds scattered as he approached the hidden entrance.",
+                    "korean": "그가 숨겨진 입구에 접근하자 새 <word id='_flock' class='word-target-kr'>무리</word>가 흩어졌다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "A Grant of Mercy",
+            "chapter_num": 10,
+            "story_sentences": [
+                {
+                    "english": "The old agent he once knew had been <word id='_generous' class='word-eng-link'>generous</word> and kind.",
+                    "korean": "그가 한때 알았던 늙은 요원은 <word id='_generous' class='word-target-kr'>관대하고</word> 친절했다."
+                },
+                {
+                    "english": "He decided to <word id='_grant' class='word-eng-link'>grant</word> the captive scientist a quick, merciful end.",
+                    "korean": "그는 포로로 잡힌 과학자에게 빠르고 자비로운 끝을 <word id='_grant' class='word-target-kr'>주기</word>로 결정했다."
+                },
+                {
+                    "english": "He had to <word id='_hustle' class='word-eng-link'>hustle</word> to get through the corridors before the guard change.",
+                    "korean": "그는 경비 교대 전에 복도를 통과하기 위해 <word id='_hustle' class='word-target-kr'>서둘러야</word> 했다."
+                },
+                {
+                    "english": "He had to <word id='_hustle2' class='word-eng-link'>hustle</word> a heavy cart to block the doorway.",
+                    "korean": "그는 출입구를 막기 위해 무거운 카트를 <word id='_hustle2' class='word-target-kr'>밀어야</word> 했다."
+                },
+                {
+                    "english": "He found an <word id='_intermediate' class='word-eng-link'>intermediate</word> version of the antidote; it wasn't perfect, but it would buy him time.",
+                    "korean": "그는 해독제의 <word id='_intermediate' class='word-target-kr'>중간</word> 버전을 발견했다; 완벽하지는 않았지만 시간을 벌어줄 것이었다."
+                },
+                {
+                    "english": "The rogue agent was <word id='_intolerant' class='word-eng-link'>intolerant</word> of any failure from his subordinates.",
+                    "korean": "그 불량 요원은 부하들의 어떤 실패도 <word id='_intolerant' class='word-target-kr'>옹졸하게</word> 용납하지 않았다."
+                },
+                {
+                    "english": "Leo remembered his mentor as a <word id='_kind' class='word-eng-link'>kind</word> man, making the betrayal even more painful.",
+                    "korean": "레오는 그의 멘토를 <word id='_kind' class='word-target-kr'>친절한</word> 사람으로 기억했고, 이는 배신을 더욱 고통스럽게 만들었다."
+                },
+                {
+                    "english": "The facility was on the <word id='_limit' class='word-eng-link'>limit</word> of their jurisdiction.",
+                    "korean": "그 시설은 그들의 관할권 <word id='_limit' class='word-target-kr'>경계</word>에 있었다."
+                },
+                {
+                    "english": "The agency decided to <word id='_limit2' class='word-eng-link'>limit</word> his access to sensitive files.",
+                    "korean": "기관은 그의 민감한 파일에 대한 접근을 <word id='_limit2' class='word-target-kr'>제한하기</word>로 결정했다."
+                },
+                {
+                    "english": "He operated on the <word id='_margin' class='word-eng-link'>margin</word> of the law.",
+                    "korean": "그는 법의 <word id='_margin' class='word-target-kr'>가장자리</word>에서 활동했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The People's Will",
+            "chapter_num": 11,
+            "story_sentences": [
+                {
+                    "english": "The local people formed a <word id='_militia' class='word-eng-link'>militia</word> to defend their homes from the Syndicate.",
+                    "korean": "지역 주민들은 신디케이트로부터 자신들의 집을 지키기 위해 <word id='_militia' class='word-target-kr'>시민군</word>을 결성했다."
+                },
+                {
+                    "english": "<word id='_moreover' class='word-eng-link'>Moreover</word>, he discovered the mole's identity.",
+                    "korean": "<word id='_moreover' class='word-target-kr'>게다가</word>, 그는 첩자의 신원을 발견했다."
+                },
+                {
+                    "english": "It was <word id='_necessary' class='word-eng-link'>necessary</word> to leak the information to the public.",
+                    "korean": "그 정보를 대중에게 유출하는 것이 <word id='_necessary' class='word-target-kr'>필수적인</word> 일이었다."
+                },
+                {
+                    "english": "The Syndicate tried to <word id='_obstruct' class='word-eng-link'>obstruct</word> the investigation at every turn.",
+                    "korean": "신디케이트는 매번 조사를 <word id='_obstruct' class='word-target-kr'>막으려고</word> 시도했다."
+                },
+                {
+                    "english": "He made the decision to act <word id='_on_the_spot' class='word-eng-link'>on the spot</word>.",
+                    "korean": "그는 <word id='_on_the_spot' class='word-target-kr'>즉시</word> 행동하기로 결정했다."
+                },
+                {
+                    "english": "The official report on the incident was clearly <word id='_partial' class='word-eng-link'>partial</word> and incomplete.",
+                    "korean": "그 사건에 대한 공식 보고서는 명백히 <word id='_partial' class='word-target-kr'>편파적</word>이고 불완전했다."
+                },
+                {
+                    "english": "The scientist's last note was a <word id='_petition' class='word-eng-link'>petition</word> for someone to stop the project.",
+                    "korean": "과학자의 마지막 메모는 누군가 그 프로젝트를 멈춰달라는 <word id='_petition' class='word-target-kr'>간청</word>이었다."
+                },
+                {
+                    "english": "He found a <word id='_placid' class='word-eng-link'>placid</word> underground lake beneath the facility.",
+                    "korean": "그는 시설 아래에서 <word id='_placid' class='word-target-kr'>평온한</word> 지하 호수를 발견했다."
+                },
+                {
+                    "english": "The rock's <word id='_porosity' class='word-eng-link'>porosity</word> allowed it to filter the water naturally.",
+                    "korean": "그 암석의 <word id='_porosity' class='word-target-kr'>다공성</word>은 물을 자연적으로 여과시켰다."
+                },
+                {
+                    "english": "His final act was to <word id='_reform' class='word-eng-link'>reform</word> the broken system from within.",
+                    "korean": "그의 마지막 행동은 부서진 시스템을 내부에서부터 <word id='_reform' class='word-target-kr'>개정하는</word> 것이었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Final Stand",
+            "chapter_num": 12,
+            "story_sentences": [
+                {
+                    "english": "The enemy's defense was <word id='_rigid' class='word-eng-link'>rigid</word> and well-structured, but Leo found a flaw.",
+                    "korean": "적의 방어는 <word id='_rigid' class='word-target-kr'>단단하고</word> 잘 구조화되어 있었지만, 레오는 결함을 찾아냈다."
+                },
+                {
+                    "english": "The rogue agent was known for his <word id='_rigid2' class='word-eng-link'>rigid</word> adherence to his own twisted code of honor.",
+                    "korean": "그 불량 요원은 자신만의 뒤틀린 명예 규범에 대한 <word id='_rigid2' class='word-target-kr'>엄격한</word> 고수로 알려져 있었다."
+                }
+            ]
+        }
+    ]
+}

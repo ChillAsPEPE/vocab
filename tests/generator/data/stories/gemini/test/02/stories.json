@@ -1,0 +1,372 @@
+{
+    "stories": [
+        {
+            "chapter_title": "The Crimson Quill Connection",
+            "chapter_num": 0,
+            "story_sentences": [
+                {
+                    "english": "Detective Miles Corbin, a man known for his sharp instincts, met a new <word id='_acquaintance' class='word-eng-link'>acquaintance</word> in the dimly lit corner of a smoky jazz club.",
+                    "korean": "날카로운 직감으로 유명한 마일즈 코빈 형사는 희미한 조명의 연기 자욱한 재즈 클럽 구석에서 새로운 <word id='_acquaintance' class='word-target-kr'>아는친구</word>를 만났다."
+                },
+                {
+                    "english": "His goal was to <word id='_acquire' class='word-eng-link'>acquire</word> information about a stolen artifact, the 'Crimson Quill'.",
+                    "korean": "그의 목표는 도난당한 유물 '크림슨 퀼'에 대한 정보를 <word id='_acquire' class='word-target-kr'>얻는</word> 것이었다."
+                },
+                {
+                    "english": "Miles showed no false <word id='_affection' class='word-eng-link'>affection</word>, only a straightforward desire for truth.",
+                    "korean": "마일스는 거짓된 <word id='_affection' class='word-target-kr'>애정</word>을 보이지 않고, 진실에 대한 솔직한 열망만을 드러냈다."
+                },
+                {
+                    "english": "After a tense negotiation, the informant seemed to <word id='_agree' class='word-eng-link'>agree</word> to share what he knew, for a price.",
+                    "korean": "긴장된 협상 끝에 정보원은 대가를 받고 자신이 아는 것을 공유하기로 <word id='_agree' class='word-target-kr'>동의하는</word> 듯했다."
+                },
+                {
+                    "english": "Miles had to remain <word id='_alert_adj' class='word-eng-link'>alert</word>; the informant was known for his deceptive ways.",
+                    "korean": "마일스는 계속 <word id='_alert_adj' class='word-target-kr'>경계해야</word> 했다; 그 정보원은 기만적인 수법으로 유명했기 때문이다."
+                },
+                {
+                    "english": "A sudden noise from the alleyway seemed to <word id='_alert_verb' class='word-eng-link'>alert</word> the informant, his eyes darting towards the exit.",
+                    "korean": "골목길에서 갑자기 들려온 소리가 정보원에게 <word id='_alert_verb' class='word-target-kr'>경고하는</word> 듯했고, 그의 눈은 출구를 향해 빠르게 움직였다."
+                },
+                {
+                    "english": "The promise of a hefty reward was meant to <word id='_allure' class='word-eng-link'>allure</word> him into full cooperation.",
+                    "korean": "두둑한 보상에 대한 약속은 그를 완전한 협력으로 <word id='_allure' class='word-target-kr'>유혹하기</word> 위한 것이었다."
+                },
+                {
+                    "english": "Any new piece of evidence could <word id='_amplify' class='word-eng-link'>amplify</word> their chances of recovering the Quill.",
+                    "korean": "어떤 새로운 증거라도 퀼을 되찾을 가능성을 <word id='_amplify' class='word-target-kr'>증폭시킬</word> 수 있었다."
+                },
+                {
+                    "english": "The case had felt <word id='_arid' class='word-eng-link'>arid</word> for weeks, devoid of any substantial leads until now.",
+                    "korean": "그 사건은 몇 주 동안 <word id='_arid' class='word-target-kr'>메마른</word> 상태였고, 지금까지 어떤 실질적인 단서도 없었다."
+                },
+                {
+                    "english": "Miles knew if they failed, his superiors would likely <word id='_ascribe' class='word-eng-link'>ascribe</word> the failure to his unconventional methods.",
+                    "korean": "마일스는 만약 실패한다면, 그의 상사들이 그 실패를 그의 비관습적인 방법 <word id='_ascribe' class='word-target-kr'>때문으로 돌릴</word> 것이라는 것을 알았다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "Shadows of Deceit",
+            "chapter_num": 1,
+            "story_sentences": [
+                {
+                    "english": "The informant, Silas, agreed to <word id='_compensate' class='word-eng-link'>compensate</word> for his previous silence with a crucial piece of a map.",
+                    "korean": "정보원 사일러스는 이전의 침묵을 중요한 지도 조각으로 <word id='_compensate' class='word-target-kr'>보상하기로</word> 했다."
+                },
+                {
+                    "english": "He began to <word id='_configure' class='word-eng-link'>configure</word> the torn pieces on the damp table, his hands trembling slightly.",
+                    "korean": "그는 축축한 테이블 위에 찢어진 조각들을 <word id='_configure' class='word-target-kr'>형태로 만들기</word> 시작했고, 그의 손은 약간 떨리고 있었다."
+                },
+                {
+                    "english": "Miles knew that relying on Silas was a <word id='_drastic' class='word-eng-link'>drastic</word> measure, but he was running out of time.",
+                    "korean": "마일스는 사일러스에게 의존하는 것이 <word id='_drastic' class='word-target-kr'>극단적인</word> 조치임을 알았지만, 시간이 부족했다."
+                },
+                {
+                    "english": "He tried not to <word id='_embarrass' class='word-eng-link'>embarrass</word> Silas by staring at his nervous fidgeting.",
+                    "korean": "그는 사일러스의 초조한 몸짓을 빤히 쳐다보아 그를 <word id='_embarrass' class='word-target-kr'>무안케 하지</word> 않으려고 애썼다."
+                },
+                {
+                    "english": "The map, if genuine, would <word id='_empower' class='word-eng-link'>empower</word> Miles to bypass the main security of the suspected thief.",
+                    "korean": "지도가 진짜라면, 마일스에게 용의자의 주요 보안을 우회할 <word id='_empower' class='word-target-kr'>자격을 줄</word> 것이었다."
+                },
+                {
+                    "english": "They arranged a secret <word id='_gathering' class='word-eng-link'>gathering</word> point near the old harbor to discuss the next steps.",
+                    "korean": "그들은 다음 단계를 논의하기 위해 오래된 항구 근처에 비밀 <word id='_gathering' class='word-target-kr'>모임</word> 장소를 정했다."
+                },
+                {
+                    "english": "Miles watched Silas <word id='_haul' class='word-eng-link'>haul</word> a heavy ledger from a hidden compartment in his coat, claiming it contained names.",
+                    "korean": "마일스는 사일러스가 그의 코트 안 비밀 칸에서 무거운 장부를 <word id='_haul' class='word-target-kr'>끌어내는</word> 것을 지켜보았는데, 그는 거기에 이름들이 적혀 있다고 주장했다."
+                },
+                {
+                    "english": "The ledger mentioned an <word id='_immediate' class='word-eng-link'>immediate</word> associate of the primary suspect, someone Miles hadn't considered.",
+                    "korean": "그 장부에는 주요 용의자의 <word id='_immediate' class='word-target-kr'>인접한</word> 공범, 마일스가 고려하지 않았던 누군가가 언급되어 있었다."
+                },
+                {
+                    "english": "This new information would significantly <word id='_increase' class='word-eng-link'>increase</word> the complexity of the surveillance required.",
+                    "korean": "이 새로운 정보는 필요한 감시의 복잡성을 상당히 <word id='_increase' class='word-target-kr'>늘릴</word> 것이었다."
+                },
+                {
+                    "english": "As Silas explained the ledger, a new, more dangerous suspect began to <word id='_loom' class='word-eng-link'>loom</word> in the investigation.",
+                    "korean": "사일러스가 장부를 설명하면서, 새롭고 더 위험한 용의자가 수사에서 <word id='_loom' class='word-target-kr'>어렴풋이 나타나기</word> 시작했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Collector's Gambit",
+            "chapter_num": 2,
+            "story_sentences": [
+                {
+                    "english": "The new suspect, known only as 'The Collector', was notorious for making his clients <word id='_overtax' class='word-eng-link'>overtax</word> their resources to acquire his illicit goods.",
+                    "korean": "'수집가'로만 알려진 새로운 용의자는 그의 불법적인 상품을 얻기 위해 의뢰인들에게 자원을 <word id='_overtax' class='word-target-kr'>지나치게 과세하게</word> 만드는 것으로 악명이 높았다."
+                },
+                {
+                    "english": "It seemed a <word id='_paradox' class='word-eng-link'>paradox</word> that someone so wealthy would risk it all for one more artifact.",
+                    "korean": "그렇게 부유한 누군가가 또 다른 유물 하나를 위해 모든 것을 걸다니, 그것은 <word id='_paradox' class='word-target-kr'>모순</word>처럼 보였다."
+                },
+                {
+                    "english": "His influence was <word id='_pervasive' class='word-eng-link'>pervasive</word>, reaching into many legitimate businesses to launder money.",
+                    "korean": "그의 영향력은 <word id='_pervasive' class='word-target-kr'>널리 퍼져</word> 있었고, 돈세탁을 위해 많은 합법적인 사업체에까지 미치고 있었다."
+                },
+                {
+                    "english": "The Collector found it <word id='_pleasing' class='word-eng-link'>pleasing</word> to control the flow of rare items, a game of power.",
+                    "korean": "수집가는 희귀한 물건들의 흐름을 통제하는 것을 <word id='_pleasing' class='word-target-kr'>마음에 들어</word> 했으며, 그것은 권력 게임이었다."
+                },
+                {
+                    "english": "Miles understood that the <word id='_primary' class='word-eng-link'>primary</word> motive was not just greed, but a desire for absolute control.",
+                    "korean": "마일스는 <word id='_primary' class='word-target-kr'>근본적인</word> 동기가 단순한 탐욕뿐 아니라 절대적인 통제에 대한 욕망임을 이해했다."
+                },
+                {
+                    "english": "To catch him, Miles needed a <word id='_proper' class='word-eng-link'>proper</word> plan, one that The Collector wouldn't anticipate.",
+                    "korean": "그를 잡기 위해, 마일스에게는 수집가가 예상하지 못할 <word id='_proper' class='word-target-kr'>적당한</word> 계획이 필요했다."
+                },
+                {
+                    "english": "If provoked, The Collector was known to <word id='_retaliate' class='word-eng-link'>retaliate</word> fiercely against any perceived threat.",
+                    "korean": "만약 도발을 당하면, 수집가는 어떤 인지된 위협에 대해서도 맹렬하게 <word id='_retaliate' class='word-target-kr'>복수하는</word> 것으로 알려져 있었다."
+                },
+                {
+                    "english": "The information from Silas might <word id='_serve' class='word-eng-link'>serve</word> as the key to infiltrating The Collector's network.",
+                    "korean": "사일러스에게서 얻은 정보는 수집가의 네트워크에 잠입하는 열쇠로 <word id='_serve' class='word-target-kr'>도움이 될</word> 수도 있었다."
+                },
+                {
+                    "english": "Miles needed to be <word id='_shrewd' class='word-eng-link'>shrewd</word> in his approach, using The Collector's own arrogance against him.",
+                    "korean": "마일스는 수집가의 오만함을 그에게 역이용하여 접근 방식에 있어 <word id='_shrewd' class='word-target-kr'>예리해야</word> 했다."
+                },
+                {
+                    "english": "He planned to <word id='_simulate' class='word-eng-link'>simulate</word> a sale of a fake artifact to draw The Collector out.",
+                    "korean": "그는 수집가를 유인하기 위해 가짜 유물 판매를 <word id='_simulate' class='word-target-kr'>흉내 낼</word> 계획이었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "A Speck of Truth",
+            "chapter_num": 3,
+            "story_sentences": [
+                {
+                    "english": "On the supposedly priceless vase, there was a tiny <word id='_speck_spot' class='word-eng-link'>speck</word> of modern paint, the first clue it was a forgery.",
+                    "korean": "매우 귀중하다고 여겨졌던 꽃병에는 현대 물감의 아주 작은 <word id='_speck_spot' class='word-target-kr'>얼룩</word>이 있었는데, 그것이 위조품이라는 첫 번째 단서였다."
+                },
+                {
+                    "english": "Miles hoped this <word id='_speck_particle' class='word-eng-link'>speck</word> of doubt would be enough to make The Collector careless during their meeting.",
+                    "korean": "마일스는 이 <word id='_speck_particle' class='word-target-kr'>소량의</word> 의심이 그들의 만남 동안 수집가를 부주의하게 만들기에 충분하기를 바랐다."
+                },
+                {
+                    "english": "He had to <word id='_strive' class='word-eng-link'>strive</word> to maintain his composure, acting as a nervous seller.",
+                    "korean": "그는 초조한 판매자처럼 행동하며 평정심을 유지하기 위해 <word id='_strive' class='word-target-kr'>노력해야</word> 했다."
+                },
+                {
+                    "english": "He could only <word id='_suppose' class='word-eng-link'>suppose</word> The Collector's reaction, but he was prepared for anything.",
+                    "korean": "그는 수집가의 반응을 <word id='_suppose' class='word-target-kr'>가정할</word> 수밖에 없었지만, 어떤 상황에도 대비하고 있었다."
+                },
+                {
+                    "english": "The authenticity of the Crimson Quill, however, was real enough to <word id='_surprise' class='word-eng-link'>surprise</word> even Miles's hardened gaze when he finally saw it.",
+                    "korean": "그러나 크림슨 퀼의 진품성은 마일스가 마침내 그것을 보았을 때 그의 단련된 시선조차 <word id='_surprise' class='word-target-kr'>놀라게 할</word> 만큼 진짜였다."
+                },
+                {
+                    "english": "The Collector knew how to <word id='_treat' class='word-eng-link'>treat</word> valuable items, and also how to deal with those who crossed him.",
+                    "korean": "수집가는 귀중한 물건을 <word id='_treat' class='word-target-kr'>다루는</word> 방법과 자신을 거스르는 사람들을 다루는 방법 또한 알고 있었다."
+                },
+                {
+                    "english": "Miles was ready to <word id='_undertake' class='word-eng-link'>undertake</word> the dangerous task of swapping the fake for the real Quill.",
+                    "korean": "마일스는 가짜를 진짜 퀼과 바꾸는 위험한 임무를 <word id='_undertake' class='word-target-kr'>떠맡을</word> 준비가 되어 있었다."
+                },
+                {
+                    "english": "There was no room for even a slight <word id='_variant' class='word-eng-link'>variant</word> in his plan; everything had to be perfect.",
+                    "korean": "그의 계획에는 약간의 <word id='_variant' class='word-target-kr'>변형</word>조차 허용될 수 없었다; 모든 것이 완벽해야 했다."
+                },
+                {
+                    "english": "Success would be the <word id='_zenith' class='word-eng-link'>zenith</word> of his career, failure its nadir.",
+                    "korean": "성공은 그의 경력의 <word id='_zenith' class='word-target-kr'>정점</word>이 될 것이고, 실패는 그 나락이 될 것이었다."
+                },
+                {
+                    "english": "He saw the <word id='_advantage' class='word-eng-link'>advantage</word> in The Collector's overconfidence during their initial exchange.",
+                    "korean": "그는 그들의 첫 거래 동안 수집가의 지나친 자신감에서 <word id='_advantage' class='word-target-kr'>이익</word>을 보았다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "Echoes of the Past",
+            "chapter_num": 4,
+            "story_sentences": [
+                {
+                    "english": "The Collector’s obsession seemed to <word id='_arise_from' class='word-eng-link'>arise from</word> a past failure, a detail Miles had recently uncovered.",
+                    "korean": "수집가의 집착은 과거의 실패에서 <word id='_arise_from' class='word-target-kr'>기인하는</word> 듯했는데, 이는 마일스가 최근에 밝혀낸 세부 사항이었다."
+                },
+                {
+                    "english": "His paranoia was a significant <word id='_barrier' class='word-eng-link'>barrier</word> to direct confrontation.",
+                    "korean": "그의 편집증은 직접적인 대결에 상당한 <word id='_barrier' class='word-target-kr'>장애물</word>이었다."
+                },
+                {
+                    "english": "Miles knew Silas could easily <word id='_betray' class='word-eng-link'>betray</word> him if The Collector offered a better deal.",
+                    "korean": "마일스는 만약 수집가가 더 나은 거래를 제안한다면 사일러스가 쉽게 그를 <word id='_betray' class='word-target-kr'>배신할</word> 수 있다는 것을 알았다."
+                },
+                {
+                    "english": "He felt an obligation to <word id='_bind' class='word-eng-link'>bind</word> The Collector to justice for his many crimes.",
+                    "korean": "그는 수집가의 많은 범죄에 대해 그를 정의로 <word id='_bind' class='word-target-kr'>묶을</word> 의무감을 느꼈다."
+                },
+                {
+                    "english": "The line between informant and accomplice began to <word id='_blur' class='word-eng-link'>blur</word> as Silas revealed more.",
+                    "korean": "사일러스가 더 많은 것을 폭로함에 따라 정보원과 공범 사이의 경계가 <word id='_blur' class='word-target-kr'>흐려지기</word> 시작했다."
+                },
+                {
+                    "english": "Miles had to <word id='_circumvent' class='word-eng-link'>circumvent</word> The Collector's layers of security and loyal henchmen.",
+                    "korean": "마일스는 수집가의 여러 겹의 보안과 충성스러운 부하들을 <word id='_circumvent' class='word-target-kr'>우회해야</word> 했다."
+                },
+                {
+                    "english": "Any <word id='_clumsy' class='word-eng-link'>clumsy</word> move could alert The Collector and ruin the entire operation.",
+                    "korean": "어떤 <word id='_clumsy' class='word-target-kr'>서투른</word> 움직임이라도 수집가에게 경고를 보내 전체 작전을 망칠 수 있었다."
+                },
+                {
+                    "english": "The operation was set to <word id='_commence' class='word-eng-link'>commence</word> at midnight, under the cover of a city-wide festival.",
+                    "korean": "작전은 도시 전체 축제의 엄호 아래 자정에 <word id='_commence' class='word-target-kr'>시작될</word> 예정이었다."
+                },
+                {
+                    "english": "Miles observed The Collector's <word id='_conduct' class='word-eng-link'>conduct</word> at a public auction, noting his meticulous attention to detail.",
+                    "korean": "마일스는 공개 경매에서 수집가의 <word id='_conduct' class='word-target-kr'>행동</word>을 관찰하며 그의 세심한 주의력을 주목했다."
+                },
+                {
+                    "english": "He needed to <word id='_conserve' class='word-eng-link'>conserve</word> his energy for the critical moments ahead.",
+                    "korean": "그는 앞으로 다가올 결정적인 순간들을 위해 에너지를 <word id='_conserve' class='word-target-kr'>보존해야</word> 했다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "The Unraveling Truth",
+            "chapter_num": 5,
+            "story_sentences": [
+                {
+                    "english": "The Collector's calm demeanor was a <word id='_contradiction' class='word-eng-link'>contradiction</word> to the chaos he orchestrated.",
+                    "korean": "수집가의 차분한 태도는 그가 조직한 혼란과는 <word id='_contradiction' class='word-target-kr'>모순</word>이었다."
+                },
+                {
+                    "english": "Miles hoped his investigation would <word id='_culminate' class='word-eng-link'>culminate</word> in The Collector's arrest.",
+                    "korean": "마일스는 그의 수사가 수집가의 체포로 <word id='_culminate' class='word-target-kr'>끝나기를</word> 바랐다."
+                },
+                {
+                    "english": "Using the map from Silas, Miles began to <word id='_delineate' class='word-eng-link'>delineate</word> the escape routes from The Collector's mansion.",
+                    "korean": "사일러스에게서 받은 지도를 사용하여, 마일스는 수집가의 저택으로부터의 탈출 경로를 <word id='_delineate' class='word-target-kr'>그리기</word> 시작했다."
+                },
+                {
+                    "english": "An anonymous <word id='_donation' class='word-eng-link'>donation</word> to a rival gallery was The Collector's way of signaling dominance.",
+                    "korean": "경쟁 갤러리에 대한 익명의 <word id='_donation' class='word-target-kr'>기증</word>은 수집가가 지배력을 과시하는 방식이었다."
+                },
+                {
+                    "english": "The team decided to <word id='_embark_on' class='word-eng-link'>embark on</word> the infiltration mission despite the high risks.",
+                    "korean": "팀은 높은 위험에도 불구하고 잠입 임무에 <word id='_embark_on' class='word-target-kr'>착수하기로</word> 결정했다."
+                },
+                {
+                    "english": "The <word id='_foundation' class='word-eng-link'>foundation</word> of The Collector's empire was built on fear and stolen treasures.",
+                    "korean": "수집가 제국의 <word id='_foundation' class='word-target-kr'>기초</word>는 공포와 도난당한 보물들 위에 세워졌다."
+                },
+                {
+                    "english": "Understanding his <word id='_fundamental' class='word-eng-link'>fundamental</word> motivations was key to predicting his next move.",
+                    "korean": "그의 <word id='_fundamental' class='word-target-kr'>근본적인</word> 동기를 이해하는 것이 그의 다음 움직임을 예측하는 열쇠였다."
+                },
+                {
+                    "english": "Only a <word id='_handful' class='word-eng-link'>handful</word> of people knew The Collector's true identity.",
+                    "korean": "<word id='_handful' class='word-target-kr'>소수의</word> 사람들만이 수집가의 진짜 정체를 알고 있었다."
+                },
+                {
+                    "english": "The <word id='_height' class='word-eng-link'>height</word> of his audacity was displaying stolen art in his own private gallery.",
+                    "korean": "그의 대담함의 <word id='_height' class='word-target-kr'>절정</word>은 도난당한 예술품을 자신의 개인 갤러리에 전시하는 것이었다."
+                },
+                {
+                    "english": "Miles found two supposedly <word id='_identical' class='word-eng-link'>identical</word> ledgers, but one contained hidden codes.",
+                    "korean": "마일스는 외관상 <word id='_identical' class='word-target-kr'>동일한</word> 두 개의 장부를 발견했지만, 하나에는 숨겨진 암호가 들어 있었다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "Closing In",
+            "chapter_num": 6,
+            "story_sentences": [
+                {
+                    "english": "The coded ledger was a major <word id='_impediment' class='word-eng-link'>impediment</word> to quick progress, requiring expert decryption.",
+                    "korean": "암호화된 장부는 빠른 진행에 주요한 <word id='_impediment' class='word-target-kr'>장애</word>였고, 전문가의 해독이 필요했다."
+                },
+                {
+                    "english": "Miles had to <word id='_justify' class='word-eng-link'>justify</word> his unorthodox methods to his skeptical superiors constantly.",
+                    "korean": "마일스는 그의 회의적인 상사들에게 자신의 비정통적인 방법들을 끊임없이 <word id='_justify' class='word-target-kr'>증명해야</word> 했다."
+                },
+                {
+                    "english": "He couldn't help but <word id='_lament' class='word-eng-link'>lament</word> the innocent lives affected by The Collector's greed.",
+                    "korean": "그는 수집가의 탐욕으로 인해 피해를 입은 무고한 생명들을 <word id='_lament' class='word-target-kr'>슬퍼하지</word> 않을 수 없었다."
+                },
+                {
+                    "english": "The stolen artifact was rumored to contain a rare <word id='_microorganism' class='word-eng-link'>microorganism</word> with unknown properties.",
+                    "korean": "도난당한 유물에는 알려지지 않은 특성을 가진 희귀한 <word id='_microorganism' class='word-target-kr'>미생물</word>이 들어 있다는 소문이 돌았다."
+                },
+                {
+                    "english": "Silas became increasingly <word id='_moody' class='word-eng-link'>moody</word> and unpredictable as the pressure mounted.",
+                    "korean": "압박감이 커지면서 사일러스는 점점 더 <word id='_moody' class='word-target-kr'>우울해지고</word> 예측 불가능해졌다."
+                },
+                {
+                    "english": "The <word id='_origin' class='word-eng-link'>origin</word> of the Crimson Quill was traced back to an ancient, forgotten civilization.",
+                    "korean": "크림슨 퀼의 <word id='_origin' class='word-target-kr'>근원</word>은 고대의 잊혀진 문명으로 거슬러 올라갔다."
+                },
+                {
+                    "english": "Miles could not accurately <word id='_predict' class='word-eng-link'>predict</word> The Collector’s reaction when cornered.",
+                    "korean": "마일스는 궁지에 몰렸을 때 수집가의 반응을 정확하게 <word id='_predict' class='word-target-kr'>예측할</word> 수 없었다."
+                },
+                {
+                    "english": "Despite setbacks, the investigation continued to <word id='_progress' class='word-eng-link'>progress</word, albeit slowly.",
+                    "korean": "좌절에도 불구하고, 수사는 느리지만 계속해서 <word id='_progress' class='word-target-kr'>발전</word>했다."
+                },
+                {
+                    "english": "A lucky break allowed Miles to <word id='_scoop' class='word-eng-link'>scoop</word> up vital documents The Collector's men hastily discarded.",
+                    "korean": "운 좋게도 마일스는 수집가의 부하들이 황급히 버린 중요한 문서들을 <word id='_scoop' class='word-target-kr'>긁어모을</word> 수 있었다."
+                },
+                {
+                    "english": "He knew he had to <word id='_score_gain' class='word-eng-link'>score</word> a decisive victory against The Collector to bring him down.",
+                    "korean": "그는 수집가를 무너뜨리기 위해서는 그에 대한 결정적인 승리를 <word id='_score_gain' class='word-target-kr'>얻어야</word> 한다는 것을 알았다."
+                }
+            ]
+        },
+        {
+            "chapter_title": "Final Cadence",
+            "chapter_num": 7,
+            "story_sentences": [
+                {
+                    "english": "The final piece of evidence was not a document, but a musical <word id='_score_music' class='word-eng-link'>score</word> containing a hidden message.",
+                    "korean": "마지막 증거는 문서가 아니라 숨겨진 메시지를 담고 있는 <word id='_score_music' class='word-target-kr'>악보</word>였다."
+                },
+                {
+                    "english": "Miles found a <word id='_scrap' class='word-eng-link'>scrap</word> of fabric at The Collector's hideout, matching Silas's distinctive coat.",
+                    "korean": "마일스는 수집가의 은신처에서 사일러스의 독특한 코트와 일치하는 천 <word id='_scrap' class='word-target-kr'>파편</word>을 발견했다."
+                },
+                {
+                    "english": "It was <word id='_singularly' class='word-eng-link'>singularly</word> the most complex case Miles had ever undertaken.",
+                    "korean": "그것은 마일스가 맡았던 사건 중 <word id='_singularly' class='word-target-kr'>각별히</word> 가장 복잡한 사건이었다."
+                },
+                {
+                    "english": "He needed a <word id='_skilled' class='word-eng-link'>skilled</word> cryptographer to decipher the musical score quickly.",
+                    "korean": "그는 악보를 신속하게 해독할 <word id='_skilled' class='word-target-kr'>숙련된</word> 암호 해독가가 필요했다."
+                },
+                {
+                    "english": "The <word id='_stem_base' class='word-eng-link'>stem</word> of the Collector's criminal enterprise was rotten to the core.",
+                    "korean": "수집가 범죄 기업의 <word id='_stem_base' class='word-target-kr'>어간</word>은 속까지 썩어 있었다."
+                },
+                {
+                    "english": "Miles's plan was to <word id='_stem_stop' class='word-eng-link'>stem</word> the flow of illicit goods by exposing The Collector's network.",
+                    "korean": "마일스의 계획은 수집가의 네트워크를 폭로하여 불법 상품의 흐름을 <word id='_stem_stop' class='word-target-kr'>막는</word> 것이었다."
+                },
+                {
+                    "english": "All of The Collector's problems seemed to <word id='_stem_from' class='word-eng-link'>stem from</word> his insatiable desire for control.",
+                    "korean": "수집가의 모든 문제는 통제에 대한 그의 끝없는 욕망에서 <word id='_stem_from' class='word-target-kr'>유래하는</word> 듯했다."
+                },
+                {
+                    "english": "It took all of Miles's resolve to <word id='_subdue' class='word-eng-link'>subdue</word> The Collector's formidable chief of security without raising an alarm.",
+                    "korean": "경보를 울리지 않고 수집가의 강력한 보안 책임자를 <word id='_subdue' class='word-target-kr'>정복하는</word> 데는 마일스의 모든 결단력이 필요했다."
+                },
+                {
+                    "english": "Anonymous patrons secretly <word id='_subsidize' class='word-eng-link'>subsidize</word> The Collector's operations, making him harder to trace.",
+                    "korean": "익명의 후원자들이 비밀리에 수집가의 작전을 <word id='_subsidize' class='word-target-kr'>후원하여</word> 그를 추적하기 더 어렵게 만들었다."
+                },
+                {
+                    "english": "The jury's <word id='_unanimity' class='word-eng-link'>unanimity</word> in finding The Collector guilty was a testament to Miles's meticulous work.",
+                    "korean": "수집가에게 유죄를 평결한 배심원단의 <word id='_unanimity' class='word-target-kr'>만장일치</word>는 마일스의 꼼꼼한 작업에 대한 증거였다."
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대화형 어휘 학습 뷰어</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 0px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .nav-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .chapter-link {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 3px;
+            text-decoration: none;
+            color: #007bff;
+            /* border: 1px solid #007bff; 제거 */
+            /* border-radius: 50%; 제거 */
+            border: none; /* 다른 테두리 제거 */
+            border-bottom: 1px solid #007bff; /* 밑줄 추가 */
+            font-weight: 500;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            min-width: 35px;
+            text-align: center;
+        }
+
+        .chapter-link:hover {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white; /* hover 시 밑줄 색상 변경 */
+            transform: scale(1.1);
+        }
+
+        .chapter-link.active {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white; /* active 시 밑줄 색상 변경 */
+        }
+
+        .toggle-index-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+
+        .toggle-index-btn:hover {
+            background: #5a6268;
+        }
+
+        .index-navigation {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .index-navigation.show {
+            display: block;
+        }
+
+        .index-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .index-item:hover {
+            background: #f8f9fa;
+        }
+
+        .index-number {
+            font-weight: 600;
+            color: #007bff;
+            margin-right: 12px;
+            min-width: 25px;
+        }
+
+        .index-title {
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .chapter-btn {
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .chapter-btn:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .chapter-btn.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .translate-icon-btn {
+            background-color: transparent; /* 버튼 배경 투명하게 */
+            border: none;                 /* 버튼 테두리 제거 */
+            padding: 2px;                 /* 버튼 내부 여백 줄이기 (아이콘 주변 공간) */
+            margin: 0;                    /* 버튼 외부 여백 제거 */
+            cursor: pointer;              /* 마우스 오버 시 커서 변경 */
+            display: inline-flex;         /* SVG 아이콘을 버튼 내에서 정렬하기 용이하도록 설정 */
+            align-items: center;          /* 수직 중앙 정렬 */
+            justify-content: center;      /* 수평 중앙 정렬 */
+            line-height: 0;               /* 버튼 내부에 불필요한 추가 공간 제거 */
+        }
+
+        .translate-icon-btn:hover {
+            background: transparent; /* Slightly lighter bronze on hover */
+            transform: scale(1.1); /* Subtle scale instead of translateY */
+            border-color: #a89b7a; /* Brighter brass on hover */
+        }
+
+        .translate-icon-btn svg {
+            stroke: #e6d4a6; /* Aged gold for steampunk icon */
+            width: 20px;
+            height: 20px;
+        }
+
+
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chapter-content h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .sentence-pair {
+            margin-bottom: 25px;
+        }
+
+        .english-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .korean-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #666;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-left: 4px solid #007bff;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* 단어 링크 스타일 */
+        .word-link {
+            color: #007bff;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+            background: rgba(0, 123, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: underline;
+        }
+
+        .word-link:hover {
+            background: rgba(0, 123, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* 한국어 대상 단어 스타일 */
+        .word-target-kr {
+            color: #dc3545;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        /* 팝업 모달 스타일 */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup-overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-content {
+            background: white;
+            max-width: 400px;
+            width: 90%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px 10px;
+            border-bottom: 2px solid #f1f3f4;
+        }
+
+        .popup-header h3 {
+            color: #007bff;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .popup-body {
+            padding: 20px 25px 25px;
+        }
+
+        .popup-body p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .popup-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .popup-body strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .chapter-link {
+                padding: 6px 8px;
+                min-width: 25px; /* 모바일에서 더 작게 */
+                font-size: 10px;
+            }
+            .container {
+                padding: 10px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .chapter-content h2 {
+                font-size: 24px;
+            }
+            .english-text {
+                font-size: 16px;
+            }
+            .korean-text {
+                font-size: 14px;
+            }
+            .toggle-index-btn {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="navigation">
+                <span class="nav-label">Chapters:</span>
+                <a href="javascript:void(0)" class="chapter-link active" onclick="showChapter(0)">1</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(1)">2</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(2)">3</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(3)">4</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(4)">5</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(5)">6</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(6)">7</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(7)">8</a>
+                <button class="toggle-index-btn" onclick="toggleIndex()">목차 보기</button>
+                <button class="translate-icon-btn" onclick="toggleTranslation()" title="Toggle Translation">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" stroke="lightskyblue"></circle> {/* 하늘색 테두리 */}
+                        <path d="M2 12h20" stroke="dodgerblue"></path> {/* 파란색 가로선 */}
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10" stroke="dodgerblue"></path> {/* 파란색 세로 곡선 */}
+                        <path d="M12 2a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10" stroke="dodgerblue"></path> {/* 파란색 세로 곡선 */}
+                    </svg>
+                </button>
+            </div>
+
+            <div id="indexNavigation" class="index-navigation">
+                <div class="index-item" onclick="showChapter(0)">
+                    <span class="index-number">1.</span>
+                    <span class="index-title">The Crimson Quill Connection</span>
+                </div>
+                <div class="index-item" onclick="showChapter(1)">
+                    <span class="index-number">2.</span>
+                    <span class="index-title">Shadows of Deceit</span>
+                </div>
+                <div class="index-item" onclick="showChapter(2)">
+                    <span class="index-number">3.</span>
+                    <span class="index-title">The Collector's Gambit</span>
+                </div>
+                <div class="index-item" onclick="showChapter(3)">
+                    <span class="index-number">4.</span>
+                    <span class="index-title">A Speck of Truth</span>
+                </div>
+                <div class="index-item" onclick="showChapter(4)">
+                    <span class="index-number">5.</span>
+                    <span class="index-title">Echoes of the Past</span>
+                </div>
+                <div class="index-item" onclick="showChapter(5)">
+                    <span class="index-number">6.</span>
+                    <span class="index-title">The Unraveling Truth</span>
+                </div>
+                <div class="index-item" onclick="showChapter(6)">
+                    <span class="index-number">7.</span>
+                    <span class="index-title">Closing In</span>
+                </div>
+                <div class="index-item" onclick="showChapter(7)">
+                    <span class="index-number">8.</span>
+                    <span class="index-title">Final Cadence</span>
+                </div>
+            </div>
+
+            
+        <div id="chapter-0" class="chapter-content">
+            <h2>The Crimson Quill Connection</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">Detective Miles Corbin, a man known for his sharp instincts, met a new <span class="word-link" data-word-id="_acquaintance">acquaintance</span> in the dimly lit corner of a smoky jazz club.</p>
+                    <p class="korean-text" style="display: none;">날카로운 직감으로 유명한 마일즈 코빈 형사는 희미한 조명의 연기 자욱한 재즈 클럽 구석에서 새로운 <span class="word-target-kr">아는친구</span>를 만났다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His goal was to <span class="word-link" data-word-id="_acquire">acquire</span> information about a stolen artifact, the 'Crimson Quill'.</p>
+                    <p class="korean-text" style="display: none;">그의 목표는 도난당한 유물 '크림슨 퀼'에 대한 정보를 <span class="word-target-kr">얻는</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles showed no false <span class="word-link" data-word-id="_affection">affection</span>, only a straightforward desire for truth.</p>
+                    <p class="korean-text" style="display: none;">마일스는 거짓된 <span class="word-target-kr">애정</span>을 보이지 않고, 진실에 대한 솔직한 열망만을 드러냈다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">After a tense negotiation, the informant seemed to <span class="word-link" data-word-id="_agree">agree</span> to share what he knew, for a price.</p>
+                    <p class="korean-text" style="display: none;">긴장된 협상 끝에 정보원은 대가를 받고 자신이 아는 것을 공유하기로 <span class="word-target-kr">동의하는</span> 듯했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles had to remain <span class="word-link" data-word-id="_alert_adj">alert</span>; the informant was known for his deceptive ways.</p>
+                    <p class="korean-text" style="display: none;">마일스는 계속 <span class="word-target-kr">경계해야</span> 했다; 그 정보원은 기만적인 수법으로 유명했기 때문이다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A sudden noise from the alleyway seemed to <span class="word-link" data-word-id="_alert_verb">alert</span> the informant, his eyes darting towards the exit.</p>
+                    <p class="korean-text" style="display: none;">골목길에서 갑자기 들려온 소리가 정보원에게 <span class="word-target-kr">경고하는</span> 듯했고, 그의 눈은 출구를 향해 빠르게 움직였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The promise of a hefty reward was meant to <span class="word-link" data-word-id="_allure">allure</span> him into full cooperation.</p>
+                    <p class="korean-text" style="display: none;">두둑한 보상에 대한 약속은 그를 완전한 협력으로 <span class="word-target-kr">유혹하기</span> 위한 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Any new piece of evidence could <span class="word-link" data-word-id="_amplify">amplify</span> their chances of recovering the Quill.</p>
+                    <p class="korean-text" style="display: none;">어떤 새로운 증거라도 퀼을 되찾을 가능성을 <span class="word-target-kr">증폭시킬</span> 수 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The case had felt <span class="word-link" data-word-id="_arid">arid</span> for weeks, devoid of any substantial leads until now.</p>
+                    <p class="korean-text" style="display: none;">그 사건은 몇 주 동안 <span class="word-target-kr">메마른</span> 상태였고, 지금까지 어떤 실질적인 단서도 없었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles knew if they failed, his superiors would likely <span class="word-link" data-word-id="_ascribe">ascribe</span> the failure to his unconventional methods.</p>
+                    <p class="korean-text" style="display: none;">마일스는 만약 실패한다면, 그의 상사들이 그 실패를 그의 비관습적인 방법 <span class="word-target-kr">때문으로 돌릴</span> 것이라는 것을 알았다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-1" class="chapter-content" style='display: none;'>
+            <h2>Shadows of Deceit</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The informant, Silas, agreed to <span class="word-link" data-word-id="_compensate">compensate</span> for his previous silence with a crucial piece of a map.</p>
+                    <p class="korean-text" style="display: none;">정보원 사일러스는 이전의 침묵을 중요한 지도 조각으로 <span class="word-target-kr">보상하기로</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He began to <span class="word-link" data-word-id="_configure">configure</span> the torn pieces on the damp table, his hands trembling slightly.</p>
+                    <p class="korean-text" style="display: none;">그는 축축한 테이블 위에 찢어진 조각들을 <span class="word-target-kr">형태로 만들기</span> 시작했고, 그의 손은 약간 떨리고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles knew that relying on Silas was a <span class="word-link" data-word-id="_drastic">drastic</span> measure, but he was running out of time.</p>
+                    <p class="korean-text" style="display: none;">마일스는 사일러스에게 의존하는 것이 <span class="word-target-kr">극단적인</span> 조치임을 알았지만, 시간이 부족했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He tried not to <span class="word-link" data-word-id="_embarrass">embarrass</span> Silas by staring at his nervous fidgeting.</p>
+                    <p class="korean-text" style="display: none;">그는 사일러스의 초조한 몸짓을 빤히 쳐다보아 그를 <span class="word-target-kr">무안케 하지</span> 않으려고 애썼다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The map, if genuine, would <span class="word-link" data-word-id="_empower">empower</span> Miles to bypass the main security of the suspected thief.</p>
+                    <p class="korean-text" style="display: none;">지도가 진짜라면, 마일스에게 용의자의 주요 보안을 우회할 <span class="word-target-kr">자격을 줄</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">They arranged a secret <span class="word-link" data-word-id="_gathering">gathering</span> point near the old harbor to discuss the next steps.</p>
+                    <p class="korean-text" style="display: none;">그들은 다음 단계를 논의하기 위해 오래된 항구 근처에 비밀 <span class="word-target-kr">모임</span> 장소를 정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles watched Silas <span class="word-link" data-word-id="_haul">haul</span> a heavy ledger from a hidden compartment in his coat, claiming it contained names.</p>
+                    <p class="korean-text" style="display: none;">마일스는 사일러스가 그의 코트 안 비밀 칸에서 무거운 장부를 <span class="word-target-kr">끌어내는</span> 것을 지켜보았는데, 그는 거기에 이름들이 적혀 있다고 주장했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The ledger mentioned an <span class="word-link" data-word-id="_immediate">immediate</span> associate of the primary suspect, someone Miles hadn't considered.</p>
+                    <p class="korean-text" style="display: none;">그 장부에는 주요 용의자의 <span class="word-target-kr">인접한</span> 공범, 마일스가 고려하지 않았던 누군가가 언급되어 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">This new information would significantly <span class="word-link" data-word-id="_increase">increase</span> the complexity of the surveillance required.</p>
+                    <p class="korean-text" style="display: none;">이 새로운 정보는 필요한 감시의 복잡성을 상당히 <span class="word-target-kr">늘릴</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">As Silas explained the ledger, a new, more dangerous suspect began to <span class="word-link" data-word-id="_loom">loom</span> in the investigation.</p>
+                    <p class="korean-text" style="display: none;">사일러스가 장부를 설명하면서, 새롭고 더 위험한 용의자가 수사에서 <span class="word-target-kr">어렴풋이 나타나기</span> 시작했다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-2" class="chapter-content" style='display: none;'>
+            <h2>The Collector's Gambit</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The new suspect, known only as 'The Collector', was notorious for making his clients <span class="word-link" data-word-id="_overtax">overtax</span> their resources to acquire his illicit goods.</p>
+                    <p class="korean-text" style="display: none;">'수집가'로만 알려진 새로운 용의자는 그의 불법적인 상품을 얻기 위해 의뢰인들에게 자원을 <span class="word-target-kr">지나치게 과세하게</span> 만드는 것으로 악명이 높았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">It seemed a <span class="word-link" data-word-id="_paradox">paradox</span> that someone so wealthy would risk it all for one more artifact.</p>
+                    <p class="korean-text" style="display: none;">그렇게 부유한 누군가가 또 다른 유물 하나를 위해 모든 것을 걸다니, 그것은 <span class="word-target-kr">모순</span>처럼 보였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His influence was <span class="word-link" data-word-id="_pervasive">pervasive</span>, reaching into many legitimate businesses to launder money.</p>
+                    <p class="korean-text" style="display: none;">그의 영향력은 <span class="word-target-kr">널리 퍼져</span> 있었고, 돈세탁을 위해 많은 합법적인 사업체에까지 미치고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The Collector found it <span class="word-link" data-word-id="_pleasing">pleasing</span> to control the flow of rare items, a game of power.</p>
+                    <p class="korean-text" style="display: none;">수집가는 희귀한 물건들의 흐름을 통제하는 것을 <span class="word-target-kr">마음에 들어</span> 했으며, 그것은 권력 게임이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles understood that the <span class="word-link" data-word-id="_primary">primary</span> motive was not just greed, but a desire for absolute control.</p>
+                    <p class="korean-text" style="display: none;">마일스는 <span class="word-target-kr">근본적인</span> 동기가 단순한 탐욕뿐 아니라 절대적인 통제에 대한 욕망임을 이해했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">To catch him, Miles needed a <span class="word-link" data-word-id="_proper">proper</span> plan, one that The Collector wouldn't anticipate.</p>
+                    <p class="korean-text" style="display: none;">그를 잡기 위해, 마일스에게는 수집가가 예상하지 못할 <span class="word-target-kr">적당한</span> 계획이 필요했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">If provoked, The Collector was known to <span class="word-link" data-word-id="_retaliate">retaliate</span> fiercely against any perceived threat.</p>
+                    <p class="korean-text" style="display: none;">만약 도발을 당하면, 수집가는 어떤 인지된 위협에 대해서도 맹렬하게 <span class="word-target-kr">복수하는</span> 것으로 알려져 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The information from Silas might <span class="word-link" data-word-id="_serve">serve</span> as the key to infiltrating The Collector's network.</p>
+                    <p class="korean-text" style="display: none;">사일러스에게서 얻은 정보는 수집가의 네트워크에 잠입하는 열쇠로 <span class="word-target-kr">도움이 될</span> 수도 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles needed to be <span class="word-link" data-word-id="_shrewd">shrewd</span> in his approach, using The Collector's own arrogance against him.</p>
+                    <p class="korean-text" style="display: none;">마일스는 수집가의 오만함을 그에게 역이용하여 접근 방식에 있어 <span class="word-target-kr">예리해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He planned to <span class="word-link" data-word-id="_simulate">simulate</span> a sale of a fake artifact to draw The Collector out.</p>
+                    <p class="korean-text" style="display: none;">그는 수집가를 유인하기 위해 가짜 유물 판매를 <span class="word-target-kr">흉내 낼</span> 계획이었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-3" class="chapter-content" style='display: none;'>
+            <h2>A Speck of Truth</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">On the supposedly priceless vase, there was a tiny <span class="word-link" data-word-id="_speck_spot">speck</span> of modern paint, the first clue it was a forgery.</p>
+                    <p class="korean-text" style="display: none;">매우 귀중하다고 여겨졌던 꽃병에는 현대 물감의 아주 작은 <span class="word-target-kr">얼룩</span>이 있었는데, 그것이 위조품이라는 첫 번째 단서였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles hoped this <span class="word-link" data-word-id="_speck_particle">speck</span> of doubt would be enough to make The Collector careless during their meeting.</p>
+                    <p class="korean-text" style="display: none;">마일스는 이 <span class="word-target-kr">소량의</span> 의심이 그들의 만남 동안 수집가를 부주의하게 만들기에 충분하기를 바랐다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to <span class="word-link" data-word-id="_strive">strive</span> to maintain his composure, acting as a nervous seller.</p>
+                    <p class="korean-text" style="display: none;">그는 초조한 판매자처럼 행동하며 평정심을 유지하기 위해 <span class="word-target-kr">노력해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He could only <span class="word-link" data-word-id="_suppose">suppose</span> The Collector's reaction, but he was prepared for anything.</p>
+                    <p class="korean-text" style="display: none;">그는 수집가의 반응을 <span class="word-target-kr">가정할</span> 수밖에 없었지만, 어떤 상황에도 대비하고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The authenticity of the Crimson Quill, however, was real enough to <span class="word-link" data-word-id="_surprise">surprise</span> even Miles's hardened gaze when he finally saw it.</p>
+                    <p class="korean-text" style="display: none;">그러나 크림슨 퀼의 진품성은 마일스가 마침내 그것을 보았을 때 그의 단련된 시선조차 <span class="word-target-kr">놀라게 할</span> 만큼 진짜였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The Collector knew how to <span class="word-link" data-word-id="_treat">treat</span> valuable items, and also how to deal with those who crossed him.</p>
+                    <p class="korean-text" style="display: none;">수집가는 귀중한 물건을 <span class="word-target-kr">다루는</span> 방법과 자신을 거스르는 사람들을 다루는 방법 또한 알고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles was ready to <span class="word-link" data-word-id="_undertake">undertake</span> the dangerous task of swapping the fake for the real Quill.</p>
+                    <p class="korean-text" style="display: none;">마일스는 가짜를 진짜 퀼과 바꾸는 위험한 임무를 <span class="word-target-kr">떠맡을</span> 준비가 되어 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">There was no room for even a slight <span class="word-link" data-word-id="_variant">variant</span> in his plan; everything had to be perfect.</p>
+                    <p class="korean-text" style="display: none;">그의 계획에는 약간의 <span class="word-target-kr">변형</span>조차 허용될 수 없었다; 모든 것이 완벽해야 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Success would be the <span class="word-link" data-word-id="_zenith">zenith</span> of his career, failure its nadir.</p>
+                    <p class="korean-text" style="display: none;">성공은 그의 경력의 <span class="word-target-kr">정점</span>이 될 것이고, 실패는 그 나락이 될 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He saw the <span class="word-link" data-word-id="_advantage">advantage</span> in The Collector's overconfidence during their initial exchange.</p>
+                    <p class="korean-text" style="display: none;">그는 그들의 첫 거래 동안 수집가의 지나친 자신감에서 <span class="word-target-kr">이익</span>을 보았다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-4" class="chapter-content" style='display: none;'>
+            <h2>Echoes of the Past</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The Collector’s obsession seemed to <span class="word-link" data-word-id="_arise_from">arise from</span> a past failure, a detail Miles had recently uncovered.</p>
+                    <p class="korean-text" style="display: none;">수집가의 집착은 과거의 실패에서 <span class="word-target-kr">기인하는</span> 듯했는데, 이는 마일스가 최근에 밝혀낸 세부 사항이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His paranoia was a significant <span class="word-link" data-word-id="_barrier">barrier</span> to direct confrontation.</p>
+                    <p class="korean-text" style="display: none;">그의 편집증은 직접적인 대결에 상당한 <span class="word-target-kr">장애물</span>이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles knew Silas could easily <span class="word-link" data-word-id="_betray">betray</span> him if The Collector offered a better deal.</p>
+                    <p class="korean-text" style="display: none;">마일스는 만약 수집가가 더 나은 거래를 제안한다면 사일러스가 쉽게 그를 <span class="word-target-kr">배신할</span> 수 있다는 것을 알았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He felt an obligation to <span class="word-link" data-word-id="_bind">bind</span> The Collector to justice for his many crimes.</p>
+                    <p class="korean-text" style="display: none;">그는 수집가의 많은 범죄에 대해 그를 정의로 <span class="word-target-kr">묶을</span> 의무감을 느꼈다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The line between informant and accomplice began to <span class="word-link" data-word-id="_blur">blur</span> as Silas revealed more.</p>
+                    <p class="korean-text" style="display: none;">사일러스가 더 많은 것을 폭로함에 따라 정보원과 공범 사이의 경계가 <span class="word-target-kr">흐려지기</span> 시작했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles had to <span class="word-link" data-word-id="_circumvent">circumvent</span> The Collector's layers of security and loyal henchmen.</p>
+                    <p class="korean-text" style="display: none;">마일스는 수집가의 여러 겹의 보안과 충성스러운 부하들을 <span class="word-target-kr">우회해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Any <span class="word-link" data-word-id="_clumsy">clumsy</span> move could alert The Collector and ruin the entire operation.</p>
+                    <p class="korean-text" style="display: none;">어떤 <span class="word-target-kr">서투른</span> 움직임이라도 수집가에게 경고를 보내 전체 작전을 망칠 수 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The operation was set to <span class="word-link" data-word-id="_commence">commence</span> at midnight, under the cover of a city-wide festival.</p>
+                    <p class="korean-text" style="display: none;">작전은 도시 전체 축제의 엄호 아래 자정에 <span class="word-target-kr">시작될</span> 예정이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles observed The Collector's <span class="word-link" data-word-id="_conduct">conduct</span> at a public auction, noting his meticulous attention to detail.</p>
+                    <p class="korean-text" style="display: none;">마일스는 공개 경매에서 수집가의 <span class="word-target-kr">행동</span>을 관찰하며 그의 세심한 주의력을 주목했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He needed to <span class="word-link" data-word-id="_conserve">conserve</span> his energy for the critical moments ahead.</p>
+                    <p class="korean-text" style="display: none;">그는 앞으로 다가올 결정적인 순간들을 위해 에너지를 <span class="word-target-kr">보존해야</span> 했다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-5" class="chapter-content" style='display: none;'>
+            <h2>The Unraveling Truth</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The Collector's calm demeanor was a <span class="word-link" data-word-id="_contradiction">contradiction</span> to the chaos he orchestrated.</p>
+                    <p class="korean-text" style="display: none;">수집가의 차분한 태도는 그가 조직한 혼란과는 <span class="word-target-kr">모순</span>이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles hoped his investigation would <span class="word-link" data-word-id="_culminate">culminate</span> in The Collector's arrest.</p>
+                    <p class="korean-text" style="display: none;">마일스는 그의 수사가 수집가의 체포로 <span class="word-target-kr">끝나기를</span> 바랐다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Using the map from Silas, Miles began to <span class="word-link" data-word-id="_delineate">delineate</span> the escape routes from The Collector's mansion.</p>
+                    <p class="korean-text" style="display: none;">사일러스에게서 받은 지도를 사용하여, 마일스는 수집가의 저택으로부터의 탈출 경로를 <span class="word-target-kr">그리기</span> 시작했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">An anonymous <span class="word-link" data-word-id="_donation">donation</span> to a rival gallery was The Collector's way of signaling dominance.</p>
+                    <p class="korean-text" style="display: none;">경쟁 갤러리에 대한 익명의 <span class="word-target-kr">기증</span>은 수집가가 지배력을 과시하는 방식이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The team decided to <span class="word-link" data-word-id="_embark_on">embark on</span> the infiltration mission despite the high risks.</p>
+                    <p class="korean-text" style="display: none;">팀은 높은 위험에도 불구하고 잠입 임무에 <span class="word-target-kr">착수하기로</span> 결정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The <span class="word-link" data-word-id="_foundation">foundation</span> of The Collector's empire was built on fear and stolen treasures.</p>
+                    <p class="korean-text" style="display: none;">수집가 제국의 <span class="word-target-kr">기초</span>는 공포와 도난당한 보물들 위에 세워졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Understanding his <span class="word-link" data-word-id="_fundamental">fundamental</span> motivations was key to predicting his next move.</p>
+                    <p class="korean-text" style="display: none;">그의 <span class="word-target-kr">근본적인</span> 동기를 이해하는 것이 그의 다음 움직임을 예측하는 열쇠였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Only a <span class="word-link" data-word-id="_handful">handful</span> of people knew The Collector's true identity.</p>
+                    <p class="korean-text" style="display: none;"><span class="word-target-kr">소수의</span> 사람들만이 수집가의 진짜 정체를 알고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The <span class="word-link" data-word-id="_height">height</span> of his audacity was displaying stolen art in his own private gallery.</p>
+                    <p class="korean-text" style="display: none;">그의 대담함의 <span class="word-target-kr">절정</span>은 도난당한 예술품을 자신의 개인 갤러리에 전시하는 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles found two supposedly <span class="word-link" data-word-id="_identical">identical</span> ledgers, but one contained hidden codes.</p>
+                    <p class="korean-text" style="display: none;">마일스는 외관상 <span class="word-target-kr">동일한</span> 두 개의 장부를 발견했지만, 하나에는 숨겨진 암호가 들어 있었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-6" class="chapter-content" style='display: none;'>
+            <h2>Closing In</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The coded ledger was a major <span class="word-link" data-word-id="_impediment">impediment</span> to quick progress, requiring expert decryption.</p>
+                    <p class="korean-text" style="display: none;">암호화된 장부는 빠른 진행에 주요한 <span class="word-target-kr">장애</span>였고, 전문가의 해독이 필요했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles had to <span class="word-link" data-word-id="_justify">justify</span> his unorthodox methods to his skeptical superiors constantly.</p>
+                    <p class="korean-text" style="display: none;">마일스는 그의 회의적인 상사들에게 자신의 비정통적인 방법들을 끊임없이 <span class="word-target-kr">증명해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He couldn't help but <span class="word-link" data-word-id="_lament">lament</span> the innocent lives affected by The Collector's greed.</p>
+                    <p class="korean-text" style="display: none;">그는 수집가의 탐욕으로 인해 피해를 입은 무고한 생명들을 <span class="word-target-kr">슬퍼하지</span> 않을 수 없었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The stolen artifact was rumored to contain a rare <span class="word-link" data-word-id="_microorganism">microorganism</span> with unknown properties.</p>
+                    <p class="korean-text" style="display: none;">도난당한 유물에는 알려지지 않은 특성을 가진 희귀한 <span class="word-target-kr">미생물</span>이 들어 있다는 소문이 돌았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Silas became increasingly <span class="word-link" data-word-id="_moody">moody</span> and unpredictable as the pressure mounted.</p>
+                    <p class="korean-text" style="display: none;">압박감이 커지면서 사일러스는 점점 더 <span class="word-target-kr">우울해지고</span> 예측 불가능해졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The <span class="word-link" data-word-id="_origin">origin</span> of the Crimson Quill was traced back to an ancient, forgotten civilization.</p>
+                    <p class="korean-text" style="display: none;">크림슨 퀼의 <span class="word-target-kr">근원</span>은 고대의 잊혀진 문명으로 거슬러 올라갔다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles could not accurately <span class="word-link" data-word-id="_predict">predict</span> The Collector’s reaction when cornered.</p>
+                    <p class="korean-text" style="display: none;">마일스는 궁지에 몰렸을 때 수집가의 반응을 정확하게 <span class="word-target-kr">예측할</span> 수 없었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Despite setbacks, the investigation continued to <word id='_progress' class='word-eng-link'>progress</word, albeit slowly.</p>
+                    <p class="korean-text" style="display: none;">좌절에도 불구하고, 수사는 느리지만 계속해서 <span class="word-target-kr">발전</span>했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A lucky break allowed Miles to <span class="word-link" data-word-id="_scoop">scoop</span> up vital documents The Collector's men hastily discarded.</p>
+                    <p class="korean-text" style="display: none;">운 좋게도 마일스는 수집가의 부하들이 황급히 버린 중요한 문서들을 <span class="word-target-kr">긁어모을</span> 수 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He knew he had to <span class="word-link" data-word-id="_score_gain">score</span> a decisive victory against The Collector to bring him down.</p>
+                    <p class="korean-text" style="display: none;">그는 수집가를 무너뜨리기 위해서는 그에 대한 결정적인 승리를 <span class="word-target-kr">얻어야</span> 한다는 것을 알았다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-7" class="chapter-content" style='display: none;'>
+            <h2>Final Cadence</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The final piece of evidence was not a document, but a musical <span class="word-link" data-word-id="_score_music">score</span> containing a hidden message.</p>
+                    <p class="korean-text" style="display: none;">마지막 증거는 문서가 아니라 숨겨진 메시지를 담고 있는 <span class="word-target-kr">악보</span>였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles found a <span class="word-link" data-word-id="_scrap">scrap</span> of fabric at The Collector's hideout, matching Silas's distinctive coat.</p>
+                    <p class="korean-text" style="display: none;">마일스는 수집가의 은신처에서 사일러스의 독특한 코트와 일치하는 천 <span class="word-target-kr">파편</span>을 발견했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">It was <span class="word-link" data-word-id="_singularly">singularly</span> the most complex case Miles had ever undertaken.</p>
+                    <p class="korean-text" style="display: none;">그것은 마일스가 맡았던 사건 중 <span class="word-target-kr">각별히</span> 가장 복잡한 사건이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He needed a <span class="word-link" data-word-id="_skilled">skilled</span> cryptographer to decipher the musical score quickly.</p>
+                    <p class="korean-text" style="display: none;">그는 악보를 신속하게 해독할 <span class="word-target-kr">숙련된</span> 암호 해독가가 필요했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The <span class="word-link" data-word-id="_stem_base">stem</span> of the Collector's criminal enterprise was rotten to the core.</p>
+                    <p class="korean-text" style="display: none;">수집가 범죄 기업의 <span class="word-target-kr">어간</span>은 속까지 썩어 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Miles's plan was to <span class="word-link" data-word-id="_stem_stop">stem</span> the flow of illicit goods by exposing The Collector's network.</p>
+                    <p class="korean-text" style="display: none;">마일스의 계획은 수집가의 네트워크를 폭로하여 불법 상품의 흐름을 <span class="word-target-kr">막는</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">All of The Collector's problems seemed to <span class="word-link" data-word-id="_stem_from">stem from</span> his insatiable desire for control.</p>
+                    <p class="korean-text" style="display: none;">수집가의 모든 문제는 통제에 대한 그의 끝없는 욕망에서 <span class="word-target-kr">유래하는</span> 듯했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">It took all of Miles's resolve to <span class="word-link" data-word-id="_subdue">subdue</span> The Collector's formidable chief of security without raising an alarm.</p>
+                    <p class="korean-text" style="display: none;">경보를 울리지 않고 수집가의 강력한 보안 책임자를 <span class="word-target-kr">정복하는</span> 데는 마일스의 모든 결단력이 필요했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Anonymous patrons secretly <span class="word-link" data-word-id="_subsidize">subsidize</span> The Collector's operations, making him harder to trace.</p>
+                    <p class="korean-text" style="display: none;">익명의 후원자들이 비밀리에 수집가의 작전을 <span class="word-target-kr">후원하여</span> 그를 추적하기 더 어렵게 만들었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The jury's <span class="word-link" data-word-id="_unanimity">unanimity</span> in finding The Collector guilty was a testament to Miles's meticulous work.</p>
+                    <p class="korean-text" style="display: none;">수집가에게 유죄를 평결한 배심원단의 <span class="word-target-kr">만장일치</span>는 마일스의 꼼꼼한 작업에 대한 증거였다.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- 팝업 모달 -->
+    <div id="wordPopupOverlay" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3 id="popupTerm">단어</h3>
+                <button class="close-btn" onclick="closePopup()">&times;</button>
+            </div>
+            <div class="popup-body">
+                <p id="popupMeaning"><strong>뜻:</strong> </p>
+                <p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 단어 데이터
+        const wordData = {
+        "_acquaintance": {
+            term: "acquaintance",
+            kor_meaning: "\uc544\ub294\uce5c\uad6c, \uc9c0\uc778",
+            synonyms: "associate, companion"
+        },
+        "_acquire": {
+            term: "acquire",
+            kor_meaning: "\uc5bb\ub2e4",
+            synonyms: "obtain, secure, win, earn, get, attain, achieve"
+        },
+        "_affection": {
+            term: "affection",
+            kor_meaning: "\uc560\uc815",
+            synonyms: "attachment, amity, love"
+        },
+        "_agree": {
+            term: "agree",
+            kor_meaning: "\ub3d9\uc758\ud558\ub2e4",
+            synonyms: "assent, accede, concede"
+        },
+        "_alert_adj": {
+            term: "alert",
+            kor_meaning: "\uacbd\uacc4\ud558\ub294",
+            synonyms: "attentive, vigilant, wary"
+        },
+        "_alert_verb": {
+            term: "alert",
+            kor_meaning: "\uacbd\uace0\ud558\ub2e4",
+            synonyms: "warn, alarm, forewarn"
+        },
+        "_allure": {
+            term: "allure",
+            kor_meaning: "\ub04c\ub2e4, \uc720\ud639\ud558\ub2e4",
+            synonyms: "appeal, attract, lure, entice"
+        },
+        "_amplify": {
+            term: "amplify",
+            kor_meaning: "\ub298\ub9ac\ub2e4, \uc99d\ud3ed\ud558\ub2e4",
+            synonyms: "enlarge, expand, magnify, increase, augment"
+        },
+        "_arid": {
+            term: "arid",
+            kor_meaning: "\uba54\ub9c8\ub978",
+            synonyms: "dry, sterile, waterless, barren"
+        },
+        "_ascribe": {
+            term: "ascribe",
+            kor_meaning: "~\uc758 \ud0d3\uc73c\ub85c \ub3cc\ub9ac\ub2e4",
+            synonyms: "attribute, impute, refer"
+        },
+        "_compensate": {
+            term: "compensate",
+            kor_meaning: "\ubcf4\uc0c1\ud558\ub2e4",
+            synonyms: "atone, offset, make up for"
+        },
+        "_configure": {
+            term: "configure",
+            kor_meaning: "~\uc758 \ud615\ud0dc\ub85c \ub9cc\ub4e4\ub2e4",
+            synonyms: "shape, form, mold"
+        },
+        "_drastic": {
+            term: "drastic",
+            kor_meaning: "\uacfc\uaca9\ud55c, \uadf9\ub2e8\uc801\uc778",
+            synonyms: "extreme, desperate, radical"
+        },
+        "_embarrass": {
+            term: "embarrass",
+            kor_meaning: "\ubb34\uc548\ucf00 \ud558\ub2e4",
+            synonyms: "abash, discomfort"
+        },
+        "_empower": {
+            term: "empower",
+            kor_meaning: "\uc790\uaca9\uc744 \uc8fc\ub2e4",
+            synonyms: "authorize, warrant, permit, enable"
+        },
+        "_gathering": {
+            term: "gathering",
+            kor_meaning: "\ubaa8\uc784",
+            synonyms: "assembly, congregation"
+        },
+        "_haul": {
+            term: "haul",
+            kor_meaning: "\ub04c\uc5b4 \ub2f9\uae30\ub2e4.",
+            synonyms: "pull, tug, drag, heave"
+        },
+        "_immediate": {
+            term: "immediate",
+            kor_meaning: "\uc778\uc811\ud55c",
+            synonyms: "nearest, close, next"
+        },
+        "_increase": {
+            term: "increase",
+            kor_meaning: "\ub298\ub9ac\ub2e4",
+            synonyms: "augment, enlarge, escalate, multiply, expand"
+        },
+        "_loom": {
+            term: "loom",
+            kor_meaning: "\uc5b4\ub834\ud48b\uc774 \ub098\ud0c0\ub098\ub2e4",
+            synonyms: "emerge, appear, take shape"
+        },
+        "_overtax": {
+            term: "overtax",
+            kor_meaning: "\uc9c0\ub098\uce58\uac8c \uacfc\uc138\ud558\ub2e4",
+            synonyms: "burden heavily"
+        },
+        "_paradox": {
+            term: "paradox",
+            kor_meaning: "\ubaa8\uc21c",
+            synonyms: "contradiction"
+        },
+        "_pervasive": {
+            term: "pervasive",
+            kor_meaning: "\ud37c\uc9c0\ub294",
+            synonyms: "widespread, prevalent"
+        },
+        "_pleasing": {
+            term: "pleasing",
+            kor_meaning: "\ub9c8\uc74c\uc5d0 \ub4dc\ub294",
+            synonyms: "attractive, agreeable"
+        },
+        "_primary": {
+            term: "primary",
+            kor_meaning: "\uadfc\ubcf8\uc801\uc778",
+            synonyms: "fundamental, elementary, basic"
+        },
+        "_proper": {
+            term: "proper",
+            kor_meaning: "\uc801\ub2f9\ud55c",
+            synonyms: "suitable, correct, appropriate, adapted"
+        },
+        "_retaliate": {
+            term: "retaliate",
+            kor_meaning: "\ubcf5\uc218\ud558\ub2e4",
+            synonyms: "avenge, revenge"
+        },
+        "_serve": {
+            term: "serve",
+            kor_meaning: "\ub3c4\uc6c0\uc774 \ub418\ub2e4",
+            synonyms: "suit, function as, suffice, answer"
+        },
+        "_shrewd": {
+            term: "shrewd",
+            kor_meaning: "\uc608\ub9ac\ud55c, \ub0a0\uce74\ub85c\uc6b4",
+            synonyms: "astute, keen, acute, clever"
+        },
+        "_simulate": {
+            term: "simulate",
+            kor_meaning: "\ud749\ub0b4\ub0b4\ub2e4",
+            synonyms: "imitate, pretend, feign"
+        },
+        "_speck_spot": {
+            term: "speck",
+            kor_meaning: "\uc5bc\ub8e9",
+            synonyms: "spot, splotch, stain, blemish"
+        },
+        "_speck_particle": {
+            term: "speck",
+            kor_meaning: "\uc18c\ub7c9",
+            synonyms: "particle, atom, fragment"
+        },
+        "_strive": {
+            term: "strive",
+            kor_meaning: "\ub178\ub825\ud558\ub2e4",
+            synonyms: "try, endeavor, struggle"
+        },
+        "_suppose": {
+            term: "suppose",
+            kor_meaning: "\uac00\uc815\ud558\ub2e4",
+            synonyms: "assume, presume"
+        },
+        "_surprise": {
+            term: "surprise",
+            kor_meaning: "\ub180\ub77c\uac8c \ud558\ub2e4",
+            synonyms: "amaze, astound, startle, astonish, daze"
+        },
+        "_treat": {
+            term: "treat",
+            kor_meaning: "\ub300\uc6b0\ud558\ub2e4, \ub2e4\ub8e8\ub2e4",
+            synonyms: "serve, deal with, handle"
+        },
+        "_undertake": {
+            term: "undertake",
+            kor_meaning: "\ub5a0\ub9e1\ub2e4",
+            synonyms: "assume, take over"
+        },
+        "_variant": {
+            term: "variant",
+            kor_meaning: "\ubcc0\ud615, \uc815\uc0c1",
+            synonyms: "variation, modification"
+        },
+        "_zenith": {
+            term: "zenith",
+            kor_meaning: "\uc815\uc810",
+            synonyms: "apex, peak, tip, climax"
+        },
+        "_advantage": {
+            term: "advantage",
+            kor_meaning: "\uc774\uc775",
+            synonyms: "benefit, profit, behalf"
+        },
+        "_arise_from": {
+            term: "arise from",
+            kor_meaning: "~\uc5d0\uc11c \uae30\uc778\ud558\ub2e4",
+            synonyms: "originate from, stem from"
+        },
+        "_barrier": {
+            term: "barrier",
+            kor_meaning: "\uc7a5\uc560\ubb3c",
+            synonyms: "bar, obstacle, obstruction, barricade"
+        },
+        "_betray": {
+            term: "betray",
+            kor_meaning: "\ubc30\uc2e0\ud558\ub2e4",
+            synonyms: "be unfaithful to, be a traitor to"
+        },
+        "_bind": {
+            term: "bind",
+            kor_meaning: "\ubb36\ub2e4",
+            synonyms: "tie, bond, fasten"
+        },
+        "_blur": {
+            term: "blur",
+            kor_meaning: "\ud750\ub9ac\uac8c \ud558\ub2e4",
+            synonyms: "make vague, obscure, cloud"
+        },
+        "_circumvent": {
+            term: "circumvent",
+            kor_meaning: "\uc6b0\ud68c\ud558\ub2e4",
+            synonyms: "avoid, bypass, go around"
+        },
+        "_clumsy": {
+            term: "clumsy",
+            kor_meaning: "\uc11c\ud22c\ub978",
+            synonyms: "awkward, unskillful"
+        },
+        "_commence": {
+            term: "commence",
+            kor_meaning: "\uc2dc\uc791\ud558\ub2e4",
+            synonyms: "begin, start, originate"
+        },
+        "_conduct": {
+            term: "conduct",
+            kor_meaning: "\ud589\ub3d9",
+            synonyms: "behavior, demeanor, bearing, manner"
+        },
+        "_conserve": {
+            term: "conserve",
+            kor_meaning: "\ubcf4\uc874\ud558\ub2e4",
+            synonyms: "retain, keep, save"
+        },
+        "_contradiction": {
+            term: "contradiction",
+            kor_meaning: "\ubaa8\uc21c",
+            synonyms: "paradox"
+        },
+        "_culminate": {
+            term: "culminate",
+            kor_meaning: "~\ub85c \ub05d\ub098\ub2e4.",
+            synonyms: "result, end"
+        },
+        "_delineate": {
+            term: "delineate",
+            kor_meaning: "\uc724\uacfd\uc744 \uadf8\ub9ac\ub2e4",
+            synonyms: "trace, draw, describe"
+        },
+        "_donation": {
+            term: "donation",
+            kor_meaning: "\uae30\uc99d",
+            synonyms: "contribution, gift, offering"
+        },
+        "_embark_on": {
+            term: "embark on",
+            kor_meaning: "\uc2dc\uc791\ud558\ub2e4, \ucc29\uc218\ud558\ub2e4",
+            synonyms: "start, commence, begin"
+        },
+        "_foundation": {
+            term: "foundation",
+            kor_meaning: "\uae30\ucd08",
+            synonyms: "basis, underpinning, base, ground"
+        },
+        "_fundamental": {
+            term: "fundamental",
+            kor_meaning: "\uadfc\ubcf8\uc801\uc778",
+            synonyms: "basic, essential, primary"
+        },
+        "_handful": {
+            term: "handful",
+            kor_meaning: "\uc18c\ub7c9, \uc18c\uc218",
+            synonyms: "few, smattering"
+        },
+        "_height": {
+            term: "height",
+            kor_meaning: "\uc808\uc815",
+            synonyms: "peak, apex, crest, zenith"
+        },
+        "_identical": {
+            term: "identical",
+            kor_meaning: "\ub3d9\uc77c\ud55c",
+            synonyms: "same, alike, equal"
+        },
+        "_impediment": {
+            term: "impediment",
+            kor_meaning: "\uc7a5\uc560",
+            synonyms: "obstacle, barrier, difficulty, obstruction"
+        },
+        "_justify": {
+            term: "justify",
+            kor_meaning: "\uc99d\uba85\ud558\ub2e4",
+            synonyms: "prove, confirm, verify"
+        },
+        "_lament": {
+            term: "lament",
+            kor_meaning: "\uc2ac\ud37c\ud558\ub2e4",
+            synonyms: "complain, deplore, grieve, bemoan, mourn"
+        },
+        "_microorganism": {
+            term: "microorganism",
+            kor_meaning: "\ubbf8\uc0dd\ubb3c",
+            synonyms: "microbe, bacterium"
+        },
+        "_moody": {
+            term: "moody",
+            kor_meaning: "\uc6b0\uc6b8\ud55c",
+            synonyms: "gloomy, sullen, dismal, melancholy"
+        },
+        "_origin": {
+            term: "origin",
+            kor_meaning: "\ubc1c\uc0dd, \uadfc\uc6d0",
+            synonyms: "beginning, source"
+        },
+        "_predict": {
+            term: "predict",
+            kor_meaning: "\uc608\uce21\ud558\ub2e4",
+            synonyms: "foretell, prophesy, foresee"
+        },
+        "_progress": {
+            term: "progress",
+            kor_meaning: "\ubc1c\uc804",
+            synonyms: "strides, improvement, advance, development"
+        },
+        "_scoop": {
+            term: "scoop",
+            kor_meaning: "\uae01\uc5b4 \ubaa8\uc73c\ub2e4",
+            synonyms: "gather, lift, pick up"
+        },
+        "_score_gain": {
+            term: "score",
+            kor_meaning: "\uc5bb\ub2e4",
+            synonyms: "gain, win"
+        },
+        "_score_music": {
+            term: "score",
+            kor_meaning: "\uc545\ubcf4",
+            synonyms: "musical composition, musical note"
+        },
+        "_scrap": {
+            term: "scrap",
+            kor_meaning: "\ud30c\ud3b8",
+            synonyms: "fracture, piece, portion"
+        },
+        "_singularly": {
+            term: "singularly",
+            kor_meaning: "\uac01\ubcc4\ud788",
+            synonyms: "particularly, especially"
+        },
+        "_skilled": {
+            term: "skilled",
+            kor_meaning: "\uc219\ub828\ub41c",
+            synonyms: "skillful, adept, expert, proficient"
+        },
+        "_stem_base": {
+            term: "stem",
+            kor_meaning: "\uc5b4\uac04",
+            synonyms: "base, root"
+        },
+        "_stem_stop": {
+            term: "stem",
+            kor_meaning: "\ub9c9\ub2e4",
+            synonyms: "stop, dam, obstruct"
+        },
+        "_stem_from": {
+            term: "stem from",
+            kor_meaning: "\uc720\ub798\ud558\ub2e4",
+            synonyms: "arise from, originate, derive, proceed"
+        },
+        "_subdue": {
+            term: "subdue",
+            kor_meaning: "\uc815\ubcf5\ud558\ub2e4",
+            synonyms: "conquer, defeat, suppress"
+        },
+        "_subsidize": {
+            term: "subsidize",
+            kor_meaning: "\ud6c4\uc6d0\ud558\ub2e4",
+            synonyms: "assist, encourage, finance, back, fund"
+        },
+        "_unanimity": {
+            term: "unanimity",
+            kor_meaning: "(\ub9cc\uc7a5) \uc77c\uce58",
+            synonyms: "accord, agreement"
+        },
+        };
+
+        let translationVisible = false;
+
+        // 챕터 전환 함수
+        function showChapter(chapterIndex) {
+            // 모든 챕터 숨기기
+            const chapters = document.querySelectorAll('.chapter-content');
+            chapters.forEach(chapter => {
+                chapter.style.display = 'none';
+            });
+
+            // 모든 링크에서 active 클래스 제거
+            const links = document.querySelectorAll('.chapter-link');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // 선택된 챕터 보이기
+            const selectedChapter = document.getElementById('chapter-' + chapterIndex);
+            if (selectedChapter) {
+                selectedChapter.style.display = 'block';
+
+                // 현재 번역 상태에 따라 한국어 문장 표시/숨김
+                const koreanTexts = selectedChapter.querySelectorAll('.korean-text');
+                koreanTexts.forEach(text => {
+                    text.style.display = translationVisible ? 'block' : 'none';
+                });
+            }
+
+            // 선택된 링크에 active 클래스 추가
+            if (links[chapterIndex]) {
+                links[chapterIndex].classList.add('active');
+            }
+
+            // 목차가 열려있으면 닫기
+            const indexNav = document.getElementById('indexNavigation');
+            if (indexNav && indexNav.classList.contains('show')) {
+                toggleIndex();
+            }
+        }
+
+        // 목차 토글 함수
+        function toggleIndex() {
+            const indexNav = document.getElementById('indexNavigation');
+            const toggleBtn = document.querySelector('.toggle-index-btn');
+
+            if (indexNav.classList.contains('show')) {
+                indexNav.classList.remove('show');
+                toggleBtn.textContent = '목차 보기';
+            } else {
+                indexNav.classList.add('show');
+                toggleBtn.textContent = '목차 숨기기';
+            }
+        }
+
+        // 번역 토글 함수
+
+        function toggleTranslation() {
+            translationVisible = !translationVisible;
+            const koreanTexts = document.querySelectorAll('.korean-text');
+
+            koreanTexts.forEach(text => {
+                text.style.display = translationVisible ? 'block' : 'none';
+            });
+
+            const toggleBtn = document.querySelector('.translate-icon-btn');
+            toggleBtn.setAttribute('title', translationVisible ? 'Hide Translation' : 'Show Translation');
+        }
+
+        // 단어 팝업 표시 함수
+        function showWordPopup(wordId) {
+            console.log('단어 팝업 표시:', wordId);
+
+            const wordInfo = wordData[wordId];
+            if (!wordInfo) {
+                console.error('단어 정보를 찾을 수 없습니다:', wordId);
+                alert('단어 정보를 찾을 수 없습니다: ' + wordId);
+                return;
+            }
+
+            // 팝업 요소들 가져오기
+            const overlay = document.getElementById('wordPopupOverlay');
+            const termElement = document.getElementById('popupTerm');
+            const meaningElement = document.getElementById('popupMeaning');
+            const synonymsElement = document.getElementById('popupSynonyms');
+
+            if (!overlay || !termElement || !meaningElement || !synonymsElement) {
+                console.error('팝업 요소를 찾을 수 없습니다');
+                return;
+            }
+
+            // 팝업 내용 설정
+            termElement.textContent = wordInfo.term;
+            meaningElement.innerHTML = '<strong>뜻:</strong> ' + wordInfo.kor_meaning;
+
+            if (wordInfo.synonyms && wordInfo.synonyms.trim()) {
+                synonymsElement.innerHTML = '<strong>동의어:</strong> ' + wordInfo.synonyms;
+                synonymsElement.style.display = 'block';
+            } else {
+                synonymsElement.style.display = 'none';
+            }
+
+            // 팝업 표시
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+
+            console.log('팝업 표시 완료');
+        }
+
+        // 팝업 닫기 함수
+        function closePopup() {
+            const overlay = document.getElementById('wordPopupOverlay');
+            if (overlay) {
+                overlay.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('페이지 로드됨');
+            console.log('단어 데이터 개수:', Object.keys(wordData).length);
+
+            // 첫 번째 챕터 표시
+            showChapter(0);
+
+            // 단어 클릭 이벤트 리스너 (이벤트 위임)
+            document.body.addEventListener('click', function(e) {
+                if (e.target.classList.contains('word-link')) {
+                    const wordId = e.target.getAttribute('data-word-id');
+                    if (wordId) {
+                        console.log('단어 클릭됨:', wordId);
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showWordPopup(wordId);
+                    }
+                }
+            });
+
+            // 팝업 오버레이 클릭 시 닫기
+            document.getElementById('wordPopupOverlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closePopup();
+                }
+            });
+
+            // ESC 키로 팝업 닫기
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closePopup();
+                }
+            });
+
+            console.log('이벤트 리스너 설정 완료');
+
+            // 단어 요소 개수 확인
+            setTimeout(function() {
+                const wordElements = document.querySelectorAll('.word-link');
+                console.log('발견된 단어 요소 수:', wordElements.length);
+                if (wordElements.length > 0) {
+                    console.log('첫 번째 단어 요소:', wordElements[0].textContent, wordElements[0].getAttribute('data-word-id'));
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

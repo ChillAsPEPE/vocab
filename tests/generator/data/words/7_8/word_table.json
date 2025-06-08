@@ -1,0 +1,543 @@
+{
+  "words": [
+    {
+      "num": "0",
+      "id": "_abolish",
+      "term": "abolish",
+      "synonyms": ["annul", "nullify", "revoke"],
+      "kor_meaning": "폐지하다"
+    },
+    {
+      "num": "1",
+      "id": "_adage",
+      "term": "adage",
+      "synonyms": ["proverb", "saying", "maxim"],
+      "kor_meaning": "속담, 금언"
+    },
+    {
+      "num": "2",
+      "id": "_aesthetic",
+      "term": "aesthetic",
+      "synonyms": ["artistic"],
+      "kor_meaning": "미적인"
+    },
+    {
+      "num": "3",
+      "id": "_affect",
+      "term": "affect",
+      "synonyms": ["influence", "impact"],
+      "kor_meaning": "에 영향을 미치다"
+    },
+    {
+      "num": "4",
+      "id": "_affect_2",
+      "term": "affect",
+      "synonyms": ["pretend", "feign", "assume"],
+      "kor_meaning": "인 체하다"
+    },
+    {
+      "num": "5",
+      "id": "_alteration",
+      "term": "alteration",
+      "synonyms": ["change", "modification", "variation", "adjustment"],
+      "kor_meaning": "변경, 수정"
+    },
+    {
+      "num": "6",
+      "id": "_amenity",
+      "term": "amenity",
+      "synonyms": ["facility", "convenience"],
+      "kor_meaning": "편의 시설, 쾌적성"
+    },
+    {
+      "num": "7",
+      "id": "_approximately",
+      "term": "approximately",
+      "synonyms": ["about", "roughly", "nearly", "almost"],
+      "kor_meaning": "대략"
+    },
+    {
+      "num": "8",
+      "id": "_artisan",
+      "term": "artisan",
+      "synonyms": ["craftsman"],
+      "kor_meaning": "숙련공"
+    },
+    {
+      "num": "9",
+      "id": "_bear",
+      "term": "bear",
+      "synonyms": ["carry", "transport", "convey"],
+      "kor_meaning": "운반하다"
+    },
+    {
+      "num": "10",
+      "id": "_bear_2",
+      "term": "bear",
+      "synonyms": ["yield", "provide", "produce"],
+      "kor_meaning": "생산하다"
+    },
+    {
+      "num": "11",
+      "id": "_bear_3",
+      "term": "bear",
+      "synonyms": ["support", "hold", "sustain", "stand", "endure"],
+      "kor_meaning": "(무게를) 지탱하다, 견디다"
+    },
+    {
+      "num": "12",
+      "id": "_bountiful",
+      "term": "bountiful",
+      "synonyms": ["plentiful", "abundant", "ample", "prolific", "liberal"],
+      "kor_meaning": "풍부한"
+    },
+    {
+      "num": "13",
+      "id": "_dispute",
+      "term": "dispute",
+      "synonyms": ["argue", "debate"],
+      "kor_meaning": "논쟁하다"
+    },
+    {
+      "num": "14",
+      "id": "_dispute_2",
+      "term": "dispute",
+      "synonyms": ["argument", "disagreement", "debate", "controversy"],
+      "kor_meaning": "논쟁"
+    },
+    {
+      "num": "15",
+      "id": "_dubious",
+      "term": "dubious",
+      "synonyms": ["arguable", "doubtful", "questionable", "speculative"],
+      "kor_meaning": "의심스러운"
+    },
+    {
+      "num": "16",
+      "id": "_faculty",
+      "term": "faculty",
+      "synonyms": ["ability", "capacity", "aptitude"],
+      "kor_meaning": "능력"
+    },
+    {
+      "num": "17",
+      "id": "_field",
+      "term": "field",
+      "synonyms": ["area", "domain", "sphere"],
+      "kor_meaning": "분야"
+    },
+    {
+      "num": "18",
+      "id": "_guiltless",
+      "term": "guiltless",
+      "synonyms": ["sinless", "blameless", "innocent"],
+      "kor_meaning": "결백한"
+    },
+    {
+      "num": "19",
+      "id": "_influx",
+      "term": "influx",
+      "synonyms": ["arrival", "incoming"],
+      "kor_meaning": "유입, 쇄도"
+    },
+    {
+      "num": "20",
+      "id": "_inundate",
+      "term": "inundate",
+      "synonyms": ["flood", "deluge", "swamp", "submerge"],
+      "kor_meaning": "물에 잠기게 하다"
+    },
+    {
+      "num": "21",
+      "id": "_lure",
+      "term": "lure",
+      "synonyms": ["attract", "draw", "seduce", "allure", "decoy", "entice"],
+      "kor_meaning": "유혹하다"
+    },
+    {
+      "num": "22",
+      "id": "_mount",
+      "term": "mount",
+      "synonyms": ["ascend", "climb", "scale"],
+      "kor_meaning": "오르다"
+    },
+    {
+      "num": "23",
+      "id": "_mount_2",
+      "term": "mount",
+      "synonyms": ["increase", "multiply", "grow", "rise", "amplify"],
+      "kor_meaning": "증가하다"
+    },
+    {
+      "num": "24",
+      "id": "_mundane",
+      "term": "mundane",
+      "synonyms": ["ordinary", "routine", "commonplace"],
+      "kor_meaning": "평범한"
+    },
+    {
+      "num": "25",
+      "id": "_outstrip",
+      "term": "outstrip",
+      "synonyms": ["surpass", "outrun", "exceed", "excel"],
+      "kor_meaning": "앞지르다"
+    },
+    {
+      "num": "26",
+      "id": "_pertinent",
+      "term": "pertinent",
+      "synonyms": ["relevant", "applicable"],
+      "kor_meaning": "관련된"
+    },
+    {
+      "num": "27",
+      "id": "_preclude",
+      "term": "preclude",
+      "synonyms": ["prevent", "forestall", "obviate"],
+      "kor_meaning": "예방하다, 막다"
+    },
+    {
+      "num": "28",
+      "id": "_refrain",
+      "term": "refrain",
+      "synonyms": ["pause", "stop", "avoid", "cease"],
+      "kor_meaning": "중단하다"
+    },
+    {
+      "num": "29",
+      "id": "_roughly",
+      "term": "roughly",
+      "synonyms": ["approximately", "nearly", "about", "almost"],
+      "kor_meaning": "대략"
+    },
+    {
+      "num": "30",
+      "id": "_semblance",
+      "term": "semblance",
+      "synonyms": ["appearance"],
+      "kor_meaning": "외관"
+    },
+    {
+      "num": "31",
+      "id": "_semblance_2",
+      "term": "semblance",
+      "synonyms": ["analogy", "similarity", "likeness"],
+      "kor_meaning": "유사성"
+    },
+    {
+      "num": "32",
+      "id": "_sophisticated",
+      "term": "sophisticated",
+      "synonyms": ["complex", "complicated", "civilized"],
+      "kor_meaning": "복잡한"
+    },
+    {
+      "num": "33",
+      "id": "_stage",
+      "term": "stage",
+      "synonyms": ["level", "phase", "period"],
+      "kor_meaning": "단계"
+    },
+    {
+      "num": "34",
+      "id": "_thick",
+      "term": "thick",
+      "synonyms": ["dense", "compact"],
+      "kor_meaning": "빽빽한"
+    },
+    {
+      "num": "35",
+      "id": "_thus",
+      "term": "thus",
+      "synonyms": ["consequently", "therefore", "accordingly"],
+      "kor_meaning": "따라서"
+    },
+    {
+      "num": "36",
+      "id": "_tiny",
+      "term": "tiny",
+      "synonyms": ["little", "minuscule", "small"],
+      "kor_meaning": "작은"
+    },
+    {
+      "num": "37",
+      "id": "_tyrannical",
+      "term": "tyrannical",
+      "synonyms": ["despotic", "oppressive", "arbitrary"],
+      "kor_meaning": "독재적인"
+    },
+    {
+      "num": "38",
+      "id": "_verge",
+      "term": "verge",
+      "synonyms": ["brink", "rim", "margin", "border"],
+      "kor_meaning": "경계, 가장자리"
+    },
+    {
+      "num": "39",
+      "id": "_acquaintance",
+      "term": "acquaintance",
+      "synonyms": ["associate", "companion"],
+      "kor_meaning": "아는 친구, 지인"
+    },
+    {
+      "num": "40",
+      "id": "_acquire",
+      "term": "acquire",
+      "synonyms": ["obtain", "secure", "win", "earn", "get", "attain", "achieve"],
+      "kor_meaning": "얻다"
+    },
+    {
+      "num": "41",
+      "id": "_affection",
+      "term": "affection",
+      "synonyms": ["attachment", "amity", "love"],
+      "kor_meaning": "애정"
+    },
+    {
+      "num": "42",
+      "id": "_agree",
+      "term": "agree",
+      "synonyms": ["assent", "accede", "concede"],
+      "kor_meaning": "동의하다"
+    },
+    {
+      "num": "43",
+      "id": "_alert",
+      "term": "alert",
+      "synonyms": ["attentive", "vigilant", "wary"],
+      "kor_meaning": "경계하는"
+    },
+    {
+      "num": "44",
+      "id": "_allure",
+      "term": "allure",
+      "synonyms": ["appeal", "attract", "lure", "entice"],
+      "kor_meaning": "끌다, 유혹하다"
+    },
+    {
+      "num": "45",
+      "id": "_amplify",
+      "term": "amplify",
+      "synonyms": ["enlarge", "expand", "magnify", "increase", "augment"],
+      "kor_meaning": "늘리다, 증폭시키다"
+    },
+    {
+      "num": "46",
+      "id": "_arid",
+      "term": "arid",
+      "synonyms": ["dry", "sterile", "waterless", "barren"],
+      "kor_meaning": "메마른"
+    },
+    {
+      "num": "47",
+      "id": "_ascribe",
+      "term": "ascribe",
+      "synonyms": ["attribute", "impute", "refer"],
+      "kor_meaning": "돌리다"
+    },
+    {
+      "num": "48",
+      "id": "_compensate",
+      "term": "compensate",
+      "synonyms": ["atone", "offset", "make up for"],
+      "kor_meaning": "보상하다"
+    },
+    {
+      "num": "49",
+      "id": "_configure",
+      "term": "configure",
+      "synonyms": ["shape", "form", "mold"],
+      "kor_meaning": "형태를 만들다"
+    },
+    {
+      "num": "50",
+      "id": "_drastic",
+      "term": "drastic",
+      "synonyms": ["extreme", "desperate", "radical"],
+      "kor_meaning": "과격한, 극단적인"
+    },
+    {
+      "num": "51",
+      "id": "_embarrass",
+      "term": "embarrass",
+      "synonyms": ["abash", "discomfort"],
+      "kor_meaning": "무안케 하다"
+    },
+    {
+      "num": "52",
+      "id": "_empower",
+      "term": "empower",
+      "synonyms": ["authorize", "warrant", "permit", "enable"],
+      "kor_meaning": "자격을 주다"
+    },
+    {
+      "num": "53",
+      "id": "_gathering",
+      "term": "gathering",
+      "synonyms": ["assembly", "congregation"],
+      "kor_meaning": "모임"
+    },
+    {
+      "num": "54",
+      "id": "_haul",
+      "term": "haul",
+      "synonyms": ["pull", "tug", "drag", "heave"],
+      "kor_meaning": "끌어 당기다."
+    },
+    {
+      "num": "55",
+      "id": "_immediate",
+      "term": "immediate",
+      "synonyms": ["nearest", "close", "next"],
+      "kor_meaning": "인접한"
+    },
+    {
+      "num": "56",
+      "id": "_increase",
+      "term": "increase",
+      "synonyms": ["augment", "enlarge", "escalate", "multiply", "expand"],
+      "kor_meaning": "늘리다"
+    },
+    {
+      "num": "57",
+      "id": "_loom",
+      "term": "loom",
+      "synonyms": ["emerge", "appear", "take shape"],
+      "kor_meaning": "어렴풋이 나타나다"
+    },
+    {
+      "num": "58",
+      "id": "_overtax",
+      "term": "overtax",
+      "synonyms": ["burden heavily"],
+      "kor_meaning": "지나치게 과세하다"
+    },
+    {
+      "num": "59",
+      "id": "_paradox",
+      "term": "paradox",
+      "synonyms": ["contradiction"],
+      "kor_meaning": "모순"
+    },
+    {
+      "num": "60",
+      "id": "_pervasive",
+      "term": "pervasive",
+      "synonyms": ["widespread", "prevalent"],
+      "kor_meaning": "만연하는"
+    },
+    {
+      "num": "61",
+      "id": "_pleasing",
+      "term": "pleasing",
+      "synonyms": ["attractive", "agreeable"],
+      "kor_meaning": "마음에 드는"
+    },
+    {
+      "num": "62",
+      "id": "_primary",
+      "term": "primary",
+      "synonyms": ["fundamental", "elementary", "basic"],
+      "kor_meaning": "근본적인"
+    },
+    {
+      "num": "63",
+      "id": "_proper",
+      "term": "proper",
+      "synonyms": ["suitable", "correct", "appropriate", "adapted"],
+      "kor_meaning": "적당한"
+    },
+    {
+      "num": "64",
+      "id": "_retaliate",
+      "term": "retaliate",
+      "synonyms": ["avenge", "revenge"],
+      "kor_meaning": "보수하다"
+    },
+    {
+      "num": "65",
+      "id": "_serve",
+      "term": "serve",
+      "synonyms": ["suit", "function as", "suffice", "answer"],
+      "kor_meaning": "도움이 되다"
+    },
+    {
+      "num": "66",
+      "id": "_shrewd",
+      "term": "shrewd",
+      "synonyms": ["astute", "keen", "acute", "clever"],
+      "kor_meaning": "예리한, 날카로운"
+    },
+    {
+      "num": "67",
+      "id": "_simulate",
+      "term": "simulate",
+      "synonyms": ["imitate", "pretend", "feign"],
+      "kor_meaning": "흉내내다"
+    },
+    {
+      "num": "68",
+      "id": "_speck",
+      "term": "speck",
+      "synonyms": ["spot", "splotch", "stain"],
+      "kor_meaning": "얼룩"
+    },
+    {
+      "num": "69",
+      "id": "_speck_2",
+      "term": "speck",
+      "synonyms": ["particle", "atom", "fragment"],
+      "kor_meaning": "소량"
+    },
+    {
+      "num": "70",
+      "id": "_strive",
+      "term": "strive",
+      "synonyms": ["try", "endeavor", "struggle"],
+      "kor_meaning": "노력하다"
+    },
+    {
+      "num": "71",
+      "id": "_suppose",
+      "term": "suppose",
+      "synonyms": ["assume", "presume"],
+      "kor_meaning": "가정하다"
+    },
+    {
+      "num": "72",
+      "id": "_surprise",
+      "term": "surprise",
+      "synonyms": ["amaze", "astound", "startle", "astonish", "daze"],
+      "kor_meaning": "놀라게 하다"
+    },
+    {
+      "num": "73",
+      "id": "_treat",
+      "term": "treat",
+      "synonyms": ["serve", "deal with", "handle"],
+      "kor_meaning": "대접하다"
+    },
+    {
+      "num": "74",
+      "id": "_undertake",
+      "term": "undertake",
+      "synonyms": ["assume", "take over"],
+      "kor_meaning": "떠맡다"
+    },
+    {
+      "num": "75",
+      "id": "_variant",
+      "term": "variant",
+      "synonyms": ["variation", "modification"],
+      "kor_meaning": "변형, 변수"
+    },
+    {
+      "num": "76",
+      "id": "_zenith",
+      "term": "zenith",
+      "synonyms": ["apex", "peak", "tip", "climax"],
+      "kor_meaning": "정점, 정상"
+    }
+  ]
+}

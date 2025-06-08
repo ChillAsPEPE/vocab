@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대화형 어휘 학습 뷰어</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 0px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .nav-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .chapter-link {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 3px;
+            text-decoration: none;
+            color: #007bff;
+            /* border: 1px solid #007bff; 제거 */
+            /* border-radius: 50%; 제거 */
+            border: none; /* 다른 테두리 제거 */
+            border-bottom: 1px solid #007bff; /* 밑줄 추가 */
+            font-weight: 500;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            min-width: 35px;
+            text-align: center;
+        }
+
+        .chapter-link:hover {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white; /* hover 시 밑줄 색상 변경 */
+            transform: scale(1.1);
+        }
+
+        .chapter-link.active {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white; /* active 시 밑줄 색상 변경 */
+        }
+
+        .toggle-index-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+
+        .toggle-index-btn:hover {
+            background: #5a6268;
+        }
+
+        .index-navigation {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .index-navigation.show {
+            display: block;
+        }
+
+        .index-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .index-item:hover {
+            background: #f8f9fa;
+        }
+
+        .index-number {
+            font-weight: 600;
+            color: #007bff;
+            margin-right: 12px;
+            min-width: 25px;
+        }
+
+        .index-title {
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .chapter-btn {
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .chapter-btn:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .chapter-btn.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .translate-icon-btn {
+            background-color: transparent; /* 버튼 배경 투명하게 */
+            border: none;                 /* 버튼 테두리 제거 */
+            padding: 2px;                 /* 버튼 내부 여백 줄이기 (아이콘 주변 공간) */
+            margin: 0;                    /* 버튼 외부 여백 제거 */
+            cursor: pointer;              /* 마우스 오버 시 커서 변경 */
+            display: inline-flex;         /* SVG 아이콘을 버튼 내에서 정렬하기 용이하도록 설정 */
+            align-items: center;          /* 수직 중앙 정렬 */
+            justify-content: center;      /* 수평 중앙 정렬 */
+            line-height: 0;               /* 버튼 내부에 불필요한 추가 공간 제거 */
+        }
+
+        .translate-icon-btn:hover {
+            background: transparent; /* Slightly lighter bronze on hover */
+            transform: scale(1.1); /* Subtle scale instead of translateY */
+            border-color: #a89b7a; /* Brighter brass on hover */
+        }
+
+        .translate-icon-btn svg {
+            stroke: #e6d4a6; /* Aged gold for steampunk icon */
+            width: 20px;
+            height: 20px;
+        }
+
+
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chapter-content h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .sentence-pair {
+            margin-bottom: 25px;
+        }
+
+        .english-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .korean-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #666;
+            font-style: italic;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-left: 4px solid #007bff;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* 단어 링크 스타일 */
+        .word-link {
+            color: #007bff;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+            background: rgba(0, 123, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: underline;
+        }
+
+        .word-link:hover {
+            background: rgba(0, 123, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* 한국어 대상 단어 스타일 */
+        .word-target-kr {
+            color: #dc3545;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        /* 팝업 모달 스타일 */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup-overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-content {
+            background: white;
+            max-width: 400px;
+            width: 90%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px 10px;
+            border-bottom: 2px solid #f1f3f4;
+        }
+
+        .popup-header h3 {
+            color: #007bff;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .popup-body {
+            padding: 20px 25px 25px;
+        }
+
+        .popup-body p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .popup-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .popup-body strong {
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .chapter-link {
+                padding: 6px 8px;
+                min-width: 25px; /* 모바일에서 더 작게 */
+                font-size: 10px;
+            }
+            .container {
+                padding: 10px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .chapter-content h2 {
+                font-size: 24px;
+            }
+            .english-text {
+                font-size: 16px;
+            }
+            .korean-text {
+                font-size: 14px;
+            }
+            .toggle-index-btn {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="navigation">
+                <span class="nav-label">Chapters:</span>
+                <a href="javascript:void(0)" class="chapter-link active" onclick="showChapter(0)">1</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(1)">2</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(2)">3</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(3)">4</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(4)">5</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(5)">6</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(6)">7</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(7)">8</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(8)">9</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(9)">10</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(10)">11</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(11)">12</a><a href="javascript:void(0)" class="chapter-link " onclick="showChapter(12)">13</a>
+                <button class="toggle-index-btn" onclick="toggleIndex()">목차 보기</button>
+                <button class="translate-icon-btn" onclick="toggleTranslation()" title="Toggle Translation">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" stroke="lightskyblue"></circle> {/* 하늘색 테두리 */}
+                        <path d="M2 12h20" stroke="dodgerblue"></path> {/* 파란색 가로선 */}
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10" stroke="dodgerblue"></path> {/* 파란색 세로 곡선 */}
+                        <path d="M12 2a15.3 15.3 0 0 0-4 10 15.3 15.3 0 0 0 4 10" stroke="dodgerblue"></path> {/* 파란색 세로 곡선 */}
+                    </svg>
+                </button>
+            </div>
+
+            <div id="indexNavigation" class="index-navigation">
+                <div class="index-item" onclick="showChapter(0)">
+                    <span class="index-number">1.</span>
+                    <span class="index-title">The Forsaken Mission</span>
+                </div>
+                <div class="index-item" onclick="showChapter(1)">
+                    <span class="index-number">2.</span>
+                    <span class="index-title">The Weight of Data</span>
+                </div>
+                <div class="index-item" onclick="showChapter(2)">
+                    <span class="index-number">3.</span>
+                    <span class="index-title">The Whispering Past</span>
+                </div>
+                <div class="index-item" onclick="showChapter(3)">
+                    <span class="index-number">4.</span>
+                    <span class="index-title">The Unseen Balance</span>
+                </div>
+                <div class="index-item" onclick="showChapter(4)">
+                    <span class="index-number">5.</span>
+                    <span class="index-title">The Root of Betrayal</span>
+                </div>
+                <div class="index-item" onclick="showChapter(5)">
+                    <span class="index-number">6.</span>
+                    <span class="index-title">Paradox of Trust</span>
+                </div>
+                <div class="index-item" onclick="showChapter(6)">
+                    <span class="index-number">7.</span>
+                    <span class="index-title">The Apex of Deceit</span>
+                </div>
+                <div class="index-item" onclick="showChapter(7)">
+                    <span class="index-number">8.</span>
+                    <span class="index-title">The Price of Victory</span>
+                </div>
+                <div class="index-item" onclick="showChapter(8)">
+                    <span class="index-number">9.</span>
+                    <span class="index-title">Echoes of Unanimity</span>
+                </div>
+                <div class="index-item" onclick="showChapter(9)">
+                    <span class="index-number">10.</span>
+                    <span class="index-title">Converging Fates</span>
+                </div>
+                <div class="index-item" onclick="showChapter(10)">
+                    <span class="index-number">11.</span>
+                    <span class="index-title">A Grant of Mercy</span>
+                </div>
+                <div class="index-item" onclick="showChapter(11)">
+                    <span class="index-number">12.</span>
+                    <span class="index-title">The People's Will</span>
+                </div>
+                <div class="index-item" onclick="showChapter(12)">
+                    <span class="index-number">13.</span>
+                    <span class="index-title">The Final Stand</span>
+                </div>
+            </div>
+
+            
+        <div id="chapter-0" class="chapter-content">
+            <h2>The Forsaken Mission</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">Agent Leo received the gut-wrenching order: he had to <span class="word-link" data-word-id="_abandon">abandon</span> his long-term post.</p>
+                    <p class="korean-text" style="display: none;">요원 레오는 가슴 아픈 명령을 받았다: 그는 오랜 기간 지켜온 그의 주둔지를 <span class="word-target-kr">버려야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A slow-acting poison coursed through his veins, and his only hope was a rumored <span class="word-link" data-word-id="_antidote">antidote</span>.</p>
+                    <p class="korean-text" style="display: none;">느리게 작용하는 독이 그의 혈관을 타고 흘렀고, 그의 유일한 희망은 소문으로만 듣던 <span class="word-target-kr">치료법</span>이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A message, left on his screen, was both cryptic and <span class="word-link" data-word-id="_conspicuous">conspicuous</span> in the silent command center.</p>
+                    <p class="korean-text" style="display: none;">그의 화면에 남겨진 메시지는 암호 같았지만, 조용한 지휘 본부 안에서 <span class="word-target-kr">눈에 잘 띄었다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">This was a <span class="word-link" data-word-id="_critical">critical</span> moment; every decision could mean life or death.</p>
+                    <p class="korean-text" style="display: none;">이것은 <span class="word-target-kr">중요한</span> 순간이었다; 모든 결정이 삶과 죽음을 의미할 수 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to quickly <span class="word-link" data-word-id="_discriminate">discriminate</span> between allies and the traitors within his own agency.</p>
+                    <p class="korean-text" style="display: none;">그는 자신의 기관 내 동료들과 배신자들을 신속하게 <span class="word-target-kr">구별해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The file on his desk mentioned a project related to a cybernetic creature's <span class="word-link" data-word-id="_dorsal">dorsal</span> armor.</p>
+                    <p class="korean-text" style="display: none;">그의 책상 위 파일에는 사이버네틱 생물의 <span class="word-target-kr">등 부분의</span> 갑옷과 관련된 프로젝트가 언급되어 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His new, unauthorized mission was to <span class="word-link" data-word-id="_eliminate">eliminate</span> the cell responsible for the poison and <span class="word-link" data-word-id="_fuse">fuse</span> the two pieces of intel he possessed.</p>
+                    <p class="korean-text" style="display: none;">그의 새로운, 승인되지 않은 임무는 독을 만든 조직을 <span class="word-target-kr">제거하고</span> 그가 가진 두 개의 정보를 <span class="word-target-kr">결합하는</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Their base was located in the remote <span class="word-link" data-word-id="_hinterland">hinterland</span>, far from any city.</p>
+                    <p class="korean-text" style="display: none;">그들의 기지는 어떤 도시로부터도 멀리 떨어진 외딴 <span class="word-target-kr">배후지</span>에 위치해 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He made one last, <span class="word-link" data-word-id="_earnest">earnest</span> call to his only trusted contact, Anya.</p>
+                    <p class="korean-text" style="display: none;">그는 그의 유일하게 신뢰하는 연락책인 아냐에게 마지막으로 <span class="word-target-kr">진지한</span> 전화를 걸었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-1" class="chapter-content" style='display: none;'>
+            <h2>The Weight of Data</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">Leo felt a deep sense of <span class="word-link" data-word-id="_kinship">kinship</span> with Anya, a bond forged in past missions.</p>
+                    <p class="korean-text" style="display: none;">레오는 과거 임무에서 형성된 유대감, 아냐에 대한 깊은 <span class="word-target-kr">혈연 관계</span>와도 같은 감정을 느꼈다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">She sent him a secure drive, <span class="word-link" data-word-id="_laden">laden</span> with the Syndicate's encrypted files.</p>
+                    <p class="korean-text" style="display: none;">그녀는 그에게 신디케이트의 암호화된 파일이 <span class="word-target-kr">(짐처럼) 실은</span> 보안 드라이브를 보냈다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He found a piece of <span class="word-link" data-word-id="_lumber">lumber</span> with strange markings near the pickup point.</p>
+                    <p class="korean-text" style="display: none;">그는 수령 지점 근처에서 이상한 표시가 있는 <span class="word-target-kr">목재</span> 조각을 발견했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The decoded files would surely <span class="word-link" data-word-id="_mirror">mirror</span> the enemy's twisted ambitions.</p>
+                    <p class="korean-text" style="display: none;">해독된 파일들은 분명 적의 뒤틀린 야망을 <span class="word-target-kr">반영할</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Their trust was <span class="word-link" data-word-id="_mutual">mutual</span>, an unspoken agreement in a world of lies.</p>
+                    <p class="korean-text" style="display: none;">그들의 신뢰는 거짓의 세계에서 무언의 합의인, <span class="word-target-kr">상호간의</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">With the data, the formula for the antidote was finally <span class="word-link" data-word-id="_obtainable">obtainable</span>.</p>
+                    <p class="korean-text" style="display: none;">그 데이터 덕분에, 해독제 공식은 마침내 <span class="word-target-kr">손에 넣을 수 있는</span> 것이 되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to quickly <span class="word-link" data-word-id="_patch">patch</span> a gash on his arm from a recent skirmish.</p>
+                    <p class="korean-text" style="display: none;">그는 최근의 작은 접전에서 생긴 팔의 깊은 상처를 재빨리 <span class="word-target-kr">수선해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He knew Anya would <span class="word-link" data-word-id="_protest">protest</span> his next move, but he had no choice.</p>
+                    <p class="korean-text" style="display: none;">그는 아냐가 그의 다음 행동에 <span class="word-target-kr">항의할</span> 것을 알았지만, 선택의 여지가 없었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">It was a <span class="word-link" data-word-id="_rash">rash</span> plan, but time was running out. He could only hope to <span class="word-link" data-word-id="_recall">recall</span> the exact layout of the base.</p>
+                    <p class="korean-text" style="display: none;">그것은 <span class="word-target-kr">경솔한</span> 계획이었지만, 시간이 얼마 남지 않았다. 그는 기지의 정확한 배치를 <span class="word-target-kr">회상하기</span>를 바랄 뿐이었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-2" class="chapter-content" style='display: none;'>
+            <h2>The Whispering Past</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">As he prepared, Leo began to <span class="word-link" data-word-id="_recite">recite</span> old training protocols to focus his mind.</p>
+                    <p class="korean-text" style="display: none;">준비를 하면서, 레오는 마음을 집중하기 위해 오래된 훈련 규범을 <span class="word-target-kr">암송하기</span> 시작했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He needed to <span class="word-link" data-word-id="_regain">regain</span> his strength before the infiltration.</p>
+                    <p class="korean-text" style="display: none;">그는 잠입 전에 그의 힘을 <span class="word-target-kr">되찾을</span> 필요가 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Anya's data would <span class="word-link" data-word-id="_reinforce">reinforce</span> his suspicions about a mole in the agency.</p>
+                    <p class="korean-text" style="display: none;">아냐의 데이터는 기관 내의 첩자에 대한 그의 의심을 <span class="word-target-kr">강화할</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Every piece of information was <span class="word-link" data-word-id="_relevant_to">relevant to</span> his survival.</p>
+                    <p class="korean-text" style="display: none;">모든 정보 조각은 그의 생존과 <span class="word-target-kr">관련된</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He took a moment to <span class="word-link" data-word-id="_reminisce">reminisce</span> about a simpler time, a luxury he couldn't afford.</p>
+                    <p class="korean-text" style="display: none;">그는 잠시 더 단순했던 시절을 <span class="word-target-kr">추억해볼</span> 여유를 가졌지만, 그것은 그에게 사치였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He would not live to <span class="word-link" data-word-id="_repent">repent</span> his actions; he had to succeed.</p>
+                    <p class="korean-text" style="display: none;">그는 그의 행동을 <span class="word-target-kr">후회하기</span> 위해 살지는 않을 것이었다; 그는 성공해야만 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to formally <span class="word-link" data-word-id="_resign">resign</span> from his duty to pursue this path, a fact that pained him.</p>
+                    <p class="korean-text" style="display: none;">그는 이 길을 추구하기 위해 그의 임무를 공식적으로 <span class="word-target-kr">포기해야</span> 했고, 그 사실이 그를 고통스럽게 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The cybernetic creature was designed to <span class="word-link" data-word-id="_secrete">secrete</span> the very poison he was fighting.</p>
+                    <p class="korean-text" style="display: none;">그 사이버네틱 생물은 그가 싸우고 있는 바로 그 독을 <span class="word-target-kr">분비하도록</span> 설계되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He found a small herb that could <span class="word-link" data-word-id="_soothe">soothe</span> the burning sensation on his skin and decided to <span class="word-link" data-word-id="_stay">stay</span> hidden until nightfall.</p>
+                    <p class="korean-text" style="display: none;">그는 피부의 타는 듯한 감각을 <span class="word-target-kr">달래줄</span> 수 있는 작은 약초를 발견했고, 해가 질 때까지 숨어서 <span class="word-target-kr">머무르기</span>로 결정했다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-3" class="chapter-content" style='display: none;'>
+            <h2>The Unseen Balance</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The lab had a <span class="word-link" data-word-id="_surplus">surplus</span> of chemicals, making it highly volatile.</p>
+                    <p class="korean-text" style="display: none;">연구실에는 <span class="word-target-kr">나머지</span> 화학 물질이 많아 매우 불안정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Leo felt a <span class="word-link" data-word-id="_tear">tear</span> in the fabric of his reality, a profound sense of loss.</p>
+                    <p class="korean-text" style="display: none;">레오는 그의 현실 구조에 <span class="word-target-kr">찢어짐</span>을, 깊은 상실감을 느꼈다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to <span class="word-link" data-word-id="_swear">swear</span> to himself that he would see this through to the end.</p>
+                    <p class="korean-text" style="display: none;">그는 이것을 끝까지 해내겠다고 스스로에게 <span class="word-target-kr">맹세해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The edge of the facility was lined with a <span class="word-link" data-word-id="_toothed">toothed</span> metal fence.</p>
+                    <p class="korean-text" style="display: none;">시설 가장자리는 <span class="word-target-kr">들쑥날쑥한</span> 금속 울타리로 둘러싸여 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The Syndicate's goal was to <span class="word-link" data-word-id="_transform">transform</span> ordinary citizens into mindless puppets.</p>
+                    <p class="korean-text" style="display: none;">신디케이트의 목표는 평범한 시민들을 생각 없는 꼭두각시로 <span class="word-target-kr">변형시키는</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Anya was the only person he knew was completely <span class="word-link" data-word-id="_trustworthy">trustworthy</span>.</p>
+                    <p class="korean-text" style="display: none;">아냐는 그가 알기에 완전히 <span class="word-target-kr">믿을 수 있는</span> 유일한 사람이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The power dynamic in the region had become dangerously <span class="word-link" data-word-id="_unbalanced">unbalanced</span>.</p>
+                    <p class="korean-text" style="display: none;">그 지역의 권력 역학은 위험할 정도로 <span class="word-target-kr">균형을 잃게</span> 되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The Syndicate's pursuit of him was <span class="word-link" data-word-id="_unrelenting">unrelenting</span>.</p>
+                    <p class="korean-text" style="display: none;">그에 대한 신디케이트의 추격은 <span class="word-target-kr">무자비했다</span>.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Their approach was cold and <span class="word-link" data-word-id="_utilitarian">utilitarian</span>, seeing people only as tools.</p>
+                    <p class="korean-text" style="display: none;">그들의 접근 방식은 사람들을 단지 도구로만 보는, 차갑고 <span class="word-target-kr">실용주의의</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He discovered a great <span class="word-link" data-word-id="_variety">variety</span> of flora in the hinterland, one of which held the key to the antidote.</p>
+                    <p class="korean-text" style="display: none;">그는 그 배후지에서 엄청난 <span class="word-target-kr">다양성</span>의 식물군을 발견했고, 그 중 하나가 해독제의 열쇠를 쥐고 있었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-4" class="chapter-content" style='display: none;'>
+            <h2>The Root of Betrayal</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">Another <span class="word-link" data-word-id="_variety2">variety</span> of plant was used to create the poison itself.</p>
+                    <p class="korean-text" style="display: none;">또 다른 <span class="word-target-kr">종류</span>의 식물이 독 자체를 만드는 데 사용되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The main <span class="word-link" data-word-id="_advantage">advantage</span> he had was the element of surprise.</p>
+                    <p class="korean-text" style="display: none;">그가 가진 주된 <span class="word-target-kr">이익</span>은 기습이라는 요소였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The conspiracy seemed to <span class="word-link" data-word-id="_arise_from">arise from</span> the highest levels of government.</p>
+                    <p class="korean-text" style="display: none;">그 음모는 정부의 최고위층<span class="word-target-kr">에서 기인하는</span> 것 같았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to get past a significant security <span class="word-link" data-word-id="_bar">bar</span> at the entrance.</p>
+                    <p class="korean-text" style="display: none;">그는 입구에 있는 상당한 보안 <span class="word-target-kr">장애물</span>을 통과해야 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He couldn't believe a trusted colleague would <span class="word-link" data-word-id="_betray">betray</span> the agency.</p>
+                    <p class="korean-text" style="display: none;">그는 신뢰하던 동료가 기관을 <span class="word-target-kr">배신할</span> 것이라고 믿을 수 없었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He used a special rope to <span class="word-link" data-word-id="_bind">bind</span> the gate controls, keeping them open.</p>
+                    <p class="korean-text" style="display: none;">그는 문 제어 장치를 <span class="word-target-kr">묶어</span> 계속 열려 있도록 하는 데 특별한 밧줄을 사용했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The poison was designed to slowly <span class="word-link" data-word-id="_blur">blur</span> the victim's memory.</p>
+                    <p class="korean-text" style="display: none;">그 독은 희생자의 기억을 서서히 <span class="word-target-kr">흐리게 하도록</span> 설계되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He found a way to <span class="word-link" data-word-id="_circumvent">circumvent</span> the main patrol route.</p>
+                    <p class="korean-text" style="display: none;">그는 주 순찰 경로를 <span class="word-target-kr">우회할</span> 방법을 찾았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His movements, usually precise, felt <span class="word-link" data-word-id="_clumsy">clumsy</span> due to the poison's effects.</p>
+                    <p class="korean-text" style="display: none;">평소에는 정확했던 그의 움직임이 독의 효과 때문에 <span class="word-target-kr">서투르게</span> 느껴졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The final phase of his plan was about to <span class="word-link" data-word-id="_commence">commence</span>.</p>
+                    <p class="korean-text" style="display: none;">그의 계획의 마지막 단계가 막 <span class="word-target-kr">시작되려</span> 하고 있었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-5" class="chapter-content" style='display: none;'>
+            <h2>Paradox of Trust</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">His every <span class="word-link" data-word-id="_conduct">conduct</span> from now on had to be flawless.</p>
+                    <p class="korean-text" style="display: none;">지금부터 그의 모든 <span class="word-target-kr">행동</span>은 흠잡을 데 없어야 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to <span class="word-link" data-word-id="_conserve">conserve</span> his energy for the final confrontation.</p>
+                    <p class="korean-text" style="display: none;">그는 마지막 대결을 위해 에너지를 <span class="word-target-kr">보존해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The traitor's loyalty to the agency was a complete <span class="word-link" data-word-id="_contradiction">contradiction</span>.</p>
+                    <p class="korean-text" style="display: none;">배신자의 기관에 대한 충성심은 완전한 <span class="word-target-kr">모순</span>이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He hoped his efforts would <span class="word-link" data-word-id="_culminate">culminate</span> in the Syndicate's downfall.</p>
+                    <p class="korean-text" style="display: none;">그는 그의 노력이 신디케이트의 몰락<span class="word-target-kr">으로 끝나기</span>를 바랐다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The blueprints helped him <span class="word-link" data-word-id="_delineate">delineate</span> the safest path through the facility.</p>
+                    <p class="korean-text" style="display: none;">청사진은 그가 시설을 통과하는 가장 안전한 경로의 <span class="word-target-kr">윤곽을 그리도록</span> 도왔다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He discovered the Syndicate was funded by a large, anonymous <span class="word-link" data-word-id="_donation">donation</span>.</p>
+                    <p class="korean-text" style="display: none;">그는 신디케이트가 거액의 익명 <span class="word-target-kr">기증</span>으로 자금을 지원받았다는 것을 발견했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He was ready to <span class="word-link" data-word-id="_embark_on">embark on</span> the most dangerous part of his mission.</p>
+                    <p class="korean-text" style="display: none;">그는 임무의 가장 위험한 부분에 <span class="word-target-kr">착수할</span> 준비가 되어 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The Syndicate's entire operation was built on a <span class="word-link" data-word-id="_foundation">foundation</span> of lies.</p>
+                    <p class="korean-text" style="display: none;">신디케이트의 모든 작전은 거짓의 <span class="word-target-kr">기초</span> 위에 세워졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Understanding their motive was <span class="word-link" data-word-id="_fundamental">fundamental</span> to stopping them.</p>
+                    <p class="korean-text" style="display: none;">그들의 동기를 이해하는 것은 그들을 막는 데 <span class="word-target-kr">근본적인</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Only a <span class="word-link" data-word-id="_handful">handful</span> of people knew the full truth.</p>
+                    <p class="korean-text" style="display: none;">오직 <span class="word-target-kr">소수의</span> 사람들만이 모든 진실을 알고 있었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-6" class="chapter-content" style='display: none;'>
+            <h2>The Apex of Deceit</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">Leo reached the <span class="word-link" data-word-id="_height">height</span> of the main tower, where the central computer was located.</p>
+                    <p class="korean-text" style="display: none;">레오는 중앙 컴퓨터가 위치한 주 타워의 <span class="word-target-kr">절정</span>에 도달했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He found two data chips that were completely <span class="word-link" data-word-id="_identical">identical</span>, one of which was a trap.</p>
+                    <p class="korean-text" style="display: none;">그는 완전히 <span class="word-target-kr">동일한</span> 두 개의 데이터 칩을 발견했고, 그 중 하나는 함정이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The poison was a major <span class="word-link" data-word-id="_impediment">impediment</span> to his physical abilities.</p>
+                    <p class="korean-text" style="display: none;">독은 그의 신체 능력에 주요한 <span class="word-target-kr">장애</span>였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to <span class="word-link" data-word-id="_justify">justify</span> his rogue actions by exposing the whole truth.</p>
+                    <p class="korean-text" style="display: none;">그는 모든 진실을 폭로함으로써 자신의 독단적인 행동을 <span class="word-target-kr">증명해야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He could only <span class="word-link" data-word-id="_lament">lament</span> the colleagues he had lost to the conspiracy.</p>
+                    <p class="korean-text" style="display: none;">그는 음모로 잃은 동료들을 그저 <span class="word-target-kr">슬퍼할</span> 수밖에 없었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The poison was derived from a genetically engineered <span class="word-link" data-word-id="_microorganism">microorganism</span>.</p>
+                    <p class="korean-text" style="display: none;">그 독은 유전적으로 조작된 <span class="word-target-kr">미생물</span>에서 유래되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The files revealed the lead scientist was notoriously <span class="word-link" data-word-id="_moody">moody</span> and unstable.</p>
+                    <p class="korean-text" style="display: none;">파일들은 수석 과학자가 악명 높게 <span class="word-target-kr">우울하고</span> 불안정하다는 것을 드러냈다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He finally found the <span class="word-link" data-word-id="_origin">origin</span> of the conspiracy: a disgraced former agent.</p>
+                    <p class="korean-text" style="display: none;">그는 마침내 음모의 <span class="word-target-kr">근원</span>을 찾았다: 불명예를 안은 전직 요원.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He couldn't <span class="word-link" data-word-id="_predict">predict</span> the former agent's next move.</p>
+                    <p class="korean-text" style="display: none;">그는 그 전직 요원의 다음 움직임을 <span class="word-target-kr">예측할</span> 수 없었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Despite the setbacks, he was making steady <span class="word-link" data-word-id="_progress">progress</span> toward his goal.</p>
+                    <p class="korean-text" style="display: none;">좌절에도 불구하고, 그는 목표를 향해 꾸준한 <span class="word-target-kr">발전</span>을 이루고 있었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-7" class="chapter-content" style='display: none;'>
+            <h2>The Price of Victory</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">Leo used a small device to <span class="word-link" data-word-id="_scoop">scoop</span> up a sample of the antidote.</p>
+                    <p class="korean-text" style="display: none;">레오는 해독제 샘플을 <span class="word-target-kr">긁어 모으기</span> 위해 작은 장치를 사용했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to <span class="word-link" data-word-id="_score">score</span> a victory against the Syndicate to save countless lives.</p>
+                    <p class="korean-text" style="display: none;">그는 수많은 생명을 구하기 위해 신디케이트를 상대로 승리를 <span class="word-target-kr">얻어야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He found a torn musical <span class="word-link" data-word-id="_score2">score</span> that contained a hidden code.</p>
+                    <p class="korean-text" style="display: none;">그는 숨겨진 코드가 담긴 찢어진 음악 <span class="word-target-kr">악보</span>를 발견했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A tiny <span class="word-link" data-word-id="_scrap">scrap</span> of paper held the final password.</p>
+                    <p class="korean-text" style="display: none;">아주 작은 종이 <span class="word-target-kr">파편</span>에 마지막 암호가 적혀 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">This mission felt <span class="word-link" data-word-id="_singularly">singularly</span> personal and important.</p>
+                    <p class="korean-text" style="display: none;">이 임무는 <span class="word-target-kr">각별히</span> 개인적이고 중요하게 느껴졌다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He was a highly <span class="word-link" data-word-id="_skilled">skilled</span> operative, but the odds were against him.</p>
+                    <p class="korean-text" style="display: none;">그는 매우 <span class="word-target-kr">숙련된</span> 요원이었지만, 승산은 그에게 불리했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The code was hidden in the word <span class="word-link" data-word-id="_stem">stem</span> of a botanical document.</p>
+                    <p class="korean-text" style="display: none;">코드는 식물학 문서의 단어 <span class="word-target-kr">어간</span>에 숨겨져 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to find a way to <span class="word-link" data-word-id="_stem2">stem</span> the flow of reinforcements. He knew this problem would <span class="word-link" data-word-id="_stem3">stem</span> from their advanced alert system.</p>
+                    <p class="korean-text" style="display: none;">그는 증원군의 흐름을 <span class="word-target-kr">막을</span> 방법을 찾아야 했다. 그는 이 문제가 그들의 발전된 경보 시스템에서 <span class="word-target-kr">유래할</span> 것임을 알고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He was determined to <span class="word-link" data-word-id="_subdue">subdue</span> the rogue agent and bring him to justice.</p>
+                    <p class="korean-text" style="display: none;">그는 그 불량 요원을 <span class="word-target-kr">정복하고</span> 그를 정의의 심판대에 세우기로 결심했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He discovered that his own agency refused to <span class="word-link" data-word-id="_subsidize">subsidize</span> any rescue attempt for him, confirming the betrayal.</p>
+                    <p class="korean-text" style="display: none;">그는 자신의 기관이 그에 대한 어떠한 구조 시도도 <span class="word-target-kr">후원하기</span>를 거부했다는 사실을 발견했고, 이는 배신을 확신케 했다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-8" class="chapter-content" style='display: none;'>
+            <h2>Echoes of Unanimity</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The old council's decision to disband the program had lacked <span class="word-link" data-word-id="_unanimity">unanimity</span>, leading to this crisis.</p>
+                    <p class="korean-text" style="display: none;">프로그램을 해체하기로 한 옛 위원회의 결정은 <span class="word-target-kr">(만장) 일치</span>가 부족했고, 이 위기를 초래했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The poison was an <span class="word-link" data-word-id="_alloy">alloy</span> of organic toxins and metallic nanoparticles.</p>
+                    <p class="korean-text" style="display: none;">그 독은 유기 독소와 금속성 나노 입자의 <span class="word-target-kr">혼합물</span>이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had <span class="word-link" data-word-id="_barely">barely</span> escaped the initial trap set for him.</p>
+                    <p class="korean-text" style="display: none;">그는 자신을 위해 설치된 초기 함정에서 <span class="word-target-kr">거의</span> 탈출하지 못할 뻔했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The scientist had been held in <span class="word-link" data-word-id="_captivity">captivity</span> for months, forced to work.</p>
+                    <p class="korean-text" style="display: none;">그 과학자는 몇 달 동안 <span class="word-target-kr">속박</span> 상태로 붙잡혀 강제로 일해야 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Leo felt the cold <span class="word-link" data-word-id="_clasp">clasp</span> of fear, but he pushed it aside.</p>
+                    <p class="korean-text" style="display: none;">레오는 두려움의 차가운 <span class="word-target-kr">움켜쥠</span>을 느꼈지만, 그것을 밀어냈다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The <span class="word-link" data-word-id="_cohesion">cohesion</span> of the Syndicate's followers was disturbingly strong.</p>
+                    <p class="korean-text" style="display: none;">신디케이트 추종자들의 <span class="word-target-kr">결속력</span>은 불안할 정도로 강했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His arrival was set to <span class="word-link" data-word-id="_coincide">coincide</span> with a major system reboot.</p>
+                    <p class="korean-text" style="display: none;">그의 도착은 주요 시스템 재부팅과 <span class="word-target-kr">동시에 일어나도록</span> 설정되었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His views on justice did not <span class="word-link" data-word-id="_coincide2">coincide</span> with the agency's anymore.</p>
+                    <p class="korean-text" style="display: none;">정의에 대한 그의 견해는 더 이상 기관의 견해와 <span class="word-target-kr">의견이 일치하지</span> 않았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The Syndicate was planning a <span class="word-link" data-word-id="_colossal">colossal</span> attack on a major city.</p>
+                    <p class="korean-text" style="display: none;">신디케이트는 주요 도시에 대한 <span class="word-target-kr">거대한</span> 공격을 계획하고 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The amount of data to analyze was <span class="word-link" data-word-id="_considerable">considerable</span>.</p>
+                    <p class="korean-text" style="display: none;">분석해야 할 데이터의 양은 <span class="word-target-kr">상당했다</span>.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-9" class="chapter-content" style='display: none;'>
+            <h2>Converging Fates</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The risk involved was <span class="word-link" data-word-id="_considerable2">considerable</span>, but necessary.</p>
+                    <p class="korean-text" style="display: none;">수반되는 위험은 <span class="word-target-kr">중요했지만</span> 필요했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">All clues began to <span class="word-link" data-word-id="_converge">converge</span> on one suspect: the former agent.</p>
+                    <p class="korean-text" style="display: none;">모든 단서가 한 명의 용의자, 즉 전직 요원에게로 <span class="word-target-kr">집중되기</span> 시작했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">In the medical bay, he saw the <span class="word-link" data-word-id="_corpse">corpse</span> of the scientist, a victim of the Syndicate's cruelty.</p>
+                    <p class="korean-text" style="display: none;">의무실에서 그는 신디케이트의 잔혹함의 희생자인 과학자의 <span class="word-target-kr">시체</span>를 보았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The rogue agent seemed to <span class="word-link" data-word-id="_covet">covet</span> power above all else.</p>
+                    <p class="korean-text" style="display: none;">그 불량 요원은 다른 무엇보다도 권력을 <span class="word-target-kr">갈망하는</span> 것 같았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The scientist's only <span class="word-link" data-word-id="_defection">defection</span> was a small, hidden journal of his work.</p>
+                    <p class="korean-text" style="display: none;">과학자의 유일한 <span class="word-target-kr">결점</span>은 그의 작업에 대한 작고 숨겨진 일지였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The agent's <span class="word-link" data-word-id="_defection2">defection</span> to the Syndicate was the ultimate betrayal.</p>
+                    <p class="korean-text" style="display: none;">그 요원의 신디케이트로의 <span class="word-target-kr">배반</span>은 궁극적인 배신이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The Syndicate's plan was to <span class="word-link" data-word-id="_deprive">deprive</span> the world of its leaders.</p>
+                    <p class="korean-text" style="display: none;">신디케이트의 계획은 세상의 지도자들을 <span class="word-target-kr">박탈하는</span> 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The work was repetitive and <span class="word-link" data-word-id="_dull">dull</span>, but it had to be done.</p>
+                    <p class="korean-text" style="display: none;">그 작업은 반복적이고 <span class="word-target-kr">지루했지만</span>, 해야만 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His <span class="word-link" data-word-id="_endeavor">endeavor</span> to find the truth was all that mattered.</p>
+                    <p class="korean-text" style="display: none;">진실을 찾으려는 그의 <span class="word-target-kr">노력</span>이 전부였다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">A <span class="word-link" data-word-id="_flock">flock</span> of birds scattered as he approached the hidden entrance.</p>
+                    <p class="korean-text" style="display: none;">그가 숨겨진 입구에 접근하자 새 <span class="word-target-kr">무리</span>가 흩어졌다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-10" class="chapter-content" style='display: none;'>
+            <h2>A Grant of Mercy</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The old agent he once knew had been <span class="word-link" data-word-id="_generous">generous</span> and kind.</p>
+                    <p class="korean-text" style="display: none;">그가 한때 알았던 늙은 요원은 <span class="word-target-kr">관대하고</span> 친절했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He decided to <span class="word-link" data-word-id="_grant">grant</span> the captive scientist a quick, merciful end.</p>
+                    <p class="korean-text" style="display: none;">그는 포로로 잡힌 과학자에게 빠르고 자비로운 끝을 <span class="word-target-kr">주기</span>로 결정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to <span class="word-link" data-word-id="_hustle">hustle</span> to get through the corridors before the guard change.</p>
+                    <p class="korean-text" style="display: none;">그는 경비 교대 전에 복도를 통과하기 위해 <span class="word-target-kr">서둘러야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He had to <span class="word-link" data-word-id="_hustle2">hustle</span> a heavy cart to block the doorway.</p>
+                    <p class="korean-text" style="display: none;">그는 출입구를 막기 위해 무거운 카트를 <span class="word-target-kr">밀어야</span> 했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He found an <span class="word-link" data-word-id="_intermediate">intermediate</span> version of the antidote; it wasn't perfect, but it would buy him time.</p>
+                    <p class="korean-text" style="display: none;">그는 해독제의 <span class="word-target-kr">중간</span> 버전을 발견했다; 완벽하지는 않았지만 시간을 벌어줄 것이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The rogue agent was <span class="word-link" data-word-id="_intolerant">intolerant</span> of any failure from his subordinates.</p>
+                    <p class="korean-text" style="display: none;">그 불량 요원은 부하들의 어떤 실패도 <span class="word-target-kr">옹졸하게</span> 용납하지 않았다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">Leo remembered his mentor as a <span class="word-link" data-word-id="_kind">kind</span> man, making the betrayal even more painful.</p>
+                    <p class="korean-text" style="display: none;">레오는 그의 멘토를 <span class="word-target-kr">친절한</span> 사람으로 기억했고, 이는 배신을 더욱 고통스럽게 만들었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The facility was on the <span class="word-link" data-word-id="_limit">limit</span> of their jurisdiction.</p>
+                    <p class="korean-text" style="display: none;">그 시설은 그들의 관할권 <span class="word-target-kr">경계</span>에 있었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The agency decided to <span class="word-link" data-word-id="_limit2">limit</span> his access to sensitive files.</p>
+                    <p class="korean-text" style="display: none;">기관은 그의 민감한 파일에 대한 접근을 <span class="word-target-kr">제한하기</span>로 결정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He operated on the <span class="word-link" data-word-id="_margin">margin</span> of the law.</p>
+                    <p class="korean-text" style="display: none;">그는 법의 <span class="word-target-kr">가장자리</span>에서 활동했다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-11" class="chapter-content" style='display: none;'>
+            <h2>The People's Will</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The local people formed a <span class="word-link" data-word-id="_militia">militia</span> to defend their homes from the Syndicate.</p>
+                    <p class="korean-text" style="display: none;">지역 주민들은 신디케이트로부터 자신들의 집을 지키기 위해 <span class="word-target-kr">시민군</span>을 결성했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text"><span class="word-link" data-word-id="_moreover">Moreover</span>, he discovered the mole's identity.</p>
+                    <p class="korean-text" style="display: none;"><span class="word-target-kr">게다가</span>, 그는 첩자의 신원을 발견했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">It was <span class="word-link" data-word-id="_necessary">necessary</span> to leak the information to the public.</p>
+                    <p class="korean-text" style="display: none;">그 정보를 대중에게 유출하는 것이 <span class="word-target-kr">필수적인</span> 일이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The Syndicate tried to <span class="word-link" data-word-id="_obstruct">obstruct</span> the investigation at every turn.</p>
+                    <p class="korean-text" style="display: none;">신디케이트는 매번 조사를 <span class="word-target-kr">막으려고</span> 시도했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He made the decision to act <span class="word-link" data-word-id="_on_the_spot">on the spot</span>.</p>
+                    <p class="korean-text" style="display: none;">그는 <span class="word-target-kr">즉시</span> 행동하기로 결정했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The official report on the incident was clearly <span class="word-link" data-word-id="_partial">partial</span> and incomplete.</p>
+                    <p class="korean-text" style="display: none;">그 사건에 대한 공식 보고서는 명백히 <span class="word-target-kr">편파적</span>이고 불완전했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The scientist's last note was a <span class="word-link" data-word-id="_petition">petition</span> for someone to stop the project.</p>
+                    <p class="korean-text" style="display: none;">과학자의 마지막 메모는 누군가 그 프로젝트를 멈춰달라는 <span class="word-target-kr">간청</span>이었다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">He found a <span class="word-link" data-word-id="_placid">placid</span> underground lake beneath the facility.</p>
+                    <p class="korean-text" style="display: none;">그는 시설 아래에서 <span class="word-target-kr">평온한</span> 지하 호수를 발견했다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The rock's <span class="word-link" data-word-id="_porosity">porosity</span> allowed it to filter the water naturally.</p>
+                    <p class="korean-text" style="display: none;">그 암석의 <span class="word-target-kr">다공성</span>은 물을 자연적으로 여과시켰다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">His final act was to <span class="word-link" data-word-id="_reform">reform</span> the broken system from within.</p>
+                    <p class="korean-text" style="display: none;">그의 마지막 행동은 부서진 시스템을 내부에서부터 <span class="word-target-kr">개정하는</span> 것이었다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chapter-12" class="chapter-content" style='display: none;'>
+            <h2>The Final Stand</h2>
+            <div class="story-content">
+                <div class="sentence-pair">
+                    <p class="english-text">The enemy's defense was <span class="word-link" data-word-id="_rigid">rigid</span> and well-structured, but Leo found a flaw.</p>
+                    <p class="korean-text" style="display: none;">적의 방어는 <span class="word-target-kr">단단하고</span> 잘 구조화되어 있었지만, 레오는 결함을 찾아냈다.</p>
+                </div>
+                <div class="sentence-pair">
+                    <p class="english-text">The rogue agent was known for his <span class="word-link" data-word-id="_rigid2">rigid</span> adherence to his own twisted code of honor.</p>
+                    <p class="korean-text" style="display: none;">그 불량 요원은 자신만의 뒤틀린 명예 규범에 대한 <span class="word-target-kr">엄격한</span> 고수로 알려져 있었다.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- 팝업 모달 -->
+    <div id="wordPopupOverlay" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3 id="popupTerm">단어</h3>
+                <button class="close-btn" onclick="closePopup()">&times;</button>
+            </div>
+            <div class="popup-body">
+                <p id="popupMeaning"><strong>뜻:</strong> </p>
+                <p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 단어 데이터
+        const wordData = {
+        "_abandon": {
+            term: "abandon",
+            kor_meaning: "\ubc84\ub9ac\ub2e4",
+            synonyms: "give up, relinquish, leave, desert, resign, forsake"
+        },
+        "_antidote": {
+            term: "antidote",
+            kor_meaning: "\uce58\ub8cc\ubc95",
+            synonyms: "remedy"
+        },
+        "_conspicuous": {
+            term: "conspicuous",
+            kor_meaning: "\ub208\uc5d0 \uc798 \ub744\ub294, \ub450\ub4dc\ub7ec\uc9c4",
+            synonyms: "noticeable, obvious, prominent, apparent, manifest"
+        },
+        "_critical": {
+            term: "critical",
+            kor_meaning: "\uc911\uc694\ud55c",
+            synonyms: "important, vital, imperative"
+        },
+        "_discriminate": {
+            term: "discriminate",
+            kor_meaning: "\uad6c\ubcc4\ud558\ub2e4",
+            synonyms: "distinguish, discern, perceive"
+        },
+        "_dorsal": {
+            term: "dorsal",
+            kor_meaning: "\ub4f1(\ubd80\ubd84)\uc758",
+            synonyms: "relating to the back, on the back of"
+        },
+        "_eliminate": {
+            term: "eliminate",
+            kor_meaning: "\uc81c\uac70\ud558\ub2e4",
+            synonyms: "remove, get rid of, discard, eradicate"
+        },
+        "_fuse": {
+            term: "fuse",
+            kor_meaning: "\ub179\ub2e4",
+            synonyms: "melt, dissolve, thaw"
+        },
+        "_hinterland": {
+            term: "hinterland",
+            kor_meaning: "\ubc30\ud6c4\uc9c0",
+            synonyms: "region"
+        },
+        "_earnest": {
+            term: "earnest",
+            kor_meaning: "\uc9c4\uc9c0\ud55c, \uc131\uc2e4\ud55c",
+            synonyms: "serious, solemn, grave, sober, steady"
+        },
+        "_kinship": {
+            term: "kinship",
+            kor_meaning: "\ud608\uc5f0 \uad00\uacc4",
+            synonyms: "family relationship"
+        },
+        "_laden": {
+            term: "laden",
+            kor_meaning: "(\uc9d0\uc744) \uc2e4\uc740",
+            synonyms: "burdened, loaded, weighed down"
+        },
+        "_lumber": {
+            term: "lumber",
+            kor_meaning: "\ubaa9\uc7ac",
+            synonyms: "board, log, timber"
+        },
+        "_mirror": {
+            term: "mirror",
+            kor_meaning: "\ubc18\uc601\ud558\ub2e4",
+            synonyms: "reflect, repeat"
+        },
+        "_mutual": {
+            term: "mutual",
+            kor_meaning: "\uc0c1\ud638\uac04\uc758",
+            synonyms: "reciprocal, joint, interactive, inter-personal"
+        },
+        "_obtainable": {
+            term: "obtainable",
+            kor_meaning: "\uc190\uc5d0 \ub123\uc744 \uc218 \uc788\ub294",
+            synonyms: "available, achievable, attainable"
+        },
+        "_patch": {
+            term: "patch",
+            kor_meaning: "\uc218\uc120\ud558\ub2e4",
+            synonyms: "mend, repair, fix"
+        },
+        "_protest": {
+            term: "protest",
+            kor_meaning: "\ud56d\uc758\ud558\ub2e4",
+            synonyms: "remonstrate, complain, object"
+        },
+        "_rash": {
+            term: "rash",
+            kor_meaning: "\uacbd\uc194\ud55c",
+            synonyms: "reckless, heedless, indiscreet"
+        },
+        "_recall": {
+            term: "recall",
+            kor_meaning: "\ud68c\uc0c1\ud558\ub2e4",
+            synonyms: "remember, recollect"
+        },
+        "_recite": {
+            term: "recite",
+            kor_meaning: "\uc554\uc1a1\ud558\ub2e4",
+            synonyms: "rehearse"
+        },
+        "_regain": {
+            term: "regain",
+            kor_meaning: "~\uc744 \ub418\ucc3e\ub2e4",
+            synonyms: "recover, retrieve"
+        },
+        "_reinforce": {
+            term: "reinforce",
+            kor_meaning: "\uac15\ud654\ud558\ub2e4",
+            synonyms: "strengthen, fortify"
+        },
+        "_relevant_to": {
+            term: "relevant to",
+            kor_meaning: "\uad00\ub828\ub41c, \uc801\uc808\ud55c",
+            synonyms: "pertinent to, applicable"
+        },
+        "_reminisce": {
+            term: "reminisce",
+            kor_meaning: "\ucd94\uc5b5\ud558\ub2e4",
+            synonyms: "remember, recollect, recall, look back"
+        },
+        "_repent": {
+            term: "repent",
+            kor_meaning: "\ud6c4\ud68c\ud558\ub2e4",
+            synonyms: "regret, atone"
+        },
+        "_resign": {
+            term: "resign",
+            kor_meaning: "\ud3ec\uae30\ud558\ub2e4",
+            synonyms: "relinquish, abandon, forsake"
+        },
+        "_secrete": {
+            term: "secrete",
+            kor_meaning: "\ubd84\ube44\ud558\ub2e4",
+            synonyms: "release, produce, discharge"
+        },
+        "_soothe": {
+            term: "soothe",
+            kor_meaning: "\ub2ec\ub798\ub2e4",
+            synonyms: "relieve, allay, mitigate"
+        },
+        "_stay": {
+            term: "stay",
+            kor_meaning: "\uba38\ubb34\ub974\ub2e4",
+            synonyms: "remain, reside, sojourn"
+        },
+        "_surplus": {
+            term: "surplus",
+            kor_meaning: "\ub098\uba38\uc9c0, \uc794\uc5ec",
+            synonyms: "extra, redundance, remainder"
+        },
+        "_tear": {
+            term: "tear",
+            kor_meaning: "\ucc22\ub2e4",
+            synonyms: "rend, rip, sever"
+        },
+        "_swear": {
+            term: "swear",
+            kor_meaning: "\ub9f9\uc138\ud558\ub2e4",
+            synonyms: "avow, vow, promise"
+        },
+        "_toothed": {
+            term: "toothed",
+            kor_meaning: "\ub4e4\uc465\ub0a0\uc465\ud55c",
+            synonyms: "uneven, jagged, ragged"
+        },
+        "_transform": {
+            term: "transform",
+            kor_meaning: "\ubcc0\ud615\uc2dc\ud0a4\ub2e4",
+            synonyms: "convert, change, alter, convertible"
+        },
+        "_trustworthy": {
+            term: "trustworthy",
+            kor_meaning: "\ubbff\uc744 \uc218 \uc788\ub294",
+            synonyms: "reliable, true, credible"
+        },
+        "_unbalanced": {
+            term: "unbalanced",
+            kor_meaning: "\uade0\ud615\uc744 \uc783\uc740",
+            synonyms: "asymmetric, lopsided, unequal"
+        },
+        "_unrelenting": {
+            term: "unrelenting",
+            kor_meaning: "\ubb34\uc790\ube44\ud55c",
+            synonyms: "relentless, implacable, inexorable, cruel"
+        },
+        "_utilitarian": {
+            term: "utilitarian",
+            kor_meaning: "\uc2e4\uc6a9\uc8fc\uc758\uc758",
+            synonyms: "practical, pragmatic"
+        },
+        "_variety": {
+            term: "variety",
+            kor_meaning: "\ub2e4\uc591\uc131",
+            synonyms: "diversity, multiplicity"
+        },
+        "_variety2": {
+            term: "variety",
+            kor_meaning: "\uc885\ub958",
+            synonyms: "type, species, sort"
+        },
+        "_advantage": {
+            term: "advantage",
+            kor_meaning: "\uc774\uc775",
+            synonyms: "benefit, profit, behalf"
+        },
+        "_arise_from": {
+            term: "arise from",
+            kor_meaning: "~\uc5d0\uc11c \uae30\uc778\ud558\ub2e4",
+            synonyms: "originate from, stem from"
+        },
+        "_bar": {
+            term: "bar",
+            kor_meaning: "\uc7a5\uc560\ubb3c",
+            synonyms: "obstacle, obstruction, barricade"
+        },
+        "_betray": {
+            term: "betray",
+            kor_meaning: "\ubc30\uc2e0\ud558\ub2e4",
+            synonyms: "be unfaithful to, be a traitor to"
+        },
+        "_bind": {
+            term: "bind",
+            kor_meaning: "\ubb36\ub2e4",
+            synonyms: "tie, bond, fasten"
+        },
+        "_blur": {
+            term: "blur",
+            kor_meaning: "\ud750\ub9ac\uac8c \ud558\ub2e4",
+            synonyms: "make vague, obscure, cloud"
+        },
+        "_circumvent": {
+            term: "circumvent",
+            kor_meaning: "\uc6b0\ud68c\ud558\ub2e4",
+            synonyms: "avoid, bypass, go around"
+        },
+        "_clumsy": {
+            term: "clumsy",
+            kor_meaning: "\uc11c\ud22c\ub978",
+            synonyms: "awkward, unskillful"
+        },
+        "_commence": {
+            term: "commence",
+            kor_meaning: "\uc2dc\uc791\ud558\ub2e4",
+            synonyms: "begin, start, originate"
+        },
+        "_conduct": {
+            term: "conduct",
+            kor_meaning: "\ud589\ub3d9",
+            synonyms: "behavior, demeanor, bearing, manner"
+        },
+        "_conserve": {
+            term: "conserve",
+            kor_meaning: "\ubcf4\uc874\ud558\ub2e4",
+            synonyms: "retain, keep, save"
+        },
+        "_contradiction": {
+            term: "contradiction",
+            kor_meaning: "\ubaa8\uc21c",
+            synonyms: "paradox"
+        },
+        "_culminate": {
+            term: "culminate",
+            kor_meaning: "~\ub85c \ub05d\ub098\ub2e4",
+            synonyms: "result, end"
+        },
+        "_delineate": {
+            term: "delineate",
+            kor_meaning: "\uc724\uacfd\uc744 \uadf8\ub9ac\ub2e4",
+            synonyms: "trace, draw, describe"
+        },
+        "_donation": {
+            term: "donation",
+            kor_meaning: "\uae30\uc99d",
+            synonyms: "contribution, gift, offering"
+        },
+        "_embark_on": {
+            term: "embark on",
+            kor_meaning: "\uc2dc\uc791\ud558\ub2e4, \ucc29\uc218\ud558\ub2e4",
+            synonyms: "start, commence, begin"
+        },
+        "_foundation": {
+            term: "foundation",
+            kor_meaning: "\uae30\ucd08",
+            synonyms: "basis, underpinning, base, ground"
+        },
+        "_fundamental": {
+            term: "fundamental",
+            kor_meaning: "\uadfc\ubcf8\uc801\uc778",
+            synonyms: "basic, essential, primary"
+        },
+        "_handful": {
+            term: "handful",
+            kor_meaning: "\uc18c\ub7c9, \uc18c\uc218",
+            synonyms: "few, smattering"
+        },
+        "_height": {
+            term: "height",
+            kor_meaning: "\uc808\uc815",
+            synonyms: "peak, apex, crest, zenith"
+        },
+        "_identical": {
+            term: "identical",
+            kor_meaning: "\ub3d9\uc77c\ud55c",
+            synonyms: "same, alike, equal"
+        },
+        "_impediment": {
+            term: "impediment",
+            kor_meaning: "\uc7a5\uc560",
+            synonyms: "obstacle, barrier, difficulty, obstruction"
+        },
+        "_justify": {
+            term: "justify",
+            kor_meaning: "\uc99d\uba85\ud558\ub2e4",
+            synonyms: "prove, confirm, verify"
+        },
+        "_lament": {
+            term: "lament",
+            kor_meaning: "\uc2ac\ud37c\ud558\ub2e4",
+            synonyms: "complain, deplore, grieve, bemoan, mourn"
+        },
+        "_microorganism": {
+            term: "microorganism",
+            kor_meaning: "\ubbf8\uc0dd\ubb3c",
+            synonyms: "microbe, bacterium"
+        },
+        "_moody": {
+            term: "moody",
+            kor_meaning: "\uc6b0\uc6b8\ud55c",
+            synonyms: "gloomy, sullen, dismal, melancholy"
+        },
+        "_origin": {
+            term: "origin",
+            kor_meaning: "\ubc1c\uc0dd, \uadfc\uc6d0",
+            synonyms: "beginning, source"
+        },
+        "_predict": {
+            term: "predict",
+            kor_meaning: "\uc608\uce21\ud558\ub2e4",
+            synonyms: "foretell, prophesy, foresee"
+        },
+        "_progress": {
+            term: "progress",
+            kor_meaning: "\ubc1c\uc804",
+            synonyms: "strides, improvement, advance, development"
+        },
+        "_scoop": {
+            term: "scoop",
+            kor_meaning: "\uae01\uc5b4 \ubaa8\uc73c\ub2e4",
+            synonyms: "gather, lift, pick up"
+        },
+        "_score": {
+            term: "score",
+            kor_meaning: "\uc5bb\ub2e4",
+            synonyms: "gain, win"
+        },
+        "_score2": {
+            term: "score",
+            kor_meaning: "\uc545\ubcf4",
+            synonyms: "musical composition, musical note"
+        },
+        "_scrap": {
+            term: "scrap",
+            kor_meaning: "\ud30c\ud3b8",
+            synonyms: "fracture, piece, portion"
+        },
+        "_singularly": {
+            term: "singularly",
+            kor_meaning: "\uac01\ubcc4\ud788",
+            synonyms: "particularly, especially"
+        },
+        "_skilled": {
+            term: "skilled",
+            kor_meaning: "\uc219\ub828\ub41c",
+            synonyms: "skillful, adept, expert, proficient"
+        },
+        "_stem": {
+            term: "stem",
+            kor_meaning: "\uc5b4\uac04",
+            synonyms: "base, root"
+        },
+        "_stem2": {
+            term: "stem",
+            kor_meaning: "\ub9c9\ub2e4",
+            synonyms: "stop, dam, obstruct"
+        },
+        "_stem3": {
+            term: "stem",
+            kor_meaning: "\uc720\ub798\ud558\ub2e4",
+            synonyms: "arise from, originate, derive, proceed"
+        },
+        "_subdue": {
+            term: "subdue",
+            kor_meaning: "\uc815\ubcf5\ud558\ub2e4",
+            synonyms: "conquer, defeat, suppress"
+        },
+        "_subsidize": {
+            term: "subsidize",
+            kor_meaning: "\ud6c4\uc6d0\ud558\ub2e4",
+            synonyms: "assist, encourage, finance, back, fund"
+        },
+        "_unanimity": {
+            term: "unanimity",
+            kor_meaning: "(\ub9cc\uc7a5) \uc77c\uce58",
+            synonyms: "accord, agreement"
+        },
+        "_alloy": {
+            term: "alloy",
+            kor_meaning: "\ud63c\ud569\ud558\ub2e4",
+            synonyms: "mix, blend, mingle, compound"
+        },
+        "_barely": {
+            term: "barely",
+            kor_meaning: "\uac70\uc758 ~\uc54a\ub2e4",
+            synonyms: "scarcely, hardly, seldom, rarely"
+        },
+        "_captivity": {
+            term: "captivity",
+            kor_meaning: "\uc18d\ubc15, \uac10\uae08",
+            synonyms: "bondage, confinement"
+        },
+        "_clasp": {
+            term: "clasp",
+            kor_meaning: "\uc7a1\ub2e4",
+            synonyms: "grasp, grip, clutch, capture"
+        },
+        "_cohesion": {
+            term: "cohesion",
+            kor_meaning: "\uacb0\ud569, \uc720\ub300(\uac10)",
+            synonyms: "bond, unity, adhesion, adherence, union"
+        },
+        "_coincide": {
+            term: "coincide",
+            kor_meaning: "\ub3d9\uc2dc\uc5d0 \uc77c\uc5b4\ub098\ub2e4",
+            synonyms: "exist or occur at the same time"
+        },
+        "_coincide2": {
+            term: "coincide",
+            kor_meaning: "\uc758\uacac\uc774 \uc77c\uce58\ud558\ub2e4",
+            synonyms: "agree, concur"
+        },
+        "_colossal": {
+            term: "colossal",
+            kor_meaning: "\uac70\ub300\ud55c",
+            synonyms: "enormous, monstrous, gigantic, tremendous"
+        },
+        "_considerable": {
+            term: "considerable",
+            kor_meaning: "\uc911\uc694\ud55c",
+            synonyms: "significant, substantial"
+        },
+        "_considerable2": {
+            term: "considerable",
+            kor_meaning: "\uc0c1\ub2f9\ud55c",
+            synonyms: "big, sizable, large"
+        },
+        "_converge": {
+            term: "converge",
+            kor_meaning: "\uc9d1\uc911\ub418\ub2e4",
+            synonyms: "meet, gather, merge"
+        },
+        "_corpse": {
+            term: "corpse",
+            kor_meaning: "\uc2dc\uccb4",
+            synonyms: "dead body"
+        },
+        "_covet": {
+            term: "covet",
+            kor_meaning: "\uac08\ub9dd\ud558\ub2e4",
+            synonyms: "desire, long for, aspire to, envy, crave for"
+        },
+        "_defection": {
+            term: "defection",
+            kor_meaning: "\uacb0\uc810",
+            synonyms: "shortcoming, blemish, fault, flaw"
+        },
+        "_defection2": {
+            term: "defection",
+            kor_meaning: "\ubc30\ubc18",
+            synonyms: "betrayal"
+        },
+        "_deprive": {
+            term: "deprive",
+            kor_meaning: "\ubc15\ud0c8\ud558\ub2e4 (deprive A of B: A\uc5d0\uac8c\uc11c B\ub97c \ube7c\uc557\ub2e4)",
+            synonyms: "strip"
+        },
+        "_dull": {
+            term: "dull",
+            kor_meaning: "\uc9c0\ub8e8\ud55c",
+            synonyms: "boring, prosaic, uninteresting, tiresome, tiring"
+        },
+        "_endeavor": {
+            term: "endeavor",
+            kor_meaning: "\ub178\ub825\ud558\ub2e4, \uc560\uc4f0\ub2e4",
+            synonyms: "strive, struggle"
+        },
+        "_flock": {
+            term: "flock",
+            kor_meaning: "\ubb34\ub9ac",
+            synonyms: "group, multitude"
+        },
+        "_generous": {
+            term: "generous",
+            kor_meaning: "\uad00\ub300\ud55c",
+            synonyms: "bountiful, unselfish, liberal, humane, kind"
+        },
+        "_grant": {
+            term: "grant",
+            kor_meaning: "\uc8fc\ub2e4, \uc218\uc5ec\ud558\ub2e4",
+            synonyms: "bestow, confer, award"
+        },
+        "_hustle": {
+            term: "hustle",
+            kor_meaning: "\uc11c\ub450\ub974\ub2e4",
+            synonyms: "rush, hurry, hasten"
+        },
+        "_hustle2": {
+            term: "hustle",
+            kor_meaning: "\ubc00\ub2e4",
+            synonyms: "push, shove"
+        },
+        "_intermediate": {
+            term: "intermediate",
+            kor_meaning: "\uc911\uac04\uc758",
+            synonyms: "between extremes, mean, median, halfway"
+        },
+        "_intolerant": {
+            term: "intolerant",
+            kor_meaning: "\uc639\uc878\ud55c, \ud3b8\ud611\ud55c",
+            synonyms: "impatient, bigoted, prejudiced, biased"
+        },
+        "_kind": {
+            term: "kind",
+            kor_meaning: "\uce5c\uc808\ud55c",
+            synonyms: "benign, humane, compassionate"
+        },
+        "_limit": {
+            term: "limit",
+            kor_meaning: "\uacbd\uacc4, \ud55c\uacc4",
+            synonyms: "bound, boundary"
+        },
+        "_limit2": {
+            term: "limit",
+            kor_meaning: "\uc81c\ud55c\ud558\ub2e4",
+            synonyms: "restrict, confine"
+        },
+        "_margin": {
+            term: "margin",
+            kor_meaning: "\uac00\uc7a5\uc790\ub9ac",
+            synonyms: "border, edge, rim, verge"
+        },
+        "_militia": {
+            term: "militia",
+            kor_meaning: "\uc2dc\ubbfc\uad70",
+            synonyms: "military, army"
+        },
+        "_moreover": {
+            term: "moreover",
+            kor_meaning: "\uac8c\ub2e4\uac00",
+            synonyms: "in addition, additionally, as well, besides, further more"
+        },
+        "_necessary": {
+            term: "necessary",
+            kor_meaning: "\ud544\uc218\uc801\uc778",
+            synonyms: "required, indispensable, essential, vital"
+        },
+        "_obstruct": {
+            term: "obstruct",
+            kor_meaning: "\ub9c9\ub2e4",
+            synonyms: "block, bar, hinder, blockade, prevent"
+        },
+        "_on_the_spot": {
+            term: "on the spot",
+            kor_meaning: "\uc989\uc2dc",
+            synonyms: "instantly, immediately"
+        },
+        "_partial": {
+            term: "partial",
+            kor_meaning: "\ud3b8\ud30c\uc801\uc778",
+            synonyms: "biased, prejudiced, unfair, bigoted"
+        },
+        "_petition": {
+            term: "petition",
+            kor_meaning: "\uac04\uccad\ud558\ub2e4",
+            synonyms: "supplicate, beg, solicit"
+        },
+        "_placid": {
+            term: "placid",
+            kor_meaning: "\ud3c9\uc628\ud55c",
+            synonyms: "calm, serene, tranquil, untroubled"
+        },
+        "_porosity": {
+            term: "porosity",
+            kor_meaning: "\ub2e4\uacf5\uc131",
+            synonyms: "space, porousness"
+        },
+        "_reform": {
+            term: "reform",
+            kor_meaning: "\uac1c\uc815\ud558\ub2e4",
+            synonyms: "amend, improve, ameliorate"
+        },
+        "_rigid": {
+            term: "rigid",
+            kor_meaning: "\ub2e8\ub2e8\ud55c",
+            synonyms: "stiff, hard, inflexible"
+        },
+        "_rigid2": {
+            term: "rigid",
+            kor_meaning: "\uc5c4\uaca9\ud55c",
+            synonyms: "strict, severe, rigorous"
+        },
+        };
+
+        let translationVisible = false;
+
+        // 챕터 전환 함수
+        function showChapter(chapterIndex) {
+            // 모든 챕터 숨기기
+            const chapters = document.querySelectorAll('.chapter-content');
+            chapters.forEach(chapter => {
+                chapter.style.display = 'none';
+            });
+
+            // 모든 링크에서 active 클래스 제거
+            const links = document.querySelectorAll('.chapter-link');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // 선택된 챕터 보이기
+            const selectedChapter = document.getElementById('chapter-' + chapterIndex);
+            if (selectedChapter) {
+                selectedChapter.style.display = 'block';
+
+                // 현재 번역 상태에 따라 한국어 문장 표시/숨김
+                const koreanTexts = selectedChapter.querySelectorAll('.korean-text');
+                koreanTexts.forEach(text => {
+                    text.style.display = translationVisible ? 'block' : 'none';
+                });
+            }
+
+            // 선택된 링크에 active 클래스 추가
+            if (links[chapterIndex]) {
+                links[chapterIndex].classList.add('active');
+            }
+
+            // 목차가 열려있으면 닫기
+            const indexNav = document.getElementById('indexNavigation');
+            if (indexNav && indexNav.classList.contains('show')) {
+                toggleIndex();
+            }
+        }
+
+        // 목차 토글 함수
+        function toggleIndex() {
+            const indexNav = document.getElementById('indexNavigation');
+            const toggleBtn = document.querySelector('.toggle-index-btn');
+
+            if (indexNav.classList.contains('show')) {
+                indexNav.classList.remove('show');
+                toggleBtn.textContent = '목차 보기';
+            } else {
+                indexNav.classList.add('show');
+                toggleBtn.textContent = '목차 숨기기';
+            }
+        }
+
+        // 번역 토글 함수
+
+        function toggleTranslation() {
+            translationVisible = !translationVisible;
+            const koreanTexts = document.querySelectorAll('.korean-text');
+
+            koreanTexts.forEach(text => {
+                text.style.display = translationVisible ? 'block' : 'none';
+            });
+
+            const toggleBtn = document.querySelector('.translate-icon-btn');
+            toggleBtn.setAttribute('title', translationVisible ? 'Hide Translation' : 'Show Translation');
+        }
+
+        // 단어 팝업 표시 함수
+        function showWordPopup(wordId) {
+            console.log('단어 팝업 표시:', wordId);
+
+            const wordInfo = wordData[wordId];
+            if (!wordInfo) {
+                console.error('단어 정보를 찾을 수 없습니다:', wordId);
+                alert('단어 정보를 찾을 수 없습니다: ' + wordId);
+                return;
+            }
+
+            // 팝업 요소들 가져오기
+            const overlay = document.getElementById('wordPopupOverlay');
+            const termElement = document.getElementById('popupTerm');
+            const meaningElement = document.getElementById('popupMeaning');
+            const synonymsElement = document.getElementById('popupSynonyms');
+
+            if (!overlay || !termElement || !meaningElement || !synonymsElement) {
+                console.error('팝업 요소를 찾을 수 없습니다');
+                return;
+            }
+
+            // 팝업 내용 설정
+            termElement.textContent = wordInfo.term;
+            meaningElement.innerHTML = '<strong>뜻:</strong> ' + wordInfo.kor_meaning;
+
+            if (wordInfo.synonyms && wordInfo.synonyms.trim()) {
+                synonymsElement.innerHTML = '<strong>동의어:</strong> ' + wordInfo.synonyms;
+                synonymsElement.style.display = 'block';
+            } else {
+                synonymsElement.style.display = 'none';
+            }
+
+            // 팝업 표시
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+
+            console.log('팝업 표시 완료');
+        }
+
+        // 팝업 닫기 함수
+        function closePopup() {
+            const overlay = document.getElementById('wordPopupOverlay');
+            if (overlay) {
+                overlay.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('페이지 로드됨');
+            console.log('단어 데이터 개수:', Object.keys(wordData).length);
+
+            // 첫 번째 챕터 표시
+            showChapter(0);
+
+            // 단어 클릭 이벤트 리스너 (이벤트 위임)
+            document.body.addEventListener('click', function(e) {
+                if (e.target.classList.contains('word-link')) {
+                    const wordId = e.target.getAttribute('data-word-id');
+                    if (wordId) {
+                        console.log('단어 클릭됨:', wordId);
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showWordPopup(wordId);
+                    }
+                }
+            });
+
+            // 팝업 오버레이 클릭 시 닫기
+            document.getElementById('wordPopupOverlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closePopup();
+                }
+            });
+
+            // ESC 키로 팝업 닫기
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closePopup();
+                }
+            });
+
+            console.log('이벤트 리스너 설정 완료');
+
+            // 단어 요소 개수 확인
+            setTimeout(function() {
+                const wordElements = document.querySelectorAll('.word-link');
+                console.log('발견된 단어 요소 수:', wordElements.length);
+                if (wordElements.length > 0) {
+                    console.log('첫 번째 단어 요소:', wordElements[0].textContent, wordElements[0].getAttribute('data-word-id'));
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
