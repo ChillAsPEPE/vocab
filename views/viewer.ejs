@@ -19,6 +19,8 @@
         .toggle-btn { background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
         .toggle-btn:hover { background: #5a6268; }
         .toggle-btn.active-btn { background-color: #007bff; color: white; }
+        .bookshelf-link { background-color: #17a2b8; }
+        .bookshelf-link:hover { background-color: #138496; }
         .chapter-link { display: inline-block; padding: 5px; text-decoration: none; color: #007bff; border: none; border-bottom: 1px solid #007bff; font-weight: 500; font-size: 10px; transition: all 0.3s ease; min-width: 25px; text-align: center; }
         .chapter-link:hover, .chapter-link.active { background: #007bff; color: white; border-bottom-color: white; transform: scale(1.1); }
         .chapter-content h2 { color: #2c3e50; margin-bottom: 30px; text-align: center; font-size: 28px; border-bottom: 3px solid #007bff; padding-bottom: 10px; }
@@ -65,6 +67,7 @@
         <div class="header">
             <div class="navigation-controls">
                 <div class="nav-button-group">
+                    <a href="/" class="toggle-btn bookshelf-link">📚 책장으로</a>
                     <button id="index-toggle-btn" class="toggle-btn">목차 보기</button>
                     <button id="word-list-toggle-btn" class="toggle-btn">단어 목록 보기</button>
                 </div>
@@ -73,26 +76,19 @@
                     <%- number_navigation %>
                 </div>
             </div>
-            <%- chapters_html %>
+            <div id="chapter-display-area"></div>
         </div>
     </div>
-
     <div id="indexNavigationTemplate" style="display: none;"><%- index_navigation %></div>
-    
-    <div id="wordPopupOverlay" class="popup-overlay">
-        <div class="popup-content">
-            <div class="popup-header"><h3 id="popupTerm">단어</h3></div>
-            <div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div>
-        </div>
-    </div>
+    <div id="wordPopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn">&times;</button></div><div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div></div></div>
     <div id="sentencePopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-body"><p id="sentencePopupText" style="margin: 0;"></p></div></div></div>
     <div id="bottomSheet" class="bottom-sheet-overlay"><div class="bottom-sheet-panel"><div class="bottom-sheet-header"><h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3><button class="close-btn">&times;</button></div><div id="bottomSheetContent" class="bottom-sheet-content"></div></div></div>
 
     <script>
-        // ★★★ 변경된 부분 2: JavaScript 로직 전체 수정 ★★★
         const wordData = <%- word_data_js %>;
         const wordsByChapter = <%- words_by_chapter_json %>;
         const contentHash = "<%- content_hash %>";
+        const chaptersContent = <%- chapters_data_json %>;
         
         let currentChapterIndex = 0;
         let highlightedElement = null;
@@ -155,6 +151,7 @@
         }
         
         function showWordPopup(wordId) {
+            closeAllPopups();
             const wordInfo = wordData[wordId];
             if (!wordPopup || !wordInfo) return;
             wordPopup.querySelector('#popupTerm').textContent = wordInfo.term;
@@ -170,10 +167,15 @@
             lockBodyScroll();
         }
 
+        function closePopup() {
+            if (wordPopup) wordPopup.classList.remove('show');
+            if (!bottomSheet.classList.contains('show') && !sentencePopup.classList.contains('show')) unlockBodyScroll();
+        }
+        
         function showSentencePopup(element) {
+            closeAllPopups();
             const translation = element.dataset.translation;
             if (!sentencePopup || !translation) return;
-            if (highlightedElement) highlightedElement.classList.remove('highlighted-sentence');
             element.classList.add('highlighted-sentence');
             highlightedElement = element;
             sentencePopup.querySelector('#sentencePopupText').innerHTML = translation.replace(/&#34;/g, '"');
@@ -184,17 +186,16 @@
         function showChapter(index) {
             currentChapterIndex = index;
             closeAllPopups();
-            document.querySelectorAll('.chapter-content').forEach(c => c.style.display = 'none');
-            document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
-            const chapterEl = document.getElementById('chapter-' + index);
-            if(chapterEl) {
-                chapterEl.style.display = 'block';
-                const titleEl = chapterEl.querySelector('h2');
+            const displayArea = document.getElementById('chapter-display-area');
+            if (displayArea && chaptersContent[index] !== undefined) {
+                displayArea.innerHTML = chaptersContent[index];
+                const titleEl = displayArea.querySelector('h2');
                 if(titleEl) {
                     titleEl.setAttribute('tabindex', '-1');
                     titleEl.focus({ preventScroll: true });
                 }
             }
+            document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
             const activeLink = document.querySelector(`.chapter-link[href="#chapter-${index}-${contentHash}"]`);
             if(activeLink) activeLink.classList.add('active');
         }
@@ -203,11 +204,8 @@
             const hash = window.location.hash;
             let chapterIndex = 0;
             if (hash && hash.startsWith('#chapter-')) {
-                const parts = hash.substring(1).split('-');
-                if (parts.length >= 2) {
-                    const indexFromHash = parseInt(parts[1], 10);
-                    if (!isNaN(indexFromHash)) chapterIndex = indexFromHash;
-                }
+                const indexFromHash = parseInt(hash.substring(1).split('-')[1], 10);
+                if (!isNaN(indexFromHash)) chapterIndex = indexFromHash;
             }
             showChapter(chapterIndex);
         }
@@ -236,7 +234,6 @@
             document.getElementById('index-toggle-btn').addEventListener('click', () => openSheet('index'));
             document.getElementById('word-list-toggle-btn').addEventListener('click', () => openSheet('word'));
             
-            // 더블클릭 이벤트 리스너
             document.querySelector('.content').addEventListener('dblclick', function(e) {
                 const wordLink = e.target.closest('.word-link');
                 if (wordLink) {
@@ -251,17 +248,16 @@
                 }
             });
 
-            // 팝업/시트 닫기 이벤트 리스너
             document.body.addEventListener('click', function(e) {
-                // 더블클릭 이벤트에서 이미 처리되므로, 여기서는 닫기만 담당
-                if(e.target.closest('.close-btn') || e.target === wordPopup || e.target === sentencePopup || e.target === bottomSheet) {
-                    closeAllPopups();
-                }
-                
                 const indexItem = e.target.closest('.index-item');
                 if (indexItem && indexItem.dataset.href) {
                     e.preventDefault();
                     window.location.hash = indexItem.dataset.href;
+                    return;
+                }
+                
+                if(e.target.closest('.close-btn') || e.target === wordPopup || e.target === sentencePopup || e.target === bottomSheet) {
+                    closeAllPopups();
                 }
             });
             
