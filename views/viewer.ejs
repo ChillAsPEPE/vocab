@@ -7,8 +7,12 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; }
+        
+        /* ★★★ 레이아웃 시프트 방지 1: 스크롤 잠금 시 padding 변경에 애니메이션 효과 ★★★ */
         body.no-scroll { overflow: hidden; }
-        .chapter-content h2:focus { outline: 2px solid #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); }
+        body.compensate-scrollbar { padding-right: 15px; /* 스크롤바 너비만큼의 기본값 */ }
+
+        .chapter-content h2:focus { outline: 2px solid #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); border-radius: 3px; }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
         .header { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .content { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -22,20 +26,14 @@
         .chapter-link { display: inline-block; padding: 5px; text-decoration: none; color: #007bff; border: none; border-bottom: 1px solid #007bff; font-weight: 500; font-size: 10px; transition: all 0.3s ease; min-width: 25px; text-align: center; }
         .chapter-link:hover, .chapter-link.active { background: #007bff; color: white; border-bottom-color: white; transform: scale(1.1); }
         .chapter-content h2 { color: #2c3e50; margin-bottom: 30px; text-align: center; font-size: 28px; border-bottom: 3px solid #007bff; padding-bottom: 10px; }
-        .paragraph-group { margin-bottom: 25px; }
-        .paragraph-group:last-child { margin-bottom: 0; }
-        
-        /* ★★★ 레이아웃 문제 해결 1: 문장과 버튼을 감싸는 컨테이너 ★★★ */
-        .sentence-container { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-        /* ★★★ 레이아웃 문제 해결 2: p 태그에서 flex 속성 제거 ★★★ */
-        .english-text { font-size: 18px; line-height: 1.5; color: #2c3e50; flex-grow: 1; }
-
-        .word-link { display: inline; color: #007bff; font-weight: 600; padding: 2px 4px; border-radius: 3px; background: rgba(0, 123, 255, 0.1); cursor: pointer; transition: all 0.3s ease; text-decoration: underline; }
-        .word-link:hover { background: rgba(0, 123, 255, 0.3); transform: scale(1.05); }
-        .word-target-kr { display: inline; color: #dc3545; font-weight: 600; padding: 2px 4px; border-radius: 3px; background: rgba(220, 53, 69, 0.1); }
-        .translate-sentence-btn { background: #f1f3f4; border: 1px solid #dee2e6; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
-        .translate-sentence-btn:hover { background-color: #e9ecef; border-color: #adb5bd; }
-        .translate-sentence-btn svg { width: 14px; height: 14px; stroke: #495057; pointer-events: none; }
+        .story-content { text-align: justify; }
+        .english-paragraph { font-size: 18px; line-height: 1.8; color: #2c3e50; margin-bottom: 1.5em; cursor: pointer; -webkit-user-select: text; user-select: text; }
+        .english-paragraph:last-child { margin-bottom: 0; }
+        .sentence-unit { border-radius: 3px; transition: background-color 0.2s; }
+        .sentence-unit.highlighted-sentence { background-color: #fffab0; }
+        .word-link { position: relative; display: inline; color: #007bff; font-weight: 600; padding: 1px 3px; border-radius: 3px; background: rgba(0, 123, 255, 0.1); cursor: pointer; text-decoration: underline; }
+        .word-link:hover { background: rgba(0, 123, 255, 0.2); }
+        .word-target-kr { color: #dc3545; font-weight: 600; background: rgba(220, 53, 69, 0.1); padding: 1px 3px; border-radius: 3px; }
         .bottom-sheet-overlay, .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); display: flex; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .popup-overlay { z-index: 2000; align-items: center; justify-content: center; }
         .bottom-sheet-overlay { z-index: 1000; align-items: flex-end; }
@@ -61,7 +59,6 @@
         .close-btn:hover { color: #333; }
         .popup-body { padding: 20px 25px; }
         .popup-body p { margin: 0; font-size: 16px; line-height: 1.5; }
-        .popup-body p:last-child { margin-bottom: 0; }
         .popup-body strong { color: #2c3e50; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -72,8 +69,8 @@
         <div class="header">
             <div class="navigation-controls">
                 <div class="nav-button-group">
-                    <button id="index-toggle-btn" class="toggle-btn" onclick="toggleIndex()">목차 보기</button>
-                    <button id="word-list-toggle-btn" class="toggle-btn" onclick="toggleWordList()">단어 목록 보기</button>
+                    <button id="index-toggle-btn" class="toggle-btn">목차 보기</button>
+                    <button id="word-list-toggle-btn" class="toggle-btn">단어 목록 보기</button>
                 </div>
                 <div class="chapter-links-container">
                     <span class="nav-label">Chapters:</span>
@@ -84,25 +81,48 @@
         </div>
     </div>
     <div id="indexNavigationTemplate" style="display: none;"><%- index_navigation %></div>
-    <div id="wordPopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn" onclick="closePopup()">&times;</button></div><div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div></div></div>
+    <div id="wordPopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn">&times;</button></div><div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div></div></div>
     <div id="sentencePopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-body"><p id="sentencePopupText" style="margin: 0;"></p></div></div></div>
-    <div id="bottomSheet" class="bottom-sheet-overlay"><div class="bottom-sheet-panel"><div class="bottom-sheet-header"><h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3><button class="close-btn" onclick="closeSheet()">&times;</button></div><div id="bottomSheetContent" class="bottom-sheet-content"></div></div></div>
+    <div id="bottomSheet" class="bottom-sheet-overlay"><div class="bottom-sheet-panel"><div class="bottom-sheet-header"><h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3><button class="close-btn">&times;</button></div><div id="bottomSheetContent" class="bottom-sheet-content"></div></div></div>
 
     <script>
         const wordData = <%- word_data_js %>;
         const wordsByChapter = <%- words_by_chapter_json %>;
         const contentHash = "<%- content_hash %>";
+        const LONG_PRESS_DURATION = 200;
         let currentChapterIndex = 0;
+        let currentSheet = null;
+        let pressTimer = null;
+        let highlightedElement = null;
 
         const bottomSheet = document.getElementById('bottomSheet');
         const wordPopup = document.getElementById('wordPopupOverlay');
         const sentencePopup = document.getElementById('sentencePopupOverlay');
-        
-        function closeAllPopups() {
-            wordPopup.classList.remove('show');
-            sentencePopup.classList.remove('show');
-            closeSheet();
+
+        // ★★★ 레이아웃 시프트 방지 로직 ★★★
+        function lockBodyScroll() {
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            if (scrollbarWidth > 0) {
+                document.body.style.paddingRight = `${scrollbarWidth}px`;
+            }
+            document.body.classList.add('no-scroll');
+        }
+
+        function unlockBodyScroll() {
             document.body.classList.remove('no-scroll');
+            document.body.style.paddingRight = '';
+        }
+
+        function closeAllPopups() {
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+                highlightedElement = null;
+            }
+            if(wordPopup) wordPopup.classList.remove('show');
+            if(sentencePopup) sentencePopup.classList.remove('show');
+            closeSheet();
+            // 모든 것이 닫힐 때만 스크롤을 풉니다.
+            unlockBodyScroll();
         }
 
         function openSheet(type) {
@@ -110,11 +130,7 @@
             const wordListBtn = document.getElementById('word-list-toggle-btn');
             const bottomSheetTitle = document.getElementById('bottomSheetTitle');
             const bottomSheetContent = document.getElementById('bottomSheetContent');
-            
-            if (bottomSheet.classList.contains('show') && currentSheet === type) {
-                return closeSheet();
-            }
-
+            if (bottomSheet.classList.contains('show') && currentSheet === type) { return closeSheet(); }
             if (type === 'index') {
                 bottomSheetTitle.textContent = '목차';
                 bottomSheetContent.innerHTML = document.getElementById('indexNavigationTemplate').innerHTML;
@@ -129,23 +145,25 @@
             }
             currentSheet = type;
             bottomSheet.classList.add('show');
-            document.body.classList.add('no-scroll');
+            lockBodyScroll();
         }
 
         function closeSheet() {
             if (!bottomSheet) return;
             bottomSheet.classList.remove('show');
-            document.getElementById('index-toggle-btn').classList.remove('active-btn');
-            document.getElementById('word-list-toggle-btn').classList.remove('active-btn');
+            const indexBtn = document.getElementById('index-toggle-btn');
+            const wordListBtn = document.getElementById('word-list-toggle-btn');
+            if (indexBtn) indexBtn.classList.remove('active-btn');
+            if (wordListBtn) wordListBtn.classList.remove('active-btn');
             currentSheet = null;
             if (!wordPopup.classList.contains('show') && !sentencePopup.classList.contains('show')) {
-                 document.body.classList.remove('no-scroll');
+                 unlockBodyScroll();
             }
         }
         
         function showWordPopup(wordId) {
             const wordInfo = wordData[wordId];
-            if (!wordInfo) return;
+            if (!wordPopup || !wordInfo) return;
             wordPopup.querySelector('#popupTerm').textContent = wordInfo.term;
             wordPopup.querySelector('#popupMeaning').innerHTML = '<strong>뜻:</strong> ' + wordInfo.kor_meaning;
             const synonymsEl = wordPopup.querySelector('#popupSynonyms');
@@ -156,30 +174,37 @@
                 synonymsEl.style.display = 'none';
             }
             wordPopup.classList.add('show');
-            document.body.classList.add('no-scroll');
+            lockBodyScroll();
         }
-        
+
         function closePopup() { // 단어 팝업 닫기 전용
-            if (!wordPopup) return;
-            wordPopup.classList.remove('show');
+            if (wordPopup) wordPopup.classList.remove('show');
             if (!bottomSheet.classList.contains('show') && !sentencePopup.classList.contains('show')) {
-                document.body.classList.remove('no-scroll');
+                unlockBodyScroll();
             }
         }
         
-        function showSentencePopup(translation) {
-            if (!sentencePopup) return;
-            const popupTextEl = sentencePopup.querySelector('#sentencePopupText');
-            popupTextEl.innerHTML = translation.replace(/&#34;/g, '"');
+        function showSentencePopup(element) {
+            const translation = element.dataset.translation;
+            if (!sentencePopup || !translation) return;
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+            }
+            element.classList.add('highlighted-sentence');
+            highlightedElement = element;
+            sentencePopup.querySelector('#sentencePopupText').innerHTML = translation.replace(/&#34;/g, '"');
             sentencePopup.classList.add('show');
-            document.body.classList.add('no-scroll');
+            lockBodyScroll();
         }
 
         function closeSentencePopup() {
-            if (!sentencePopup) return;
-            sentencePopup.classList.remove('show');
+            if (sentencePopup) sentencePopup.classList.remove('show');
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+                highlightedElement = null;
+            }
             if (!bottomSheet.classList.contains('show') && !wordPopup.classList.contains('show')) {
-                document.body.classList.remove('no-scroll');
+                unlockBodyScroll();
             }
         }
         
@@ -188,8 +213,8 @@
 
         function showChapter(index) {
             currentChapterIndex = index;
-            closeSheet();
-            document.querySelectorAll('.chapter-content').forEach(c => c.style.display = 'none');
+            closeAllPopups();
+            document.querySelectorAll('.chapter-content').forEach(c => { c.style.display = 'none'; });
             document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
             const chapterEl = document.getElementById('chapter-' + index);
             if(chapterEl) {
@@ -197,7 +222,7 @@
                 const titleEl = chapterEl.querySelector('h2');
                 if(titleEl) {
                     titleEl.setAttribute('tabindex', '-1');
-                    titleEl.focus();
+                    titleEl.focus({ preventScroll: true });
                 }
             }
             const activeLink = document.querySelector(`.chapter-link[href="#chapter-${index}-${contentHash}"]`);
@@ -238,30 +263,63 @@
         document.addEventListener('DOMContentLoaded', function() {
             handleNavigation();
 
-            document.body.addEventListener('click', function(e) {
-                const target = e.target.closest('button, .index-item, .word-link');
-                if (!target) return;
+            const storyContentArea = document.querySelector('.story-content');
+            
+            const cancelPress = () => clearTimeout(pressTimer);
+            
+            // Long-press 이벤트를 story-content 영역 전체에 위임합니다.
+            if (document.querySelector('.content')) {
+                document.querySelector('.content').addEventListener('mousedown', function(e) {
+                    if (e.target.closest('.word-link') || e.target.closest('button') || e.target.closest('a')) {
+                        clearTimeout(pressTimer);
+                        return;
+                    }
+                    const targetSentence = e.target.closest('.sentence-unit');
+                    if (!targetSentence) return;
+                    
+                    pressTimer = setTimeout(() => {
+                        pressTimer = null;
+                        showSentencePopup(targetSentence);
+                    }, LONG_PRESS_DURATION);
+                });
                 
-                if (target.matches('.word-link')) {
+                const mainContentArea = document.querySelector('.content');
+                mainContentArea.addEventListener('mouseup', cancelPress);
+                mainContentArea.addEventListener('mouseleave', cancelPress);
+                mainContentArea.addEventListener('dragstart', cancelPress);
+            }
+
+            document.getElementById('index-toggle-btn').addEventListener('click', toggleIndex);
+            document.getElementById('word-list-toggle-btn').addEventListener('click', toggleWordList);
+            
+            document.body.addEventListener('click', function(e) {
+                const wordLink = e.target.closest('.word-link');
+                if (wordLink) {
                     e.preventDefault();
-                    showWordPopup(target.dataset.wordId);
-                } else if (target.matches('.translate-sentence-btn')) {
+                    e.stopPropagation();
+                    showWordPopup(wordLink.dataset.wordId);
+                    return;
+                }
+                
+                if(e.target.closest('.close-btn')) {
+                    if (e.target.closest('#wordPopupOverlay')) closePopup();
+                    else if (e.target.closest('#sentencePopupOverlay')) closeSentencePopup();
+                    else if (e.target.closest('#bottomSheet')) closeSheet();
+                    return;
+                }
+
+                if(e.target === wordPopup) return closePopup();
+                if(e.target === sentencePopup) return closeSentencePopup();
+                if(e.target === bottomSheet) return closeSheet();
+                
+                const indexItem = e.target.closest('.index-item');
+                if (indexItem && indexItem.dataset.href) {
                     e.preventDefault();
-                    showSentencePopup(target.dataset.translation);
-                } else if (target.matches('.index-item')) {
-                    e.preventDefault();
-                    window.location.hash = target.dataset.href;
-                } else if (target.matches('.close-btn')) {
-                     if (target.closest('.popup-overlay')) closePopup();
-                     if (target.closest('.bottom-sheet-overlay')) closeSheet();
+                    window.location.hash = indexItem.dataset.href;
                 }
             });
             
-            wordPopup.addEventListener('click', e => { if(e.target === e.currentTarget) closePopup(); });
-            sentencePopup.addEventListener('click', e => { if(e.target === e.currentTarget) closeSentencePopup(); });
-            bottomSheet.addEventListener('click', e => { if(e.target === e.currentTarget) closeSheet(); });
-            
-            document.addEventListener('keydown', e => { if (e.key === 'Escape') { closePopup(); closeSheet(); closeSentencePopup(); }});
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllPopups(); });
         });
 
         window.addEventListener('hashchange', handleNavigation, false);
