@@ -8,11 +8,12 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; }
         body.no-scroll { overflow: hidden; }
+        .chapter-content h2:focus { outline: 2px solid #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); border-radius: 3px; }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
         .header { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .content { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .navigation-controls { display: flex; flex-direction: column; gap: 15px; margin-bottom: 10px; padding: 15px; background: #f8f9fa; border-radius: 8px; }
-        .nav-button-group { display: flex; align-items: center; gap: 10px; }
+        .nav-button-group { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
         .chapter-links-container { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
         .nav-label { font-weight: 600; color: #495057; font-size: 14px; margin-right: 9px; }
         .toggle-btn { background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
@@ -22,16 +23,7 @@
         .bookshelf-link:hover { background-color: #138496; }
         .chapter-link { display: inline-block; padding: 5px; text-decoration: none; color: #007bff; border: none; border-bottom: 1px solid #007bff; font-weight: 500; font-size: 10px; transition: all 0.3s ease; min-width: 25px; text-align: center; }
         .chapter-link:hover, .chapter-link.active { background: #007bff; color: white; border-bottom-color: white; transform: scale(1.1); }
-        .chapter-content h2 {
-            color: #2c3e50;
-            margin-top: 5px;
-            margin-bottom: 25px;
-            text-align: left; /* <- 수정 */
-            font-size: 24px;
-            font-weight: 800;
-            font-family:'Times New Roman', Times, serif;
-            /* border-bottom 과 padding-bottom 제거 */
-        }
+        .chapter-content h2 { color: #2c3e50; margin-bottom: 30px; text-align: left; font-size: 28px; }
         .story-content { text-align: justify; }
         .english-paragraph { font-size: 18px; line-height: 1.8; color: #2c3e50; margin-bottom: 1.5em; }
         .english-paragraph:last-child { margin-bottom: 0; }
@@ -58,8 +50,8 @@
         .index-item:last-child { border-bottom: none; }
         .index-number { font-weight: 600; color: #007bff; margin-right: 12px; min-width: 25px; }
         .index-title { color: #495057; font-size: 14px; }
-        .popup-content { background: white; max-width: 400px; width: 90%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); animation: slideIn 0.3s ease; position: relative; }
-        .popup-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px 10px; border-bottom: 2px solid #f1f3f4; }
+        .popup-content { background: white; max-width: 400px; width: 90%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); animation: slideIn 0.3s ease; position: absolute; transform: translate(0%, -100%); }
+        .popup-header { display: flex; justify-content: space-between; align-items: center; padding: 5px 25px 5px; border-bottom: 2px solid #f1f3f4; }
         .popup-header h3 { color: #007bff; font-size: 24px; margin: 0; }
         .close-btn { background: none; border: none; color: #999; font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.3s ease; padding: 0; line-height: 1; }
         .close-btn:hover { color: #333; }
@@ -72,19 +64,19 @@
 </head>
 <body>
     <div class="content">
+        <div class="nav-button-group">
+            <a href="/" class="toggle-btn bookshelf-link">📚 책장으로</a>
+            <button id="index-toggle-btn" class="toggle-btn">목차 보기</button>
+            <button id="word-list-toggle-btn" class="toggle-btn">단어 목록 보기</button>
+        </div>
         <div class="navigation-controls">
-            <div class="nav-button-group">
-                <a href="/" class="toggle-btn bookshelf-link">📚 책장으로</a>
-                <button id="index-toggle-btn" class="toggle-btn">목차 보기</button>
-                <button id="word-list-toggle-btn" class="toggle-btn">단어 목록 보기</button>
-            </div>
             <div class="chapter-links-container">
                 <span class="nav-label">Chapters:</span>
                 <%- number_navigation %>
             </div>
         </div>
         <div class="header">
-            <div id="chapter-display-area"></div>
+            <%- chapters_html %>
         </div>
     </div>
     <div id="indexNavigationTemplate" style="display: none;"><%- index_navigation %></div>
@@ -96,8 +88,6 @@
         const wordData = <%- word_data_js %>;
         const wordsByChapter = <%- words_by_chapter_json %>;
         const contentHash = "<%- content_hash %>";
-        const chaptersContent = <%- chapters_data_json %>;
-        
         let currentChapterIndex = 0;
         let highlightedElement = null;
         let currentSheet = null;
@@ -158,7 +148,7 @@
             if (!wordPopup.classList.contains('show') && !sentencePopup.classList.contains('show')) unlockBodyScroll();
         }
         
-        function showWordPopup(wordId) {
+        function showWordPopup(wordId, targetElement) {
             closeAllPopups();
             const wordInfo = wordData[wordId];
             if (!wordPopup || !wordInfo) return;
@@ -171,13 +161,7 @@
             } else {
                 synonymsEl.style.display = 'none';
             }
-            wordPopup.classList.add('show');
-            lockBodyScroll();
-        }
-
-        function closePopup() {
-            if (wordPopup) wordPopup.classList.remove('show');
-            if (!bottomSheet.classList.contains('show') && !sentencePopup.classList.contains('show')) unlockBodyScroll();
+            positionAndShowPopup(wordPopup, targetElement);
         }
         
         function showSentencePopup(element) {
@@ -187,23 +171,55 @@
             element.classList.add('highlighted-sentence');
             highlightedElement = element;
             sentencePopup.querySelector('#sentencePopupText').innerHTML = translation.replace(/&#34;/g, '"');
-            sentencePopup.classList.add('show');
-            lockBodyScroll();
+            positionAndShowPopup(sentencePopup, element);
+        }
+
+function positionAndShowPopup(popupOverlay, targetElement) {
+    const popupContent = popupOverlay.querySelector('.popup-content');
+    if (!popupContent) return;
+
+    const rect = targetElement.getBoundingClientRect();
+    
+    const top = rect.top - 10;
+    if(top < 0)
+        top = 0;
+
+    popupContent.style.top = `${top}px`;
+    popupOverlay.classList.add('show');
+    lockBodyScroll();
+}
+
+        function closePopup() {
+            if (wordPopup) wordPopup.classList.remove('show');
+            if (!bottomSheet.classList.contains('show') && !sentencePopup.classList.contains('show')) unlockBodyScroll();
         }
         
+        function closeSentencePopup() {
+            if (sentencePopup) sentencePopup.classList.remove('show');
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+                highlightedElement = null;
+            }
+            if (!bottomSheet.classList.contains('show') && !wordPopup.classList.contains('show')) unlockBodyScroll();
+        }
+        
+        function toggleIndex(){ openSheet('index'); }
+        function toggleWordList(){ openSheet('word'); }
+
         function showChapter(index) {
             currentChapterIndex = index;
             closeAllPopups();
-            const displayArea = document.getElementById('chapter-display-area');
-            if (displayArea && chaptersContent[index] !== undefined) {
-                displayArea.innerHTML = chaptersContent[index];
-                const titleEl = displayArea.querySelector('h2');
+            document.querySelectorAll('.chapter-content').forEach(c => { c.style.display = 'none'; });
+            document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
+            const chapterEl = document.getElementById('chapter-' + index);
+            if(chapterEl) {
+                chapterEl.style.display = 'block';
+                const titleEl = chapterEl.querySelector('h2');
                 if(titleEl) {
                     titleEl.setAttribute('tabindex', '-1');
                     titleEl.focus({ preventScroll: true });
                 }
             }
-            document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
             const activeLink = document.querySelector(`.chapter-link[href="#chapter-${index}-${contentHash}"]`);
             if(activeLink) activeLink.classList.add('active');
         }
@@ -238,15 +254,14 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             handleNavigation();
-
-            document.getElementById('index-toggle-btn').addEventListener('click', () => openSheet('index'));
-            document.getElementById('word-list-toggle-btn').addEventListener('click', () => openSheet('word'));
+            document.getElementById('index-toggle-btn').addEventListener('click', toggleIndex);
+            document.getElementById('word-list-toggle-btn').addEventListener('click', toggleWordList);
             
             document.querySelector('.content').addEventListener('dblclick', function(e) {
                 const wordLink = e.target.closest('.word-link');
                 if (wordLink) {
                     e.preventDefault();
-                    showWordPopup(wordLink.dataset.wordId);
+                    showWordPopup(wordLink.dataset.wordId, wordLink);
                     return;
                 }
                 const sentenceUnit = e.target.closest('.sentence-unit');
@@ -257,15 +272,19 @@
             });
 
             document.body.addEventListener('click', function(e) {
+                if(e.target.closest('.close-btn')) {
+                    if (e.target.closest('#wordPopupOverlay')) return closePopup();
+                    if (e.target.closest('#sentencePopupOverlay')) return closeSentencePopup();
+                    if (e.target.closest('#bottomSheet')) return closeSheet();
+                }
+                if(e.target === wordPopup) return closePopup();
+                if(e.target === sentencePopup) return closeSentencePopup();
+                if(e.target === bottomSheet) return closeSheet();
+                
                 const indexItem = e.target.closest('.index-item');
                 if (indexItem && indexItem.dataset.href) {
                     e.preventDefault();
                     window.location.hash = indexItem.dataset.href;
-                    return;
-                }
-                
-                if(e.target.closest('.close-btn') || e.target === wordPopup || e.target === sentencePopup || e.target === bottomSheet) {
-                    closeAllPopups();
                 }
             });
             
