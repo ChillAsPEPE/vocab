@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const mkdirp = require('mkdirp');
 
 // Output directory for static files
-const OUTPUT_DIR = path.join(__dirname, 'out');
+const OUTPUT_DIR = path.join(__dirname, 'docs');
 
 // Ensure output directory exists
 mkdirp.sync(OUTPUT_DIR);
@@ -99,7 +99,7 @@ function generateIndexPage() {
   const dataPath = path.join(__dirname, 'data');
   let storyList = [];
   try {
-    const sets = fs.readdirSync(dataPath, { withFileTypes: true }).filter(d => d.isDirectory() && d.name !== 'out').map(d => d.name);
+    const sets = fs.readdirSync(dataPath, { withFileTypes: true }).filter(d => d.isDirectory() && d.name !== 'docs').map(d => d.name);
     for (const set of sets) {
       const setPath = path.join(dataPath, set);
       const storiesPath = path.join(setPath, 'stories');
@@ -148,7 +148,7 @@ function generateIndexPage() {
 // Generate viewer pages
 function generateViewerPages() {
   const dataPath = path.join(__dirname, 'data');
-  const sets = fs.readdirSync(dataPath, { withFileTypes: true }).filter(d => d.isDirectory() && d.name !== 'out').map(d => d.name);
+  const sets = fs.readdirSync(dataPath, { withFileTypes: true }).filter(d => d.isDirectory() && d.name !== 'docs').map(d => d.name);
 
   for (const set of sets) {
     const setPath = path.join(dataPath, set);
