@@ -8,11 +8,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; }
         body.no-scroll { overflow: hidden; }
-        .chapter-content h2:focus { outline: 2px solid #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); border-radius: 3px; }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
         .header { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .content { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .navigation-controls { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; }
+        .navigation-controls { display: flex; flex-direction: column; gap: 15px; margin-bottom: 10px; padding: 15px; background: #f8f9fa; border-radius: 8px; }
         .nav-button-group { display: flex; align-items: center; gap: 10px; }
         .chapter-links-container { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
         .nav-label { font-weight: 600; color: #495057; font-size: 14px; margin-right: 9px; }
@@ -23,7 +22,16 @@
         .bookshelf-link:hover { background-color: #138496; }
         .chapter-link { display: inline-block; padding: 5px; text-decoration: none; color: #007bff; border: none; border-bottom: 1px solid #007bff; font-weight: 500; font-size: 10px; transition: all 0.3s ease; min-width: 25px; text-align: center; }
         .chapter-link:hover, .chapter-link.active { background: #007bff; color: white; border-bottom-color: white; transform: scale(1.1); }
-        .chapter-content h2 { color: #2c3e50; margin-bottom: 30px; text-align: center; font-size: 28px; border-bottom: 3px solid #007bff; padding-bottom: 10px; }
+        .chapter-content h2 {
+            color: #2c3e50;
+            margin-top: 5px;
+            margin-bottom: 25px;
+            text-align: left; /* <- 수정 */
+            font-size: 24px;
+            font-weight: 800;
+            font-family:'Times New Roman', Times, serif;
+            /* border-bottom 과 padding-bottom 제거 */
+        }
         .story-content { text-align: justify; }
         .english-paragraph { font-size: 18px; line-height: 1.8; color: #2c3e50; margin-bottom: 1.5em; }
         .english-paragraph:last-child { margin-bottom: 0; }
@@ -64,18 +72,18 @@
 </head>
 <body>
     <div class="content">
-        <div class="header">
-            <div class="navigation-controls">
-                <div class="nav-button-group">
-                    <a href="/" class="toggle-btn bookshelf-link">📚 책장으로</a>
-                    <button id="index-toggle-btn" class="toggle-btn">목차 보기</button>
-                    <button id="word-list-toggle-btn" class="toggle-btn">단어 목록 보기</button>
-                </div>
-                <div class="chapter-links-container">
-                    <span class="nav-label">Chapters:</span>
-                    <%- number_navigation %>
-                </div>
+        <div class="navigation-controls">
+            <div class="nav-button-group">
+                <a href="/" class="toggle-btn bookshelf-link">📚 책장으로</a>
+                <button id="index-toggle-btn" class="toggle-btn">목차 보기</button>
+                <button id="word-list-toggle-btn" class="toggle-btn">단어 목록 보기</button>
             </div>
+            <div class="chapter-links-container">
+                <span class="nav-label">Chapters:</span>
+                <%- number_navigation %>
+            </div>
+        </div>
+        <div class="header">
             <div id="chapter-display-area"></div>
         </div>
     </div>

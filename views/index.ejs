@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>스토리 책장</title>
+    <title>Library</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
             background-color: #3e3e3e;
             background-image: linear-gradient(rgba(255,255,255,0.05) 2px, transparent 2px), linear-gradient(90deg, rgba(255,255,255,0.05) 2px, transparent 2px);
             background-size: 50px 50px;
-            padding: 40px 20px;
+            padding: 0px 10px;
         }
         .bookshelf-container {
             max-width: 1200px;
             margin: 0 auto;
         }
         h1 {
-            text-align: center;
+            text-align: left;
             color: #e9e9e9;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             font-size: 2.8em;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: 2px;
             text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
@@ -116,7 +116,7 @@
 </head>
 <body>
     <div class="bookshelf-container">
-        <h1>Library</h1>
+        <h1>Home</h1>
         <div class="shelf">
             <% if (storyList.length > 0) { %>
                 <% storyList.forEach(story => { %>
