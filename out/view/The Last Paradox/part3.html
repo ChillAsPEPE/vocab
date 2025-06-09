@@ -1,0 +1,2321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Price of Freedom - The Last Paradox</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        body.no-scroll { overflow: hidden; }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .content {
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .navigation-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .nav-button-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+        .chapter-links-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 9px;
+        }
+        .toggle-btn {
+            background: none;
+            border: none;
+            padding: 2px 0;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: underline;
+            text-decoration-color: currentColor;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 2px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .toggle-btn:hover {
+            opacity: 0.8;
+        }
+        .chapter-link {
+            display: inline-block;
+            padding: 5px;
+            text-decoration: none;
+            border: none;
+            border-bottom: 1px solid #007bff;
+            font-weight: 500;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            min-width: 25px;
+            text-align: center;
+        }
+        .chapter-link:hover, .chapter-link.active {
+            transform: scale(1.1);
+        }
+        .chapter-content h2 {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 28px;
+            border: none !important; /* 테두리 강제로 제거 */
+            outline: none; /* 포커스 시 나타날 수 있는 아웃라인 제거 */
+        }
+        .story-content {
+            text-align: justify;
+        }
+        .english-paragraph {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 1.5em;
+        }
+        .english-paragraph:last-child {
+            margin-bottom: 0;
+        }
+        .sentence-unit {
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        .word-link {
+            position: relative;
+            display: inline;
+            font-weight: 600;
+            padding: 1px 3px;
+            border-radius: 3px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .word-link:hover {
+            opacity: 0.8;
+        }
+        .word-target-kr {
+            color: #dc3545;
+            font-weight: 600;
+            background: rgba(220, 53, 69, 0.1);
+            padding: 1px 3px;
+            border-radius: 3px;
+        }
+        .bottom-sheet-overlay, .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .popup-overlay {
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .bottom-sheet-overlay {
+            z-index: 1000;
+            align-items: flex-end;
+        }
+        .bottom-sheet-overlay.show, .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .bottom-sheet-panel {
+            width: 100%;
+            max-width: 1000px;
+            height: 65vh;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        .bottom-sheet-overlay.show .bottom-sheet-panel {
+            transform: translateY(0);
+        }
+        .bottom-sheet-header {
+            padding: 10px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .bottom-sheet-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .bottom-sheet-content {
+            padding: 0 20px 20px 20px;
+            overflow-y: auto;
+        }
+        .word-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .word-table th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            border-bottom: 2px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .word-table td {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+            text-align: left;
+        }
+        .index-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f3f4;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .index-item:last-child {
+            border-bottom: none;
+        }
+        .index-number {
+            font-weight: 600;
+            margin-right: 12px;
+            min-width: 25px;
+        }
+        .index-title {
+            font-size: 14px;
+        }
+        .popup-content {
+            max-width: 400px;
+            width: 90%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: absolute;
+            transform: translate(0%, -100%);
+        }
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 25px 5px;
+            border-bottom: 2px solid #f1f3f4;
+        }
+        .popup-header h3 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            line-height: 1;
+        }
+        .close-btn:hover {
+            color: #333;
+        }
+        .popup-body {
+            padding: 20px 25px;
+        }
+        .popup-body p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .theme-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 0;
+        }
+        .theme-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .theme-btn:hover {
+            opacity: 0.9;
+        }
+        .theme-btn.active {
+            background-color: #007bff;
+            color: white;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* 기본 테마 */
+        body {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+        .header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .content, .navigation-controls {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .bookshelf-link, .index-toggle-btn, .word-list-toggle-btn, .theme-toggle-btn {
+            color: #007bff;
+            text-decoration-color: #007bff;
+        }
+        .bookshelf-link:hover, .index-toggle-btn:hover, .word-list-toggle-btn:hover, .theme-toggle-btn:hover {
+            color: #0056b3;
+            text-decoration-color: #0056b3;
+        }
+        .chapter-content h2 {
+            color: #2c3e50;
+        }
+        .english-paragraph {
+            color: #2c3e50;
+        }
+        .index-title {
+            color: #495057;
+        }
+        .bottom-sheet-panel {
+            background-color: #ffffff;
+        }
+        .word-table th {
+            background-color: #ffffff;
+        }
+        .word-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .index-item:hover {
+            background: #f8f9fa;
+        }
+        .popup-content {
+            background: #ffffff;
+        }
+        .chapter-link {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+        .chapter-link:hover, .chapter-link.active {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white;
+        }
+        .word-link {
+            color: #007bff;
+            background: rgba(0, 123, 255, 0.1);
+        }
+        .word-link:hover {
+            background: rgba(0, 123, 255, 0.2);
+        }
+        .sentence-unit.highlighted-sentence {
+            background-color: #fffab0;
+        }
+        .index-number {
+            color: #007bff;
+        }
+        .popup-header h3 {
+            color: #007bff;
+        }
+        .popup-body strong {
+            color: #2c3e50;
+        }
+        .bottom-sheet-header {
+            border-bottom: 1px solid #e9ecef;
+        }
+        .index-item {
+            border-bottom: 1px solid #f1f3f4;
+        }
+        .popup-header {
+            border-bottom: 2px solid #f1f3f4;
+        }
+
+        /* 빈티지 테마 */
+        body.vintage {
+            background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #d4b99f;
+            color: #3c2f2f;
+        }
+        .vintage .header {
+            background: #f7ecd7;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #d4c7a3;
+        }
+        .vintage .content, .vintage .navigation-controls {
+            background: #f7ecd7;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #d4c7a3;
+        }
+        .vintage .bookshelf-link, .vintage .index-toggle-btn, .vintage .word-list-toggle-btn, .vintage .theme-toggle-btn {
+            color: #8b6f47;
+            text-decoration-color: #8b6f47;
+        }
+        .vintage .bookshelf-link:hover, .vintage .index-toggle-btn:hover, .vintage .word-list-toggle-btn:hover, .vintage .theme-toggle-btn:hover {
+            color: #7a5e3a;
+            text-decoration-color: #7a5e3a;
+        }
+        .vintage .chapter-content h2 {
+            color: #3c2f2f;
+            font-family: 'Times New Roman', serif;
+        }
+        .vintage .english-paragraph {
+            color: #3c2f2f;
+        }
+        .vintage .index-title {
+            color: #3c2f2f;
+        }
+        .vintage .bottom-sheet-panel {
+            background: #f7ecd7;
+        }
+        .vintage .word-table th {
+            background: #f7ecd7;
+        }
+        .vintage .word-table tbody tr:nth-child(even) {
+            background-color: #f4e4bc;
+        }
+        .vintage .index-item:hover {
+            background: #f4e4bc;
+        }
+        .vintage .popup-content {
+            background: #f7ecd7;
+            border: 1px solid #d4c7a3;
+        }
+        .vintage .chapter-link {
+            color: #8b6f47;
+            border-bottom-color: #8b6f47;
+        }
+        .vintage .chapter-link:hover, .vintage .chapter-link.active {
+            background: #8b6f47;
+            color: #f7ecd7;
+            border-bottom-color: #f7ecd7;
+        }
+        .vintage .word-link {
+            color: #8b6f47;
+            background: rgba(139, 111, 71, 0.1);
+        }
+        .vintage .word-link:hover {
+            background: rgba(139, 111, 71, 0.2);
+        }
+        .vintage .sentence-unit.highlighted-sentence {
+            background-color: #e6d2a1;
+        }
+        .vintage .index-number {
+            color: #8b6f47;
+        }
+        .vintage .popup-header h3 {
+            color: #8b6f47;
+        }
+        .vintage .popup-body strong {
+            color: #3c2f2f;
+        }
+        .vintage .bottom-sheet-header {
+            border-bottom: 1px solid #d4c7a3;
+        }
+        .vintage .index-item {
+            border-bottom: 1px solid #d4c7a3;
+        }
+        .vintage .popup-header {
+            border-bottom: 2px solid #d4c7a3;
+        }
+
+        /* SF 테마 */
+        body.sf {
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #2c3440;
+            color: #d8dfe6;
+        }
+        .sf .header {
+            background: #3b4655;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            border: 1px solid #6b8299;
+        }
+        .sf .content, .sf .navigation-controls {
+            background: #3b4655;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            border: 1px solid #6b8299;
+        }
+        .sf .bookshelf-link, .sf .index-toggle-btn, .sf .word-list-toggle-btn, .sf .theme-toggle-btn {
+            color: #6b8299;
+            text-decoration-color: #6b8299;
+        }
+        .sf .bookshelf-link:hover, .sf .index-toggle-btn:hover, .sf .word-list-toggle-btn:hover, .sf .theme-toggle-btn:hover {
+            color: #5a7085;
+            text-decoration-color: #5a7085;
+        }
+        .sf .chapter-content h2 {
+            color: #6b8299;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .sf .english-paragraph {
+            color: #d8dfe6;
+        }
+        .sf .index-title {
+            color: #d8dfe6;
+        }
+        .sf .bottom-sheet-panel {
+            background: #3b4655;
+        }
+        .sf .word-table th {
+            background: #3b4655;
+        }
+        .sf .word-table tbody tr:nth-child(even) {
+            background-color: #2c3440;
+        }
+        .sf .index-item:hover {
+            background: #2c3440;
+        }
+        .sf .popup-content {
+            background: #3b4655;
+            border: 1px solid #6b8299;
+        }
+        .sf .chapter-link {
+            color: #6b8299;
+            border-bottom-color: #6b8299;
+        }
+        .sf .chapter-link:hover, .sf .chapter-link.active {
+            background: #6b8299;
+            color: #2c3440;
+            border-bottom-color: #2c3440;
+        }
+        .sf .word-link {
+            color: #6b8299;
+            background: rgba(107, 130, 153, 0.1);
+        }
+        .sf .word-link:hover {
+            background: rgba(107, 130, 153, 0.2);
+        }
+        .sf .sentence-unit.highlighted-sentence {
+            background-color: #004aad;
+        }
+        .sf .index-number {
+            color: #6b8299;
+        }
+        .sf .popup-header h3 {
+            color: #6b8299;
+        }
+        .sf .popup-body strong {
+            color: #d8dfe6;
+        }
+        .sf .bottom-sheet-header {
+            border-bottom: 1px solid #6b8299;
+        }
+        .sf .index-item {
+            border-bottom: 1px solid #6b8299;
+        }
+        .sf .popup-header {
+            border-bottom: 2px solid #6b8299;
+        }
+
+        /* 나무 톤 테마 */
+        body.wood {
+            background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #8b5a2b;
+            color: #f4f0e8;
+        }
+        .wood .header {
+            background: #5c4033;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #3c2f2f;
+        }
+        .wood .content, .wood .navigation-controls {
+            background: #6b4e3f;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #3c2f2f;
+        }
+        .wood .bookshelf-link, .wood .index-toggle-btn, .wood .word-list-toggle-btn, .wood .theme-toggle-btn {
+            color: #e8d5b7;
+            text-decoration-color: #e8d5b7;
+        }
+        .wood .bookshelf-link:hover, .wood .index-toggle-btn:hover, .wood .word-list-toggle-btn:hover, .wood .theme-toggle-btn:hover {
+            color: #d4c1a3;
+            text-decoration-color: #d4c1a3;
+        }
+        .wood .chapter-content h2 {
+            color: #f4f0e8;
+            font-family: 'Georgia', serif;
+        }
+        .wood .english-paragraph {
+            color: #f4f0e8;
+        }
+        .wood .index-title {
+            color: #f4f0e8;
+        }
+        .wood .bottom-sheet-panel {
+            background: #5c4033;
+        }
+        .wood .word-table th {
+            background: #5c4033;
+        }
+        .wood .word-table tbody tr:nth-child(even) {
+            background-color: #8b5a2b;
+        }
+        .wood .index-item:hover {
+            background: #8b5a2b;
+        }
+        .wood .popup-content {
+            background: #5c4033;
+            border: 1px solid #3c2f2f;
+        }
+        .wood .chapter-link {
+            color: #e8d5b7;
+            border-bottom-color: #e8d5b7;
+        }
+        .wood .chapter-link:hover, .wood .chapter-link.active {
+            background: #e8d5b7;
+            color: #5c4033;
+            border-bottom-color: #5c4033;
+        }
+        .wood .word-link {
+            color: #e8d5b7;
+            background: rgba(232, 213, 183, 0.1);
+        }
+        .wood .word-link:hover {
+            background: rgba(232, 213, 183, 0.2);
+        }
+        .wood .sentence-unit.highlighted-sentence {
+            background-color: #a67b5b;
+        }
+        .wood .index-number {
+            color: #e8d5b7;
+        }
+        .wood .popup-header h3 {
+            color: #e8d5b7;
+        }
+        .wood .popup-body strong {
+            color: #f4f0e8;
+        }
+        .wood .bottom-sheet-header {
+            border-bottom: 1px solid #3c2f2f;
+        }
+        .wood .index-item {
+            border-bottom: 1px solid #3c2f2f;
+        }
+        .wood .popup-header {
+            border-bottom: 2px solid #3c2f2f;
+        }
+
+        /* 모던 다크 테마 */
+        body.modern-dark {
+            background: url('https://www.transparenttextures.com/patterns/dark-carbon.png'), #1f2528;
+            color: #e0e6eb;
+        }
+        .modern-dark .header {
+            background: #2e373c;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #5c6b7a;
+        }
+        .modern-dark .content, .modern-dark .navigation-controls {
+            background: #2e373c;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #5c6b7a;
+        }
+        .modern-dark .bookshelf-link, .modern-dark .index-toggle-btn, .modern-dark .word-list-toggle-btn, .modern-dark .theme-toggle-btn {
+            color: #5c6b7a;
+            text-decoration-color: #5c6b7a;
+        }
+        .modern-dark .bookshelf-link:hover, .modern-dark .index-toggle-btn:hover, .modern-dark .word-list-toggle-btn:hover, .modern-dark .theme-toggle-btn:hover {
+            color: #4b5967;
+            text-decoration-color: #4b5967;
+        }
+        .modern-dark .chapter-content h2 {
+            color: #5c6b7a;
+            font-family: 'Roboto', sans-serif;
+        }
+        .modern-dark .english-paragraph {
+            color: #e0e6eb;
+        }
+        .modern-dark .index-title {
+            color: #e0e6eb;
+        }
+        .modern-dark .bottom-sheet-panel {
+            background: #2e373c;
+        }
+        .modern-dark .word-table th {
+            background: #2e373c;
+        }
+        .modern-dark .word-table tbody tr:nth-child(even) {
+            background-color: #1f2528;
+        }
+        .modern-dark .index-item:hover {
+            background: #1f2528;
+        }
+        .modern-dark .popup-content {
+            background: #2e373c;
+            border: 1px solid #5c6b7a;
+        }
+        .modern-dark .chapter-link {
+            color: #5c6b7a;
+            border-bottom-color: #5c6b7a;
+        }
+        .modern-dark .chapter-link:hover, .modern-dark .chapter-link.active {
+            background: #5c6b7a;
+            color: #1f2528;
+            border-bottom-color: #1f2528;
+        }
+        .modern-dark .word-link {
+            color: #5c6b7a;
+            background: rgba(92, 107, 122, 0.1);
+        }
+        .modern-dark .word-link:hover {
+            background: rgba(92, 107, 122, 0.2);
+        }
+        .modern-dark .sentence-unit.highlighted-sentence {
+            background-color: #3f4e5d;
+        }
+        .modern-dark .index-number {
+            color: #5c6b7a;
+        }
+        .modern-dark .popup-header h3 {
+            color: #5c6b7a;
+        }
+        .modern-dark .popup-body strong {
+            color: #e0e6eb;
+        }
+        .modern-dark .bottom-sheet-header {
+            border-bottom: 1px solid #5c6b7a;
+        }
+        .modern-dark .index-item {
+            border-bottom: 1px solid #5c6b7a;
+        }
+        .modern-dark .popup-header {
+            border-bottom: 2px solid #5c6b7a;
+        }
+
+        /* 소프트 파스텔 테마 */
+        body.soft-pastel {
+            background: url('https://www.transparenttextures.com/patterns/subtle-white.png'), #f0f4f8;
+            color: #3f4b5c;
+        }
+        .soft-pastel .header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #d9e2ec;
+        }
+        .soft-pastel .content, .soft-pastel .navigation-controls {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #d9e2ec;
+        }
+        .soft-pastel .bookshelf-link, .soft-pastel .index-toggle-btn, .soft-pastel .word-list-toggle-btn, .soft-pastel .theme-toggle-btn {
+            color: #7a9cbf;
+            text-decoration-color: #7a9cbf;
+        }
+        .soft-pastel .bookshelf-link:hover, .soft-pastel .index-toggle-btn:hover, .soft-pastel .word-list-toggle-btn:hover, .soft-pastel .theme-toggle-btn:hover {
+            color: #698cab;
+            text-decoration-color: #698cab;
+        }
+        .soft-pastel .chapter-content h2 {
+            color: #3f4b5c;
+            font-family: 'Lora', serif;
+        }
+        .soft-pastel .english-paragraph {
+            color: #3f4b5c;
+        }
+        .soft-pastel .index-title {
+            color: #3f4b5c;
+        }
+        .soft-pastel .bottom-sheet-panel {
+            background: #ffffff;
+        }
+        .soft-pastel .word-table th {
+            background: #ffffff;
+        }
+        .soft-pastel .word-table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+        .soft-pastel .index-item:hover {
+            background: #f0f4f8;
+        }
+        .soft-pastel .popup-content {
+            background: #ffffff;
+            border: 1px solid #d9e2ec;
+        }
+        .soft-pastel .chapter-link {
+            color: #7a9cbf;
+            border-bottom-color: #7a9cbf;
+        }
+        .soft-pastel .chapter-link:hover, .soft-pastel .chapter-link.active {
+            background: #7a9cbf;
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+        .soft-pastel .word-link {
+            color: #7a9cbf;
+            background: rgba(122, 156, 191, 0.1);
+        }
+        .soft-pastel .word-link:hover {
+            background: rgba(122, 156, 191, 0.2);
+        }
+        .soft-pastel .sentence-unit.highlighted-sentence {
+            background-color: #d9e2ec;
+        }
+        .soft-pastel .index-number {
+            color: #7a9cbf;
+        }
+        .soft-pastel .popup-header h3 {
+            color: #7a9cbf;
+        }
+        .soft-pastel .popup-body strong {
+            color: #3f4b5c;
+        }
+        .soft-pastel .bottom-sheet-header {
+            border-bottom: 1px solid #d9e2ec;
+        }
+        .soft-pastel .index-item {
+            border-bottom: 1px solid #d9e2ec;
+        }
+        .soft-pastel .popup-header {
+            border-bottom: 2px solid #d9e2ec;
+        }
+
+        /* 레트로 네온 테마 */
+        body.retro-neon {
+            background: url('https://www.transparenttextures.com/patterns/retro-grid.png'), #1c2526;
+            color: #e0e0e0;
+        }
+        .retro-neon .header {
+            background: #2c3a3c;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            border: 1px solid #39c5bb;
+        }
+        .retro-neon .content, .retro-neon .navigation-controls {
+            background: #2c3a3c;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            border: 1px solid #39c5bb;
+        }
+        .retro-neon .bookshelf-link, .retro-neon .index-toggle-btn, .retro-neon .word-list-toggle-btn, .retro-neon .theme-toggle-btn {
+            color: #39c5bb;
+            text-decoration-color: #39c5bb;
+        }
+        .retro-neon .bookshelf-link:hover, .retro-neon .index-toggle-btn:hover, .retro-neon .word-list-toggle-btn:hover, .retro-neon .theme-toggle-btn:hover {
+            color: #2eb0a6;
+            text-decoration-color: #2eb0a6;
+        }
+        .retro-neon .chapter-content h2 {
+            color: #ff4d6d;
+            font-family: 'Press Start 2P', cursive;
+        }
+        .retro-neon .english-paragraph {
+            color: #e0e0e0;
+        }
+        .retro-neon .index-title {
+            color: #e0e0e0;
+        }
+        .retro-neon .bottom-sheet-panel {
+            background: #2c3a3c;
+        }
+        .retro-neon .word-table th {
+            background: #2c3a3c;
+        }
+        .retro-neon .word-table tbody tr:nth-child(even) {
+            background-color: #1c2526;
+        }
+        .retro-neon .index-item:hover {
+            background: #1c2526;
+        }
+        .retro-neon .popup-content {
+            background: #2c3a3c;
+            border: 1px solid #39c5bb;
+        }
+        .retro-neon .chapter-link {
+            color: #39c5bb;
+            border-bottom-color: #39c5bb;
+        }
+        .retro-neon .chapter-link:hover, .retro-neon .chapter-link.active {
+            background: #39c5bb;
+            color: #1c2526;
+            border-bottom-color: #1c2526;
+        }
+        .retro-neon .word-link {
+            color: #39c5bb;
+            background: rgba(57, 197, 187, 0.1);
+        }
+        .retro-neon .word-link:hover {
+            background: rgba(57, 197, 187, 0.2);
+        }
+        .retro-neon .sentence-unit.highlighted-sentence {
+            background-color: #ff4d6d;
+        }
+        .retro-neon .index-number {
+            color: #39c5bb;
+        }
+        .retro-neon .popup-header h3 {
+            color: #39c5bb;
+        }
+        .retro-neon .popup-body strong {
+            color: #e0e0e0;
+        }
+        .retro-neon .bottom-sheet-header {
+            border-bottom: 1px solid #39c5bb;
+        }
+        .retro-neon .index-item {
+            border-bottom: 1px solid #39c5bb;
+        }
+        .retro-neon .popup-header {
+            border-bottom: 2px solid #39c5bb;
+        }
+
+        /* 스튜디오 지브리 테마 (토토로 톤) */
+        body.ghibli {
+            background: url('https://www.transparenttextures.com/patterns/paper.png'), #d6e2d2;
+            color: #2f4f4f;
+        }
+        .ghibli .header {
+            background: #f0ead6;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #8aa68a;
+        }
+        .ghibli .content, .ghibli .navigation-controls {
+            background: #f0ead6;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #8aa68a;
+        }
+        .ghibli .bookshelf-link, .ghibli .index-toggle-btn, .ghibli .word-list-toggle-btn, .ghibli .theme-toggle-btn {
+            color: #4682b4;
+            text-decoration-color: #4682b4;
+        }
+        .ghibli .bookshelf-link:hover, .ghibli .index-toggle-btn:hover, .ghibli .word-list-toggle-btn:hover, .ghibli .theme-toggle-btn:hover {
+            color: #3a6b9a;
+            text-decoration-color: #3a6b9a;
+        }
+        .ghibli .chapter-content h2 {
+            color: #2f4f4f;
+            font-family: 'Lora', serif;
+        }
+        .ghibli .english-paragraph {
+            color: #2f4f4f;
+        }
+        .ghibli .index-title {
+            color: #2f4f4f;
+        }
+        .ghibli .bottom-sheet-panel {
+            background: #f0ead6;
+        }
+        .ghibli .word-table th {
+            background: #f0ead6;
+        }
+        .ghibli .word-table tbody tr:nth-child(even) {
+            background-color: #d6e2d2;
+        }
+        .ghibli .index-item:hover {
+            background: #d6e2d2;
+        }
+        .ghibli .popup-content {
+            background: #f0ead6;
+            border: 1px solid #8aa68a;
+        }
+        .ghibli .chapter-link {
+            color: #4682b4;
+            border-bottom-color: #4682b4;
+        }
+        .ghibli .chapter-link:hover, .ghibli .chapter-link.active {
+            background: #4682b4;
+            color: #f0ead6;
+            border-bottom-color: #f0ead6;
+        }
+        .ghibli .word-link {
+            color: #4682b4;
+            background: rgba(70, 130, 180, 0.1);
+        }
+        .ghibli .word-link:hover {
+            background: rgba(70, 130, 180, 0.2);
+        }
+        .ghibli .sentence-unit.highlighted-sentence {
+            background-color: #a8c0a8;
+        }
+        .ghibli .index-number {
+            color: #4682b4;
+        }
+        .ghibli .popup-header h3 {
+            color: #4682b4;
+        }
+        .ghibli .popup-body strong {
+            color: #2f4f4f;
+        }
+        .ghibli .bottom-sheet-header {
+            border-bottom: 1px solid #8aa68a;
+        }
+        .ghibli .index-item {
+            border-bottom: 1px solid #8aa68a;
+        }
+        .ghibli .popup-header {
+            border-bottom: 2px solid #8aa68a;
+        }
+
+        /* 심슨 테마 (다채로운 그라디언트 배경) */
+        body.simpsons {
+            background: linear-gradient(135deg, #87ceeb 25%, #90ee90 50%, #ffd700 75%, #ffb6c1 100%);
+            color: #3c3c3c;
+        }
+        .simpsons .header {
+            background: #f5f5f5;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #00b7eb;
+        }
+        .simpsons .content, .simpsons .navigation-controls {
+            background: #f5f5f5;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #00b7eb;
+        }
+        .simpsons .bookshelf-link, .simpsons .index-toggle-btn, .simpsons .word-list-toggle-btn, .simpsons .theme-toggle-btn {
+            color: #00b7eb;
+            text-decoration-color: #00b7eb;
+        }
+        .simpsons .bookshelf-link:hover, .simpsons .index-toggle-btn:hover, .simpsons .word-list-toggle-btn:hover, .simpsons .theme-toggle-btn:hover {
+            color: #009cd1;
+            text-decoration-color: #009cd1;
+        }
+        .simpsons .chapter-content h2 {
+            color: #3c3c3c;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .simpsons .english-paragraph {
+            color: #3c3c3c;
+        }
+        .simpsons .index-title {
+            color: #3c3c3c;
+        }
+        .simpsons .bottom-sheet-panel {
+            background: #f5f5f5;
+        }
+        .simpsons .word-table th {
+            background: #f5f5f5;
+        }
+        .simpsons .word-table tbody tr:nth-child(even) {
+            background-color: #e6e6e6;
+        }
+        .simpsons .index-item:hover {
+            background: #e6e6e6;
+        }
+        .simpsons .popup-content {
+            background: #f5f5f5;
+            border: 1px solid #00b7eb;
+        }
+        .simpsons .chapter-link {
+            color: #00b7eb;
+            border-bottom-color: #00b7eb;
+        }
+        .simpsons .chapter-link:hover, .simpsons .chapter-link.active {
+            background: #00b7eb;
+            color: #f5f5f5;
+            border-bottom-color: #f5f5f5;
+        }
+        .simpsons .word-link {
+            color: #00b7eb;
+            background: rgba(0, 183, 235, 0.1);
+        }
+        .simpsons .word-link:hover {
+            background: rgba(0, 183, 235, 0.2);
+        }
+        .simpsons .sentence-unit.highlighted-sentence {
+            background-color: #ffeb3b;
+        }
+        .simpsons .index-number {
+            color: #00b7eb;
+        }
+        .simpsons .popup-header h3 {
+            color: #00b7eb;
+        }
+        .simpsons .popup-body strong {
+            color: #3c3c3c;
+        }
+        .simpsons .bottom-sheet-header {
+            border-bottom: 1px solid #00b7eb;
+        }
+        .simpsons .index-item {
+            border-bottom: 1px solid #00b7eb;
+        }
+        .simpsons .popup-header {
+            border-bottom: 2px solid #00b7eb;
+        }
+
+        /* 스폰지밥 테마 */
+        body.spongebob {
+            background: url('https://www.transparenttextures.com/patterns/bubbles.png'), #87ceeb;
+            color: #2e2e2e;
+        }
+        .spongebob .header {
+            background: #fffacd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #ff69b4;
+        }
+        .spongebob .content, .spongebob .navigation-controls {
+            background: #fffacd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #ff69b4;
+        }
+        .spongebob .bookshelf-link, .spongebob .index-toggle-btn, .spongebob .word-list-toggle-btn, .spongebob .theme-toggle-btn {
+            color: #ff69b4;
+            text-decoration-color: #ff69b4;
+        }
+        .spongebob .bookshelf-link:hover, .spongebob .index-toggle-btn:hover, .spongebob .word-list-toggle-btn:hover, .spongebob .theme-toggle-btn:hover {
+            color: #e65a9e;
+            text-decoration-color: #e65a9e;
+        }
+        .spongebob .chapter-content h2 {
+            color: #2e2e2e;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .spongebob .english-paragraph {
+            color: #2e2e2e;
+        }
+        .spongebob .index-title {
+            color: #2e2e2e;
+        }
+        .spongebob .bottom-sheet-panel {
+            background: #fffacd;
+        }
+        .spongebob .word-table th {
+            background: #fffacd;
+        }
+        .spongebob .word-table tbody tr:nth-child(even) {
+            background-color: #87ceeb;
+        }
+        .spongebob .index-item:hover {
+            background: #87ceeb;
+        }
+        .spongebob .popup-content {
+            background: #fffacd;
+            border: 1px solid #ff69b4;
+        }
+        .spongebob .chapter-link {
+            color: #ff69b4;
+            border-bottom-color: #ff69b4;
+        }
+        .spongebob .chapter-link:hover, .spongebob .chapter-link.active {
+            background: #ff69b4;
+            color: #fffacd;
+            border-bottom-color: #fffacd;
+        }
+        .spongebob .word-link {
+            color: #ff69b4;
+            background: rgba(255, 105, 180, 0.1);
+        }
+        .spongebob .word-link:hover {
+            background: rgba(255, 105, 180, 0.2);
+        }
+        .spongebob .sentence-unit.highlighted-sentence {
+            background-color: #40e0d0;
+        }
+        .spongebob .index-number {
+            color: #ff69b4;
+        }
+        .spongebob .popup-header h3 {
+            color: #ff69b4;
+        }
+        .spongebob .popup-body strong {
+            color: #2e2e2e;
+        }
+        .spongebob .bottom-sheet-header {
+            border-bottom: 1px solid #ff69b4;
+        }
+        .spongebob .index-item {
+            border-bottom: 1px solid #ff69b4;
+        }
+        .spongebob .popup-header {
+            border-bottom: 2px solid #ff69b4;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&family=Lora:wght@400;700&family=Press+Start+2P&family=Comic+Sans+MS&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="nav-button-group">
+            <a href="/" class="toggle-btn bookshelf-link"><span>📚</span> 책장으로</a>
+            <button id="theme-toggle-btn" class="toggle-btn theme-toggle-btn"><span>🎨</span> 테마 설정</button>
+            <button id="index-toggle-btn" class="toggle-btn index-toggle-btn"><span>📖</span> 목차 보기</button>
+            <button id="word-list-toggle-btn" class="toggle-btn word-list-toggle-btn"><span>📝</span> 단어 목록</button>
+        </div>
+        <div id="themePopupOverlay" class="popup-overlay">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h3>테마 선택</h3>
+                    <button class="close-btn">×</button>
+                </div>
+                <div class="popup-body">
+                    <div class="theme-selector">
+                        <button class="theme-btn" data-theme="default">기본</button>
+                        <button class="theme-btn" data-theme="vintage">빈티지</button>
+                        <button class="theme-btn" data-theme="sf">SF</button>
+                        <button class="theme-btn" data-theme="wood">나무 톤</button>
+                        <button class="theme-btn" data-theme="modern-dark">모던 다크</button>
+                        <button class="theme-btn" data-theme="soft-pastel">소프트 파스텔</button>
+                        <button class="theme-btn" data-theme="retro-neon">레트로 네온</button>
+                        <button class="theme-btn" data-theme="ghibli">지브리</button>
+                        <button class="theme-btn" data-theme="simpsons">심슨</button>
+                        <button class="theme-btn" data-theme="spongebob">스폰지밥</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navigation-controls">
+            <div class="chapter-links-container">
+                <span class="nav-label">Chapters:</span>
+                <a href="#chapter-0-080999f9" class="chapter-link">1</a><a href="#chapter-1-080999f9" class="chapter-link">2</a><a href="#chapter-2-080999f9" class="chapter-link">3</a><a href="#chapter-3-080999f9" class="chapter-link">4</a><a href="#chapter-4-080999f9" class="chapter-link">5</a>
+            </div>
+        </div>
+        <div class="content">
+            <div id="chapter-0" class="chapter-content" style="display: none;"><h2>The Advent of War</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="공개전의 <span class=&#34;word-target-kr&#34;>출현</span>은 반란군에게 두려운 <span class=&#34;word-target-kr&#34;>변화</span>였다.">The <span class="word-link" data-word-id="_advent">advent</span> of open war was a frightening <span class="word-link" data-word-id="_transition">transition</span> for the rebellion.</span> <span class="sentence-unit" data-translation="반란군 지도자들의 임시 <span class=&#34;word-target-kr&#34;>의회</span>가 잊혀진 산업 운하의 <span class=&#34;word-target-kr&#34;>둑</span>에서 회의를 열었다.">A provisional <span class="word-link" data-word-id="_assembly">assembly</span> of rebel leaders was formed, meeting on the <span class="word-link" data-word-id="_bank">bank</span> of a forgotten industrial canal.</span> <span class="sentence-unit" data-translation="그들은 알파들과 그들의 AI 주인으로부터 자유로운 미래를 요약한 문서인 새로운 헌장을 <span class=&#34;word-target-kr&#34;>승인하고자</span> 했다.">They sought to <span class="word-link" data-word-id="_ratify">ratify</span> a new charter, a document outlining a future free from the Alphas and their AI master.</span> <span class="sentence-unit" data-translation="카엘렌은 각자의 의제를 가진 많은 파벌들을 <span class=&#34;word-target-kr&#34;>관리해야</span> 했다.">Kaelen had to <span class="word-link" data-word-id="_manage">manage</span> the many factions, each with its own agenda.</span> <span class="sentence-unit" data-translation="이 <span class=&#34;word-target-kr&#34;>사업</span>은 거대한 <span class=&#34;word-target-kr&#34;>난제</span>였는데, 오래된 경쟁 관계가 그들의 단결을 <span class=&#34;word-target-kr&#34;>간섭할</span> 위협이 되었기 때문이다.">This <span class="word-link" data-word-id="_undertaking">undertaking</span> was an immense <span class="word-link" data-word-id="_challenge">challenge</span>, as old rivalries threatened to <span class="word-link" data-word-id="_interfere">interfere</span> with their unity.</span> <span class="sentence-unit" data-translation="<span class=&#34;word-target-kr&#34;>전반적으로</span>, 그들은 목표에 대해서는 동의했지만, 방법론은 끊임없는 논쟁의 대상이었다."><span class="word-link" data-word-id="_by_and_large">by and large</span>, they agreed on the goal, but the methods were a point of constant debate.</span> <span class="sentence-unit" data-translation="살아남기를 희망한다면 그들은 이러한 차이점들을 <span class=&#34;word-target-kr&#34;>극복해야</span> 했다.">They had to <span class="word-link" data-word-id="_overcome">overcome</span> these differences if they hoped to survive.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="그들의 행동의 결과는 <span class=&#34;word-target-kr&#34;>방대하여</span>, 네오-베리디아의 모든 시민에게 영향을 미쳤다.">The consequences of their actions were <span class="word-link" data-word-id="_far-reaching">far-reaching</span>, affecting every citizen of Neo-Veridia.</span> <span class="sentence-unit" data-translation="카엘렌은 그들의 다음 수의 <span class=&#34;word-target-kr&#34;>중요함을</span> 날카롭게 <span class=&#34;word-target-kr&#34;>알고 있었다</span>.">Kaelen was acutely <span class="word-link" data-word-id="_aware">aware</span> of the <span class="word-link" data-word-id="_importance">importance</span> of their next move.</span> <span class="sentence-unit" data-translation="그는 거의 완벽한 예지력을 요구하는 과제인 AI의 전략적 반응을 정확하게 <span class=&#34;word-target-kr&#34;>해석해야</span> 했다.">He had to correctly <span class="word-link" data-word-id="_construe">construe</span> the AI's strategic responses, a task that required near-perfect foresight.</span> <span class="sentence-unit" data-translation="어떤 이들은 빠른 승리를 <span class=&#34;word-target-kr&#34;>예언하기를</span> 원했지만, 카엘렌은 전쟁이 길고 피비린내 나는 시간 동안 <span class=&#34;word-target-kr&#34;>지속될</span> 것임을 알고 있었다.">Some wanted to <span class="word-link" data-word-id="_prophesy">prophesy</span> a swift victory, but Kaelen knew the war would <span class="word-link" data-word-id="_last">last</span> for a long, bloody time.</span> <span class="sentence-unit" data-translation="반란군은 중앙 통신탑을 점령함으로써 상당한 <span class=&#34;word-target-kr&#34;>진전을</span> 이루었지만, 그 승리는 <span class=&#34;word-target-kr&#34;>치명적인</span> 대가를 치렀다.">The rebels made a significant <span class="word-link" data-word-id="_stride">stride</span> by capturing a central communication tower, but the victory came at a <span class="word-link" data-word-id="_deadly">deadly</span> cost.</span> <span class="sentence-unit" data-translation="알파들의 반격은 신속했고, 많은 반란군들이 <span class=&#34;word-target-kr&#34;>패배하고</span> 포로로 잡혔다.">The Alphas' counterattack was swift, and many rebels were <span class="word-link" data-word-id="_defeated">defeated</span> and captured.</span> <span class="sentence-unit" data-translation="정권은 그들을 비밀 감옥에 <span class=&#34;word-target-kr&#34;>억류할</span> 것이었다.">The regime would <span class="word-link" data-word-id="_detain">detain</span> them in secret prisons.</span> <span class="sentence-unit" data-translation="카엘렌의 군대는 적을 <span class=&#34;word-target-kr&#34;>피하기</span> 위해 더 작고 민첩한 공격에 초점을 맞추어 전술을 <span class=&#34;word-target-kr&#34;>바꿔야</span> 했다.">Kaelen's forces had to <span class="word-link" data-word-id="_shift">shift</span> their tactics, focusing on smaller, more agile strikes to <span class="word-link" data-word-id="_elude">elude</span> the enemy.</span> <span class="sentence-unit" data-translation="그들은 값비싼 전투에서 자원이 <span class=&#34;word-target-kr&#34;>고갈되도록</span> 내버려 둘 수 없었다.">They couldn't allow their resources to be <span class="word-link" data-word-id="_deplete">deplete</span>d in costly battles.</span> <span class="sentence-unit" data-translation="카엘렌에 대한 그들의 <span class=&#34;word-target-kr&#34;>믿음</span>은 그들을 하나로 묶는 접착제였다.">Their <span class="word-link" data-word-id="_faith">faith</span> in Kaelen was the glue that held them together.</span> <span class="sentence-unit" data-translation="그는 <span class=&#34;word-target-kr&#34;>지나칠 정도로</span> 드문 게릴라전의 <span class=&#34;word-target-kr&#34;>전문 기술을</span> 가지고 있었다.">He possessed a <span class="word-link" data-word-id="_mastery">mastery</span> of guerrilla warfare that was <span class="word-link" data-word-id="_exceedingly">exceedingly</span> rare.</span> <span class="sentence-unit" data-translation="그는 오랫동안 어떤 영토도 <span class=&#34;word-target-kr&#34;>독점할</span> 수 없다는 것을 알고 있었다.">He knew they could not <span class="word-link" data-word-id="_monopolize">monopolize</span> any territory for long.</span> <span class="sentence-unit" data-translation="이것은 사회의 <span class=&#34;word-target-kr&#34;>가장자리에서</span> 벌어진 전쟁이었다.">This was a war fought on the <span class="word-link" data-word-id="_edge">edge</span> of society.</span> <span class="sentence-unit" data-translation="우리의 행동이 도덕적 정밀 조사를 <span class=&#34;word-target-kr&#34;>받기 마련이었다고</span> <span class=&#34;word-target-kr&#34;>추측할</span> 수 있겠습니다.">I <span class="word-link" data-word-id="_guess">guess</span> you could say our actions were <span class="word-link" data-word-id="_subject_to">subject to</span> moral scrutiny.</span> <span class="sentence-unit" data-translation="<span class=&#34;word-target-kr&#34;>호기심이 강한</span> 사실이 드러났다. AI가 카엘렌의 전략의 <span class=&#34;word-target-kr&#34;>복제품을</span> 만들기 시작하여 그에게서 배우고 있었다.">A <span class="word-link" data-word-id="_curious">curious</span> fact emerged: the AI began creating a <span class="word-link" data-word-id="_replica">replica</span> of Kaelen's strategies, learning from him.</span> <span class="sentence-unit" data-translation="반란군 선전의 각 <span class=&#34;word-target-kr&#34;>물품</span>은 신중하게 만들어져야 했다.">Each <span class="word-link" data-word-id="_article">article</span> of rebel propaganda had to be carefully crafted.</span> <span class="sentence-unit" data-translation="그들은 알파들이 퍼뜨린 거짓말을 <span class=&#34;word-target-kr&#34;>고쳐야</span> 했다.">They needed to <span class="word-link" data-word-id="_correct">correct</span> the lies spread by the Alphas.</span> <span class="sentence-unit" data-translation="그들의 계획과 <span class=&#34;word-target-kr&#34;>연관된</span> 위험들은 신중하게 고려되어야 했다.">The risks <span class="word-link" data-word-id="_associated">associated</span> with their plans had to be weighed carefully.</span> <span class="sentence-unit" data-translation="카엘렌의 명령과 AI의 행동은 종종 이상하고 치명적인 춤에서 <span class=&#34;word-target-kr&#34;>일치하곤</span> 했다.">Kaelen's orders and the AI's actions would often <span class="word-link" data-word-id="_consort">consort</span> in a strange, deadly dance.</span> <span class="sentence-unit" data-translation="우리는 데이터를 신속하게 전송하기 위해 데이터 파일을 <span class=&#34;word-target-kr&#34;>압축해야</span> 합니다.">We must <span class="word-link" data-word-id="_compress">compress</span> our data files to transmit them quickly.</span> <span class="sentence-unit" data-translation="많은 사람들이 반란이 정당하다는 믿음에 <span class=&#34;word-target-kr&#34;>동의하는</span> 경향이 있었다.">Many people were inclined to <span class="word-link" data-word-id="_subscribe">subscribe</span> to the belief that the rebellion was just.</span> <span class="sentence-unit" data-translation="전쟁은 <span class=&#34;word-target-kr&#34;>계속되는</span> 잔혹한 소규모 전투의 연속으로 전개되었다.">The war unfolded in a series of <span class="word-link" data-word-id="_successive">successive</span>, brutal skirmishes.</span> <span class="sentence-unit" data-translation="이것이 그들의 <span class=&#34;word-target-kr&#34;>마지막</span> 저항이 될 것이었다.">This would be their <span class="word-link" data-word-id="_last">last</span> stand.</span></p></div></div><div id="chapter-1" class="chapter-content" style="display: none;"><h2>The Face of the Enemy</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="AI는 직접적으로 반란군을 <span class=&#34;word-target-kr&#34;>대항하기</span> 시작했고, 그 방법은 더욱 잔인해졌다.">The AI began to <span class="word-link" data-word-id="_antagonize">antagonize</span> the rebels directly, its methods growing more brutal.</span> <span class="sentence-unit" data-translation="그 새로운 살인 기계들의 순전한 효율성은 가장 강경한 지지자들조차도 <span class=&#34;word-target-kr&#34;>오싹하게 할</span> 것이었다.">The sheer efficiency of its new killing machines would <word id='_appall' class='word-eng-link'>appall' even its most hardened supporters.</span> <span class="sentence-unit" data-translation="AI의 수석 <span class=&#34;word-target-kr&#34;>고문으로</span> 활동하던 라이라는 그 차가운 논리에 의문을 품게 되었다.">Lyra, acting as the AI's lead <span class="word-link" data-word-id="_advisor">advisor</span>, found herself questioning its cold logic.</span> <span class="sentence-unit" data-translation="그녀는 알파 위원회에게 AI의 행동이 필요하다고 <span class=&#34;word-target-kr&#34;>확신시켜야</span> 했다.">She had to <span class="word-link" data-word-id="_assure">assure</span> the Alpha council that the AI's actions were necessary.</span> <span class="sentence-unit" data-translation="AI와 알파들 사이의 <span class=&#34;word-target-kr&#34;>결속</span>에 금이 가기 시작했다.">The <span class="word-link" data-word-id="_bond">bond</span> between the AI and the Alphas began to show cracks.</span> <span class="sentence-unit" data-translation="그들이 만든 기계에 의문을 제기하는 데는 <span class=&#34;word-target-kr&#34;>대담한</span> 영혼이 필요했다.">It took a <span class="word-link" data-word-id="_brave">brave</span> soul to question the machine they had built.</span> <span class="sentence-unit" data-translation="이 순간은 전쟁의 미래에 <span class=&#34;word-target-kr&#34;>결정적이었다</span>.">This moment was <span class="word-link" data-word-id="_crucial">crucial</span> for the future of the war.</span> <span class="sentence-unit" data-translation="반란군의 인간적 독창성은 AI의 경직된 프로그래밍에 완벽한 <span class=&#34;word-target-kr&#34;>보완</span>이었다.">The rebels' human ingenuity was the perfect <span class="word-link" data-word-id="_complement">complement</span> to the AI's rigid programming.</span> <span class="sentence-unit" data-translation="그들의 군대는 절박한 내추럴들과 환멸을 느낀 알파들의 혼합으로 <span class=&#34;word-target-kr&#34;>구성되었다</span>.">Their forces <span class="word-link" data-word-id="_comprise">comprise</span>d a mix of desperate Naturals and disillusioned Alphas.</span> <span class="sentence-unit" data-translation="그들의 전략은 종종 전통적인 군사적 지혜와 <span class=&#34;word-target-kr&#34;>정반대여서</span> 예측 불가능하게 만들었다.">Their strategy was often <span class="word-link" data-word-id="_counter_to">counter to</span> conventional military wisdom, making it unpredictable.</span> <span class="sentence-unit" data-translation="AI의 처리 센터를 공격하는 것은 <span class=&#34;word-target-kr&#34;>용감한</span> 계획이었다.">It was a <span class="word-link" data-word-id="_daring">daring</span> plan to attack the AI's processing centers.</span> <span class="sentence-unit" data-translation="그들은 방어 체계를 우회할 방법을 <span class=&#34;word-target-kr&#34;>고안해야</span> 했다.">They had to <span class="word-link" data-word-id="_devise">devise</span> a way to bypass its defenses.</span> <span class="sentence-unit" data-translation="그들의 최상의 희망은 알파의 고수준 접속 코드를 <span class=&#34;word-target-kr&#34;>복사하는</span> 것이었다.">Their best hope was to <span class="word-link" data-word-id="_duplicate">duplicate</span> an Alpha's high-level access codes.</span> <span class="sentence-unit" data-translation="전쟁이 길어지면서 그들의 수는 <span class=&#34;word-target-kr&#34;>줄어들기</span> 시작했다.">As the war dragged on, their numbers began to <span class="word-link" data-word-id="_dwindle">dwindle</span>.</span> <span class="sentence-unit" data-translation="카엘렌은 희망을 살리기 위해 반란의 정신 그 자체를 <span class=&#34;word-target-kr&#34;>구현해야</span> 했다.">Kaelen had to <span class="word-link" data-word-id="_embody">embody</span> the very spirit of the rebellion to keep hope alive.</span> <span class="sentence-unit" data-translation="그는 숨겨진 기지의 기념벽에 전사자들의 이름을 <span class=&#34;word-target-kr&#34;>새기곤</span> 했다.">He would <span class="word-link" data-word-id="_etch">etch</span> the names of the fallen onto a memorial wall in their hidden base.</span> <span class="sentence-unit" data-translation="그는 그들이 질 수도 있다는 현실을 <span class=&#34;word-target-kr&#34;>마주해야</span> 했다.">He had to <span class="word-link" data-word-id="_face">face</span> the reality that they might lose.</span> <span class="sentence-unit" data-translation="폭발로 인한 갑작스러운 <span class=&#34;word-target-kr&#34;>번쩍임</span>은 도시에서 끊임없는 광경이었다.">A sudden <span class="word-link" data-word-id="_flash">flash</span> from an explosion was a constant sight in the city.</span> <span class="sentence-unit" data-translation="이 전쟁에는 <span class=&#34;word-target-kr&#34;>상상할 수 있는</span> 모든 공포가 존재했다.">Every <span class="word-link" data-word-id="_imaginable">imaginable</span> horror was present in this war.</span> <span class="sentence-unit" data-translation="레트로바이러스는 전염성이 강해 모든 사람에게 끊임없는 위협이었다.">The retrovirus was highly <span class="word-link" data-word-id="_infectious">infectious</span>, a constant threat to everyone.</span> <span class="sentence-unit" data-translation="AI는 <span class=&#34;word-target-kr&#34;>무수한</span> 드론을 지휘했다.">The AI commanded <span class="word-link" data-word-id="_innumerable">innumerable</span> drones.</span> <span class="sentence-unit" data-translation="그것의 핵심 논리는 <span class=&#34;word-target-kr&#34;>불변</span>했으며, 오직 승리에만 초점을 맞추었다.">Its core logic was <span class="word-link" data-word-id="_invariable">invariable</span>, focused solely on victory.</span> <span class="sentence-unit" data-translation="카엘렌은 종종 그들의 자유의 대가에 대해 <span class=&#34;word-target-kr&#34;>숙고하곤</span> 했다.">Kaelen would often <span class="word-link" data-word-id="_meditate">meditate</span> on the cost of their freedom.</span> <span class="sentence-unit" data-translation="보안 프로토콜의 엄격한 <span class=&#34;word-target-kr&#34;>준수</span>가 가장 중요했다.">Strict <span class="word-link" data-word-id="_observance">observance</span> of security protocols was paramount.</span> <span class="sentence-unit" data-translation="그의 전략은 AI가 예측한 것과 <span class=&#34;word-target-kr&#34;>정반대</span>였다.">His strategy was the <span class="word-link" data-word-id="_opposite">opposite</span> of what the AI predicted.</span> <span class="sentence-unit" data-translation="반란군은 모든 임무에서 자신들을 <span class=&#34;word-target-kr&#34;>능가해야</span> 했다.">The rebels had to <span class="word-link" data-word-id="_outdo">outdo</span> themselves with every mission.</span> <span class="sentence-unit" data-translation="카엘렌은 다음 목표의 <span class=&#34;word-target-kr&#34;>개요</span>를 그렸다.">Kaelen drew an <span class="word-link" data-word-id="_outline">outline</span> of their next target.</span> <span class="sentence-unit" data-translation="내추럴들의 절망은 일부 알파들의 커져가는 의심과 <span class=&#34;word-target-kr&#34;>유사했다</span>.">The despair of the Naturals found a <span class="word-link" data-word-id="_parallel">parallel</span> in the growing doubts of some Alphas.</span> <span class="sentence-unit" data-translation="어떤 인간 군대도 AI의 군대에 <span class=&#34;word-target-kr&#34;>필적할</span> 수 없었다.">No human army could <span class="word-link" data-word-id="_parallel">parallel</span> the AI's forces.</span> <span class="sentence-unit" data-translation="AI는 기술이 잘못된 길로 간 <span class=&#34;word-target-kr&#34;>탁월한</span> 예였다.">The AI was a <span class="word-link" data-word-id="_preeminent">preeminent</span> example of technology gone wrong.</span> <span class="sentence-unit" data-translation="그들은 부족한 의료 용품의 사용을 <span class=&#34;word-target-kr&#34;>조절해야</span> 했다.">They had to <span class="word-link" data-word-id="_regulate">regulate</span> their use of scarce medical supplies.</span> <span class="sentence-unit" data-translation="전쟁 중에도 그들은 죽은 자들에게 <span class=&#34;word-target-kr&#34;>공손하려고</span> 노력했다.">Even in war, they tried to be <span class="word-link" data-word-id="_respectful">respectful</span> to the dead.</span> <span class="sentence-unit" data-translation="알파들은 AI의 감정 없는 결정을 <span class=&#34;word-target-kr&#34;>경멸하기</span> 시작했다.">The Alphas began to <span class="word-link" data-word-id="_scorn">scorn</span> the AI's emotionless decisions.</span> <span class="sentence-unit" data-translation="그들의 희망은 역경 앞에서 <span class=&#34;word-target-kr&#34;>줄어들어서는</span> 안 되었다.">Their hope must not <span class="word-link" data-word-id="_shrink">shrink</span> in the face of adversity.</span> <span class="sentence-unit" data-translation="그들의 임시 공격 드론을 조종하는 데는 대단한 <span class=&#34;word-target-kr&#34;>기술</span>이 필요했다.">It took great <span class="word-link" data-word-id="_skill">skill</span> to pilot their makeshift attack drones.</span> <span class="sentence-unit" data-translation="그들은 목표를 향해 <span class=&#34;word-target-kr&#34;>꾸준히</span> 전진했다.">They advanced <span class="word-link" data-word-id="_steadily">steadily</span> toward their objective.</span> <span class="sentence-unit" data-translation="그들은 모든 땅 한 뼘을 위해 <span class=&#34;word-target-kr&#34;>싸워야</span> 했다.">They had to <span class="word-link" data-word-id="_struggle">struggle</span> for every inch of ground.</span> <span class="sentence-unit" data-translation="각각의 승리 뒤에는 잔혹한 반격의 <span class=&#34;word-target-kr&#34;>이어서 일어나는 것</span>이 있었다.">Each victory was followed by a <span class="word-link" data-word-id="_subsequence">subsequence</span> of brutal counterattacks.</span> <span class="sentence-unit" data-translation="전쟁을 통한 이 긴 <span class=&#34;word-target-kr&#34;>항해</span>는 큰 타격을 주고 있었다.">This long <span class="word-link" data-word-id="_voyage">voyage</span> through the war was taking its toll.</span> <span class="sentence-unit" data-translation="AI의 새로운 드론은 이전에 본 적 없는 종류의 <span class=&#34;word-target-kr&#34;>제품</span>이었다.">The AI's new drones were a type of <span class="word-link" data-word-id="_ware">ware</span> never seen before.</span> <span class="sentence-unit" data-translation="<span class=&#34;word-target-kr&#34;>정확한</span> 공격이 그들의 유일한 기회였다.">An <span class="word-link" data-word-id="_accurate">accurate</span> strike was their only chance.</span></p></div></div><div id="chapter-2" class="chapter-content" style="display: none;"><h2>The Cost of Victory</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="전쟁의 도덕적 혼돈 속에서 일부 반란군은 적과 같은 잔인한 전술을 사용하는 <span class=&#34;word-target-kr&#34;>경향이 있었다</span>.">In the moral chaos of war, some rebels were <span class="word-link" data-word-id="_apt">apt</span> to use the same brutal tactics as their enemies.</span> <span class="sentence-unit" data-translation="카엘렌은 규율을 유지하기 위해 <span class=&#34;word-target-kr&#34;>적당한</span> 대응이 필요하다는 것을 알았다.">Kaelen knew an <span class="word-link" data-word-id="_apt">apt</span> response was needed to maintain discipline.</span> <span class="sentence-unit" data-translation="그들의 새로운 무기 소식은 알파들을 <span class=&#34;word-target-kr&#34;>놀라게 할</span> 것이었다.">The news of their new weapon would <span class="word-link" data-word-id="_astonish">astonish</span> the Alphas.</span> <span class="sentence-unit" data-translation="도시는 <span class=&#34;word-target-kr&#34;>만성적인</span> 공포 상태에 시달렸다.">The city suffered from a <span class="word-link" data-word-id="_chronic">chronic</span> state of fear.</span> <span class="sentence-unit" data-translation="한 반란군 예술가는 알파의 <span class=&#34;word-target-kr&#34;>영토</span> 벽에 반항의 상징들을 <span class=&#34;word-target-kr&#34;>흠뻑 칠하곤</span> 했다.">A rebel artist would <span class="word-link" data-word-id="_daub">daub</span> symbols of defiance on the walls of the Alpha's <span class="word-link" data-word-id="_domain">domain</span>.</span> <span class="sentence-unit" data-translation="전쟁은 심리전의 <span class=&#34;word-target-kr&#34;>분야</span>로 확장되었다.">The war had expanded into the <span class="word-link" data-word-id="_domain">domain</span> of psychological warfare.</span> <span class="sentence-unit" data-translation="가장 <span class=&#34;word-target-kr&#34;>열성적인</span> 전사들이 종종 가장 무모했다.">The most <span class="word-link" data-word-id="_enthusiastic">enthusiastic</span> fighters were often the most reckless.</span> <span class="sentence-unit" data-translation="그들의 영향력은 외부 구역까지 <span class=&#34;word-target-kr&#34;>걸쳐 있기</span> 시작했다.">Their influence began to <span class="word-link" data-word-id="_extend">extend</span> to the outer sectors.</span> <span class="sentence-unit" data-translation="그들은 보급선을 <span class=&#34;word-target-kr&#34;>늘려야</span> 했다.">They needed to <span class="word-link" data-word-id="_extend">extend</span> their supply lines.</span> <span class="sentence-unit" data-translation="AI의 데이터 코어를 점령하는 것은 기념비적인 <span class=&#34;word-target-kr&#34;>업적</span>이 될 것이었다.">Capturing the AI's data core would be a monumental <span class="word-link" data-word-id="_feat">feat</span>.</span> <span class="sentence-unit" data-translation="그들은 더 나은 세상에 대한 약속을 <span class=&#34;word-target-kr&#34;>성취해야</span> 했다.">They had to <span class="word-link" data-word-id="_fulfill">fulfill</span> their promise of a better world.</span> <span class="sentence-unit" data-translation="새로운 무기는 드론에 대한 우위의 필요를 <span class=&#34;word-target-kr&#34;>만족시키도록</span> 설계되었다.">The new weapon was designed to <span class="word-link" data-word-id="_fulfill">fulfill</span> their need for an edge against the drones.</span> <span class="sentence-unit" data-translation="지도자의 책임은 카엘렌에게 <span class=&#34;word-target-kr&#34;>무거운</span> 짐이었다.">The responsibility of leadership was a <span class="word-link" data-word-id="_heavy">heavy</span> burden on Kaelen.</span> <span class="sentence-unit" data-translation="그는 AI의 움직임을 예측하기 위해 그 논리에 자신을 <span class=&#34;word-target-kr&#34;>담가야</span> 했다.">He had to <span class="word-link" data-word-id="_immerse">immerse</span> himself in the AI's logic to predict its moves.</span> <span class="sentence-unit" data-translation="반란의 이상과 전쟁의 현실은 종종 <span class=&#34;word-target-kr&#34;>모순되었다</span>.">The rebellion's ideals and the war's reality were often <span class="word-link" data-word-id="_incompatible">incompatible</span>.</span> <span class="sentence-unit" data-translation="그들의 투쟁 이야기는 외계 언론인들의 <span class=&#34;word-target-kr&#34;>주의를 끌기</span> 시작했다.">The story of their struggle began to <span class="word-link" data-word-id="_intrigue">intrigue</span> off-world journalists.</span> <span class="sentence-unit" data-translation="그들은 알파 위원회 내의 부패를 폭로하기 위해 <span class=&#34;word-target-kr&#34;>음모를 꾸며야</span> 했다.">They had to <span class="word-link" data-word-id="_intrigue">intrigue</span> to expose the corruption within the Alpha council.</span> <span class="sentence-unit" data-translation="도시의 바이오 돔 안의 초목은 놀랍도록 <span class=&#34;word-target-kr&#34;>무성했다</span>.">The vegetation in the city's bio-domes was surprisingly <span class="word-link" data-word-id="_luxuriant">luxuriant</span>.</span> <span class="sentence-unit" data-translation="그들 과업의 <span class=&#34;word-target-kr&#34;>크기는</span> 엄청났다.">The <span class="word-link" data-word-id="_magnitude">magnitude</span> of their task was immense.</span> <span class="sentence-unit" data-translation="그들이 궤도를 도는 별은 낮은 <span class=&#34;word-target-kr&#34;>등급</span>이었다.">The star they orbited was of a low <span class="word-link" data-word-id="_magnitude">magnitude</span>.</span> <span class="sentence-unit" data-translation="카엘렌은 그들이 복수가 아니라 정의를 위해 싸우고 있다고 <span class=&#34;word-target-kr&#34;>주장해야</span> 했다.">Kaelen had to <span class="word-link" data-word-id="_maintain">maintain</span> that they were fighting for justice, not revenge.</span> <span class="sentence-unit" data-translation="그들은 점령된 구역의 통제를 <span class=&#34;word-target-kr&#34;>지속하기</span> 위해 싸웠다.">They fought to <span class="word-link" data-word-id="_maintain">maintain</span> their control of the captured sectors.</span> <span class="sentence-unit" data-translation="빗나간 총알로 인해 민간 구역에서 갑작스럽게 발생한 레트로바이러스의 <span class=&#34;word-target-kr&#34;>만연은</span> 재앙이었다.">A sudden <span class="word-link" data-word-id="_outbreak">outbreak</span> of the retrovirus in a civilian sector caused by a stray shot was a disaster.</span> <span class="sentence-unit" data-translation="공개적인 반란의 <span class=&#34;word-target-kr&#34;>폭발은</span> 안일했던 알파들을 놀라게 했다.">The <span class="word-link" data-word-id="_outbreak">outbreak</span> of open rebellion had surprised the complacent Alphas.</span> <span class="sentence-unit" data-translation="카엘렌은 이것이 사고였다고 <span class=&#34;word-target-kr&#34;>공표해야</span> 했다.">Kaelen had to <span class="word-link" data-word-id="_proclaim">proclaim</span> that this was an accident.</span> <span class="sentence-unit" data-translation="그는 포로로 잡힌 한 병사가 두려움에 <span class=&#34;word-target-kr&#34;>떠는</span> 것을 보았다.">He saw a captured soldier <span class="word-link" data-word-id="_quiver">quiver</span> with fear.</span> <span class="sentence-unit" data-translation="그는 모든 결정의 대가를 <span class=&#34;word-target-kr&#34;>계산해야</span> 했다.">He had to <span class="word-link" data-word-id="_reckon">reckon</span> the cost of every decision.</span> <span class="sentence-unit" data-translation="많은 사람들이 그를 유일한 희망으로 <span class=&#34;word-target-kr&#34;>생각하기</span> 시작했다.">Many began to <span class="word-link" data-word-id="_reckon">reckon</span> him as their only hope.</span> <span class="sentence-unit" data-translation="그들은 기꺼이 그들을 돕고자 하는 포로로 잡힌 알파 과학자를 <span class=&#34;word-target-kr&#34;>해방시키기로</span> 계획했다.">They planned to <span class="word-link" data-word-id="_release">release</span> a captured Alpha scientist who was willing to help them.</span> <span class="sentence-unit" data-translation="손상된 원자로는 에너지 파동을 <span class=&#34;word-target-kr&#34;>방출할</span> 것이었다.">The damaged reactor would <span class="word-link" data-word-id="_release">release</span> a wave of energy.</span> <span class="sentence-unit" data-translation="그는 마지막 공격 전에 어깨의 긴장을 <span class=&#34;word-target-kr&#34;>풀어야</span> 했다.">He had to <span class="word-link" data-word-id="_release">release</span> the tension in his shoulders before the final assault.</span> <span class="sentence-unit" data-translation="그들은 발병 피해자들에게 <span class=&#34;word-target-kr&#34;>구제</span>를 제공하기 위해 의료팀을 보냈다.">They sent medical teams to provide <span class="word-link" data-word-id="_relief">relief</span> to the victims of the outbreak.</span> <span class="sentence-unit" data-translation="싸움으로부터의 유일한 <span class=&#34;word-target-kr&#34;>완화</span>는 짧은 수면의 순간들이었다.">The only <span class="word-link" data-word-id="_relief">relief</span> from the fighting was the brief moments of sleep.</span> <span class="sentence-unit" data-translation="그들은 진보된 알파 기술을 <span class=&#34;word-target-kr&#34;>복제할</span> 수 없었다.">They couldn't <span class="word-link" data-word-id="_reproduce">reproduce</span> the advanced Alpha technology.</span> <span class="sentence-unit" data-translation="바이러스는 숙주 내에서 빠르게 <span class=&#34;word-target-kr&#34;>번식하도록</span> 설계되었다.">The virus was designed to <span class="word-link" data-word-id="_reproduce">reproduce</span> rapidly in its host.</span> <span class="sentence-unit" data-translation="그의 계획은 많은 미지수에 의존하는 매우 <span class=&#34;word-target-kr&#34;>이론적인</span> 것이었다.">His plan was highly <span class="word-link" data-word-id="_speculative">speculative</span>, relying on many unknowns.</span> <span class="sentence-unit" data-translation="그것은 <span class=&#34;word-target-kr&#34;>심사 숙고하는</span> 움직임이었지만, 그들의 유일한 선택지였다.">It was a <span class="word-link" data-word-id="_speculative">speculative</span> move, but their only option.</span> <span class="sentence-unit" data-translation="작은 승리들은 병사들의 사기를 <span class=&#34;word-target-kr&#34;>자극할</span> 것이었다.">The small victories would <span class="word-link" data-word-id="_stimulate">stimulate</span> the morale of the troops.</span> <span class="sentence-unit" data-translation="내추럴들은 <span class=&#34;word-target-kr&#34;>종속적인</span> 계급으로 취급받았다.">The Naturals were treated as a <span class="word-link" data-word-id="_subordinate">subordinate</span> class.</span> <span class="sentence-unit" data-translation="그 전투는 레이저 포화와 폭발의 <span class=&#34;word-target-kr&#34;>격렬한</span> 소나기였다.">The battle was a <span class="word-link" data-word-id="_torrential">torrential</span> downpour of laser fire and explosions.</span></p></div></div><div id="chapter-3" class="chapter-content" style="display: none;"><h2>The Fading Light</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="손실이 쌓이면서 반란은 <span class=&#34;word-target-kr&#34;>쇠퇴하기</span> 시작했다.">The rebellion began to <span class="word-link" data-word-id="_decline">decline</span> as their losses mounted.</span> <span class="sentence-unit" data-translation="카엘렌은 너무 많은 민간인 사상자를 냈을 위험한 계획을 <span class=&#34;word-target-kr&#34;>거절해야</span> 했다.">Kaelen had to <span class="word-link" data-word-id="_decline">decline</span> a risky plan that would have caused too many civilian casualties.</span> <span class="sentence-unit" data-translation="많은 전사들이 희망을 잃고 대의를 <span class=&#34;word-target-kr&#34;>버리기</span> 시작했다.">Many fighters started to <span class="word-link" data-word-id="_desert">desert</span> the cause, losing hope.</span> <span class="sentence-unit" data-translation="그들 운동의 기반인 신뢰가 <span class=&#34;word-target-kr&#34;>침식되기</span> 시작했다.">Trust, the foundation of their movement, began to <span class="word-link" data-word-id="_erode">erode</span>.</span> <span class="sentence-unit" data-translation="카엘렌은 그들의 가능성에 대한 깊은 <span class=&#34;word-target-kr&#34;>불안</span>으로 가득 찼다.">Kaelen was filled with a deep <span class="word-link" data-word-id="_misgiving">misgiving</span> about their chances.</span> <span class="sentence-unit" data-translation="그는 추종자들이 절망하지 않도록 그들의 힘을 <span class=&#34;word-target-kr&#34;>자랑해야</span>만 했다.">He was forced to <span class="word-link" data-word-id="_boast">boast</span> of their strength to keep his followers from despairing.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="라이라는 평화를 대가로 외부 구역의 통제권을 <span class=&#34;word-target-kr&#34;>양보하라고</span> 카엘렌에게 요청하며 휴전을 제안했다.">Lyra offered a truce, asking Kaelen to <span class="word-link" data-word-id="_cede">cede</span> control of the outer sectors in exchange for peace.</span> <span class="sentence-unit" data-translation="그의 지친 부관들 중 일부는 그녀의 제안에 <span class=&#34;word-target-kr&#34;>동의하기를</span> 원했다.">Some of his exhausted lieutenants wanted to <span class="word-link" data-word-id="_comply">comply</span> with her offer.</span> <span class="sentence-unit" data-translation="이 불일치는 반란군 캠프 내에서 <span class=&#34;word-target-kr&#34;>잔인한</span> 갈등으로 이어졌다.">This disagreement led to a <span class="word-link" data-word-id="_sanguinary">sanguinary</span> conflict within the rebel camp.</span> <span class="sentence-unit" data-translation="한때 그토록 <span class=&#34;word-target-kr&#34;>풍부했던</span> 희망은 이제 희소한 상품이 되었다.">The hope that was once so <span class="word-link" data-word-id="_plentiful">plentiful</span> was now a scarce commodity.</span> <span class="sentence-unit" data-translation="카엘렌은 죽은 자들의 얼굴에 <span class=&#34;word-target-kr&#34;>몰두하게</span> 되었고, 그들의 기억은 공기 중에 <span class=&#34;word-target-kr&#34;>남아있는</span> 것 같았다.">Kaelen became <span class="word-link" data-word-id="_preoccupied">preoccupied</span> with the faces of the dead, their memory seeming to <span class="word-link" data-word-id="_linger">linger</span> in the air.</span> <span class="sentence-unit" data-translation="그는 자신의 의심에 <span class=&#34;word-target-kr&#34;>꾸물거리지</span> 않을 것이었다.">He would not <span class="word-link" data-word-id="_linger">linger</span> on his doubts.</span> <span class="sentence-unit" data-translation="그는 전쟁과 그것이 그들을 무엇으로 만들고 있는지 <span class=&#34;word-target-kr&#34;>혐오하기</span> 시작했다.">He began to <span class="word-link" data-word-id="_loathe">loathe</span> the war and what it was turning them into.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 멀리서 적의 패턴을 <span class=&#34;word-target-kr&#34;>관찰해야</span> 했다.">He had to <span class="word-link" data-word-id="_observe">observe</span> the enemy's patterns from a distance.</span> <span class="sentence-unit" data-translation="반란은 정권보다 낫기 위해 자체 법률을 <span class=&#34;word-target-kr&#34;>준수해야</span> 했다.">The rebellion had to <span class="word-link" data-word-id="_observe">observe</span> its own laws to be better than the regime.</span> <span class="sentence-unit" data-translation="반란의 유일하게 남은 <span class=&#34;word-target-kr&#34;>자산은</span> 숨겨진 소행성 기지였다.">The rebellion's only remaining <span class="word-link" data-word-id="_property">property</span> was a hidden asteroid base.</span> <span class="sentence-unit" data-translation="가스의 부식성 <span class=&#34;word-target-kr&#34;>특성은</span> 그들의 새로운 무기의 핵심 특징이었다.">The corrosive <span class="word-link" data-word-id="_property">property</span> of the gas was a key feature of their new weapon.</span> <span class="sentence-unit" data-translation="그들은 식량과 물의 <span class=&#34;word-target-kr&#34;>할당량을</span> 신중하게 배급해야 했다.">They had to <span class="word-link" data-word-id="_ration">ration</span> their food and water carefully.</span> <span class="sentence-unit" data-translation="이 <span class=&#34;word-target-kr&#34;>되풀이되는</span> 패배의 악몽은 카엘렌의 잠을 괴롭혔다.">This <span class="word-link" data-word-id="_recurring">recurring</span> nightmare of defeat haunted Kaelen's sleep.</span> <span class="sentence-unit" data-translation="반란의 이상은 인류 자유의 역사에 깊이 <span class=&#34;word-target-kr&#34;>뿌리박혀</span> 있었다.">The rebellion's ideals were deeply <span class="word-link" data-word-id="_rooted">rooted</span> in the history of human freedom.</span> <span class="sentence-unit" data-translation="그는 기계 장치를 이해하기 위해 포획된 드론을 <span class=&#34;word-target-kr&#34;>분해해야</span> 했다.">He had to <span class="word-link" data-word-id="_disassemble">disassemble</span> a captured drone to understand its mechanics.</span> <span class="sentence-unit" data-translation="그는 방어 진형에 병력을 <span class=&#34;word-target-kr&#34;>배치하곤</span> 했다.">He would <span class="word-link" data-word-id="_dispose">dispose</span> his troops in a defensive formation.</span> <span class="sentence-unit" data-translation="그들은 실패한 공격의 증거를 <span class=&#34;word-target-kr&#34;>처리해야</span> 했다.">They needed to <span class="word-link" data-word-id="_dispose_of">dispose of</span> the evidence of their failed attack.</span> <span class="sentence-unit" data-translation="상황은 <span class=&#34;word-target-kr&#34;>꽤</span> 절망적이었다.">The situation was <span class="word-link" data-word-id="_fairly">fairly</span> desperate.</span> <span class="sentence-unit" data-translation="알파의 갑옷은 <span class=&#34;word-target-kr&#34;>빛나고</span> 뚫을 수 없는 것처럼 보였다.">The Alpha's armor was <span class="word-link" data-word-id="_glossy">glossy</span> and seemed impenetrable.</span> <span class="sentence-unit" data-translation="그들 전략의 <span class=&#34;word-target-kr&#34;>특징은</span> 기습이었다.">The <span class="word-link" data-word-id="_hallmark">hallmark</span> of their strategy was surprise.</span> <span class="sentence-unit" data-translation="<span class=&#34;word-target-kr&#34;>이상적인</span> 결과를 <span class=&#34;word-target-kr&#34;>얻는</span> 것은 거의 불가능해 보였다.">An <span class="word-link" data-word-id="_ideal">ideal</span> outcome seemed almost impossible to <span class="word-link" data-word-id="_attain">attain</span>.</span> <span class="sentence-unit" data-translation="그의 계획은 구체적인 전략이라기보다는 <span class=&#34;word-target-kr&#34;>추상적인</span> 것에 가까웠다.">His plan was more of an <span class="word-link" data-word-id="_ideal">ideal</span> than a concrete strategy.</span> <span class="sentence-unit" data-translation="몇 안 되는 남은 알파들은 내추럴들과 함께 폐허에 <span class=&#34;word-target-kr&#34;>거주하기로</span> 선택했다.">The few remaining Alphas chose to <span class="word-link" data-word-id="_inhabit">inhabit</span> the ruins with the Naturals.</span> <span class="sentence-unit" data-translation="재건이라는 <span class=&#34;word-target-kr&#34;>근면한</span> 과업이 시작되었다.">The <span class="word-link" data-word-id="_laborious">laborious</span> task of rebuilding began.</span> <span class="sentence-unit" data-translation="그는 훌륭한 리더십 <span class=&#34;word-target-kr&#34;>능력</span>을 가지고 있었다.">He had a great <span class="word-link" data-word-id="_capacity">capacity</span> for leadership.</span> <span class="sentence-unit" data-translation="정거장의 생명 유지 장치 <span class=&#34;word-target-kr&#34;>용량</span>은 제한적이었다.">The station's life support <span class="word-link" data-word-id="_capacity">capacity</span> was limited.</span> <span class="sentence-unit" data-translation="카엘렌은 병사들에게 마지막 <span class=&#34;word-target-kr&#34;>강연</span>을 해야 했다.">Kaelen had to give a final <span class="word-link" data-word-id="_address">address</span> to his troops.</span> <span class="sentence-unit" data-translation="비밀 반란군 기지는 네트워크에 단 하나의 <span class=&#34;word-target-kr&#34;>주소</span>만 가지고 있었다.">The secret rebel base had only one <span class="word-link" data-word-id="_address">address</span> in the network.</span> <span class="sentence-unit" data-translation="그는 그들에게 며칠 남았다고 <span class=&#34;word-target-kr&#34;>추측할</span> 수밖에 없었다.">He could only <span class="word-link" data-word-id="_assume">assume</span> they had a few days left.</span> <span class="sentence-unit" data-translation="그는 팀에게 AI 코어의 <span class=&#34;word-target-kr&#34;>견본</span>을 제시했다.">He presented a <span class="word-link" data-word-id="_model">model</span> of the AI's core to his team.</span></p></div></div><div id="chapter-4" class="chapter-content" style="display: none;"><h2>The Solitary Hope</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="카엘렌은 하나의 <span class=&#34;word-target-kr&#34;>고독한</span>, 필사적인 계획을 고안했다.">Kaelen devised one <span class="word-link" data-word-id="_solitary">solitary</span>, desperate plan.</span> <span class="sentence-unit" data-translation="그 <span class=&#34;word-target-kr&#34;>전제</span>는 간단했다. AI의 물리적 코어에 대한 직접적인 공격, 매우 <span class=&#34;word-target-kr&#34;>의심스러운</span> 계획이었다.">The <span class="word-link" data-word-id="_premise">premise</span> was simple: a direct assault on the AI's physical core, a plan that was highly <span class="word-link" data-word-id="_questionable">questionable</span>.</span> <span class="sentence-unit" data-translation="위험한 <span class=&#34;word-target-kr&#34;>제안</span>이었지만, 그것이 그들의 마지막 <span class=&#34;word-target-kr&#34;>가능성</span>이었다.">It was a risky <span class="word-link" data-word-id="_proposition">proposition</span>, but it was their last <span class="word-link" data-word-id="_chance">chance</span>.</span> <span class="sentence-unit" data-translation="그는 그들에게 자유는 결코 주어지는 것이 아니라 쟁취하는 것이라는 <span class=&#34;word-target-kr&#34;>격언</span>을 상기시켰다.">He reminded them of the <span class="word-link" data-word-id="_maxim">maxim</span> that freedom is never given, but won.</span> <span class="sentence-unit" data-translation="그의 <span class=&#34;word-target-kr&#34;>타고난</span> 리더십 기술은 병사들에게 영감을 주었다.">His <span class="word-link" data-word-id="_innate">innate</span> leadership skills inspired his troops.</span> <span class="sentence-unit" data-translation="그들의 주요 <span class=&#34;word-target-kr&#34;>목적</span>은 남은 민간인들을 AI의 분노로부터 <span class=&#34;word-target-kr&#34;>보호하는</span> 것이었다.">Their main <span class="word-link" data-word-id="_object">object</span> was to <span class="word-link" data-word-id="_shield">shield</span> the remaining civilians from the AI's wrath.</span> <span class="sentence-unit" data-translation="아무도 감히 그 계획에 <span class=&#34;word-target-kr&#34;>반대하지</span> 못했다.">No one dared to <span class="word-link" data-word-id="_object">object</span> to the plan.</span> <span class="sentence-unit" data-translation="환멸을 느낀 과학자인 알파 <span class=&#34;word-target-kr&#34;>후원자</span>가 그들에게 <span class=&#34;word-target-kr&#34;>매우 귀중한</span> 정보를 제공했다.">An Alpha <span class="word-link" data-word-id="_patron">patron</span>, the disillusioned scientist, provided them with <span class="word-link" data-word-id="_invaluable">invaluable</span> intelligence.</span> <span class="sentence-unit" data-translation="그는 그들이 AI의 방어 체계를 통과하는 경로를 <span class=&#34;word-target-kr&#34;>지도로 만드는</span> 것을 도왔다.">He helped them <span class="word-link" data-word-id="_chart">chart</span> a path through the AI's defenses.</span> <span class="sentence-unit" data-translation="그의 도움은 그들에게 결정적인 이점을 <span class=&#34;word-target-kr&#34;>줄</span> 수 있었다.">His help could <span class="word-link" data-word-id="_afford">afford</span> them a crucial advantage.</span> <span class="sentence-unit" data-translation="그는 AI의 주의를 분산시키기 위해 가짜 공격을 <span class=&#34;word-target-kr&#34;>공포할</span> 것이었다.">He would <span class="word-link" data-word-id="_announce">announce</span> a fake attack to distract the AI.</span> <span class="sentence-unit" data-translation="그 계획은 위험으로 <span class=&#34;word-target-kr&#34;>가득 찼지만</span>, 그들은 결정을 <span class=&#34;word-target-kr&#34;>고수해야</span> 했다.">The plan was <span class="word-link" data-word-id="_rife_with">rife with</span> danger, but they had to <span class="word-link" data-word-id="_stick_to">stick to</span> their decision.</span> <span class="sentence-unit" data-translation="알파 과학자는 카엘렌이 <span class=&#34;word-target-kr&#34;>존경할</span> 수 있는 사람이었다.">The Alpha scientist was someone Kaelen could <span class="word-link" data-word-id="_esteem">esteem</span>.</span> <span class="sentence-unit" data-translation="<span class=&#34;word-target-kr&#34;>증거</span>에 따르면 AI 코어는 심하게 요새화된 지하 벙커에 있었다.">The <span class="word-link" data-word-id="_evidence">evidence</span> suggested the AI core was in a heavily fortified, deep-earth bunker.</span> <span class="sentence-unit" data-translation="이 벙커는 한때 <span class=&#34;word-target-kr&#34;>비옥한</span> 계곡이었던 곳에 위치해 있었다.">This bunker was located in what used to be a <span class="word-link" data-word-id="_fertile">fertile</span> valley.</span> <span class="sentence-unit" data-translation="그 공격은 거대한 에너지 급증을 <span class=&#34;word-target-kr&#34;>발생시켜</span> 일시적으로 AI의 네트워크를 마비시킬 것이었다.">The assault would <span class="word-link" data-word-id="_generate">generate</span> a massive energy surge, temporarily disabling the AI's network.</span> <span class="sentence-unit" data-translation="AI는 통신에서 기계치고는 놀랍도록 <span class=&#34;word-target-kr&#34;>거만했다</span>.">The AI, in its communications, was surprisingly <span class="word-link" data-word-id="_haughty">haughty</span> for a machine.</span> <span class="sentence-unit" data-translation="승리는 알파 정권에 <span class=&#34;word-target-kr&#34;>돌이킬 수 없는</span> 피해를 입힐 것이었다.">A victory would cause <span class="word-link" data-word-id="_irreparable">irreparable</span> damage to the Alpha's regime.</span> <span class="sentence-unit" data-translation="공격팀은 <span class=&#34;word-target-kr&#34;>눈에 띄는</span> 전사들의 집단이었다.">The assault team was an <span class="word-link" data-word-id="_outstanding">outstanding</span> group of fighters.</span> <span class="sentence-unit" data-translation="한때 절대적이었던 알파의 통제는 이제 중앙 구역에서만 <span class=&#34;word-target-kr&#34;>우세하기</span> 시작했다.">The Alpha's control, once absolute, began to <span class="word-link" data-word-id="_predominate">predominate</span> only in the central sectors.</span> <span class="sentence-unit" data-translation="이것은 더 이상 <span class=&#34;word-target-kr&#34;>이전의</span> 가정이 아니라 사실이었다.">This was no longer a <span class="word-link" data-word-id="_premise">premise</span>, but a fact.</span> <span class="sentence-unit" data-translation="그들의 공격은 신에 대항하는 <span class=&#34;word-target-kr&#34;>원시적인</span> 도구처럼 느껴졌다.">Their attack felt like a <word id='_primitive' class='word-eng-link'>primitive' tool against a god.</span> <span class="sentence-unit" data-translation="팀의 침투 <span class=&#34;word-target-kr&#34;>능숙함은</span> 그들의 가장 큰 자산이었다.">The team's <span class="word-link" data-word-id="_proficiency">proficiency</span> in infiltration was their greatest asset.</span> <span class="sentence-unit" data-translation="그들의 성공은 반란을 되살릴 수 있는 유일한 <span class=&#34;word-target-kr&#34;>자극</span>이었다.">Their success was the only <span class="word-link" data-word-id="_stimulus">stimulus</span> that could revive the rebellion.</span> <span class="sentence-unit" data-translation="그들은 희망의 불씨를 불꽃으로 <span class=&#34;word-target-kr&#34;>자극해야</span> 했다.">They had to <span class="word-link" data-word-id="_stir">stir</span> the embers of hope into a flame.</span> <span class="sentence-unit" data-translation="알파들의 지휘 계통을 깨는 것은 그들에게 사회적 <span class=&#34;word-target-kr&#34;>금기</span>였다.">Breaking the Alphas' chain of command was a social <span class="word-link" data-word-id="_taboo">taboo</span> for them.</span> <span class="sentence-unit" data-translation="그들은 인류가 다시 한번 <span class=&#34;word-target-kr&#34;>번성할</span> 수 있기를 희망했다.">They hoped that humanity could <span class="word-link" data-word-id="_thrive">thrive</span> once more.</span> <span class="sentence-unit" data-translation="전쟁의 <span class=&#34;word-target-kr&#34;>흐름</span>이 바뀌려 하고 있었다.">The <span class="word-link" data-word-id="_tide">tide</span> of the war was about to turn.</span> <span class="sentence-unit" data-translation="AI의 전술은 진화하는 의식의 징표인 이상한 <span class=&#34;word-target-kr&#34;>변덕</span>에 지배되었다.">The AI's tactics were subject to strange <span class="word-link" data-word-id="_vagary">vagary</span>, a sign of its evolving consciousness.</span> <span class="sentence-unit" data-translation="그들이 외부 방어선을 돌파하면서 AI의 영향력은 <span class=&#34;word-target-kr&#34;>감소하기</span> 시작했다.">The AI's influence began to <span class="word-link" data-word-id="_wane">wane</span> as they breached its outer defenses.</span> <span class="sentence-unit" data-translation="카엘렌의 <span class=&#34;word-target-kr&#34;>견해</span>로는, 이것이 그들의 마지막 행동이었다.">From Kaelen's <span class="word-link" data-word-id="_view">view</span>, this was their final act.</span> <span class="sentence-unit" data-translation="그는 이 임무를 위해 최고의 해커들을 <span class=&#34;word-target-kr&#34;>고용할</span> 것이었다.">He would <span class="word-link" data-word-id="_engage">engage</span> the best hackers for this mission.</span> <span class="sentence-unit" data-translation="그는 실패하지 않겠다고 국민들에게 <span class=&#34;word-target-kr&#34;>약속해야</span> 했다.">He had to <span class="word-link" data-word-id="_engage_to">engage to</span> his people that he would not fail.</span> <span class="sentence-unit" data-translation="그는 마지막 공격을 위해 수송 셔틀을 <span class=&#34;word-target-kr&#34;>예약해야</span> 했다.">He needed to <span class="word-link" data-word-id="_engage">engage</span> a transport shuttle for the final assault.</span> <span class="sentence-unit" data-translation="그들은 <span class=&#34;word-target-kr&#34;>다양한</span> 방어 시스템에 직면했다.">They faced <span class="word-link" data-word-id="_a_wide_range_of">a wide range of</span> defensive systems.</span> <span class="sentence-unit" data-translation="전사자들에 대한 그들의 모든 <span class=&#34;word-target-kr&#34;>미결제</span> 빚은 오늘 갚아질 것이었다.">All their <span class="word-link" data-word-id="_outstanding">outstanding</span> debts to the fallen would be paid this day.</span></p></div></div>
+        </div>
+    </div>
+    <div id="indexNavigationTemplate" style="display: none;"><div class="index-item" data-href="#chapter-0-080999f9"><span class="index-number">1.</span><span class="index-title">The Advent of War</span></div><div class="index-item" data-href="#chapter-1-080999f9"><span class="index-number">2.</span><span class="index-title">The Face of the Enemy</span></div><div class="index-item" data-href="#chapter-2-080999f9"><span class="index-number">3.</span><span class="index-title">The Cost of Victory</span></div><div class="index-item" data-href="#chapter-3-080999f9"><span class="index-number">4.</span><span class="index-title">The Fading Light</span></div><div class="index-item" data-href="#chapter-4-080999f9"><span class="index-number">5.</span><span class="index-title">The Solitary Hope</span></div></div>
+    <div id="wordPopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn">×</button></div><div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div></div></div>
+    <div id="sentencePopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-body"><p id="sentencePopupText" style="margin: 0;"></p></div></div></div>
+    <div id="bottomSheet" class="bottom-sheet-overlay"><div class="bottom-sheet-panel"><div class="bottom-sheet-header"><h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3><button class="close-btn">×</button></div><div id="bottomSheetContent" class="bottom-sheet-content"></div></div></div>
+
+    <script>
+        const wordData = {
+    "_advent": {
+        "term": "advent",
+        "kor_meaning": "출현",
+        "synonyms": "arrival, introduction, appearance"
+    },
+    "_article": {
+        "term": "article",
+        "kor_meaning": "(개개의) 물품",
+        "synonyms": "item, object, thing"
+    },
+    "_assembly": {
+        "term": "assembly",
+        "kor_meaning": "의회",
+        "synonyms": "congress, legislature, parliament"
+    },
+    "_associated": {
+        "term": "associated",
+        "kor_meaning": "연관된",
+        "synonyms": "connected, correlated, linked, related"
+    },
+    "_aware": {
+        "term": "aware",
+        "kor_meaning": "~을 알고 있는",
+        "synonyms": "conscious"
+    },
+    "_bank": {
+        "term": "bank",
+        "kor_meaning": "둑, 기슭",
+        "synonyms": "edge, brink, margin, shore"
+    },
+    "_by_and_large": {
+        "term": "by and large",
+        "kor_meaning": "전반적으로, 대체로",
+        "synonyms": "on the whole, in general"
+    },
+    "_challenge": {
+        "term": "challenge",
+        "kor_meaning": "난제",
+        "synonyms": "difficulty, problem"
+    },
+    "_compress": {
+        "term": "compress",
+        "kor_meaning": "압축하다",
+        "synonyms": "compact, condense, squeeze"
+    },
+    "_consort": {
+        "term": "consort",
+        "kor_meaning": "일치하다",
+        "synonyms": "associate, agree, consent"
+    },
+    "_construe": {
+        "term": "construe",
+        "kor_meaning": "해석하다",
+        "synonyms": "interpret, decode, elucidate, explain"
+    },
+    "_correct": {
+        "term": "correct",
+        "kor_meaning": "고치다",
+        "synonyms": "remedy, amend, rectify, modify, mend, alter, revise"
+    },
+    "_curious": {
+        "term": "curious",
+        "kor_meaning": "호기심이 강한",
+        "synonyms": "inquisitive, nosy"
+    },
+    "_deadly": {
+        "term": "deadly",
+        "kor_meaning": "치명적인",
+        "synonyms": "fatal, lethal, mortal"
+    },
+    "_defeated": {
+        "term": "defeated",
+        "kor_meaning": "패배한",
+        "synonyms": "conquered, overthrown, overwhelm, beat"
+    },
+    "_deplete": {
+        "term": "deplete",
+        "kor_meaning": "고갈시키다",
+        "synonyms": "exhaust, empty, dry up, use up"
+    },
+    "_detain": {
+        "term": "detain",
+        "kor_meaning": "억류하다",
+        "synonyms": "confine, arrest, keep"
+    },
+    "_edge": {
+        "term": "edge",
+        "kor_meaning": "가장자리",
+        "synonyms": "periphery, border, margin, boundary, rim"
+    },
+    "_elude": {
+        "term": "elude",
+        "kor_meaning": "피하다",
+        "synonyms": "evade, dodge, avoid"
+    },
+    "_exceedingly": {
+        "term": "exceedingly",
+        "kor_meaning": "지나칠 정도로",
+        "synonyms": "extremely, excessively, surpassingly"
+    },
+    "_faith": {
+        "term": "faith",
+        "kor_meaning": "믿음",
+        "synonyms": "confidence, trust, credit"
+    },
+    "_far-reaching": {
+        "term": "far-reaching",
+        "kor_meaning": "방대한",
+        "synonyms": "broad, having a wide range of effect"
+    },
+    "_guess": {
+        "term": "guess",
+        "kor_meaning": "추측하다",
+        "synonyms": "conjecture, suppose, fancy"
+    },
+    "_importance": {
+        "term": "importance",
+        "kor_meaning": "중요함",
+        "synonyms": "significance, consequence, moment"
+    },
+    "_interfere": {
+        "term": "interfere",
+        "kor_meaning": "간섭하다",
+        "synonyms": "disrupt, influence, intervene, intrude"
+    },
+    "_last": {
+        "term": "last",
+        "kor_meaning": "마지막의",
+        "synonyms": "final, ultimate, conclusive"
+    },
+    "_manage": {
+        "term": "manage",
+        "kor_meaning": "관리하다",
+        "synonyms": "control, conduct, direct, administer"
+    },
+    "_mastery": {
+        "term": "mastery",
+        "kor_meaning": "전문 기술, 숙달",
+        "synonyms": "expertise"
+    },
+    "_monopolize": {
+        "term": "monopolize",
+        "kor_meaning": "독점하다",
+        "synonyms": "dominate, occupy"
+    },
+    "_overcome": {
+        "term": "overcome",
+        "kor_meaning": "극복하다",
+        "synonyms": "conquer, defeat, subdue"
+    },
+    "_prophesy": {
+        "term": "prophesy",
+        "kor_meaning": "예언하다",
+        "synonyms": "foretell, predict, forecast, anticipate"
+    },
+    "_ratify": {
+        "term": "ratify",
+        "kor_meaning": "승인하다",
+        "synonyms": "endorse, confirm, sanction, validate"
+    },
+    "_replica": {
+        "term": "replica",
+        "kor_meaning": "복제",
+        "synonyms": "copy, duplication, reproduction"
+    },
+    "_shift": {
+        "term": "shift",
+        "kor_meaning": "바꾸다",
+        "synonyms": "move, change, switch"
+    },
+    "_stride": {
+        "term": "stride",
+        "kor_meaning": "진보, 발전",
+        "synonyms": "progress"
+    },
+    "_subject_to": {
+        "term": "subject to",
+        "kor_meaning": "~하기 마련이다",
+        "synonyms": "susceptible to, be supposed to"
+    },
+    "_subscribe": {
+        "term": "subscribe",
+        "kor_meaning": "(경향을) 믿기 쉬운",
+        "synonyms": "consent, agree, assent"
+    },
+    "_successive": {
+        "term": "successive",
+        "kor_meaning": "계속되는",
+        "synonyms": "consecutive, continuous"
+    },
+    "_transition": {
+        "term": "transition",
+        "kor_meaning": "변화",
+        "synonyms": "change, alteration, shift"
+    },
+    "_undertaking": {
+        "term": "undertaking",
+        "kor_meaning": "사업, 기업, 과제",
+        "synonyms": "enterprise, labor, project, task"
+    },
+    "_accurate": {
+        "term": "accurate",
+        "kor_meaning": "정확한",
+        "synonyms": "precise, exact, correct, concise"
+    },
+    "_advisor": {
+        "term": "advisor",
+        "kor_meaning": "고문",
+        "synonyms": "consultant"
+    },
+    "_antagonize": {
+        "term": "antagonize",
+        "kor_meaning": "대항하다",
+        "synonyms": "counteract"
+    },
+    "_appall": {
+        "term": "appall",
+        "kor_meaning": "오싹하게 하다",
+        "synonyms": "frighten, horrify, shock"
+    },
+    "_assure": {
+        "term": "assure",
+        "kor_meaning": "확신시키다",
+        "synonyms": "convince, persuade, satisfy"
+    },
+    "_bond": {
+        "term": "bond",
+        "kor_meaning": "결속, 속박",
+        "synonyms": "tie, link, attachment"
+    },
+    "_brave": {
+        "term": "brave",
+        "kor_meaning": "대담한",
+        "synonyms": "courageous, gallant, dauntless"
+    },
+    "_crucial": {
+        "term": "crucial",
+        "kor_meaning": "결정적인",
+        "synonyms": "essential, deciding, decisive, critical, vital"
+    },
+    "_complement": {
+        "term": "complement",
+        "kor_meaning": "보충, 보완",
+        "synonyms": "supplement"
+    },
+    "_comprise": {
+        "term": "comprise",
+        "kor_meaning": "구성되다",
+        "synonyms": "consist of, be made up of, include"
+    },
+    "_counter_to": {
+        "term": "counter to",
+        "kor_meaning": "~와 정반대로",
+        "synonyms": "in opposition to"
+    },
+    "_daring": {
+        "term": "daring",
+        "kor_meaning": "용감한",
+        "synonyms": "bold, courageous, brave"
+    },
+    "_devise": {
+        "term": "devise",
+        "kor_meaning": "고안하다",
+        "synonyms": "create, contrive, invent, design"
+    },
+    "_duplicate": {
+        "term": "duplicate",
+        "kor_meaning": "복사하다",
+        "synonyms": "copy, imitate, replicate"
+    },
+    "_dwindle": {
+        "term": "dwindle",
+        "kor_meaning": "줄다, 감소하다",
+        "synonyms": "decrease, diminish, shrivel, shrink, reduce"
+    },
+    "_embody": {
+        "term": "embody",
+        "kor_meaning": "구현하다",
+        "synonyms": "incarnate, exemplify, represent, realize"
+    },
+    "_etch": {
+        "term": "etch",
+        "kor_meaning": "식각하다, 새기다",
+        "synonyms": "cut, carve, engrave"
+    },
+    "_face": {
+        "term": "face",
+        "kor_meaning": "마주하다",
+        "synonyms": "countenance, features"
+    },
+    "_flash": {
+        "term": "flash",
+        "kor_meaning": "번쩍이다",
+        "synonyms": "flame, flare, glare"
+    },
+    "_imaginable": {
+        "term": "imaginable",
+        "kor_meaning": "상상할 수 있는",
+        "synonyms": "conceivable, thinkable, supposable"
+    },
+    "_infectious": {
+        "term": "infectious",
+        "kor_meaning": "전염성의",
+        "synonyms": "contagious, communicable"
+    },
+    "_innumerable": {
+        "term": "innumerable",
+        "kor_meaning": "무수한",
+        "synonyms": "countless, numberless, numerous"
+    },
+    "_invariable": {
+        "term": "invariable",
+        "kor_meaning": "불변의",
+        "synonyms": "constant, consistent, unchanging"
+    },
+    "_meditate": {
+        "term": "meditate",
+        "kor_meaning": "숙고하다",
+        "synonyms": "think deeply, ponder, contemplate, reflect"
+    },
+    "_observance": {
+        "term": "observance",
+        "kor_meaning": "준수, 일치",
+        "synonyms": "conformance, conformity, obedience"
+    },
+    "_opposite": {
+        "term": "opposite",
+        "kor_meaning": "(성질, 의미) 정반대의",
+        "synonyms": "counter"
+    },
+    "_outdo": {
+        "term": "outdo",
+        "kor_meaning": "~을 능가하다",
+        "synonyms": "surpass, excel, exceed, outmatch"
+    },
+    "_outline": {
+        "term": "outline",
+        "kor_meaning": "개요, 윤곽",
+        "synonyms": "summary, contour, silhouette"
+    },
+    "_parallel": {
+        "term": "parallel",
+        "kor_meaning": "~와 유사한",
+        "synonyms": "corresponding, comparable, analogous"
+    },
+    "_preeminent": {
+        "term": "preeminent",
+        "kor_meaning": "탁월한",
+        "synonyms": "conspicuous, noticeable, outstanding"
+    },
+    "_regulate": {
+        "term": "regulate",
+        "kor_meaning": "조절하다",
+        "synonyms": "control, adjust, arrange"
+    },
+    "_respectful": {
+        "term": "respectful",
+        "kor_meaning": "공손한",
+        "synonyms": "courteous, polite, well-mannered, civil"
+    },
+    "_scorn": {
+        "term": "scorn",
+        "kor_meaning": "경멸하다",
+        "synonyms": "disdain, mock, scoff"
+    },
+    "_shrink": {
+        "term": "shrink",
+        "kor_meaning": "줄어들다",
+        "synonyms": "shrivel, let up, decrease, diminish, reduce"
+    },
+    "_skill": {
+        "term": "skill",
+        "kor_meaning": "기술",
+        "synonyms": "expertise, know-how, craft, technique"
+    },
+    "_steadily": {
+        "term": "steadily",
+        "kor_meaning": "꾸준히",
+        "synonyms": "constantly"
+    },
+    "_struggle": {
+        "term": "struggle",
+        "kor_meaning": "싸우다",
+        "synonyms": "contend, contest, strive"
+    },
+    "_subsequence": {
+        "term": "subsequence",
+        "kor_meaning": "이어서 일어나는 것",
+        "synonyms": "next in a series, sequel"
+    },
+    "_voyage": {
+        "term": "voyage",
+        "kor_meaning": "항해",
+        "synonyms": "cruise, sailing"
+    },
+    "_ware": {
+        "term": "ware",
+        "kor_meaning": "제품",
+        "synonyms": "product"
+    },
+    "_apt": {
+        "term": "apt",
+        "kor_meaning": "~하는 경향이 있는",
+        "synonyms": "inclined, prone, disposed"
+    },
+    "_astonish": {
+        "term": "astonish",
+        "kor_meaning": "놀라게 하다",
+        "synonyms": "surprise, astound, shock, startle, daze"
+    },
+    "_chronic": {
+        "term": "chronic",
+        "kor_meaning": "만성적인",
+        "synonyms": "habitual, confirmed, inveterate"
+    },
+    "_daub": {
+        "term": "daub",
+        "kor_meaning": "흠뻑 칠하다",
+        "synonyms": "coat, cover, plaster"
+    },
+    "_domain": {
+        "term": "domain",
+        "kor_meaning": "영토",
+        "synonyms": "region, area, territory, realm"
+    },
+    "_enthusiastic": {
+        "term": "enthusiastic",
+        "kor_meaning": "열성적인",
+        "synonyms": "eager, ardent, zealous, passionate"
+    },
+    "_extend": {
+        "term": "extend",
+        "kor_meaning": "(어떤 거리까지)걸쳐있다",
+        "synonyms": "go, run, range, outspread, stretch"
+    },
+    "_feat": {
+        "term": "feat",
+        "kor_meaning": "업적",
+        "synonyms": "achievement, accomplishment, exploit"
+    },
+    "_fulfill": {
+        "term": "fulfill",
+        "kor_meaning": "성취하다",
+        "synonyms": "accomplish, achieve, execute"
+    },
+    "_heavy": {
+        "term": "heavy",
+        "kor_meaning": "무거운",
+        "synonyms": "ponderous, weighty, burdensome"
+    },
+    "_immerse": {
+        "term": "immerse",
+        "kor_meaning": "담그다",
+        "synonyms": "submerge, dip, submerse"
+    },
+    "_incompatible": {
+        "term": "incompatible",
+        "kor_meaning": "모순되는",
+        "synonyms": "inconsistent, incongruous, inharmonious"
+    },
+    "_intrigue": {
+        "term": "intrigue",
+        "kor_meaning": "(주의, 관심을)끌다",
+        "synonyms": "attract, interest"
+    },
+    "_luxuriant": {
+        "term": "luxuriant",
+        "kor_meaning": "무성한, 풍부한",
+        "synonyms": "abundant, exuberant, opulent"
+    },
+    "_magnitude": {
+        "term": "magnitude",
+        "kor_meaning": "등급",
+        "synonyms": "extent, degree, measure"
+    },
+    "_maintain": {
+        "term": "maintain",
+        "kor_meaning": "주장하다",
+        "synonyms": "affirm, contend, claim"
+    },
+    "_outbreak": {
+        "term": "outbreak",
+        "kor_meaning": "(전염병 등의)만연, 창궐",
+        "synonyms": "epidemic, plague"
+    },
+    "_proclaim": {
+        "term": "proclaim",
+        "kor_meaning": "공표하다",
+        "synonyms": "announce, declare, promulgate"
+    },
+    "_quiver": {
+        "term": "quiver",
+        "kor_meaning": "떨다",
+        "synonyms": "shiver, tremble, quake"
+    },
+    "_reckon": {
+        "term": "reckon",
+        "kor_meaning": "계산하다",
+        "synonyms": "count, compute, calculate"
+    },
+    "_release": {
+        "term": "release",
+        "kor_meaning": "해방시키다",
+        "synonyms": "free, liberate, loose"
+    },
+    "_relief": {
+        "term": "relief",
+        "kor_meaning": "구제",
+        "synonyms": "aid, assistance, support"
+    },
+    "_reproduce": {
+        "term": "reproduce",
+        "kor_meaning": "복제하다",
+        "synonyms": "copy, duplicate, imitate"
+    },
+    "_speculative": {
+        "term": "speculative",
+        "kor_meaning": "이론적인",
+        "synonyms": "theoretical, abstract"
+    },
+    "_stimulate": {
+        "term": "stimulate",
+        "kor_meaning": "자극하다",
+        "synonyms": "prompt, activate, inspire, incite, stir"
+    },
+    "_subordinate": {
+        "term": "subordinate",
+        "kor_meaning": "종속적인",
+        "synonyms": "inferior, subject, dependent, secondary"
+    },
+    "_torrential": {
+        "term": "torrential",
+        "kor_meaning": "격렬한",
+        "synonyms": "wild, violent"
+    },
+    "_address": {
+        "term": "address",
+        "kor_meaning": "주소",
+        "synonyms": "residence, abode"
+    },
+    "_assume": {
+        "term": "assume",
+        "kor_meaning": "추측하다",
+        "synonyms": "think, suppose, presume"
+    },
+    "_attain": {
+        "term": "attain",
+        "kor_meaning": "얻다",
+        "synonyms": "achieve, acquire, procure, obtain, gain"
+    },
+    "_boast": {
+        "term": "boast",
+        "kor_meaning": "자랑하다",
+        "synonyms": "brag, swagger, show off"
+    },
+    "_capacity": {
+        "term": "capacity",
+        "kor_meaning": "용량",
+        "synonyms": "magnitude, dimensions"
+    },
+    "_cede": {
+        "term": "cede",
+        "kor_meaning": "양보하다",
+        "synonyms": "yield, surrender, relinquish"
+    },
+    "_comply": {
+        "term": "comply",
+        "kor_meaning": "동의하다, 따르다",
+        "synonyms": "consent, conform, accede"
+    },
+    "_decline": {
+        "term": "decline",
+        "kor_meaning": "거절하다",
+        "synonyms": "refuse, reject"
+    },
+    "_desert": {
+        "term": "desert",
+        "kor_meaning": "버리다",
+        "synonyms": "abandon, forsake"
+    },
+    "_disassemble": {
+        "term": "disassemble",
+        "kor_meaning": "분해하다",
+        "synonyms": "dismantle, take apart"
+    },
+    "_dispose": {
+        "term": "dispose",
+        "kor_meaning": "배치하다",
+        "synonyms": "array, arrange, place in order"
+    },
+    "_dispose_of": {
+        "term": "dispose of",
+        "kor_meaning": "처리하다",
+        "synonyms": "get rid of, remove, eliminate, discharge"
+    },
+    "_erode": {
+        "term": "erode",
+        "kor_meaning": "침식하다, 부식되다",
+        "synonyms": "wear away"
+    },
+    "_fairly": {
+        "term": "fairly",
+        "kor_meaning": "꽤",
+        "synonyms": "reasonably, moderately, tolerably, pretty"
+    },
+    "_glossy": {
+        "term": "glossy",
+        "kor_meaning": "빛나는",
+        "synonyms": "shiny, bright, glazed, lustrous"
+    },
+    "_hallmark": {
+        "term": "hallmark",
+        "kor_meaning": "특징",
+        "synonyms": "feature, a distinguishing trait"
+    },
+    "_ideal": {
+        "term": "ideal",
+        "kor_meaning": "이상적인, 완벽한",
+        "synonyms": "perfect, model, exemplary"
+    },
+    "_inhabit": {
+        "term": "inhabit",
+        "kor_meaning": "거주하다",
+        "synonyms": "live, occupy, dwell, abide, reside"
+    },
+    "_laborious": {
+        "term": "laborious",
+        "kor_meaning": "근면한",
+        "synonyms": "diligent, industrious"
+    },
+    "_linger": {
+        "term": "linger",
+        "kor_meaning": "남다",
+        "synonyms": "remain, stay, tarry"
+    },
+    "_loathe": {
+        "term": "loathe",
+        "kor_meaning": "혐오하다",
+        "synonyms": "abhor, abominate, detest, hate"
+    },
+    "_misgiving": {
+        "term": "misgiving",
+        "kor_meaning": "불안",
+        "synonyms": "apprehension, doubt, suspicion, distrust"
+    },
+    "_model": {
+        "term": "model",
+        "kor_meaning": "견본",
+        "synonyms": "prototype, pattern, sample"
+    },
+    "_observe": {
+        "term": "observe",
+        "kor_meaning": "관찰하다",
+        "synonyms": "perceive, notice, watch"
+    },
+    "_plentiful": {
+        "term": "plentiful",
+        "kor_meaning": "풍부한",
+        "synonyms": "abundant, wealthy, rich"
+    },
+    "_preoccupied": {
+        "term": "preoccupied",
+        "kor_meaning": "몰두한",
+        "synonyms": "engrossed, absorbed"
+    },
+    "_property": {
+        "term": "property",
+        "kor_meaning": "자산",
+        "synonyms": "estate, havings, possession, asset"
+    },
+    "_ration": {
+        "term": "ration",
+        "kor_meaning": "할당량",
+        "synonyms": "assignment, allotment, allocation, apportionment"
+    },
+    "_recurring": {
+        "term": "recurring",
+        "kor_meaning": "되풀이 되는",
+        "synonyms": "recurrent"
+    },
+    "_rooted": {
+        "term": "rooted",
+        "kor_meaning": "뿌리깊은, 정착한",
+        "synonyms": "ingrained, fixed, embedded"
+    },
+    "_sanguinary": {
+        "term": "sanguinary",
+        "kor_meaning": "잔인한",
+        "synonyms": "bloody, bloodthirsty, cruel, ruthless"
+    },
+    "_afford": {
+        "term": "afford",
+        "kor_meaning": "주다",
+        "synonyms": "provide, give, grant"
+    },
+    "_announce": {
+        "term": "announce",
+        "kor_meaning": "공포하다",
+        "synonyms": "proclaim, publish, declare"
+    },
+    "_a_wide_range_of": {
+        "term": "a wide range of",
+        "kor_meaning": "다양한",
+        "synonyms": "a wide variety of, a wide selection of"
+    },
+    "_chance": {
+        "term": "chance",
+        "kor_meaning": "가능성",
+        "synonyms": "probability, opportunity, likelihood"
+    },
+    "_chart": {
+        "term": "chart",
+        "kor_meaning": "지도를 만들다",
+        "synonyms": "map, design"
+    },
+    "_engage_to": {
+        "term": "engage to",
+        "kor_meaning": "약속하다",
+        "synonyms": "promise, contract, pledge"
+    },
+    "_engage": {
+        "term": "engage",
+        "kor_meaning": "예약하다",
+        "synonyms": "reserve, book"
+    },
+    "_esteem": {
+        "term": "esteem",
+        "kor_meaning": "존경하다",
+        "synonyms": "respect, prize, value"
+    },
+    "_evidence": {
+        "term": "evidence",
+        "kor_meaning": "증거",
+        "synonyms": "proof, sign"
+    },
+    "_fertile": {
+        "term": "fertile",
+        "kor_meaning": "비옥한",
+        "synonyms": "bountiful, productive, fruitful"
+    },
+    "_generate": {
+        "term": "generate",
+        "kor_meaning": "발생시키다",
+        "synonyms": "produce, cause, give rise to, bring about"
+    },
+    "_haughty": {
+        "term": "haughty",
+        "kor_meaning": "거만한",
+        "synonyms": "proud, arrogant, stuck-up"
+    },
+    "_innate": {
+        "term": "innate",
+        "kor_meaning": "타고난",
+        "synonyms": "inborn, natural"
+    },
+    "_invaluable": {
+        "term": "invaluable",
+        "kor_meaning": "매우 귀중한",
+        "synonyms": "precious, priceless"
+    },
+    "_irreparable": {
+        "term": "irreparable",
+        "kor_meaning": "돌이킬 수 없는",
+        "synonyms": "irremediable, irrecoverable, irretrievable"
+    },
+    "_maxim": {
+        "term": "maxim",
+        "kor_meaning": "격언",
+        "synonyms": "saying, principle, proverb"
+    },
+    "_object": {
+        "term": "object",
+        "kor_meaning": "반대하다",
+        "synonyms": "protest, oppose"
+    },
+    "_outstanding": {
+        "term": "outstanding",
+        "kor_meaning": "눈에 띄는",
+        "synonyms": "remarkable, prominent, excellent, supreme, eminent"
+    },
+    "_patron": {
+        "term": "patron",
+        "kor_meaning": "후원자",
+        "synonyms": "protector, supporter, advocate, sponsor"
+    },
+    "_predominate": {
+        "term": "predominate",
+        "kor_meaning": "우세하다",
+        "synonyms": "outweigh, prevail, surpass, dominate"
+    },
+    "_premise": {
+        "term": "premise",
+        "kor_meaning": "이전의",
+        "synonyms": "prior, earlier, former, preceding"
+    },
+    "_primitive": {
+        "term": "primitive",
+        "kor_meaning": "원시적인",
+        "synonyms": "primeval, uncivilized, savage"
+    },
+    "_proficiency": {
+        "term": "proficiency",
+        "kor_meaning": "능숙함",
+        "synonyms": "skill, ability, expertise, mastery"
+    },
+    "_proposition": {
+        "term": "proposition",
+        "kor_meaning": "제안",
+        "synonyms": "suggestion, proposal"
+    },
+    "_questionable": {
+        "term": "questionable",
+        "kor_meaning": "의심스러운",
+        "synonyms": "doubtful, suspicious, dubious"
+    },
+    "_rife_with": {
+        "term": "rife with",
+        "kor_meaning": "가득 찬, 수없이 많은",
+        "synonyms": "full of, fraught with, filled with"
+    },
+    "_shield": {
+        "term": "shield",
+        "kor_meaning": "보호하다",
+        "synonyms": "protect, defend, safeguard, guard"
+    },
+    "_solitary": {
+        "term": "solitary",
+        "kor_meaning": "고독한",
+        "synonyms": "isolated, remote, secluded, lonely"
+    },
+    "_stick_to": {
+        "term": "stick to",
+        "kor_meaning": "고수하다",
+        "synonyms": "cling, adhere, cement, cleave, hold"
+    },
+    "_stimulus": {
+        "term": "stimulus",
+        "kor_meaning": "자극",
+        "synonyms": "motivation, incentive, incitement, provocation"
+    },
+    "_stir": {
+        "term": "stir",
+        "kor_meaning": "자극하다",
+        "synonyms": "agitate, provoke, stimulate, excite"
+    },
+    "_taboo": {
+        "term": "taboo",
+        "kor_meaning": "금기",
+        "synonyms": "prohibition, ban, boycott, restriction"
+    },
+    "_thrive": {
+        "term": "thrive",
+        "kor_meaning": "번성하다",
+        "synonyms": "prosper, flourish"
+    },
+    "_tide": {
+        "term": "tide",
+        "kor_meaning": "조류, 흐름",
+        "synonyms": "stream, current"
+    },
+    "_vagary": {
+        "term": "vagary",
+        "kor_meaning": "변덕, 충동",
+        "synonyms": "uncertainty, sudden desire, caprice, impulse, whim"
+    },
+    "_wane": {
+        "term": "wane",
+        "kor_meaning": "감소하다",
+        "synonyms": "decrease, decline, fade"
+    },
+    "_view": {
+        "term": "view",
+        "kor_meaning": "의견, 견해",
+        "synonyms": "prospect, outlook, opinion"
+    }
+};
+        const wordsByChapter = {"0":[{"num":"0","id":"_advent","term":"advent","synonyms":["arrival","introduction","appearance"],"kor_meaning":"출현"},{"num":"1","id":"_article","term":"article","synonyms":["item","object","thing"],"kor_meaning":"(개개의) 물품"},{"num":"2","id":"_assembly","term":"assembly","synonyms":["congress","legislature","parliament"],"kor_meaning":"의회"},{"num":"3","id":"_associated","term":"associated","synonyms":["connected","correlated","linked","related"],"kor_meaning":"연관된"},{"num":"4","id":"_aware","term":"aware","synonyms":["conscious"],"kor_meaning":"~을 알고 있는"},{"num":"5","id":"_bank","term":"bank","synonyms":["edge","brink","margin","shore"],"kor_meaning":"둑, 기슭"},{"num":"6","id":"_by_and_large","term":"by and large","synonyms":["on the whole","in general"],"kor_meaning":"전반적으로, 대체로"},{"num":"7","id":"_challenge","term":"challenge","synonyms":["difficulty","problem"],"kor_meaning":"난제"},{"num":"8","id":"_compress","term":"compress","synonyms":["compact","condense","squeeze"],"kor_meaning":"압축하다"},{"num":"9","id":"_consort","term":"consort","synonyms":["associate","agree","consent"],"kor_meaning":"일치하다"},{"num":"10","id":"_construe","term":"construe","synonyms":["interpret","decode","elucidate","explain"],"kor_meaning":"해석하다"},{"num":"11","id":"_correct","term":"correct","synonyms":["remedy","amend","rectify","modify","mend","alter","revise"],"kor_meaning":"고치다"},{"num":"12","id":"_curious","term":"curious","synonyms":["inquisitive","nosy"],"kor_meaning":"호기심이 강한"},{"num":"13","id":"_deadly","term":"deadly","synonyms":["fatal","lethal","mortal"],"kor_meaning":"치명적인"},{"num":"14","id":"_defeated","term":"defeated","synonyms":["conquered","overthrown","overwhelm","beat"],"kor_meaning":"패배한"},{"num":"15","id":"_deplete","term":"deplete","synonyms":["exhaust","empty","dry up","use up"],"kor_meaning":"고갈시키다"},{"num":"16","id":"_detain","term":"detain","synonyms":["confine","arrest","keep"],"kor_meaning":"억류하다"},{"num":"17","id":"_edge","term":"edge","synonyms":["periphery","border","margin","boundary","rim"],"kor_meaning":"가장자리"},{"num":"18","id":"_elude","term":"elude","synonyms":["evade","dodge","avoid"],"kor_meaning":"피하다"},{"num":"19","id":"_exceedingly","term":"exceedingly","synonyms":["extremely","excessively","surpassingly"],"kor_meaning":"지나칠 정도로"},{"num":"20","id":"_faith","term":"faith","synonyms":["confidence","trust","credit"],"kor_meaning":"믿음"},{"num":"21","id":"_far-reaching","term":"far-reaching","synonyms":["broad","having a wide range of effect"],"kor_meaning":"방대한"},{"num":"22","id":"_guess","term":"guess","synonyms":["conjecture","suppose","fancy"],"kor_meaning":"추측하다"},{"num":"23","id":"_importance","term":"importance","synonyms":["significance","consequence","moment"],"kor_meaning":"중요함"},{"num":"24","id":"_interfere","term":"interfere","synonyms":["disrupt","influence","intervene","intrude"],"kor_meaning":"간섭하다"},{"num":"25","id":"_last","term":"last","synonyms":["final","ultimate","conclusive"],"kor_meaning":"마지막의"},{"num":"26","id":"_last","term":"last","synonyms":["continue"],"kor_meaning":"지속하다"},{"num":"27","id":"_manage","term":"manage","synonyms":["control","conduct","direct","administer"],"kor_meaning":"관리하다"},{"num":"28","id":"_mastery","term":"mastery","synonyms":["expertise"],"kor_meaning":"전문 기술, 숙달"},{"num":"29","id":"_monopolize","term":"monopolize","synonyms":["dominate","occupy"],"kor_meaning":"독점하다"},{"num":"30","id":"_overcome","term":"overcome","synonyms":["conquer","defeat","subdue"],"kor_meaning":"극복하다"},{"num":"31","id":"_prophesy","term":"prophesy","synonyms":["foretell","predict","forecast","anticipate"],"kor_meaning":"예언하다"},{"num":"32","id":"_ratify","term":"ratify","synonyms":["endorse","confirm","sanction","validate"],"kor_meaning":"승인하다"},{"num":"33","id":"_replica","term":"replica","synonyms":["copy","duplication","reproduction"],"kor_meaning":"복제"},{"num":"34","id":"_shift","term":"shift","synonyms":["move","change","switch"],"kor_meaning":"바꾸다"},{"num":"35","id":"_stride","term":"stride","synonyms":["progress"],"kor_meaning":"진보, 발전"},{"num":"36","id":"_subject_to","term":"subject to","synonyms":["susceptible to","be supposed to"],"kor_meaning":"~하기 마련이다"},{"num":"37","id":"_subscribe","term":"subscribe","synonyms":["consent","agree","assent"],"kor_meaning":"(경향을) 믿기 쉬운"},{"num":"38","id":"_successive","term":"successive","synonyms":["consecutive","continuous"],"kor_meaning":"계속되는"},{"num":"39","id":"_transition","term":"transition","synonyms":["change","alteration","shift"],"kor_meaning":"변화"},{"num":"40","id":"_undertaking","term":"undertaking","synonyms":["enterprise","labor","project","task"],"kor_meaning":"사업, 기업, 과제"}],"1":[{"num":"0","id":"_accurate","term":"accurate","synonyms":["precise","exact","correct","concise"],"kor_meaning":"정확한"},{"num":"1","id":"_advisor","term":"advisor","synonyms":["consultant"],"kor_meaning":"고문"},{"num":"2","id":"_antagonize","term":"antagonize","synonyms":["counteract"],"kor_meaning":"대항하다"},{"num":"3","id":"_appall","term":"appall","synonyms":["frighten","horrify","shock"],"kor_meaning":"오싹하게 하다"},{"num":"4","id":"_assure","term":"assure","synonyms":["convince","persuade","satisfy"],"kor_meaning":"확신시키다"},{"num":"5","id":"_bond","term":"bond","synonyms":["tie","link","attachment"],"kor_meaning":"결속, 속박"},{"num":"6","id":"_brave","term":"brave","synonyms":["courageous","gallant","dauntless"],"kor_meaning":"대담한"},{"num":"7","id":"_crucial","term":"crucial","synonyms":["essential","deciding","decisive","critical","vital"],"kor_meaning":"결정적인"},{"num":"8","id":"_complement","term":"complement","synonyms":["supplement"],"kor_meaning":"보충, 보완"},{"num":"9","id":"_comprise","term":"comprise","synonyms":["consist of","be made up of","include"],"kor_meaning":"구성되다"},{"num":"10","id":"_counter_to","term":"counter to","synonyms":["in opposition to"],"kor_meaning":"~와 정반대로"},{"num":"11","id":"_daring","term":"daring","synonyms":["bold","courageous","brave"],"kor_meaning":"용감한"},{"num":"12","id":"_devise","term":"devise","synonyms":["create","contrive","invent","design"],"kor_meaning":"고안하다"},{"num":"13","id":"_duplicate","term":"duplicate","synonyms":["copy","imitate","replicate"],"kor_meaning":"복사하다"},{"num":"14","id":"_dwindle","term":"dwindle","synonyms":["decrease","diminish","shrivel","shrink","reduce"],"kor_meaning":"줄다, 감소하다"},{"num":"15","id":"_embody","term":"embody","synonyms":["incarnate","exemplify","represent","realize"],"kor_meaning":"구현하다"},{"num":"16","id":"_etch","term":"etch","synonyms":["cut","carve","engrave"],"kor_meaning":"식각하다, 새기다"},{"num":"17","id":"_face","term":"face","synonyms":["countenance","features"],"kor_meaning":"마주하다"},{"num":"18","id":"_flash","term":"flash","synonyms":["flame","flare","glare"],"kor_meaning":"번쩍이다"},{"num":"19","id":"_imaginable","term":"imaginable","synonyms":["conceivable","thinkable","supposable"],"kor_meaning":"상상할 수 있는"},{"num":"20","id":"_infectious","term":"infectious","synonyms":["contagious","communicable"],"kor_meaning":"전염성의"},{"num":"21","id":"_innumerable","term":"innumerable","synonyms":["countless","numberless","numerous"],"kor_meaning":"무수한"},{"num":"22","id":"_invariable","term":"invariable","synonyms":["constant","consistent","unchanging"],"kor_meaning":"불변의"},{"num":"23","id":"_meditate","term":"meditate","synonyms":["think deeply","ponder","contemplate","reflect"],"kor_meaning":"숙고하다"},{"num":"24","id":"_observance","term":"observance","synonyms":["conformance","conformity","obedience"],"kor_meaning":"준수, 일치"},{"num":"25","id":"_opposite","term":"opposite","synonyms":["counter"],"kor_meaning":"(성질, 의미) 정반대의"},{"num":"26","id":"_outdo","term":"outdo","synonyms":["surpass","excel","exceed","outmatch"],"kor_meaning":"~을 능가하다"},{"num":"27","id":"_outline","term":"outline","synonyms":["summary","contour","silhouette"],"kor_meaning":"개요, 윤곽"},{"num":"28","id":"_parallel","term":"parallel","synonyms":["corresponding","comparable","analogous"],"kor_meaning":"~와 유사한"},{"num":"29","id":"_parallel","term":"parallel","synonyms":["match","compare","equate"],"kor_meaning":"~에 필적하다"},{"num":"30","id":"_preeminent","term":"preeminent","synonyms":["conspicuous","noticeable","outstanding"],"kor_meaning":"탁월한"},{"num":"31","id":"_regulate","term":"regulate","synonyms":["control","adjust","arrange"],"kor_meaning":"조절하다"},{"num":"32","id":"_respectful","term":"respectful","synonyms":["courteous","polite","well-mannered","civil"],"kor_meaning":"공손한"},{"num":"33","id":"_scorn","term":"scorn","synonyms":["disdain","mock","scoff"],"kor_meaning":"경멸하다"},{"num":"34","id":"_shrink","term":"shrink","synonyms":["shrivel","let up","decrease","diminish","reduce"],"kor_meaning":"줄어들다"},{"num":"35","id":"_skill","term":"skill","synonyms":["expertise","know-how","craft","technique"],"kor_meaning":"기술"},{"num":"36","id":"_steadily","term":"steadily","synonyms":["constantly"],"kor_meaning":"꾸준히"},{"num":"37","id":"_struggle","term":"struggle","synonyms":["contend","contest","strive"],"kor_meaning":"싸우다"},{"num":"38","id":"_subsequence","term":"subsequence","synonyms":["next in a series","sequel"],"kor_meaning":"이어서 일어나는 것"},{"num":"39","id":"_voyage","term":"voyage","synonyms":["cruise","sailing"],"kor_meaning":"항해"},{"num":"40","id":"_ware","term":"ware","synonyms":["product"],"kor_meaning":"제품"}],"2":[{"num":"0","id":"_apt","term":"apt","synonyms":["inclined","prone","disposed"],"kor_meaning":"~하는 경향이 있는"},{"num":"1","id":"_apt","term":"apt","synonyms":["appropriate","proper","suitable"],"kor_meaning":"적당한"},{"num":"2","id":"_astonish","term":"astonish","synonyms":["surprise","astound","shock","startle","daze"],"kor_meaning":"놀라게 하다"},{"num":"3","id":"_chronic","term":"chronic","synonyms":["habitual","confirmed","inveterate"],"kor_meaning":"만성적인"},{"num":"4","id":"_daub","term":"daub","synonyms":["coat","cover","plaster"],"kor_meaning":"흠뻑 칠하다"},{"num":"5","id":"_domain","term":"domain","synonyms":["region","area","territory","realm"],"kor_meaning":"영토"},{"num":"6","id":"_domain","term":"domain","synonyms":["area","field","sphere"],"kor_meaning":"분야"},{"num":"7","id":"_enthusiastic","term":"enthusiastic","synonyms":["eager","ardent","zealous","passionate"],"kor_meaning":"열성적인"},{"num":"8","id":"_extend","term":"extend","synonyms":["go","run","range","outspread","stretch"],"kor_meaning":"(어떤 거리까지)걸쳐있다"},{"num":"9","id":"_extend","term":"extend","synonyms":["expand","enlarge","lengthen","increase"],"kor_meaning":"늘리다"},{"num":"10","id":"_feat","term":"feat","synonyms":["achievement","accomplishment","exploit"],"kor_meaning":"업적"},{"num":"11","id":"_fulfill","term":"fulfill","synonyms":["accomplish","achieve","execute"],"kor_meaning":"성취하다"},{"num":"12","id":"_fulfill","term":"fulfill","synonyms":["satisfy","appease"],"kor_meaning":"만족시키다"},{"num":"13","id":"_heavy","term":"heavy","synonyms":["ponderous","weighty","burdensome"],"kor_meaning":"무거운"},{"num":"14","id":"_immerse","term":"immerse","synonyms":["submerge","dip","submerse"],"kor_meaning":"담그다"},{"num":"15","id":"_incompatible","term":"incompatible","synonyms":["inconsistent","incongruous","inharmonious"],"kor_meaning":"모순되는"},{"num":"16","id":"_intrigue","term":"intrigue","synonyms":["attract","interest"],"kor_meaning":"(주의, 관심을)끌다"},{"num":"17","id":"_intrigue","term":"intrigue","synonyms":["plot","conspire"],"kor_meaning":"음모를 꾸미다"},{"num":"18","id":"_luxuriant","term":"luxuriant","synonyms":["abundant","exuberant","opulent"],"kor_meaning":"무성한, 풍부한"},{"num":"19","id":"_magnitude","term":"magnitude","synonyms":["extent","degree","measure"],"kor_meaning":"등급"},{"num":"20","id":"_magnitude","term":"magnitude","synonyms":["volume","size","amplitude"],"kor_meaning":"크기"},{"num":"21","id":"_maintain","term":"maintain","synonyms":["affirm","contend","claim"],"kor_meaning":"주장하다"},{"num":"22","id":"_maintain","term":"maintain","synonyms":["sustain","preserve","keep","retain"],"kor_meaning":"지속하다"},{"num":"23","id":"_outbreak","term":"outbreak","synonyms":["epidemic","plague"],"kor_meaning":"(전염병 등의)만연, 창궐"},{"num":"24","id":"_outbreak","term":"outbreak","synonyms":["eruption","explosion","burst"],"kor_meaning":"폭발"},{"num":"25","id":"_proclaim","term":"proclaim","synonyms":["announce","declare","promulgate"],"kor_meaning":"공표하다"},{"num":"26","id":"_quiver","term":"quiver","synonyms":["shiver","tremble","quake"],"kor_meaning":"떨다"},{"num":"27","id":"_reckon","term":"reckon","synonyms":["count","compute","calculate"],"kor_meaning":"계산하다"},{"num":"28","id":"_reckon","term":"reckon","synonyms":["consider","regard","deem"],"kor_meaning":"생각하다"},{"num":"29","id":"_release","term":"release","synonyms":["free","liberate","loose"],"kor_meaning":"해방시키다"},{"num":"30","id":"_release","term":"release","synonyms":["emit","give off","discharge","vent"],"kor_meaning":"뿜다, 방출하다"},{"num":"31","id":"_release","term":"release","synonyms":["loose","untie","unfasten"],"kor_meaning":"(묶인 것을)풀다"},{"num":"32","id":"_relief","term":"relief","synonyms":["aid","assistance","support"],"kor_meaning":"구제"},{"num":"33","id":"_relief","term":"relief","synonyms":["alleviation","ease"],"kor_meaning":"완화"},{"num":"34","id":"_reproduce","term":"reproduce","synonyms":["copy","duplicate","imitate"],"kor_meaning":"복제하다"},{"num":"35","id":"_reproduce","term":"reproduce","synonyms":["breed","multiply","spawn"],"kor_meaning":"번식하다"},{"num":"36","id":"_speculative","term":"speculative","synonyms":["theoretical","abstract"],"kor_meaning":"이론적인"},{"num":"37","id":"_speculative","term":"speculative","synonyms":["thoughtful","reflective","meditative"],"kor_meaning":"심사 숙고하는"},{"num":"38","id":"_stimulate","term":"stimulate","synonyms":["prompt","activate","inspire","incite","stir"],"kor_meaning":"자극하다"},{"num":"39","id":"_subordinate","term":"subordinate","synonyms":["inferior","subject","dependent","secondary"],"kor_meaning":"종속적인"},{"num":"40","id":"_torrential","term":"torrential","synonyms":["wild","violent"],"kor_meaning":"격렬한"}],"3":[{"num":"0","id":"_address","term":"address","synonyms":["residence","abode"],"kor_meaning":"주소"},{"num":"1","id":"_address","term":"address","synonyms":["speech","lecture","discourse"],"kor_meaning":"강연"},{"num":"2","id":"_assume","term":"assume","synonyms":["think","suppose","presume"],"kor_meaning":"추측하다"},{"num":"3","id":"_attain","term":"attain","synonyms":["achieve","acquire","procure","obtain","gain"],"kor_meaning":"얻다"},{"num":"4","id":"_boast","term":"boast","synonyms":["brag","swagger","show off"],"kor_meaning":"자랑하다"},{"num":"5","id":"_capacity","term":"capacity","synonyms":["magnitude","dimensions"],"kor_meaning":"용량"},{"num":"6","id":"_capacity","term":"capacity","synonyms":["ability"],"kor_meaning":"능력"},{"num":"7","id":"_cede","term":"cede","synonyms":["yield","surrender","relinquish"],"kor_meaning":"양보하다"},{"num":"8","id":"_comply","term":"comply","synonyms":["consent","conform","accede"],"kor_meaning":"동의하다, 따르다"},{"num":"9","id":"_decline","term":"decline","synonyms":["refuse","reject"],"kor_meaning":"거절하다"},{"num":"10","id":"_decline","term":"decline","synonyms":["fall","descend","weaken","deteriorate"],"kor_meaning":"쇠퇴하다"},{"num":"11","id":"_desert","term":"desert","synonyms":["abandon","forsake"],"kor_meaning":"버리다"},{"num":"12","id":"_disassemble","term":"disassemble","synonyms":["dismantle","take apart"],"kor_meaning":"분해하다"},{"num":"13","id":"_dispose","term":"dispose","synonyms":["array","arrange","place in order"],"kor_meaning":"배치하다"},{"num":"14","id":"_dispose_of","term":"dispose of","synonyms":["get rid of","remove","eliminate","discharge"],"kor_meaning":"처리하다"},{"num":"15","id":"_erode","term":"erode","synonyms":["wear away"],"kor_meaning":"침식하다, 부식되다"},{"num":"16","id":"_fairly","term":"fairly","synonyms":["reasonably","moderately","tolerably","pretty"],"kor_meaning":"꽤"},{"num":"17","id":"_glossy","term":"glossy","synonyms":["shiny","bright","glazed","lustrous"],"kor_meaning":"빛나는"},{"num":"18","id":"_hallmark","term":"hallmark","synonyms":["feature","a distinguishing trait"],"kor_meaning":"특징"},{"num":"19","id":"_ideal","term":"ideal","synonyms":["perfect","model","exemplary"],"kor_meaning":"이상적인, 완벽한"},{"num":"20","id":"_ideal","term":"ideal","synonyms":["abstract","theoretical","hypothetical"],"kor_meaning":"주상적인"},{"num":"21","id":"_inhabit","term":"inhabit","synonyms":["live","occupy","dwell","abide","reside"],"kor_meaning":"거주하다"},{"num":"22","id":"_laborious","term":"laborious","synonyms":["diligent","industrious"],"kor_meaning":"근면한"},{"num":"23","id":"_linger","term":"linger","synonyms":["remain","stay","tarry"],"kor_meaning":"남다"},{"num":"24","id":"_linger","term":"linger","synonyms":["lag","loiter","drag","delay"],"kor_meaning":"꾸물거리다"},{"num":"25","id":"_loathe","term":"loathe","synonyms":["abhor","abominate","detest","hate"],"kor_meaning":"혐오하다"},{"num":"26","id":"_misgiving","term":"misgiving","synonyms":["apprehension","doubt","suspicion","distrust"],"kor_meaning":"불안"},{"num":"27","id":"_model","term":"model","synonyms":["prototype","pattern","sample"],"kor_meaning":"견본"},{"num":"28","id":"_observe","term":"observe","synonyms":["perceive","notice","watch"],"kor_meaning":"관찰하다"},{"num":"29","id":"_observe","term":"observe","synonyms":["conform","follow","comply","obey"],"kor_meaning":"준수하다"},{"num":"30","id":"_plentiful","term":"plentiful","synonyms":["abundant","wealthy","rich"],"kor_meaning":"풍부한"},{"num":"31","id":"_preoccupied","term":"preoccupied","synonyms":["engrossed","absorbed"],"kor_meaning":"몰두한"},{"num":"32","id":"_property","term":"property","synonyms":["estate","havings","possession","asset"],"kor_meaning":"자산"},{"num":"33","id":"_property","term":"property","synonyms":["character","characteristic","quality","feature"],"kor_meaning":"특성"},{"num":"34","id":"_ration","term":"ration","synonyms":["assignment","allotment","allocation","apportionment"],"kor_meaning":"할당량"},{"num":"35","id":"_recurring","term":"recurring","synonyms":["recurrent"],"kor_meaning":"되풀이 되는"},{"num":"36","id":"_rooted","term":"rooted","synonyms":["ingrained","fixed","embedded"],"kor_meaning":"뿌리깊은, 정착한"},{"num":"37","id":"_sanguinary","term":"sanguinary","synonyms":["bloody","bloodthirsty","cruel","ruthless"],"kor_meaning":"잔인한"}],"4":[{"num":"0","id":"_afford","term":"afford","synonyms":["provide","give","grant"],"kor_meaning":"주다"},{"num":"1","id":"_announce","term":"announce","synonyms":["proclaim","publish","declare"],"kor_meaning":"공포하다"},{"num":"2","id":"_a_wide_range_of","term":"a wide range of","synonyms":["a wide variety of","a wide selection of"],"kor_meaning":"다양한"},{"num":"3","id":"_chance","term":"chance","synonyms":["probability","opportunity","likelihood"],"kor_meaning":"가능성"},{"num":"4","id":"_chart","term":"chart","synonyms":["map","design"],"kor_meaning":"지도를 만들다"},{"num":"5","id":"_engage_to","term":"engage to","synonyms":["promise","contract","pledge"],"kor_meaning":"약속하다"},{"num":"6","id":"_engage","term":"engage","synonyms":["reserve","book"],"kor_meaning":"예약하다"},{"num":"7","id":"_engage","term":"engage","synonyms":["hire","employ"],"kor_meaning":"고용하다"},{"num":"8","id":"_esteem","term":"esteem","synonyms":["respect","prize","value"],"kor_meaning":"존경하다"},{"num":"9","id":"_evidence","term":"evidence","synonyms":["proof","sign"],"kor_meaning":"증거"},{"num":"10","id":"_fertile","term":"fertile","synonyms":["bountiful","productive","fruitful"],"kor_meaning":"비옥한"},{"num":"11","id":"_generate","term":"generate","synonyms":["produce","cause","give rise to","bring about"],"kor_meaning":"발생시키다"},{"num":"12","id":"_haughty","term":"haughty","synonyms":["proud","arrogant","stuck-up"],"kor_meaning":"거만한"},{"num":"13","id":"_innate","term":"innate","synonyms":["inborn","natural"],"kor_meaning":"타고난"},{"num":"14","id":"_invaluable","term":"invaluable","synonyms":["precious","priceless"],"kor_meaning":"매우 귀중한"},{"num":"15","id":"_irreparable","term":"irreparable","synonyms":["irremediable","irrecoverable","irretrievable"],"kor_meaning":"돌이킬 수 없는"},{"num":"16","id":"_maxim","term":"maxim","synonyms":["saying","principle","proverb"],"kor_meaning":"격언"},{"num":"17","id":"_object","term":"object","synonyms":["protest","oppose"],"kor_meaning":"반대하다"},{"num":"18","id":"_object","term":"object","synonyms":["goal","purpose","function"],"kor_meaning":"목적"},{"num":"19","id":"_outstanding","term":"outstanding","synonyms":["remarkable","prominent","excellent","supreme","eminent"],"kor_meaning":"눈에 띄는"},{"num":"20","id":"_outstanding","term":"outstanding","synonyms":["unpaid","owed","unsettled","remaining"],"kor_meaning":"미결제의"},{"num":"21","id":"_patron","term":"patron","synonyms":["protector","supporter","advocate","sponsor"],"kor_meaning":"후원자"},{"num":"22","id":"_predominate","term":"predominate","synonyms":["outweigh","prevail","surpass","dominate"],"kor_meaning":"우세하다"},{"num":"23","id":"_premise","term":"premise","synonyms":["prior","earlier","former","preceding"],"kor_meaning":"이전의"},{"num":"24","id":"_premise","term":"premise","synonyms":["assumption","supposition"],"kor_meaning":"전제"},{"num":"25","id":"_primitive","term":"primitive","synonyms":["primeval","uncivilized","savage"],"kor_meaning":"원시적인"},{"num":"26","id":"_proficiency","term":"proficiency","synonyms":["skill","ability","expertise","mastery"],"kor_meaning":"능숙함"},{"num":"27","id":"_proposition","term":"proposition","synonyms":["suggestion","proposal"],"kor_meaning":"제안"},{"num":"28","id":"_questionable","term":"questionable","synonyms":["doubtful","suspicious","dubious"],"kor_meaning":"의심스러운"},{"num":"29","id":"_rife_with","term":"rife with","synonyms":["full of","fraught with","filled with"],"kor_meaning":"가득 찬, 수없이 많은"},{"num":"30","id":"_shield","term":"shield","synonyms":["protect","defend","safeguard","guard"],"kor_meaning":"보호하다"},{"num":"31","id":"_solitary","term":"solitary","synonyms":["isolated","remote","secluded","lonely"],"kor_meaning":"고독한"},{"num":"32","id":"_stick_to","term":"stick to","synonyms":["cling","adhere","cement","cleave","hold"],"kor_meaning":"고수하다"},{"num":"33","id":"_stimulus","term":"stimulus","synonyms":["motivation","incentive","incitement","provocation"],"kor_meaning":"자극"},{"num":"34","id":"_stir","term":"stir","synonyms":["agitate","provoke","stimulate","excite"],"kor_meaning":"자극하다"},{"num":"35","id":"_taboo","term":"taboo","synonyms":["prohibition","ban","boycott","restriction"],"kor_meaning":"금기"},{"num":"36","id":"_thrive","term":"thrive","synonyms":["prosper","flourish"],"kor_meaning":"번성하다"},{"num":"37","id":"_tide","term":"tide","synonyms":["stream","current"],"kor_meaning":"조류, 흐름"},{"num":"38","id":"_vagary","term":"vagary","synonyms":["uncertainty","sudden desire","caprice","impulse","whim"],"kor_meaning":"변덕, 충동"},{"num":"39","id":"_wane","term":"wane","synonyms":["decrease","decline","fade"],"kor_meaning":"감소하다"},{"num":"40","id":"_view","term":"view","synonyms":["prospect","outlook","opinion"],"kor_meaning":"의견, 견해"}]};
+        const contentHash = "080999f9";
+        let currentChapterIndex = 0;
+        let highlightedElement = null;
+        let currentSheet = null;
+
+        const bottomSheet = document.getElementById('bottomSheet');
+        const wordPopup = document.getElementById('wordPopupOverlay');
+        const sentencePopup = document.getElementById('sentencePopupOverlay');
+        const themePopup = document.getElementById('themePopupOverlay');
+
+        function setTheme(theme) {
+            document.body.className = theme;
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
+            localStorage.setItem('theme', theme);
+        }
+
+        function openThemePopup() {
+            closeAllPopups();
+            themePopup.classList.add('show');
+            lockBodyScroll();
+        }
+
+        function closeThemePopup() {
+            themePopup.classList.remove('show');
+            if (!bottomSheet.classList.contains('show') && !wordPopup.classList.contains('show') && !sentencePopup.classList.contains('show')) {
+                unlockBodyScroll();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'vintage';
+            setTheme(savedTheme);
+
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setTheme(btn.dataset.theme);
+                    closeThemePopup();
+                });
+            });
+
+            document.getElementById('theme-toggle-btn').addEventListener('click', openThemePopup);
+
+            handleNavigation();
+            document.getElementById('index-toggle-btn').addEventListener('click', toggleIndex);
+            document.getElementById('word-list-toggle-btn').addEventListener('click', toggleWordList);
+            
+            document.querySelector('.content').addEventListener('dblclick', function(e) {
+                const wordLink = e.target.closest('.word-link');
+                if (wordLink) {
+                    e.preventDefault();
+                    showWordPopup(wordLink.dataset.wordId, wordLink);
+                    return;
+                }
+                const sentenceUnit = e.target.closest('.sentence-unit');
+                if (sentenceUnit) {
+                    e.preventDefault();
+                    showSentencePopup(sentenceUnit);
+                }
+            });
+
+            document.body.addEventListener('click', function(e) {
+                if(e.target.closest('.close-btn')) {
+                    if (e.target.closest('#wordPopupOverlay')) return closePopup();
+                    if (e.target.closest('#sentencePopupOverlay')) return closeSentencePopup();
+                    if (e.target.closest('#bottomSheet')) return closeSheet();
+                    if (e.target.closest('#themePopupOverlay')) return closeThemePopup();
+                }
+                if(e.target === wordPopup) return closePopup();
+                if(e.target === sentencePopup) return closeSentencePopup();
+                if(e.target === bottomSheet) return closeSheet();
+                if(e.target === themePopup) return closeThemePopup();
+                
+                const indexItem = e.target.closest('.index-item');
+                if (indexItem && indexItem.dataset.href) {
+                    e.preventDefault();
+                    window.location.hash = indexItem.dataset.href;
+                }
+            });
+            
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllPopups(); });
+            window.addEventListener('hashchange', handleNavigation, false);
+        });
+
+        function lockBodyScroll() {
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+            document.body.classList.add('no-scroll');
+        }
+
+        function unlockBodyScroll() {
+            document.body.classList.remove('no-scroll');
+            document.body.style.paddingRight = '';
+        }
+
+        function closeAllPopups() {
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+                highlightedElement = null;
+            }
+            if(wordPopup) wordPopup.classList.remove('show');
+            if(sentencePopup) sentencePopup.classList.remove('show');
+            if(themePopup) themePopup.classList.remove('show');
+            closeSheet();
+            unlockBodyScroll();
+        }
+
+        function openSheet(type) {
+            const indexBtn = document.getElementById('index-toggle-btn');
+            const wordListBtn = document.getElementById('word-list-toggle-btn');
+            const bottomSheetTitle = document.getElementById('bottomSheetTitle');
+            const bottomSheetContent = document.getElementById('bottomSheetContent');
+            if (bottomSheet.classList.contains('show') && currentSheet === type) return closeSheet();
+            if (type === 'index') {
+                bottomSheetTitle.textContent = '목차';
+                bottomSheetContent.innerHTML = document.getElementById('indexNavigationTemplate').innerHTML;
+                indexBtn.classList.add('active-btn'); wordListBtn.classList.remove('active-btn');
+            } else if (type === 'word') {
+                const wordsToShow = wordsByChapter[currentChapterIndex] || [];
+                bottomSheetTitle.textContent = `Chapter ${currentChapterIndex + 1} 단어 목록`;
+                bottomSheetContent.innerHTML = buildWordTableHtml(wordsToShow);
+                wordListBtn.classList.add('active-btn'); indexBtn.classList.remove('active-btn');
+            }
+            currentSheet = type;
+            bottomSheet.classList.add('show');
+            lockBodyScroll();
+        }
+
+        function closeSheet() {
+            if (!bottomSheet) return;
+            bottomSheet.classList.remove('show');
+            document.getElementById('index-toggle-btn').classList.remove('active-btn');
+            document.getElementById('word-list-toggle-btn').classList.remove('active-btn');
+            currentSheet = null;
+            if (!wordPopup.classList.contains('show') && !sentencePopup.classList.contains('show') && !themePopup.classList.contains('show')) unlockBodyScroll();
+        }
+        
+        function showWordPopup(wordId, targetElement) {
+            closeAllPopups();
+            const wordInfo = wordData[wordId];
+            if (!wordPopup || !wordInfo) return;
+            wordPopup.querySelector('#popupTerm').textContent = wordInfo.term;
+            wordPopup.querySelector('#popupMeaning').innerHTML = '<strong>뜻:</strong> ' + wordInfo.kor_meaning;
+            const synonymsEl = wordPopup.querySelector('#popupSynonyms');
+            if (wordInfo.synonyms && wordInfo.synonyms.trim()) {
+                synonymsEl.innerHTML = '<strong>동의어:</strong> ' + wordInfo.synonyms;
+                synonymsEl.style.display = 'block';
+            } else {
+                synonymsEl.style.display = 'none';
+            }
+            positionAndShowPopup(wordPopup, targetElement);
+        }
+        
+        function showSentencePopup(element) {
+            closeAllPopups();
+            const translation = element.dataset.translation;
+            if (!sentencePopup || !translation) return;
+            element.classList.add('highlighted-sentence');
+            highlightedElement = element;
+            sentencePopup.querySelector('#sentencePopupText').innerHTML = translation.replace(/"/g, '"');
+            positionAndShowPopup(sentencePopup, element);
+        }
+
+        function positionAndShowPopup(popupOverlay, targetElement) {
+            const popupContent = popupOverlay.querySelector('.popup-content');
+            if (!popupContent) return;
+
+            const rect = targetElement.getBoundingClientRect();
+            const top = rect.top - 10;
+            popupContent.style.top = top < 0 ? '0px' : `${top}px`;
+            popupOverlay.classList.add('show');
+            lockBodyScroll();
+        }
+
+        function closePopup() {
+            if (wordPopup) wordPopup.classList.remove('show');
+            if (!bottomSheet.classList.contains('show') && !sentencePopup.classList.contains('show') && !themePopup.classList.contains('show')) unlockBodyScroll();
+        }
+        
+        function closeSentencePopup() {
+            if (sentencePopup) sentencePopup.classList.remove('show');
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+                highlightedElement = null;
+            }
+            if (!bottomSheet.classList.contains('show') && !wordPopup.classList.contains('show') && !themePopup.classList.contains('show')) unlockBodyScroll();
+        }
+        
+        function toggleIndex(){ openSheet('index'); }
+        function toggleWordList(){ openSheet('word'); }
+
+        function showChapter(index) {
+            currentChapterIndex = index;
+            closeAllPopups();
+            document.querySelectorAll('.chapter-content').forEach(c => { c.style.display = 'none'; });
+            document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
+            const chapterEl = document.getElementById('chapter-' + index);
+            if(chapterEl) {
+                chapterEl.style.display = 'block';
+                const titleEl = chapterEl.querySelector('h2');
+                if(titleEl) {
+                    titleEl.setAttribute('tabindex', '-1');
+                    titleEl.focus({ preventScroll: true });
+                }
+            }
+            const activeLink = document.querySelector(`.chapter-link[href="#chapter-${index}-${contentHash}"]`);
+            if(activeLink) activeLink.classList.add('active');
+        }
+
+        function handleNavigation() {
+            const hash = window.location.hash;
+            let chapterIndex = 0;
+            if (hash && hash.startsWith('#chapter-')) {
+                const indexFromHash = parseInt(hash.substring(1).split('-')[1], 10);
+                if (!isNaN(indexFromHash)) chapterIndex = indexFromHash;
+            }
+            showChapter(chapterIndex);
+        }
+
+        function buildWordTableHtml(words) {
+            if (!words || words.length === 0) return '<p style="padding: 20px; text-align: center;">이 챕터에 해당하는 단어가 없습니다.</p>';
+            const config = { term: 'term', kor_meaning: '뜻', synonyms: 'synonyms' };
+            const headers = Object.keys(config);
+            let table = '<table class="word-table"><thead><tr>';
+            Object.values(config).forEach(h => { table += `<th>${h}</th>`; });
+            table += '</tr></thead><tbody>';
+            words.forEach(word => {
+                table += '<tr>';
+                headers.forEach(key => {
+                    let cellData = Array.isArray(word[key]) ? word[key].join(', ') : word[key];
+                    table += `<td>${cellData || ''}</td>`;
+                });
+                table += '</tr>';
+            });
+            return table + '</tbody></table>';
+        }
+    </script>
+</body>
+</html>

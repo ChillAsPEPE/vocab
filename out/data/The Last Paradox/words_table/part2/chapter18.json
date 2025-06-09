@@ -1,0 +1,284 @@
+{
+  "words": [
+    {
+      "num": "0",
+      "id": "_ability",
+      "term": "ability",
+      "synonyms": ["faculty", "capacity", "competence"],
+      "kor_meaning": "능력"
+    },
+    {
+      "num": "1",
+      "id": "_accessible",
+      "term": "accessible",
+      "synonyms": ["available", "reachable"],
+      "kor_meaning": "이용가능한, 접근하기 쉬운"
+    },
+    {
+      "num": "2",
+      "id": "_accord",
+      "term": "accord",
+      "synonyms": ["agree", "assent", "concur"],
+      "kor_meaning": "동의하다"
+    },
+    {
+      "num": "3",
+      "id": "_bog",
+      "term": "bog",
+      "synonyms": ["marsh", "swamp", "fen"],
+      "kor_meaning": "습지"
+    },
+    {
+      "num": "4",
+      "id": "_collaborate",
+      "term": "collaborate",
+      "synonyms": ["effort together", "cooperate with"],
+      "kor_meaning": "협력하다"
+    },
+    {
+      "num": "5",
+      "id": "_contempt",
+      "term": "contempt",
+      "synonyms": ["scorn", "disdain", "criticize"],
+      "kor_meaning": "경멸"
+    },
+    {
+      "num": "6",
+      "id": "_content",
+      "term": "content",
+      "synonyms": ["satisfied", "contented"],
+      "kor_meaning": "만족한"
+    },
+    {
+      "num": "7",
+      "id": "_crucible",
+      "term": "crucible",
+      "synonyms": ["container"],
+      "kor_meaning": "도가니, 용광로"
+    },
+    {
+      "num": "8",
+      "id": "_curb",
+      "term": "curb",
+      "synonyms": ["control", "repress", "suppress", "restrain"],
+      "kor_meaning": "제한(억제)하다"
+    },
+    {
+      "num": "9",
+      "id": "_cycle",
+      "term": "cycle",
+      "synonyms": ["sequence", "span"],
+      "kor_meaning": "주기"
+    },
+    {
+      "num": "10",
+      "id": "_deem",
+      "term": "deem",
+      "synonyms": ["consider", "believe", "regard"],
+      "kor_meaning": "~라고 여기다"
+    },
+    {
+      "num": "11",
+      "id": "_devout",
+      "term": "devout",
+      "synonyms": ["pious", "devoted", "saintly"],
+      "kor_meaning": "독실한, 경건한"
+    },
+    {
+      "num": "12",
+      "id": "_disperse",
+      "term": "disperse",
+      "synonyms": ["scatter", "dissipate", "diffuse"],
+      "kor_meaning": "흩어지게 하다"
+    },
+    {
+      "num": "13",
+      "id": "_economical",
+      "term": "economical",
+      "synonyms": ["saving", "thrifty", "frugal"],
+      "kor_meaning": "절약하는"
+    },
+    {
+      "num": "14",
+      "id": "_eventually",
+      "term": "eventually",
+      "synonyms": ["finally", "in the long run", "ultimately"],
+      "kor_meaning": "결국"
+    },
+    {
+      "num": "15",
+      "id": "_expel",
+      "term": "expel",
+      "synonyms": ["oust", "banish", "exile"],
+      "kor_meaning": "내쫓다"
+    },
+    {
+      "num": "16",
+      "id": "_faint",
+      "term": "faint",
+      "synonyms": ["indistinct", "dim", "feeble"],
+      "kor_meaning": "희미한"
+    },
+    {
+      "num": "17",
+      "id": "_financial",
+      "term": "financial",
+      "synonyms": ["monetary"],
+      "kor_meaning": "재정상의"
+    },
+    {
+      "num": "18",
+      "id": "_frighten",
+      "term": "frighten",
+      "synonyms": ["scare", "terrify", "alarm"],
+      "kor_meaning": "두렵게 하다"
+    },
+    {
+      "num": "19",
+      "id": "_geognosy",
+      "term": "geognosy",
+      "synonyms": ["geology of the makeup of the earth"],
+      "kor_meaning": "지질학"
+    },
+    {
+      "num": "20",
+      "id": "_give_way_to",
+      "term": "give way to",
+      "synonyms": ["retreat", "withdraw"],
+      "kor_meaning": "물러가다, 양보하다"
+    },
+    {
+      "num": "21",
+      "id": "_immense",
+      "term": "immense",
+      "synonyms": ["enormous", "huge", "gigantic", "tremendous", "colossal"],
+      "kor_meaning": "거대한"
+    },
+    {
+      "num": "22",
+      "id": "_in_keeping_wit",
+      "term": "in keeping wit",
+      "synonyms": ["in agreement with", "in conformity with"],
+      "kor_meaning": "~와 일치하여"
+    },
+    {
+      "num": "23",
+      "id": "_mariner",
+      "term": "mariner",
+      "synonyms": ["sailor", "seaman"],
+      "kor_meaning": "선원"
+    },
+    {
+      "num": "24",
+      "id": "_meager",
+      "term": "meager",
+      "synonyms": ["limited", "scanty", "deficient", "insignificant"],
+      "kor_meaning": "부족한"
+    },
+    {
+      "num": "25",
+      "id": "_parody",
+      "term": "parody",
+      "synonyms": ["mockery", "spoof", "takeoff", "travesty"],
+      "kor_meaning": "풍자적 변형"
+    },
+    {
+      "num": "26",
+      "id": "_precaution",
+      "term": "precaution",
+      "synonyms": ["carefulness", "prudence", "forethought"],
+      "kor_meaning": "조심, 경계"
+    },
+    {
+      "num": "27",
+      "id": "_rascal",
+      "term": "rascal",
+      "synonyms": ["scamp", "villain", "scoundrel"],
+      "kor_meaning": "악당"
+    },
+    {
+      "num": "28",
+      "id": "_refuge",
+      "term": "refuge",
+      "synonyms": ["sanctuary", "shelter", "haven"],
+      "kor_meaning": "피난, 은신"
+    },
+    {
+      "num": "29",
+      "id": "_rescue",
+      "term": "rescue",
+      "synonyms": ["save", "deliver", "redeem"],
+      "kor_meaning": "구출하다"
+    },
+    {
+      "num": "30",
+      "id": "_base_on",
+      "term": "base on",
+      "synonyms": [],
+      "kor_meaning": "~에 근거를 두다"
+    },
+    {
+      "num": "31",
+      "id": "_rural",
+      "term": "rural",
+      "synonyms": ["country", "rustic"],
+      "kor_meaning": "시골의"
+    },
+    {
+      "num": "32",
+      "id": "_scrub",
+      "term": "scrub",
+      "synonyms": ["scratch", "scour"],
+      "kor_meaning": "문지르다"
+    },
+    {
+      "num": "33",
+      "id": "_secure",
+      "term": "secure",
+      "synonyms": ["acquire", "obtain", "procure", "get", "gain", "retain", "attain"],
+      "kor_meaning": "확보하다"
+    },
+    {
+      "num": "34",
+      "id": "_skepticism",
+      "term": "skepticism",
+      "synonyms": ["doubt", "suspicion", "uncertainty"],
+      "kor_meaning": "회의(론)"
+    },
+    {
+      "num": "35",
+      "id": "_so_far",
+      "term": "so far",
+      "synonyms": ["until now"],
+      "kor_meaning": "지금까지"
+    },
+    {
+      "num": "36",
+      "id": "_spark",
+      "term": "spark",
+      "synonyms": ["bring about"],
+      "kor_meaning": "야기하다"
+    },
+    {
+      "num": "37",
+      "id": "_speculation",
+      "term": "speculation",
+      "synonyms": ["conjecture", "supposition", "surmise"],
+      "kor_meaning": "심사숙고"
+    },
+    {
+      "num": "38",
+      "id": "_terrain",
+      "term": "terrain",
+      "synonyms": ["land", "territory", "area"],
+      "kor_meaning": "지역, 영토"
+    },
+    {
+      "num": "39",
+      "id": "_tumult",
+      "term": "tumult",
+      "synonyms": ["chaos", "disturbance", "turbulence", "uprising"],
+      "kor_meaning": "소란"
+    }
+  ]
+}
