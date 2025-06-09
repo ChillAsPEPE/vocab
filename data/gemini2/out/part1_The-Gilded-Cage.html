@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gilded Cage - gemini2</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; }
+        body.no-scroll { overflow: hidden; }
+        .chapter-content h2:focus { outline: 2px solid #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); border-radius: 3px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .header { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .content { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .navigation-controls { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; }
+        .nav-button-group { display: flex; align-items: center; gap: 10px; }
+        .chapter-links-container { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+        .nav-label { font-weight: 600; color: #495057; font-size: 14px; margin-right: 9px; }
+        .toggle-btn { background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
+        .toggle-btn:hover { background: #5a6268; }
+        .toggle-btn.active-btn { background-color: #007bff; color: white; }
+        .chapter-link { display: inline-block; padding: 5px; text-decoration: none; color: #007bff; border: none; border-bottom: 1px solid #007bff; font-weight: 500; font-size: 10px; transition: all 0.3s ease; min-width: 25px; text-align: center; }
+        .chapter-link:hover, .chapter-link.active { background: #007bff; color: white; border-bottom-color: white; transform: scale(1.1); }
+        .chapter-content h2 { color: #2c3e50; margin-bottom: 30px; text-align: center; font-size: 28px; border-bottom: 3px solid #007bff; padding-bottom: 10px; }
+        .story-content { text-align: justify; }
+        .english-paragraph { font-size: 18px; line-height: 1.8; color: #2c3e50; margin-bottom: 1.5em; }
+        .english-paragraph:last-child { margin-bottom: 0; }
+        .sentence-unit { cursor: pointer; border-radius: 3px; transition: background-color 0.2s; }
+        .sentence-unit.highlighted-sentence { background-color: #fffab0; }
+        .word-link { position: relative; display: inline; color: #007bff; font-weight: 600; padding: 1px 3px; border-radius: 3px; background: rgba(0, 123, 255, 0.1); cursor: pointer; text-decoration: underline; }
+        .word-link:hover { background: rgba(0, 123, 255, 0.2); }
+        .word-target-kr { color: #dc3545; font-weight: 600; background: rgba(220, 53, 69, 0.1); padding: 1px 3px; border-radius: 3px; }
+        .bottom-sheet-overlay, .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); display: flex; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .popup-overlay { z-index: 2000; align-items: center; justify-content: center; }
+        .bottom-sheet-overlay { z-index: 1000; align-items: flex-end; }
+        .bottom-sheet-overlay.show, .popup-overlay.show { opacity: 1; visibility: visible; }
+        .bottom-sheet-panel { background-color: white; width: 100%; max-width: 1000px; height: 65vh; border-radius: 16px 16px 0 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; }
+        .bottom-sheet-overlay.show .bottom-sheet-panel { transform: translateY(0); }
+        .bottom-sheet-header { padding: 10px 20px; border-bottom: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .bottom-sheet-title { font-size: 16px; font-weight: 600; }
+        .bottom-sheet-content { padding: 0 20px 20px 20px; overflow-y: auto; }
+        .word-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .word-table th { position: sticky; top: -1px; background-color: white; z-index: 1; border-bottom: 2px solid #dee2e6; padding: 10px; text-align: left; font-weight: 600; }
+        .word-table td { padding: 10px; border-bottom: 1px solid #dee2e6; text-align: left; }
+        .word-table tbody tr:nth-child(even) { background-color: #f8f9fa; }
+        .index-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f3f4; cursor: pointer; transition: all 0.2s ease; }
+        .index-item:hover { background: #f8f9fa; }
+        .index-item:last-child { border-bottom: none; }
+        .index-number { font-weight: 600; color: #007bff; margin-right: 12px; min-width: 25px; }
+        .index-title { color: #495057; font-size: 14px; }
+        .popup-content { background: white; max-width: 400px; width: 90%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); animation: slideIn 0.3s ease; position: relative; }
+        .popup-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 25px 10px; border-bottom: 2px solid #f1f3f4; }
+        .popup-header h3 { color: #007bff; font-size: 24px; margin: 0; }
+        .close-btn { background: none; border: none; color: #999; font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.3s ease; padding: 0; line-height: 1; }
+        .close-btn:hover { color: #333; }
+        .popup-body { padding: 20px 25px; }
+        .popup-body p { margin: 0; font-size: 16px; line-height: 1.5; }
+        .popup-body strong { color: #2c3e50; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="navigation-controls">
+                <div class="nav-button-group">
+                    <button id="index-toggle-btn" class="toggle-btn">목차 보기</button>
+                    <button id="word-list-toggle-btn" class="toggle-btn">단어 목록 보기</button>
+                </div>
+                <div class="chapter-links-container">
+                    <span class="nav-label">Chapters:</span>
+                    <a href="#chapter-0-2be32f6a" class="chapter-link">1</a><a href="#chapter-1-2be32f6a" class="chapter-link">2</a><a href="#chapter-2-2be32f6a" class="chapter-link">3</a><a href="#chapter-3-2be32f6a" class="chapter-link">4</a><a href="#chapter-4-2be32f6a" class="chapter-link">5</a>
+                </div>
+            </div>
+            <div id="chapter-0" class="chapter-content" style="display: none;"><h2>The Weight of Memory</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 기억을 <word id='_abandon' class='word-target-kr'>버리려</word> 노력했지만, 그것들은 도시의 때처럼 그에게 달라붙었다.">He tried to <span class="word-link" data-word-id="_abandon">abandon</span> the memories, but they clung to him like the city's grime.</span> <span class="sentence-unit" data-translation="딸의 얼굴을 <word id='_recall' class='word-target-kr'>회상하는</word> 것은 그를 완전히 무너뜨릴 정도로 <word id='_critical' class='word-target-kr'>중요한</word> 고통을 불러오는 것이었다.">To <span class="word-link" data-word-id="_recall">recall</span> his daughter's face was to invite a pain so <span class="word-link" data-word-id="_critical">critical</span> it threatened to undo him completely.</span> <span class="sentence-unit" data-translation="그는 종종 그녀의 웃음소리를 <word id='_reminisce' class='word-target-kr'>회상하곤</word> 했는데, 그 소리는 이제 <word id='_hinterland' class='word-target-kr'>배후지</word>의 무정한 침묵 속으로 사라졌다.">He would often <span class="word-link" data-word-id="_reminisce">reminisce</span> about her laughter, a sound now lost to the <span class="word-link" data-word-id="_hinterland">hinterland</span>'s uncaring silence.</span> <span class="sentence-unit" data-translation="완벽하고 <word id='_unbalanced' class='word-target-kr'>균형을 잃은</word> 힘을 가진 지배 계급 알파가 모든 것을 앗아갔다.">The ruling Alphas, with their perfect, <span class="word-link" data-word-id="_unbalanced">unbalanced</span> power, had taken everything.</span> <span class="sentence-unit" data-translation="그의 슬픔에 대한 <word id='_antidote' class='word-target-kr'>치료법</word>을 향한 그의 욕망은 끊임없고 아픈 요구였다.">His desire for an <span class="word-link" data-word-id="_antidote">antidote</span> to his grief was a constant, aching need.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 그림자 속에 <word id='_stay' class='word-target-kr'>머물러야</word> 했다. 네오-베리디아에서의 생존은 혹독한 게임이었기 때문이다.">He had to <span class="word-link" data-word-id="_stay">stay</span> in the shadows, for survival in Neo-Veridia was a harsh game.</span> <span class="sentence-unit" data-translation="모든 시민은 새로운 세계 질서에 스스로를 <word id='_resign' class='word-target-kr'>포기해야만</word> 했다.">Every citizen had to <span class="word-link" data-word-id="_resign">resign</span> themselves to the new world order.</span> <span class="sentence-unit" data-translation="한 무리의 내추럴들이 그에게 다가왔는데, 그들의 표정은 <word id='_earnest' class='word-target-kr'>진지하고</word> 절박했다.">A group of Naturals approached him, their expressions <span class="word-link" data-word-id="_earnest">earnest</span> and desperate.</span> <span class="sentence-unit" data-translation="&#34;누군가를 찾아주셔야겠습니다.&#34; 그들의 리더가 낮은 목소리로 말했다.">"We need you to find someone," their leader said, his voice low.</span> <span class="sentence-unit" data-translation="&#34;공식 순찰대는 어떤 반대 의견도 <word id='_eliminate' class='word-target-kr'>제거하기</word> 때문에, 우리는 공개적으로 <word id='_protest' class='word-target-kr'>항의할</word> 수 없습니다.&#34;">"The official patrols <span class="word-link" data-word-id="_eliminate">eliminate</span> any dissent, so we cannot <span class="word-link" data-word-id="_protest">protest</span> openly."</span> <span class="sentence-unit" data-translation="카엘렌은 멀리서 반짝이는 보안 드론의 <word id='_dorsal' class='word-target-kr'>등 부분의</word> 판을 발견했는데, 그것은 그들의 억압을 <word id='_conspicuous' class='word-target-kr'>뚜렷하게</word> 상기시켜 주었다.">Kaelen noticed the <span class="word-link" data-word-id="_dorsal">dorsal</span> plates of a security drone glinting in the distance, a <span class="word-link" data-word-id="_conspicuous">conspicuous</span> reminder of their oppression.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="관여하기로 한 것은 <word id='_rash' class='word-target-kr'>경솔한</word> 결정이었지만, 억압받는 이들과의 <word id='_kinship' class='word-target-kr'>혈연 관계</word>와 같은 유대감은 강했다.">It was a <span class="word-link" data-word-id="_rash">rash</span> decision to get involved, but the feeling of <span class="word-link" data-word-id="_kinship">kinship</span> with the downtrodden was strong.</span> <span class="sentence-unit" data-translation="그는 이 거울의 도시에서 친구와 적을 <word id='_discriminate' class='word-target-kr'>구별해야</word> 했다.">He needed to <span class="word-link" data-word-id="_discriminate">discriminate</span> between friend and foe in this city of mirrors.</span> <span class="sentence-unit" data-translation="도시의 번영은 엘리트들의 <word id='_surplus' class='word-target-kr'>나머지</word> 만을 남겨 받은 내추럴들의 삶을 <word id='_mirror' class='word-target-kr'>반영하지</word> 않았다.">The city's prosperity did not <span class="word-link" data-word-id="_mirror">mirror</span> the lives of the Naturals, who were left with only the <span class="word-link" data-word-id="_surplus">surplus</span> of the elite.</span> <span class="sentence-unit" data-translation="그 남자의 코트에는 외부 구역의 먼지가 <word id='_laden' class='word-target-kr'>실려</word> 있었다.">The man's coat was <span class="word-link" data-word-id="_laden">laden</span> with the dust of the outer sectors.</span> <span class="sentence-unit" data-translation="그들은 그에게 임시방편의 좌석으로 주워온 <word id='_lumber' class='word-target-kr'>목재</word> 조각을 제공했다.">They offered him a piece of scavenged <span class="word-link" data-word-id="_lumber">lumber</span> as a makeshift seat.</span> <span class="sentence-unit" data-translation="카엘렌은 자신의 목적을 <word id='_regain' class='word-target-kr'>되찾아야</word> 한다는 것을 알았다.">Kaelen knew he had to <span class="word-link" data-word-id="_regain">regain</span> his purpose.</span> <span class="sentence-unit" data-translation="그는 맞서 싸우려는 의지를 <word id='_reinforce' class='word-target-kr'>강화해야</word> 했다.">He had to <span class="word-link" data-word-id="_reinforce">reinforce</span> his will to fight back.</span> <span class="sentence-unit" data-translation="그는 이 일을 끝까지 해내겠다고 스스로에게 <word id='_swear' class='word-target-kr'>맹세해야</word> 했다.">He had to <span class="word-link" data-word-id="_swear">swear</span> an oath to himself to see this through.</span> <span class="sentence-unit" data-translation="이 사건은 그 자신의 과거와 <word id='_relevant_to' class='word-target-kr'>관련되어</word> 있었다.">This case was <span class="word-link" data-word-id="_relevant_to">relevant to</span> his own past.</span> <span class="sentence-unit" data-translation="그는 나중에 자신의 결정을 <word id='_repent' class='word-target-kr'>후회할</word> 수 없었다.">He couldn't <span class="word-link" data-word-id="_repent">repent</span> his decision later.</span> <span class="sentence-unit" data-translation="그는 내면의 불타는 분노를 <word id='_soothe' class='word-target-kr'>달래야</word> 할 방법을 찾아야 했다.">He had to find a way to <span class="word-link" data-word-id="_soothe">soothe</span> the burning anger within him.</span> <span class="sentence-unit" data-translation="도시의 약속들은 정밀 조사 아래 거짓말로 <word id='_fuse' class='word-target-kr'>녹아내릴</word> 것이었다.">The city's promises would <span class="word-link" data-word-id="_fuse">fuse</span> into lies under scrutiny.</span> <span class="sentence-unit" data-translation="그는 자신의 부서진 삶의 구멍들을 <word id='_patch' class='word-target-kr'>수선해야</word> 했다.">He had to <span class="word-link" data-word-id="_patch">patch</span> the holes in his broken life.</span> <span class="sentence-unit" data-translation="정보는 <word id='_obtainable' class='word-target-kr'>손에 넣을 수 있었지만</word> 큰 대가가 따랐다.">The information was <span class="word-link" data-word-id="_obtainable">obtainable</span>, but at a great cost.</span> <span class="sentence-unit" data-translation="그는 천이 찢어진 아이의 장난감을 보았다; 그는 전체 시스템을 <word id='_tear' class='word-target-kr'>찢어버리고</word> 싶었다.">He saw a child's toy, its fabric torn; he wanted to <span class="word-link" data-word-id="_tear">tear</span> down the whole system.</span> <span class="sentence-unit" data-translation="그 도시는 <word id='_utilitarian' class='word-target-kr'>실용주의적인</word> 아름다움을 지녔지만, 차갑고 <word id='_unrelenting' class='word-target-kr'>무자비했다</word>.">The city had a <span class="word-link" data-word-id="_utilitarian">utilitarian</span> beauty, but it was cold and <span class="word-link" data-word-id="_unrelenting">unrelenting</span>.</span> <span class="sentence-unit" data-translation="건물들은 하늘을 배경으로 <word id='_toothed' class='word-target-kr'>들쑥날쑥한</word> 그림자를 드리우고 있었다.">The buildings were <span class="word-link" data-word-id="_toothed">toothed</span> shadows against the sky.</span> <span class="sentence-unit" data-translation="그들의 사회는 언제라도 혼돈으로 <word id='_transform' class='word-target-kr'>변형될</word> 수 있는 <word id='_trustworthy' class='word-target-kr'>믿을 수 있는</word> 거짓말 위에 세워진 연약한 것이었다.">Their society was a fragile thing, built on a <span class="word-link" data-word-id="_trustworthy">trustworthy</span> lie that could <span class="word-link" data-word-id="_transform">transform</span> into chaos at any moment.</span> <span class="sentence-unit" data-translation="거절할 이유는 <word id='_variety' class='word-target-kr'>다양했지만</word> 수락해야 할 강력한 이유도 하나 있었다.">There was a <span class="word-link" data-word-id="_variety">variety</span> of reasons to refuse, but also one compelling reason to accept.</span> <span class="sentence-unit" data-translation="그는 특정 <word id='_variety' class='word-target-kr'>종류의</word> 데이터 칩을 찾아야 했다.">He needed to find a specific <span class="word-link" data-word-id="_variety">variety</span> of data chip.</span> <span class="sentence-unit" data-translation="양측에게는 <word id='_mutual' class='word-target-kr'>상호간의</word> 적이 있었다.">The two sides had a <span class="word-link" data-word-id="_mutual">mutual</span> enemy.</span> <span class="sentence-unit" data-translation="그는 기억에서 접속 코드를 <word id='_recite' class='word-target-kr'>암송해야</word> 했다.">He had to <span class="word-link" data-word-id="_recite">recite</span> the access codes from memory.</span> <span class="sentence-unit" data-translation="유전자 변형 생물체의 분비샘은 독소를 <word id='_secrete' class='word-target-kr'>분비하곤</word> 했다.">The glands on the genetically modified creatures would <span class="word-link" data-word-id="_secrete">secrete</span> a toxin.</span></p></div></div><div id="chapter-1" class="chapter-content" style="display: none;"><h2>Echoes of Dissent</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="카엘렌은 그의 조사가 필연적으로 도시의 가장 어두운 비밀들로부터 <word id='_arise_from' class='word-target-kr'>기인할</word> 것임을 알았다.">Kaelen knew his investigation would inevitably <span class="word-link" data-word-id="_arise_from">arise from</span> the city's darkest secrets.</span> <span class="sentence-unit" data-translation="그는 이 위험한 여정을 <word id='_embark_on' class='word-target-kr'>시작하기로</word> 결심했다.">He decided to <span class="word-link" data-word-id="_embark_on">embark on</span> this perilous journey.</span> <span class="sentence-unit" data-translation="첫 번째 <word id='_barrier' class='word-target-kr'>장애물은</word> 당국의 완전한 침묵의 벽이었다.">The first <span class="word-link" data-word-id="_barrier">barrier</span> was the sheer wall of silence from the authorities.</span> <span class="sentence-unit" data-translation="그는 거의 아무도 감히 발을 들여놓지 않는 도시의 밑바닥에서 수색을 <word id='_commence' class='word-target-kr'>시작해야</word> 했다.">He had to <span class="word-link" data-word-id="_commence">commence</span> his search in the underbelly of the city, a place few dared to tread.</span> <span class="sentence-unit" data-translation="공식적인 이야기는 그가 이미 알고 있는 사실들과 명백히 <word id='_contradiction' class='word-target-kr'>모순되는</word> 역설이었다.">The official story was a paradox, a clear <span class="word-link" data-word-id="_contradiction">contradiction</span> of the facts he already knew.</span> <span class="sentence-unit" data-translation="진실을 향한 그의 탐색은 결국 도시의 가장 강력한 세력과의 대결로 <word id='_culminate' class='word-target-kr'>끝날</word> 것이었다.">His search for the truth would eventually <span class="word-link" data-word-id="_culminate">culminate</span> in a confrontation with the city's most powerful forces.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 실종자의 마지막 행적에 대한 지도의 <word id='_delineate' class='word-target-kr'>윤곽을 그리기</word> 시작했다.">He began to <span class="word-link" data-word-id="_delineate">delineate</span> a map of the missing person's last known movements.</span> <span class="sentence-unit" data-translation="엘리트들은 자신들의 통제를 혼란스러운 내추럴들에게 주는 질서라는 선물, 즉 <word id='_donation' class='word-target-kr'>기증으로</word> 여겼다.">The elites saw their control as a <span class="word-link" data-word-id="_donation">donation</span> to the chaotic Naturals, a gift of order.</span> <span class="sentence-unit" data-translation="도시의 빛나는 탑들은 거짓의 <word id='_foundation' class='word-target-kr'>기초</word> 위에 세워졌다.">The city's gleaming towers were built on a <span class="word-link" data-word-id="_foundation">foundation</span> of lies.</span> <span class="sentence-unit" data-translation="그것은 그가 밝혀내기 시작한 <word id='_fundamental' class='word-target-kr'>근본적인</word> 진실이었다.">It was a <span class="word-link" data-word-id="_fundamental">fundamental</span> truth he was beginning to uncover.</span> <span class="sentence-unit" data-translation="그는 <word id='_handful' class='word-target-kr'>소수의</word> 목격자들을 찾았지만, 그들은 너무 두려워 말을 하지 못했다.">He found a <span class="word-link" data-word-id="_handful">handful</span> of witnesses, but they were too afraid to speak.</span> <span class="sentence-unit" data-translation="알파 지도자는 그의 권력의 <word id='_height' class='word-target-kr'>절정에</word> 달해 있었다.">The Alpha leader had reached the <span class="word-link" data-word-id="_height">height</span> of his power.</span> <span class="sentence-unit" data-translation="그 실종 사건은 일 년 전의 다른 사건과 거의 <word id='_identical' class='word-target-kr'>동일했다</word>.">The missing person's case was nearly <span class="word-link" data-word-id="_identical">identical</span> to another from a year ago.</span> <span class="sentence-unit" data-translation="조사의 모든 단계에서 새로운 <word id='_impediment' class='word-target-kr'>장애가</word> 나타났다.">Every step of the investigation presented a new <span class="word-link" data-word-id="_impediment">impediment</span>.</span> <span class="sentence-unit" data-translation="그는 자신을 고용한 회의적인 사람들에게 자신의 방법을 <word id='_justify' class='word-target-kr'>증명해야</word> 했다.">He had to <span class="word-link" data-word-id="_justify">justify</span> his methods to the skeptical people who hired him.</span> <span class="sentence-unit" data-translation="그는 구세계의 상실을 <word id='_lament' class='word-target-kr'>슬퍼하지</word> 않을 수 없었다.">He couldn't help but <span class="word-link" data-word-id="_lament">lament</span> the loss of the old world.</span> <span class="sentence-unit" data-translation="한 악당 과학자가 위험한 <word id='_microorganism' class='word-target-kr'>미생물로</word> 연구하고 있다는 소문이 돌았다.">A rogue scientist was rumored to be working with a dangerous <span class="word-link" data-word-id="_microorganism">microorganism</span>.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="비가 네온 불빛 거리를 적시자 카엘렌은 <word id='_moody' class='word-target-kr'>우울함을</word> 느꼈다.">Kaelen felt <span class="word-link" data-word-id="_moody">moody</span> as the rain slicked the neon-lit streets.</span> <span class="sentence-unit" data-translation="알파의 <word id='_origin' class='word-target-kr'>근원은</word> 엄중히 지켜지는 비밀이었다.">The <span class="word-link" data-word-id="_origin">origin</span> of the Alphas was a closely guarded secret.</span> <span class="sentence-unit" data-translation="그는 무엇을 찾게 될지 <word id='_predict' class='word-target-kr'>예측할</word> 수 없었다.">He couldn't <span class="word-link" data-word-id="_predict">predict</span> what he would find.</span> <span class="sentence-unit" data-translation="그의 조사의 느린 <word id='_progress' class='word-target-kr'>발전은</word> 답답했다.">The slow <span class="word-link" data-word-id="_progress">progress</span> of his investigation was frustrating.</span> <span class="sentence-unit" data-translation="그는 공용 단말기에서 버려진 데이터 파일을 <word id='_scoop' class='word-target-kr'>긁어 모으는</word> 데 성공했다.">He managed to <span class="word-link" data-word-id="_scoop">scoop</span> up a discarded data file from a public terminal.</span> <span class="sentence-unit" data-translation="그 파일로 그는 부패한 시스템에 맞서 중요한 승리를 <word id='_score' class='word-target-kr'>얻을</word> 수 있었다.">With that file, he could <span class="word-link" data-word-id="_score">score</span> a significant victory against the corrupt system.</span> <span class="sentence-unit" data-translation="그는 또한 실종자가 흥얼거리던 잊혀지지 않는 멜로디의 <word id='_score' class='word-target-kr'>악보를</word> 발견했다.">He also found the <span class="word-link" data-word-id="_score">score</span> for a haunting melody the missing person used to hum.</span> <span class="sentence-unit" data-translation="현장에서 나온 천 <word id='_scrap' class='word-target-kr'>파편이</word> 그의 유일한 물리적 단서였다.">A <span class="word-link" data-word-id="_scrap">scrap</span> of fabric from the scene was his only physical clue.</span> <span class="sentence-unit" data-translation="그는 결과에 대해 <word id='_singularly' class='word-target-kr'>각별히</word> 책임감을 느꼈다.">He felt <span class="word-link" data-word-id="_singularly">singularly</span> responsible for the outcome.</span> <span class="sentence-unit" data-translation="그 파일을 해독하기 위해서는 <word id='_skilled' class='word-target-kr'>숙련된</word> 해커가 필요했다.">He needed a <span class="word-link" data-word-id="_skilled">skilled</span> hacker to decrypt the file.</span> <span class="sentence-unit" data-translation="'희망'이라는 단어는 잊혀진 언어에서 <word id='_stem' class='word-target-kr'>유래한</word> 것 같았다.">The word 'hope' seemed to <span class="word-link" data-word-id="_stem">stem</span> from a forgotten language.</span> <span class="sentence-unit" data-translation="음모의 뿌리는 자르기 힘든 단단한 <word id='_stem' class='word-target-kr'>어간과</word> 같았다.">The roots of the conspiracy were like a tough <span class="word-link" data-word-id="_stem">stem</span>, hard to cut.</span> <span class="sentence-unit" data-translation="정부는 승인되지 않은 정보의 흐름을 <word id='_stem' class='word-target-kr'>막으려</word> 했다.">The government tried to <span class="word-link" data-word-id="_stem">stem</span> the flow of unauthorized information.</span> <span class="sentence-unit" data-translation="그는 제한 구역에 접근하기 위해 경비원을 <word id='_subdue' class='word-target-kr'>정복해야</word> 했다.">He had to <span class="word-link" data-word-id="_subdue">subdue</span> a guard to gain access to a restricted area.</span> <span class="sentence-unit" data-translation="강력한 기업들은 알파의 통제를 <word id='_subsidize' class='word-target-kr'>후원한다</word>.">The powerful corporations <span class="word-link" data-word-id="_subsidize">subsidize</span> the Alpha's control.</span> <span class="sentence-unit" data-translation="반란군 사이에는 <word id='_unanimity' class='word-target-kr'>만장일치가</word> 없었고, 그들의 파벌은 나뉘어 있었다.">There was no <span class="word-link" data-word-id="_unanimity">unanimity</span> among the rebels; their factions were divided.</span> <span class="sentence-unit" data-translation="그는 그가 가진 몇 안 되는 동맹의 신뢰를 <word id='_betray' class='word-target-kr'>배신하지</word> 않도록 조심해야 했다.">He had to be careful not to <span class="word-link" data-word-id="_betray">betray</span> the trust of the few allies he had.</span> <span class="sentence-unit" data-translation="그는 경비원의 손을 <word id='_bind' class='word-target-kr'>묶기</word> 위해 자기 장치를 사용했다.">He used a magnetic device to <span class="word-link" data-word-id="_bind">bind</span> the guard's hands.</span> <span class="sentence-unit" data-translation="진실은 인간과 기계 사이의 경계를 <word id='_blur' class='word-target-kr'>흐리게 하기</word> 시작했다.">The truth began to <span class="word-link" data-word-id="_blur">blur</span> the line between man and machine.</span> <span class="sentence-unit" data-translation="그는 AI의 감시망을 <word id='_circumvent' class='word-target-kr'>우회해야</word> 했다.">He had to <span class="word-link" data-word-id="_circumvent">circumvent</span> the AI's surveillance network.</span> <span class="sentence-unit" data-translation="익숙하지 않은 첨단 기술 환경에서 그의 움직임은 <word id='_clumsy' class='word-target-kr'>서툴렀다</word>.">His movements were <span class="word-link" data-word-id="_clumsy">clumsy</span> in the unfamiliar, high-tech environment.</span> <span class="sentence-unit" data-translation="탐지를 피하기 위해 그의 <word id='_conduct' class='word-target-kr'>행동은</word> 흠잡을 데 없어야 했다.">His <span class="word-link" data-word-id="_conduct">conduct</span> had to be flawless to avoid detection.</span> <span class="sentence-unit" data-translation="그는 탈출을 위해 에너지를 <word id='_conserve' class='word-target-kr'>보존해야</word> 했다.">He needed to <span class="word-link" data-word-id="_conserve">conserve</span> his energy for the escape.</span> <span class="sentence-unit" data-translation="시스템의 가장 큰 <word id='_advantage' class='word-target-kr'>이익은</word> 정보에 대한 통제력이었다.">The system's greatest <span class="word-link" data-word-id="_advantage">advantage</span> was its control over information.</span></p></div></div><div id="chapter-2" class="chapter-content" style="display: none;"><h2>The Verge of Discovery</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="카엘렌은 여러 정보 조각들을 <word id='_alloy' class='word-target-kr'>혼합하여</word> 일관된 이론으로 만들어냈다.">Kaelen managed to <span class="word-link" data-word-id="_alloy">alloy</span> different pieces of information into a coherent theory.</span> <span class="sentence-unit" data-translation="그는 순찰 드론을 <word id='_barely' class='word-target-kr'>거의</word> 피할 수 없었는데, 그것의 붉은 눈이 골목을 샅샅이 훑고 있었다.">He could <span class="word-link" data-word-id="_barely">barely</span> escape the patrol drone, its red eye scanning the alley.</span> <span class="sentence-unit" data-translation="도시의 이 부분은 네온으로 도금된 새장, 즉 <word id='_captivity' class='word-target-kr'>감금</word> 상태처럼 느껴졌다.">This part of the city felt like <span class="word-link" data-word-id="_captivity">captivity</span>, a cage gilded with neon.</span> <span class="sentence-unit" data-translation="그는 기어오르면서 선반을 꽉 <word id='_clasp' class='word-target-kr'>잡아야</word> 했다.">He had to <span class="word-link" data-word-id="_clasp">clasp</span> the ledge tightly as he climbed.</span> <span class="sentence-unit" data-translation="반란군들 사이의 <word id='_cohesion' class='word-target-kr'>결속감은</word> 그들의 유일한 힘이었다.">The sense of <span class="word-link" data-word-id="_cohesion">cohesion</span> among the rebels was their only strength.</span> <span class="sentence-unit" data-translation="그들의 목표가 그의 목표와 <word id='_coincide' class='word-target-kr'>일치하는</word> 것은 놀라운 일이 아니었다.">It was no surprise that their goals would <span class="word-link" data-word-id="_coincide">coincide</span> with his own.</span> <span class="sentence-unit" data-translation="그의 발견과 도시 전체의 시스템 재부팅이 <word id='_coincide' class='word-target-kr'>동시에 일어나는</word> 것 같았다.">His discovery and a city-wide system reboot seemed to <span class="word-link" data-word-id="_coincide">coincide</span>.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 도시의 데이터 금고 깊숙이 숨겨진 <word id='_colossal' class='word-target-kr'>거대한</word> 프로젝트를 발견했다.">He uncovered a <span class="word-link" data-word-id="_colossal">colossal</span> project hidden deep in the city's data vaults.</span> <span class="sentence-unit" data-translation="데이터의 양은 <word id='_considerable' class='word-target-kr'>상당했고</word>, 위험도 마찬가지였다.">The amount of data was <span class="word-link" data-word-id="_considerable">considerable</span>, and so was the risk.</span> <span class="sentence-unit" data-translation="여기까지 온 것은 <word id='_considerable' class='word-target-kr'>중요한</word> 성과였다.">It was a <span class="word-link" data-word-id="_considerable">considerable</span> achievement to get this far.</span> <span class="sentence-unit" data-translation="모든 단서들이 하나의 무서운 시설로 <word id='_converge' class='word-target-kr'>집중되기</word> 시작했다.">All the clues began to <span class="word-link" data-word-id="_converge">converge</span> on a single, terrifying facility.</span> <span class="sentence-unit" data-translation="그는 끔찍한 실험의 희생자인 실종자의 <word id='_corpse' class='word-target-kr'>시체를</word> 발견했다.">He found the <span class="word-link" data-word-id="_corpse">corpse</span> of the missing person, a victim of a terrible experiment.</span> <span class="sentence-unit" data-translation="이 도시의 설계자들은 절대적인 통제를 <word id='_covet' class='word-target-kr'>갈망한다</word>.">The architects of this city <span class="word-link" data-word-id="_covet">covet</span> absolute control.</span> <span class="sentence-unit" data-translation="시스템의 한 가지 <word id='_defection' class='word-target-kr'>결점은</word> 단일 AI 코어에 의존한다는 점이었다.">The system's one <span class="word-link" data-word-id="_defection">defection</span> was its reliance on a single AI core.</span> <span class="sentence-unit" data-translation="알파 과학자의 단 한 번의 <word id='_defection' class='word-target-kr'>배반</word> 행위로 그는 필요한 접근 권한을 얻었다.">A single act of <span class="word-link" data-word-id="_defection">defection</span> from an Alpha scientist gave him the access he needed.</span> <span class="sentence-unit" data-translation="그들은 내추럴들에게서 그들의 인간성 자체를 <word id='_deprive' class='word-target-kr'>박탈하고</word> 싶어했다.">They wanted to <span class="word-link" data-word-id="_deprive">deprive</span> Naturals of their very humanity.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="끝없는 보고서들은 <word id='_dull' class='word-target-kr'>지루했지만</word>, 읽어야만 했다.">The endless reports were <span class="word-link" data-word-id="_dull">dull</span>, but necessary to read.</span> <span class="sentence-unit" data-translation="그는 진실을 폭로하기 위해 <word id='_endeavor' class='word-target-kr'>노력할</word> 것이었다.">He would <span class="word-link" data-word-id="_endeavor">endeavor</span> to expose the truth.</span> <span class="sentence-unit" data-translation="청소 드론 <word id='_flock' class='word-target-kr'>무리</word>가 범죄 현장에 내려와 모든 증거를 지웠다.">A <span class="word-link" data-word-id="_flock">flock</span> of cleaning drones descended on the crime scene, erasing all evidence.</span> <span class="sentence-unit" data-translation="알파 지도자는 대중 앞에 나타날 때 놀라울 정도로 <word id='_generous' class='word-target-kr'>관대했는데</word>, 이는 계산된 속임수였다.">The Alpha leader was surprisingly <span class="word-link" data-word-id="_generous">generous</span> in his public appearances, a calculated deception.</span> <span class="sentence-unit" data-translation="그는 스스로에게 잠시의 휴식을 <word id='_grant' class='word-target-kr'>주어야</word> 했다.">He had to <span class="word-link" data-word-id="_grant">grant</span> himself a moment of rest.</span> <span class="sentence-unit" data-translation="그는 경비원들을 지나 <word id='_hustle' class='word-target-kr'>서둘러야</word> 했다.">He had to <span class="word-link" data-word-id="_hustle">hustle</span> past the guards.</span> <span class="sentence-unit" data-translation="한 경비원이 그를 뒤로 <word id='_push' class='word-target-kr'>밀려고</word> 했다.">One guard tried to <span class="word-link" data-word-id="_push">push</span> him back.</span> <span class="sentence-unit" data-translation="그 시설은 훨씬 더 큰 프로젝트를 위한 <word id='_intermediate' class='word-target-kr'>중간</word> 단계였다.">The facility was an <span class="word-link" data-word-id="_intermediate">intermediate</span> stage for a much larger project.</span> <span class="sentence-unit" data-translation="알파들은 어떤 불완전함도 <word id='_intolerant' class='word-target-kr'>용납하지</word> 않았다.">The Alphas were <span class="word-link" data-word-id="_intolerant">intolerant</span> of any imperfection.</span> <span class="sentence-unit" data-translation="그들은 그들이 행세하는 <word id='_kind' class='word-target-kr'>친절한</word> 통치자들이 아니었다.">They were not the <span class="word-link" data-word-id="_kind">kind</span> rulers they pretended to be.</span> <span class="sentence-unit" data-translation="그는 잠입의 <word id='_limit' class='word-target-kr'>한계에</word> 도달했다.">He had reached the <span class="word-link" data-word-id="_limit">limit</span> of his infiltration.</span> <span class="sentence-unit" data-translation="그는 보안 센서에 대한 노출을 <word id='_limit' class='word-target-kr'>제한해야</word> 했다.">He had to <span class="word-link" data-word-id="_limit">limit</span> his exposure to the security sensors.</span> <span class="sentence-unit" data-translation="그는 시설의 <word id='_margin' class='word-target-kr'>가장자리에</word> 서서 도시를 내다보았다.">He stood at the <span class="word-link" data-word-id="_margin">margin</span> of the facility, looking out at the city.</span> <span class="sentence-unit" data-translation="그 기업의 사설 <word id='_militia' class='word-target-kr'>시민군은</word> 도시 경비대보다 더 강력했다.">The private <span class="word-link" data-word-id="_militia">militia</span> of the corporation was more powerful than the city guard.</span> <span class="sentence-unit" data-translation="<word id='_moreover' class='word-target-kr'>게다가</word>, 그들은 완전히 법 밖에 있었다."><span class="word-link" data-word-id="_moreover">moreover</span>, they were completely outside the law.</span> <span class="sentence-unit" data-translation="극단적인 조치를 취하는 것이 <word id='_necessary' class='word-target-kr'>필수적이었다</word>.">It was <span class="word-link" data-word-id="_necessary">necessary</span> to take extreme measures.</span> <span class="sentence-unit" data-translation="그들은 매번 그의 길을 <word id='_obstruct' class='word-target-kr'>막을</word> 것이었다.">They would <span class="word-link" data-word-id="_obstruct">obstruct</span> his path at every turn.</span> <span class="sentence-unit" data-translation="그는 <word id='_on_the_spot' class='word-target-kr'>즉시</word> 결정을 내려야 했다.">He had to make a decision <span class="word-link" data-word-id="_on_the_spot">on the spot</span>.</span> <span class="sentence-unit" data-translation="공식 조사는 명백히 그 기업에 <word id='_partial' class='word-target-kr'>편파적이었다</word>.">The official investigation was clearly <span class="word-link" data-word-id="_partial">partial</span> to the corporation.</span> <span class="sentence-unit" data-translation="그는 결코 오지 않을 답변을 무정한 AI에게 <word id='_petition' class='word-target-kr'>간청할</word> 수밖에 없었다.">He could only <span class="word-link" data-word-id="_petition">petition</span> the uncaring AI for answers that would never come.</span> <span class="sentence-unit" data-translation="이사 사무실의 표면은 <word id='_placid' class='word-target-kr'>평온했지만</word>, 그 안의 혼돈을 숨기고 있었다.">The surface of the director's office was <span class="word-link" data-word-id="_placid">placid</span>, hiding the chaos within.</span> <span class="sentence-unit" data-translation="그 물질의 <word id='_porosity' class='word-target-kr'>다공성</word> 덕분에 공기 중의 독소를 흡수할 수 있었다.">The material's <span class="word-link" data-word-id="_porosity">porosity</span> allowed it to absorb toxins from the air.</span> <span class="sentence-unit" data-translation="그는 부패한 사회를 <word id='_reform' class='word-target-kr'>개정하고</word> 싶었다.">He wanted to <span class="word-link" data-word-id="_reform">reform</span> the corrupt society.</span> <span class="sentence-unit" data-translation="알파 집행자들은 그들의 대형에서 <word id='_rigid' class='word-target-kr'>단단했다</word>.">The Alpha enforcers were <span class="word-link" data-word-id="_rigid">rigid</span> in their formations.</span> <span class="sentence-unit" data-translation="그들의 법 또한 마찬가지로 <word id='_rigid' class='word-target-kr'>엄격했다</word>.">Their laws were equally <span class="word-link" data-word-id="_rigid">rigid</span>.</span></p></div></div><div id="chapter-3" class="chapter-content" style="display: none;"><h2>The Perilous Truth</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 사람들의 두려움에 대해 그들을 <word id='_blame' class='word-target-kr'>비난하지</word> 않았다.">He didn't <span class="word-link" data-word-id="_blame">blame</span> the people for their fear.</span> <span class="sentence-unit" data-translation="상황은 위험과 속임수의 소용돌이, 즉 <word id='_chaotic' class='word-target-kr'>무질서했다</word>.">The situation was <span class="word-link" data-word-id="_chaotic">chaotic</span>, a whirlwind of danger and deception.</span> <span class="sentence-unit" data-translation="음모의 전체 규모를 <word id='_comprehend' class='word-target-kr'>이해하기</word> 어려웠다.">It was difficult to <span class="word-link" data-word-id="_comprehend">comprehend</span> the full scale of the conspiracy.</span> <span class="sentence-unit" data-translation="그의 행동은 불법이었지만 도덕적인 관점에서 볼 때 <word id='_creditable' class='word-target-kr'>명예로운</word> 것이었다.">His actions, though illegal, were <span class="word-link" data-word-id="_creditable">creditable</span> from a moral standpoint.</span> <span class="sentence-unit" data-translation="그는 진실을 밝혀내려는 자신의 임무에 <word id='_decided' class='word-target-kr'>단호했다</word>.">He was <span class="word-link" data-word-id="_decided">decided</span> in his mission to uncover the truth.</span> <span class="sentence-unit" data-translation="그 프로젝트의 목표는 전체 내추럴 인구를 <word id='_displace' class='word-target-kr'>대체하는</word> 것이었다.">The project's goal was to <span class="word-link" data-word-id="_displace">displace</span> the entire Natural population.</span> <span class="sentence-unit" data-translation="높은 벽들이 실험 구역을 <word id='_enclose' class='word-target-kr'>에워싸고</word> 있다.">High walls <span class="word-link" data-word-id="_enclose">enclose</span> the experimental zones.</span> <span class="sentence-unit" data-translation="그 계획은 그가 전혀 고려하지 않았던 위험을 <word id='_entail' class='word-target-kr'>수반할</word> 것이었다.">The plan would <span class="word-link" data-word-id="_entail">entail</span> risks he had never considered.</span> <span class="sentence-unit" data-translation="그는 살아남기 위해 속임수에 <word id='_excel' class='word-target-kr'>능가해야</word> 했다.">He had to <span class="word-link" data-word-id="_excel">excel</span> in his deception to survive.</span> <span class="sentence-unit" data-translation="이러한 <word id='_genre' class='word-target-kr'>유형의</word> 기업 범죄는 너무나 흔했다.">This <span class="word-link" data-word-id="_genre">genre</span> of corporate crime was all too common.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 자신의 주장을 <word id='_illustrate' class='word-target-kr'>설명하기</word> 위해 확실한 증거가 필요했다.">He needed solid evidence to <span class="word-link" data-word-id="_illustrate">illustrate</span> his claims.</span> <span class="sentence-unit" data-translation="도시의 <word id='_infrastructure' class='word-target-kr'>하부구조는</word> 잠재적으로 악의적인 단일 AI에 의해 통제되었다.">The city's <span class="word-link" data-word-id="_infrastructure">infrastructure</span> was controlled by a single, potentially malevolent AI.</span> <span class="sentence-unit" data-translation="알파들은 내추럴들의 번식 능력을 <word id='_inhibit' class='word-target-kr'>금지하고</word> 싶어했다.">The Alphas wanted to <span class="word-link" data-word-id="_inhibit">inhibit</span> the Naturals' ability to reproduce.</span> <span class="sentence-unit" data-translation="그의 계획은 중앙 서버에 침입하는 것을 <word id='_involve' class='word-target-kr'>수반할</word> 것이었다.">His plan would <span class="word-link" data-word-id="_involve">involve</span> breaking into the central server.</span> <span class="sentence-unit" data-translation="그 기업은 돈을 낼 수 있는 누구에게나 기술을 <word id='_lease' class='word-target-kr'>임대할</word> 것이었다.">The corporation would <span class="word-link" data-word-id="_lease">lease</span> its technology to anyone who could pay.</span> <span class="sentence-unit" data-translation="<word id='_likewise' class='word-target-kr'>마찬가지로</word>, 그들은 이익을 위해 누구든지 팔아넘길 것이었다."><span class="word-link" data-word-id="_likewise">likewise</span>, they would sell out anyone for a profit.</span> <span class="sentence-unit" data-translation="네트워크에 대한 그의 접근은 <word id='_limited' class='word-target-kr'>제한적이었다</word>.">His access to the network was <span class="word-link" data-word-id="_limited">limited</span>.</span> <span class="sentence-unit" data-translation="그는 특정 포트에 바이러스를 <word id='_lodge_in' class='word-target-kr'>박아 넣어야</word> 했다.">He had to <span class="word-link" data-word-id="_lodge_in">lodge in</span> a virus to a specific port.</span> <span class="sentence-unit" data-translation="그는 이사에게 가까이 다가가기 위해 갈라에서 엘리트들과 <word id='_mingle' class='word-target-kr'>섞여야</word> 했다.">He needed to <span class="word-link" data-word-id="_mingle">mingle</span> with the elite at a gala to get close to the director.</span> <span class="sentence-unit" data-translation="그는 고인의 가족에 대한 <word id='_obligation' class='word-target-kr'>의무를</word> 느꼈다.">He felt the <span class="word-link" data-word-id="_obligation">obligation</span> to the family of the deceased.</span> <span class="sentence-unit" data-translation="시스템은 그에게 규칙을 따르도록 <word id='_oblige' class='word-target-kr'>강요하겠지만</word>, 그는 따르지 않을 것이었다.">The system would <span class="word-link" data-word-id="_oblige">oblige</span> him to follow its rules, but he would not.</span> <span class="sentence-unit" data-translation="그들은 그에게 침묵을 지키는 대가로 뇌물을 <word id='_offer' class='word-target-kr'>제공할</word> 것이었다.">They would <span class="word-link" data-word-id="_offer">offer</span> him a bribe to stay silent.</span> <span class="sentence-unit" data-translation="<word id='_on_occasion' class='word-target-kr'>가끔</word>, 한 알파가 동정의 빛을 보였지만, 그것은 드문 일이었다."><span class="word-link" data-word-id="_on_occasion">on occasion</span>, an Alpha would show a glimmer of sympathy, but it was rare.</span> <span class="sentence-unit" data-translation="그는 매번 그들에게 <word id='_oppose' class='word-target-kr'>반대할</word> 것이었다.">He would <span class="word-link" data-word-id="_oppose">oppose</span> them at every turn.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 거짓의 겹들을 <word id='_pare' class='word-target-kr'>삭감해야</word> 했다.">He had to <span class="word-link" data-word-id="_pare">pare</span> away the layers of lies.</span> <span class="sentence-unit" data-translation="그의 삶은 끊임없는 <word id='_peril' class='word-target-kr'>위기</word> 속에 있었다.">His life was in constant <span class="word-link" data-word-id="_peril">peril</span>.</span> <span class="sentence-unit" data-translation="이사회는 <word id='_predominately' class='word-target-kr'>주로</word> 전직 군 지도자들로 구성되어 있었다.">The board was <span class="word-link" data-word-id="_predominately">predominately</span> composed of former military leaders.</span> <span class="sentence-unit" data-translation="도시의 돔은 햇빛을 눈부신 인공적인 패턴으로 <word id='_refract' class='word-target-kr'>굴절시켰다</word>.">The city's dome would <span class="word-link" data-word-id="_refract">refract</span> the sunlight into dazzling, artificial patterns.</span> <span class="sentence-unit" data-translation="그 예술가의 작품은 내추럴들의 고통을 가슴 아픈 세부 묘사로 <word id='_render' class='word-target-kr'>표현할</word> 수 있었다.">The artist's work could <span class="word-link" data-word-id="_render">render</span> the suffering of the Naturals in heartbreaking detail.</span> <span class="sentence-unit" data-translation="만약 잡힌다면 시스템은 그를 무력하게 <word id='_render' class='word-target-kr'>만들</word> 것이었다.">The system would <span class="word-link" data-word-id="_render">render</span> him helpless if he was caught.</span> <span class="sentence-unit" data-translation="그 과학자는 지하 사회에서 어느 정도 <word id='_renown' class='word-target-kr'>명성을</word> 얻고 있었다.">The scientist had a certain <span class="word-link" data-word-id="_renown">renown</span> in the underground communities.</span> <span class="sentence-unit" data-translation="그는 전자기 펄스로 보안 드론들을 <word id='_repel' class='word-target-kr'>물리쳐야</word> 했다.">He had to <span class="word-link" data-word-id="_repel">repel</span> the security drones with an electromagnetic pulse.</span> <span class="sentence-unit" data-translation="그는 어느 정도의 정의의 모습을 <word id='_restore' class='word-target-kr'>복구하기를</word> 희망했다.">He hoped to <span class="word-link" data-word-id="_restore">restore</span> some semblance of justice.</span> <span class="sentence-unit" data-translation="도시의 <word id='_sanitation' class='word-target-kr'>공중위생</word> 시스템은 무자비하게 효율적이어서 어떤 투쟁의 흔적도 지워버렸다.">The city's <span class="word-link" data-word-id="_sanitation">sanitation</span> systems were ruthlessly efficient, erasing any trace of struggle.</span> <span class="sentence-unit" data-translation="그는 데이터를 획득한 작은 승리의 <word id='_savor' class='word-target-kr'>맛을</word> 여전히 음미할 수 있었다.">He could still <span class="word-link" data-word-id="_savor">savor</span> the small victory of acquiring the data.</span> <span class="sentence-unit" data-translation="그는 그의 동맹들이 감수하고 있는 위험에 대해 생각을 <word id='_spare' class='word-target-kr'>할애해야</word> 했다.">He had to <span class="word-link" data-word-id="_spare">spare</span> a thought for the risks his allies were taking.</span> <span class="sentence-unit" data-translation="그는 그렇게 많은 고통을 야기한 남자의 목숨을 <word id='_spare' class='word-target-kr'>아껴줄</word> 수 있을까?">Could he <span class="word-link" data-word-id="_spare">spare</span> the life of a man who had caused so much suffering?</span> <span class="sentence-unit" data-translation="커피는 추운 밤에 <word id='_stimulating' class='word-target-kr'>활기를 주는</word> 위안이었다.">The coffee was a <span class="word-link" data-word-id="_stimulating">stimulating</span> comfort in the cold night.</span> <span class="sentence-unit" data-translation="그의 행동은 반란의 정신을 <word id='_typify' class='word-target-kr'>대표할</word> 것이었다.">His actions would <span class="word-link" data-word-id="_typify">typify</span> the spirit of the rebellion.</span> <span class="sentence-unit" data-translation="이것은 대중의 신뢰에 대한 <word id='_wholesale' class='word-target-kr'>대규모의</word> 배신이었다.">This was a <span class="word-link" data-word-id="_wholesale">wholesale</span> betrayal of public trust.</span> <span class="sentence-unit" data-translation="그는 붙잡혔지만, <word id='_yet' class='word-target-kr'>그럼에도 불구하고</word> 실패하지 않았다.">He was captured, <span class="word-link" data-word-id="_yet">yet</span> he had not failed.</span></p></div></div><div id="chapter-4" class="chapter-content" style="display: none;"><h2>Shattered Illusions</h2><div class="story-content"><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 그들 계획의 순전한 대담함을 <word id='_admire' class='word-target-kr'>존경해야</word> 했다.">He had to <span class="word-link" data-word-id="_admire">admire</span> the sheer audacity of their plan.</span> <span class="sentence-unit" data-translation="레이저 격자를 통과하면서 그의 움직임은 <word id='_adroit' class='word-target-kr'>능숙해졌다</word>.">His movements became <span class="word-link" data-word-id="_adroit">adroit</span> as he navigated the laser grid.</span> <span class="sentence-unit" data-translation="그는 자신을 도와준 과학자를 희생시키는 것에 대해 <word id='_ambivalent' class='word-target-kr'>불확실한</word> 감정을 가졌다.">He was <span class="word-link" data-word-id="_ambivalent">ambivalent</span> about sacrificing the scientist who helped him.</span> <span class="sentence-unit" data-translation="그 시스템은 내추럴들에게서 미래를 <word id='_cheat' class='word-target-kr'>속여</word> 빼앗도록 설계되었다.">The system was designed to <span class="word-link" data-word-id="_cheat">cheat</span> Naturals of their future.</span> <span class="sentence-unit" data-translation="경보가 울리는 와중에도 그는 <word id='_composed' class='word-target-kr'>차분함을</word> 유지했다.">He remained <span class="word-link" data-word-id="_composed">composed</span> even as the alarms blared.</span> <span class="sentence-unit" data-translation="최종 보고서는 반박할 수 없는 사실들로 <word id='_composed' class='word-target-kr'>작성되었다</word>.">The final report was <span class="word-link" data-word-id="_composed">composed</span> of irrefutable facts.</span> <span class="sentence-unit" data-translation="그는 붙잡히기 전에 데이터 칩을 <word id='_conceal' class='word-target-kr'>숨겨야</word> 했다.">He had to <span class="word-link" data-word-id="_conceal">conceal</span> the data chip before his capture.</span> <span class="sentence-unit" data-translation="암호화된 파일의 <word id='_conciseness' class='word-target-kr'>간결함은</word> 놀라웠다.">The <span class="word-link" data-word-id="_conciseness">conciseness</span> of the encrypted file was remarkable.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="그의 탈출 계획은 모든 단계가 계산된 <word id='_deliberate' class='word-target-kr'>신중한</word> 것이었다.">His escape plan was <span class="word-link" data-word-id="_deliberate">deliberate</span>, every step calculated.</span> <span class="sentence-unit" data-translation="그가 야기한 파괴는 <word id='_deliberate' class='word-target-kr'>의도적인</word> 반항 행위였다.">The destruction he caused was a <span class="word-link" data-word-id="_deliberate">deliberate</span> act of defiance.</span> <span class="sentence-unit" data-translation="불길이 도시의 스카이라인을 가로질러 <word id='_glow' class='word-target-kr'>빛나기</word> 시작했다.">The fires began to <span class="word-link" data-word-id="_glow">glow</span> across the city's skyline.</span> <span class="sentence-unit" data-translation="이것은 그렇지 않았다면 완벽했을 질서에 짧은 <word id='_hiatus' class='word-target-kr'>틈을</word> 만들었다.">This created a brief <span class="word-link" data-word-id="_hiatus">hiatus</span> in the otherwise perfect order.</span> <span class="sentence-unit" data-translation="그는 불꽃이 그들의 권력의 상징들을 <word id='_incinerate' class='word-target-kr'>태우는</word> 것을 지켜보았다.">He watched the flames <span class="word-link" data-word-id="_incinerate">incinerate</span> the symbols of their power.</span> <span class="sentence-unit" data-translation="그는 자기 민족의 고통에 대한 깊은 <word id='_indignity' class='word-target-kr'>경멸을</word> 느꼈다.">He felt the deep <span class="word-link" data-word-id="_indignity">indignity</span> of his people's suffering.</span> <span class="sentence-unit" data-translation="도시의 AI는 혼돈에 압도되어 잠시 동안 <word id='_inert' class='word-target-kr'>활동하지 않는</word> 것처럼 보였다.">The city's AI seemed <span class="word-link" data-word-id="_inert">inert</span> for a moment, overwhelmed by the chaos.</span> <span class="sentence-unit" data-translation="그의 책임감의 <word id='_load' class='word-target-kr'>부담은</word> 엄청났다.">The <span class="word-link" data-word-id="_load">load</span> of his responsibility was immense.</span> <span class="sentence-unit" data-translation="도시의 불빛은 차가운 <word id='_luster' class='word-target-kr'>광채를</word> 띠고 있었다.">The city lights had a cold <span class="word-link" data-word-id="_luster">luster</span>.</span> <span class="sentence-unit" data-translation="폭발은 <word id='_massive' class='word-target-kr'>육중하여</word> 구역의 기초를 흔들었다.">The explosion was <span class="word-link" data-word-id="_massive">massive</span>, shaking the foundations of the district.</span> <span class="sentence-unit" data-translation="반란은 모든 내추럴의 생각을 <word id='_occupy' class='word-target-kr'>점유하기</word> 시작했다.">The rebellion started to <span class="word-link" data-word-id="_occupy">occupy</span> the thoughts of every Natural.</span></p><p class="english-paragraph"><span class="sentence-unit" data-translation="그는 다음 단계를 위한 계획을 <word id='_polish' class='word-target-kr'>광내야</word> 했다.">He needed to <span class="word-link" data-word-id="_polish">polish</span> his plan for the next phase.</span> <span class="sentence-unit" data-translation="그의 작은 반항 행위는 더 큰 봉기에 <word id='_precede' class='word-target-kr'>앞설</word> 것이었다.">His small act of rebellion would <span class="word-link" data-word-id="_precede">precede</span> a larger uprising.</span> <span class="sentence-unit" data-translation="그는 이제 음모를 <word id='_prove' class='word-target-kr'>입증할</word> 데이터를 가지고 있었다.">He now had the data to <span class="word-link" data-word-id="_prove">prove</span> the conspiracy.</span> <span class="sentence-unit" data-translation="그 정보는 피로 값을 치른 <word id='_purchase' class='word-target-kr'>구매품이었다</word>.">The information was a <span class="word-link" data-word-id="_purchase">purchase</span> paid for with blood.</span> <span class="sentence-unit" data-translation="짧은 침묵의 순간들은 거의 <word id='_restful' class='word-target-kr'>편안하게</word> 느껴졌다.">The brief moments of silence felt almost <span class="word-link" data-word-id="_restful">restful</span>.</span> <span class="sentence-unit" data-translation="정부는 이 새로운 정보의 흐름을 <word id='_restrict' class='word-target-kr'>제한하려고</word> 할 것이었다.">The government would try to <span class="word-link" data-word-id="_restrict">restrict</span> the flow of this new information.</span> <span class="sentence-unit" data-translation="그 폭발은 사회 구조에 <word id='_rupture' class='word-target-kr'>파열을</word> 일으켰다.">The explosion caused a <span class="word-link" data-word-id="_rupture">rupture</span> in the social fabric.</span> <span class="sentence-unit" data-translation="그 데이터는 강도 높은 <word id='_scrutiny' class='word-target-kr'>정밀조사에</word> 직면할 것이었다.">The data would face intense <span class="word-link" data-word-id="_scrutiny">scrutiny</span>.</span> <span class="sentence-unit" data-translation="더 나은 세상에 대한 약속은 <word id='_seductive' class='word-target-kr'>매혹적이었다</word>.">The promise of a better world was <span class="word-link" data-word-id="_seductive">seductive</span>.</span> <span class="sentence-unit" data-translation="진실이 대중의 의식 속으로 <word id='_seep' class='word-target-kr'>스며들기</word> 시작했다.">The truth began to <span class="word-link" data-word-id="_seep">seep</span> into the public consciousness.</span> <span class="sentence-unit" data-translation="그는 이것이 그들의 완벽한 세계라는 환상을 <word id='_shatter' class='word-target-kr'>박살 내기를</word> 바랐다.">He hoped this would <span class="word-link" data-word-id="_shatter">shatter</span> the illusion of their perfect world.</span> <span class="sentence-unit" data-translation="그 소식은 시스템 전체에 <word id='_shock' class='word-target-kr'>충격을</word> 주었다.">The news sent a <span class="word-link" data-word-id="_shock">shock</span> through the system.</span> <span class="sentence-unit" data-translation="이것은 <word id='_significant' class='word-target-kr'>중요한</word> 전환점이었다.">This was a <span class="word-link" data-word-id="_significant">significant</span> turning point.</span> <span class="sentence-unit" data-translation="그는 모든 것의 열쇠인 데이터 <word id='_slab' class='word-target-kr'>조각을</word> 손에 쥐고 있었다.">He held the data <span class="word-link" data-word-id="_slab">slab</span> in his hands, the key to everything.</span> <span class="sentence-unit" data-translation="그는 무고한 사람들의 <word id='_slaughter' class='word-target-kr'>학살을</word> 목격했다.">He had witnessed the <span class="word-link" data-word-id="_slaughter">slaughter</span> of innocents.</span> <span class="sentence-unit" data-translation="다가올 <word id='_strife' class='word-target-kr'>싸움은</word> 길고 피비린내 날 것이었다.">The coming <span class="word-link" data-word-id="_strife">strife</span> would be long and bloody.</span> <span class="sentence-unit" data-translation="반란은 가장 뜻밖의 장소에서 영웅들을 <word id='_summon' class='word-target-kr'>소환할</word> 것이었다.">The rebellion would <span class="word-link" data-word-id="_summon">summon</span> heroes from the most unlikely places.</span> <span class="sentence-unit" data-translation="그 싸움은 <word id='_sustained' class='word-target-kr'>지속적인</word> 노력을 요구할 것이었다.">The fight would require <span class="word-link" data-word-id="_sustained">sustained</span> effort.</span> <span class="sentence-unit" data-translation="반란군들은 그들의 억압자들처럼 되지 않기 위해 <word id='_temperance' class='word-target-kr'>자제가</word> 필요할 것이었다.">The rebels would need <span class="word-link" data-word-id="_temperance">temperance</span> to avoid becoming like their oppressors.</span> <span class="sentence-unit" data-translation="변화의 잠재력은 <word id='_tremendous' class='word-target-kr'>엄청났다</word>.">The potential for change was <span class="word-link" data-word-id="_tremendous">tremendous</span>.</span> <span class="sentence-unit" data-translation="그 데이터는 정권의 잔인함을 <word id='_vivid' class='word-target-kr'>생생하게</word> 그려냈다.">The data painted a <span class="word-link" data-word-id="_vivid">vivid</span> picture of the regime's cruelty.</span></p></div></div>
+        </div>
+    </div>
+
+    <div id="indexNavigationTemplate" style="display: none;"><div class="index-item" data-href="#chapter-0-2be32f6a"><span class="index-number">1.</span><span class="index-title">The Weight of Memory</span></div><div class="index-item" data-href="#chapter-1-2be32f6a"><span class="index-number">2.</span><span class="index-title">Echoes of Dissent</span></div><div class="index-item" data-href="#chapter-2-2be32f6a"><span class="index-number">3.</span><span class="index-title">The Verge of Discovery</span></div><div class="index-item" data-href="#chapter-3-2be32f6a"><span class="index-number">4.</span><span class="index-title">The Perilous Truth</span></div><div class="index-item" data-href="#chapter-4-2be32f6a"><span class="index-number">5.</span><span class="index-title">Shattered Illusions</span></div></div>
+    <div id="wordPopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn">&times;</button></div><div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div></div></div>
+    <div id="sentencePopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-body"><p id="sentencePopupText" style="margin: 0;"></p></div></div></div>
+    <div id="bottomSheet" class="bottom-sheet-overlay"><div class="bottom-sheet-panel"><div class="bottom-sheet-header"><h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3><button class="close-btn">&times;</button></div><div id="bottomSheetContent" class="bottom-sheet-content"></div></div></div>
+
+    <script>
+        const wordData = {
+    "_abandon": {
+        "term": "abandon",
+        "kor_meaning": "버리다",
+        "synonyms": "give up, relinquish, leave, desert, resign, forsake"
+    },
+    "_antidote": {
+        "term": "antidote",
+        "kor_meaning": "치료법",
+        "synonyms": "remedy"
+    },
+    "_conspicuous": {
+        "term": "conspicuous",
+        "kor_meaning": "뚜렷한",
+        "synonyms": "noticeable, obvious, prominent, apparent, manifest"
+    },
+    "_critical": {
+        "term": "critical",
+        "kor_meaning": "중요한",
+        "synonyms": "important, vital, imperative"
+    },
+    "_discriminate": {
+        "term": "discriminate",
+        "kor_meaning": "구별하다",
+        "synonyms": "distinguish, discern, perceive"
+    },
+    "_dorsal": {
+        "term": "dorsal",
+        "kor_meaning": "등(부분)의",
+        "synonyms": "relating to the back, on the back of"
+    },
+    "_eliminate": {
+        "term": "eliminate",
+        "kor_meaning": "제거하다",
+        "synonyms": "remove, get rid of, discard, eradicate"
+    },
+    "_fuse": {
+        "term": "fuse",
+        "kor_meaning": "녹다",
+        "synonyms": "melt, dissolve, thaw"
+    },
+    "_hinterland": {
+        "term": "hinterland",
+        "kor_meaning": "배후지",
+        "synonyms": "region"
+    },
+    "_earnest": {
+        "term": "earnest",
+        "kor_meaning": "진지한",
+        "synonyms": "serious, solemn, grave, sober, steady"
+    },
+    "_kinship": {
+        "term": "kinship",
+        "kor_meaning": "혈연 관계",
+        "synonyms": "family relationship"
+    },
+    "_laden": {
+        "term": "laden",
+        "kor_meaning": "(짐을) 실은",
+        "synonyms": "burdened, loaded, weighed down"
+    },
+    "_lumber": {
+        "term": "lumber",
+        "kor_meaning": "목재",
+        "synonyms": "board, log, timber"
+    },
+    "_mirror": {
+        "term": "mirror",
+        "kor_meaning": "반영하다",
+        "synonyms": "reflect, repeat"
+    },
+    "_mutual": {
+        "term": "mutual",
+        "kor_meaning": "상호간의",
+        "synonyms": "reciprocal, joint, interactive, inter-personal"
+    },
+    "_obtainable": {
+        "term": "obtainable",
+        "kor_meaning": "손에 넣을 수 있는",
+        "synonyms": "available, achievable, attainable"
+    },
+    "_patch": {
+        "term": "patch",
+        "kor_meaning": "수선하다",
+        "synonyms": "mend, repair, fix"
+    },
+    "_protest": {
+        "term": "protest",
+        "kor_meaning": "항의하다",
+        "synonyms": "remonstrate, complain, object"
+    },
+    "_rash": {
+        "term": "rash",
+        "kor_meaning": "경솔한",
+        "synonyms": "reckless, heedless, indiscreet"
+    },
+    "_recall": {
+        "term": "recall",
+        "kor_meaning": "회상하다",
+        "synonyms": "remember, recollect"
+    },
+    "_recite": {
+        "term": "recite",
+        "kor_meaning": "암송하다",
+        "synonyms": "rehearse"
+    },
+    "_regain": {
+        "term": "regain",
+        "kor_meaning": "~을 되찾다",
+        "synonyms": "recover, retrieve"
+    },
+    "_reinforce": {
+        "term": "reinforce",
+        "kor_meaning": "강화하다",
+        "synonyms": "strengthen, fortify"
+    },
+    "_relevant_to": {
+        "term": "relevant to",
+        "kor_meaning": "관련된, 적절한",
+        "synonyms": "pertinent to, applicable"
+    },
+    "_reminisce": {
+        "term": "reminisce",
+        "kor_meaning": "회상하다",
+        "synonyms": "remember, recollect, recall, look back"
+    },
+    "_repent": {
+        "term": "repent",
+        "kor_meaning": "후회하다",
+        "synonyms": "regret, atone"
+    },
+    "_resign": {
+        "term": "resign",
+        "kor_meaning": "포기하다",
+        "synonyms": "relinquish, abandon, forsake"
+    },
+    "_secrete": {
+        "term": "secrete",
+        "kor_meaning": "분비하다",
+        "synonyms": "release, produce, discharge"
+    },
+    "_soothe": {
+        "term": "soothe",
+        "kor_meaning": "달래다",
+        "synonyms": "relieve, allay, mitigate"
+    },
+    "_stay": {
+        "term": "stay",
+        "kor_meaning": "머무르다",
+        "synonyms": "remain, reside, sojourn"
+    },
+    "_surplus": {
+        "term": "surplus",
+        "kor_meaning": "나머지, 잔여",
+        "synonyms": "extra, redundance, remainder"
+    },
+    "_tear": {
+        "term": "tear",
+        "kor_meaning": "찢다",
+        "synonyms": "rend, rip, sever"
+    },
+    "_swear": {
+        "term": "swear",
+        "kor_meaning": "맹세하다",
+        "synonyms": "avow, vow, promise"
+    },
+    "_toothed": {
+        "term": "toothed",
+        "kor_meaning": "들쑥날쑥한",
+        "synonyms": "uneven, jagged, ragged"
+    },
+    "_transform": {
+        "term": "transform",
+        "kor_meaning": "변형시키다",
+        "synonyms": "convert, change, alter"
+    },
+    "_trustworthy": {
+        "term": "trustworthy",
+        "kor_meaning": "믿을 수 있는",
+        "synonyms": "reliable, true, credible"
+    },
+    "_unbalanced": {
+        "term": "unbalanced",
+        "kor_meaning": "균형을 잃은",
+        "synonyms": "asymmetric, lopsided"
+    },
+    "_unrelenting": {
+        "term": "unrelenting",
+        "kor_meaning": "무자비한",
+        "synonyms": "relentless, implacable, inexorable, cruel"
+    },
+    "_utilitarian": {
+        "term": "utilitarian",
+        "kor_meaning": "실용주의의",
+        "synonyms": "practical, pragmatic"
+    },
+    "_variety": {
+        "term": "variety",
+        "kor_meaning": "다양성",
+        "synonyms": "diversity, multiplicity"
+    },
+    "_advantage": {
+        "term": "advantage",
+        "kor_meaning": "이익",
+        "synonyms": "benefit, profit, behalf"
+    },
+    "_arise_from": {
+        "term": "arise from",
+        "kor_meaning": "-에서 기인하다",
+        "synonyms": "originate from, stem from"
+    },
+    "_barrier": {
+        "term": "barrier",
+        "kor_meaning": "장애물",
+        "synonyms": "bar, obstacle, obstruction, barricade"
+    },
+    "_betray": {
+        "term": "betray",
+        "kor_meaning": "배신하다",
+        "synonyms": "be unfaithful to, be a traitor to"
+    },
+    "_bind": {
+        "term": "bind",
+        "kor_meaning": "묶다",
+        "synonyms": "tie, bond, fasten"
+    },
+    "_blur": {
+        "term": "blur",
+        "kor_meaning": "흐리게 하다",
+        "synonyms": "make vague, obscure, cloud"
+    },
+    "_circumvent": {
+        "term": "circumvent",
+        "kor_meaning": "우회하다",
+        "synonyms": "avoid, bypass, go around"
+    },
+    "_clumsy": {
+        "term": "clumsy",
+        "kor_meaning": "서투른",
+        "synonyms": "awkward, unskillful"
+    },
+    "_commence": {
+        "term": "commence",
+        "kor_meaning": "시작하다",
+        "synonyms": "begin, start, originate"
+    },
+    "_conduct": {
+        "term": "conduct",
+        "kor_meaning": "행동",
+        "synonyms": "behavior, demeanor, bearing, manner"
+    },
+    "_conserve": {
+        "term": "conserve",
+        "kor_meaning": "보존하다",
+        "synonyms": "retain, keep, save"
+    },
+    "_contradiction": {
+        "term": "contradiction",
+        "kor_meaning": "모순",
+        "synonyms": "paradox"
+    },
+    "_culminate": {
+        "term": "culminate",
+        "kor_meaning": "-로 끝나다.",
+        "synonyms": "result, end"
+    },
+    "_delineate": {
+        "term": "delineate",
+        "kor_meaning": "윤곽을 그리다",
+        "synonyms": "trace, draw, describe"
+    },
+    "_donation": {
+        "term": "donation",
+        "kor_meaning": "기증",
+        "synonyms": "contribution, gift, offering"
+    },
+    "_embark_on": {
+        "term": "embark on",
+        "kor_meaning": "시작하다. 착수하다",
+        "synonyms": "start, commence, begin"
+    },
+    "_foundation": {
+        "term": "foundation",
+        "kor_meaning": "기초",
+        "synonyms": "basis, underpinning, base, ground"
+    },
+    "_fundamental": {
+        "term": "fundamental",
+        "kor_meaning": "근본적인",
+        "synonyms": "basic, essential, primary"
+    },
+    "_handful": {
+        "term": "handful",
+        "kor_meaning": "소량, 소수",
+        "synonyms": "few, smattering"
+    },
+    "_height": {
+        "term": "height",
+        "kor_meaning": "절정",
+        "synonyms": "peak, apex, crest, zenith"
+    },
+    "_identical": {
+        "term": "identical",
+        "kor_meaning": "동일한",
+        "synonyms": "same, alike, equal"
+    },
+    "_impediment": {
+        "term": "impediment",
+        "kor_meaning": "장애",
+        "synonyms": "obstacle, barrier, difficulty, obstruction"
+    },
+    "_justify": {
+        "term": "justify",
+        "kor_meaning": "증명하다",
+        "synonyms": "prove, confirm, verify, 인증하다"
+    },
+    "_lament": {
+        "term": "lament",
+        "kor_meaning": "슬퍼하다",
+        "synonyms": "complain, deplore, grieve, bemoan, mourn"
+    },
+    "_microorganism": {
+        "term": "microorganism",
+        "kor_meaning": "미생물",
+        "synonyms": "microbe, bacterium"
+    },
+    "_moody": {
+        "term": "moody",
+        "kor_meaning": "우울한",
+        "synonyms": "gloomy, sullen, dismal, melancholy"
+    },
+    "_origin": {
+        "term": "origin",
+        "kor_meaning": "발생, 근원",
+        "synonyms": "beginning, source"
+    },
+    "_predict": {
+        "term": "predict",
+        "kor_meaning": "예측하다",
+        "synonyms": "foretell, prophesy, foresee"
+    },
+    "_progress": {
+        "term": "progress",
+        "kor_meaning": "발전",
+        "synonyms": "strides, improvement, advance, development"
+    },
+    "_scoop": {
+        "term": "scoop",
+        "kor_meaning": "긁어 모으다",
+        "synonyms": "gather, lift, pick up"
+    },
+    "_score": {
+        "term": "score",
+        "kor_meaning": "얻다",
+        "synonyms": "gain, win"
+    },
+    "_scrap": {
+        "term": "scrap",
+        "kor_meaning": "파편",
+        "synonyms": "fracture, piece, portion"
+    },
+    "_singularly": {
+        "term": "singularly",
+        "kor_meaning": "각별히",
+        "synonyms": "particularly, especially"
+    },
+    "_skilled": {
+        "term": "skilled",
+        "kor_meaning": "숙련된",
+        "synonyms": "skillful, adept, expert, proficient"
+    },
+    "_stem": {
+        "term": "stem",
+        "kor_meaning": "어간",
+        "synonyms": "base, root"
+    },
+    "_subdue": {
+        "term": "subdue",
+        "kor_meaning": "정복하다",
+        "synonyms": "conquer, defeat, suppress"
+    },
+    "_subsidize": {
+        "term": "subsidize",
+        "kor_meaning": "후원하다",
+        "synonyms": "assist, encourage, finance, back, fund"
+    },
+    "_unanimity": {
+        "term": "unanimity",
+        "kor_meaning": "(만장) 일치",
+        "synonyms": "accord, agreement"
+    },
+    "_alloy": {
+        "term": "alloy",
+        "kor_meaning": "혼합하다",
+        "synonyms": "mix, blend, mingle, compound"
+    },
+    "_barely": {
+        "term": "barely",
+        "kor_meaning": "거의 ~않다",
+        "synonyms": "scarcely, hardly, seldom, rarely"
+    },
+    "_captivity": {
+        "term": "captivity",
+        "kor_meaning": "속박, 감금",
+        "synonyms": "bondage, confinement"
+    },
+    "_clasp": {
+        "term": "clasp",
+        "kor_meaning": "잡다",
+        "synonyms": "grasp, grip, clutch, capture"
+    },
+    "_cohesion": {
+        "term": "cohesion",
+        "kor_meaning": "결합, 유대(감)",
+        "synonyms": "bond, unity, adhesion, adherence, union"
+    },
+    "_coincide": {
+        "term": "coincide",
+        "kor_meaning": "동시에 일어나다",
+        "synonyms": "exist or occur at the same time"
+    },
+    "_colossal": {
+        "term": "colossal",
+        "kor_meaning": "거대한",
+        "synonyms": "enormous, monstrous, gigantic, tremendous"
+    },
+    "_considerable": {
+        "term": "considerable",
+        "kor_meaning": "중요한",
+        "synonyms": "significant, substantial"
+    },
+    "_converge": {
+        "term": "converge",
+        "kor_meaning": "집중되다",
+        "synonyms": "meet, gather, merge"
+    },
+    "_corpse": {
+        "term": "corpse",
+        "kor_meaning": "시체",
+        "synonyms": "dead body"
+    },
+    "_covet": {
+        "term": "covet",
+        "kor_meaning": "갈망하다",
+        "synonyms": "desire, long for, aspire to, envy, crave for"
+    },
+    "_defection": {
+        "term": "defection",
+        "kor_meaning": "결점",
+        "synonyms": "shortcoming, blemish, fault, flaw"
+    },
+    "_deprive": {
+        "term": "deprive",
+        "kor_meaning": "박탈하다",
+        "synonyms": "strip"
+    },
+    "_dull": {
+        "term": "dull",
+        "kor_meaning": "지루한",
+        "synonyms": "boring, prosaic, uninteresting, tiresome, tiring"
+    },
+    "_endeavor": {
+        "term": "endeavor",
+        "kor_meaning": "노력하다, 애쓰다",
+        "synonyms": "strive, struggle"
+    },
+    "_flock": {
+        "term": "flock",
+        "kor_meaning": "무리",
+        "synonyms": "group, multitude"
+    },
+    "_generous": {
+        "term": "generous",
+        "kor_meaning": "관대한",
+        "synonyms": "bountiful, unselfish, liberal, humane, kind"
+    },
+    "_grant": {
+        "term": "grant",
+        "kor_meaning": "주다, 수여하다",
+        "synonyms": "bestow, confer, award"
+    },
+    "_hustle": {
+        "term": "hustle",
+        "kor_meaning": "서두르다",
+        "synonyms": "rush, hurry, hasten"
+    },
+    "_push": {
+        "term": "push",
+        "kor_meaning": "밀다",
+        "synonyms": "shove"
+    },
+    "_intermediate": {
+        "term": "intermediate",
+        "kor_meaning": "중간의",
+        "synonyms": "between extremes, mean, median, halfway"
+    },
+    "_intolerant": {
+        "term": "intolerant",
+        "kor_meaning": "옹졸한, 편협한",
+        "synonyms": "impatient, bigoted, prejudiced, biased"
+    },
+    "_kind": {
+        "term": "kind",
+        "kor_meaning": "친절한",
+        "synonyms": "benign, humane, compassionate"
+    },
+    "_limit": {
+        "term": "limit",
+        "kor_meaning": "경계, 한계",
+        "synonyms": "bound, boundary"
+    },
+    "_margin": {
+        "term": "margin",
+        "kor_meaning": "가장자리",
+        "synonyms": "border, edge, rim, verge"
+    },
+    "_militia": {
+        "term": "militia",
+        "kor_meaning": "시민군",
+        "synonyms": "military, army"
+    },
+    "_moreover": {
+        "term": "moreover",
+        "kor_meaning": "게다가",
+        "synonyms": "in addition, additionally, as well, besides, further more"
+    },
+    "_necessary": {
+        "term": "necessary",
+        "kor_meaning": "필수적인",
+        "synonyms": "required, indispensable, essential, vital"
+    },
+    "_obstruct": {
+        "term": "obstruct",
+        "kor_meaning": "막다",
+        "synonyms": "block, bar, hinder, blockade, prevent"
+    },
+    "_on_the_spot": {
+        "term": "on the spot",
+        "kor_meaning": "즉시",
+        "synonyms": "instantly, immediately"
+    },
+    "_partial": {
+        "term": "partial",
+        "kor_meaning": "편파적인",
+        "synonyms": "biased, prejudiced, unfair"
+    },
+    "_petition": {
+        "term": "petition",
+        "kor_meaning": "간청하다",
+        "synonyms": "supplicate, beg, solicit"
+    },
+    "_placid": {
+        "term": "placid",
+        "kor_meaning": "평온한",
+        "synonyms": "calm, serene, tranquil, untroubled"
+    },
+    "_porosity": {
+        "term": "porosity",
+        "kor_meaning": "다공성",
+        "synonyms": "space, porousness"
+    },
+    "_reform": {
+        "term": "reform",
+        "kor_meaning": "개정하다",
+        "synonyms": "amend, improve, ameliorate"
+    },
+    "_rigid": {
+        "term": "rigid",
+        "kor_meaning": "단단한",
+        "synonyms": "stiff, hard, inflexible"
+    },
+    "_blame": {
+        "term": "blame",
+        "kor_meaning": "비난하다",
+        "synonyms": "incriminate, reproach, censure, condemn"
+    },
+    "_chaotic": {
+        "term": "chaotic",
+        "kor_meaning": "무질서한",
+        "synonyms": "disorganized, disordered, anarchic, deranged"
+    },
+    "_comprehend": {
+        "term": "comprehend",
+        "kor_meaning": "이해하다",
+        "synonyms": "grasp, perceive, conceive"
+    },
+    "_creditable": {
+        "term": "creditable",
+        "kor_meaning": "명예로운",
+        "synonyms": "reputable, honorable"
+    },
+    "_decided": {
+        "term": "decided",
+        "kor_meaning": "단호한",
+        "synonyms": "uncompromising, determined, final"
+    },
+    "_displace": {
+        "term": "displace",
+        "kor_meaning": "대체하다",
+        "synonyms": "supplant, replace, remove"
+    },
+    "_enclose": {
+        "term": "enclose",
+        "kor_meaning": "에워싸다",
+        "synonyms": "surround, circle, encompass"
+    },
+    "_entail": {
+        "term": "entail",
+        "kor_meaning": "~을 수반하다",
+        "synonyms": "involve, require, impose"
+    },
+    "_excel": {
+        "term": "excel",
+        "kor_meaning": "능가하다, 빼어나다",
+        "synonyms": "be superior to, surpass, outdo, transcend"
+    },
+    "_genre": {
+        "term": "genre",
+        "kor_meaning": "유형",
+        "synonyms": "kind, type, style"
+    },
+    "_illustrate": {
+        "term": "illustrate",
+        "kor_meaning": "설명하다",
+        "synonyms": "represent, picture, depict, describe, explain"
+    },
+    "_infrastructure": {
+        "term": "infrastructure",
+        "kor_meaning": "하부구조",
+        "synonyms": "base, basis, groundwork"
+    },
+    "_inhibit": {
+        "term": "inhibit",
+        "kor_meaning": "금지하다",
+        "synonyms": "hinder, limit, ban, prohibit, forbid"
+    },
+    "_involve": {
+        "term": "involve",
+        "kor_meaning": "을 수반하다",
+        "synonyms": "include, entail, require"
+    },
+    "_lease": {
+        "term": "lease",
+        "kor_meaning": "임대하다",
+        "synonyms": "rent, hire, charter"
+    },
+    "_likewise": {
+        "term": "likewise",
+        "kor_meaning": "마찬가지로, 또한",
+        "synonyms": "similarly, also"
+    },
+    "_limited": {
+        "term": "limited",
+        "kor_meaning": "제한된",
+        "synonyms": "narrow, confined, restricted"
+    },
+    "_lodge_in": {
+        "term": "lodge in",
+        "kor_meaning": "박다, 꽂아 넣다",
+        "synonyms": "embed, implant"
+    },
+    "_mingle": {
+        "term": "mingle",
+        "kor_meaning": "섞다",
+        "synonyms": "unite, mix, blend"
+    },
+    "_obligation": {
+        "term": "obligation",
+        "kor_meaning": "의무",
+        "synonyms": "requirement, duty, responsibility"
+    },
+    "_oblige": {
+        "term": "oblige",
+        "kor_meaning": "강요하다",
+        "synonyms": "require, urge, force, induce"
+    },
+    "_offer": {
+        "term": "offer",
+        "kor_meaning": "제공하다",
+        "synonyms": "present, proffer, tender"
+    },
+    "_on_occasion": {
+        "term": "on occasion",
+        "kor_meaning": "가끔",
+        "synonyms": "occasionally, periodically"
+    },
+    "_oppose": {
+        "term": "oppose",
+        "kor_meaning": "반대하다",
+        "synonyms": "resist, object to"
+    },
+    "_pare": {
+        "term": "pare",
+        "kor_meaning": "껍질을 벗기다, 삭감하다",
+        "synonyms": "peel, reduce, whittle, trim"
+    },
+    "_peril": {
+        "term": "peril",
+        "kor_meaning": "위기",
+        "synonyms": "risk, jeopardy, hazard, danger"
+    },
+    "_predominately": {
+        "term": "predominately",
+        "kor_meaning": "주로",
+        "synonyms": "primarily, predominantly, preponderantly"
+    },
+    "_refract": {
+        "term": "refract",
+        "kor_meaning": "굴절시키다",
+        "synonyms": "distort"
+    },
+    "_render": {
+        "term": "render",
+        "kor_meaning": "~을 표현하다",
+        "synonyms": "represent"
+    },
+    "_renown": {
+        "term": "renown",
+        "kor_meaning": "명성",
+        "synonyms": "fame, repute, distinction, reputation"
+    },
+    "_repel": {
+        "term": "repel",
+        "kor_meaning": "물리치다",
+        "synonyms": "drive away, repulse, parry, compel"
+    },
+    "_restore": {
+        "term": "restore",
+        "kor_meaning": "복구하다",
+        "synonyms": "renew, renovate, repair"
+    },
+    "_sanitation": {
+        "term": "sanitation",
+        "kor_meaning": "공중위생",
+        "synonyms": "health, hygiene"
+    },
+    "_savor": {
+        "term": "savor",
+        "kor_meaning": "맛",
+        "synonyms": "taste, flavor"
+    },
+    "_spare": {
+        "term": "spare",
+        "kor_meaning": "절약하다",
+        "synonyms": "save, economize"
+    },
+    "_stimulating": {
+        "term": "stimulating",
+        "kor_meaning": "활기(자극)를 주는",
+        "synonyms": "restorative, refreshing, energizing"
+    },
+    "_typify": {
+        "term": "typify",
+        "kor_meaning": "대표하다",
+        "synonyms": "represent, embody, symbolize"
+    },
+    "_wholesale": {
+        "term": "wholesale",
+        "kor_meaning": "대규모의",
+        "synonyms": "enormous, extensive, indiscriminate"
+    },
+    "_yet": {
+        "term": "yet",
+        "kor_meaning": "그럼에도 불구하고",
+        "synonyms": "nevertheless"
+    },
+    "_admire": {
+        "term": "admire",
+        "kor_meaning": "존경하다",
+        "synonyms": "esteem, revere, respect"
+    },
+    "_adroit": {
+        "term": "adroit",
+        "kor_meaning": "능숙한",
+        "synonyms": "skillful, dexterous, proficient, competent"
+    },
+    "_ambivalent": {
+        "term": "ambivalent",
+        "kor_meaning": "불확실한, 상반된 감정이 공존하는",
+        "synonyms": "unsure, undecided"
+    },
+    "_cheat": {
+        "term": "cheat",
+        "kor_meaning": "속이다",
+        "synonyms": "deceive, trick, delude, swindle"
+    },
+    "_composed": {
+        "term": "composed",
+        "kor_meaning": "차분한",
+        "synonyms": "calm, tranquil"
+    },
+    "_conceal": {
+        "term": "conceal",
+        "kor_meaning": "숨기다",
+        "synonyms": "hide, cover, obscure, mask, bury"
+    },
+    "_conciseness": {
+        "term": "conciseness",
+        "kor_meaning": "간결함",
+        "synonyms": "brevity, shortness"
+    },
+    "_deliberate": {
+        "term": "deliberate",
+        "kor_meaning": "신중한",
+        "synonyms": "careful, thoughtful, cautious"
+    },
+    "_glow": {
+        "term": "glow",
+        "kor_meaning": "빛나다",
+        "synonyms": "shine, radiate, beam"
+    },
+    "_hiatus": {
+        "term": "hiatus",
+        "kor_meaning": "틈",
+        "synonyms": "break, interruption, gap"
+    },
+    "_incinerate": {
+        "term": "incinerate",
+        "kor_meaning": "태우다",
+        "synonyms": "burn"
+    },
+    "_indignity": {
+        "term": "indignity",
+        "kor_meaning": "경멸, 모욕",
+        "synonyms": "humiliation, insult, scorn"
+    },
+    "_inert": {
+        "term": "inert",
+        "kor_meaning": "활동하지 않는, 비활성의",
+        "synonyms": "motionless, stationary"
+    },
+    "_load": {
+        "term": "load",
+        "kor_meaning": "짐, 부담",
+        "synonyms": "burden"
+    },
+    "_luster": {
+        "term": "luster",
+        "kor_meaning": "광채",
+        "synonyms": "sheen, brightness, brilliance, radiance"
+    },
+    "_massive": {
+        "term": "massive",
+        "kor_meaning": "육중한",
+        "synonyms": "huge, colossal, enormous, bulky, large"
+    },
+    "_occupy": {
+        "term": "occupy",
+        "kor_meaning": "점유하다",
+        "synonyms": "engross, capture, seize"
+    },
+    "_polish": {
+        "term": "polish",
+        "kor_meaning": "광내다",
+        "synonyms": "brighten, shine, gloss"
+    },
+    "_precede": {
+        "term": "precede",
+        "kor_meaning": "앞서다, 우선하다",
+        "synonyms": "come before, antecede, forerun"
+    },
+    "_prove": {
+        "term": "prove",
+        "kor_meaning": "입증하다",
+        "synonyms": "verify, substantiate, confirm"
+    },
+    "_purchase": {
+        "term": "purchase",
+        "kor_meaning": "사다",
+        "synonyms": "buy, procure"
+    },
+    "_restful": {
+        "term": "restful",
+        "kor_meaning": "편안한",
+        "synonyms": "peaceful, undisturbed, pacific"
+    },
+    "_restrict": {
+        "term": "restrict",
+        "kor_meaning": "제한하다",
+        "synonyms": "limit, confine, restrain, constrain"
+    },
+    "_rupture": {
+        "term": "rupture",
+        "kor_meaning": "파열, 분쟁",
+        "synonyms": "breach, burst"
+    },
+    "_scrutiny": {
+        "term": "scrutiny",
+        "kor_meaning": "정밀조사",
+        "synonyms": "examination, investigation, inspection"
+    },
+    "_seductive": {
+        "term": "seductive",
+        "kor_meaning": "매혹적인",
+        "synonyms": "tempting, enticing"
+    },
+    "_seep": {
+        "term": "seep",
+        "kor_meaning": "스며들다",
+        "synonyms": "go through slowly, permeate"
+    },
+    "_shatter": {
+        "term": "shatter",
+        "kor_meaning": "박살 내다",
+        "synonyms": "break, crumble, smash, crash"
+    },
+    "_shock": {
+        "term": "shock",
+        "kor_meaning": "충격을 주다",
+        "synonyms": "jolt, startle"
+    },
+    "_significant": {
+        "term": "significant",
+        "kor_meaning": "중요한",
+        "synonyms": "considerable, important, substantial, serious"
+    },
+    "_slab": {
+        "term": "slab",
+        "kor_meaning": "조각",
+        "synonyms": "single piece of material"
+    },
+    "_slaughter": {
+        "term": "slaughter",
+        "kor_meaning": "학살하다",
+        "synonyms": "massacre, butcher, kill"
+    },
+    "_strife": {
+        "term": "strife",
+        "kor_meaning": "싸움",
+        "synonyms": "conflict, struggle, fight"
+    },
+    "_summon": {
+        "term": "summon",
+        "kor_meaning": "모집, 소환하다",
+        "synonyms": "convene, convoke, bid"
+    },
+    "_sustained": {
+        "term": "sustained",
+        "kor_meaning": "지속적인",
+        "synonyms": "continued, constant, prolonged, steady"
+    },
+    "_temperance": {
+        "term": "temperance",
+        "kor_meaning": "자제, 절제",
+        "synonyms": "moderation, continence, self-discipline"
+    },
+    "_tremendous": {
+        "term": "tremendous",
+        "kor_meaning": "엄청난",
+        "synonyms": "huge, great, gigantic, colossal, enormous"
+    },
+    "_vivid": {
+        "term": "vivid",
+        "kor_meaning": "선명한, 생생한",
+        "synonyms": "bright, graphic, pictorial, lifelike, realistic"
+    }
+};
+        const wordsByChapter = {"0":[{"num":"0","id":"_abandon","term":"abandon","synonyms":["give up","relinquish","leave","desert","resign","forsake"],"kor_meaning":"버리다"},{"num":"1","id":"_antidote","term":"antidote","synonyms":["remedy"],"kor_meaning":"치료법"},{"num":"2","id":"_conspicuous","term":"conspicuous","synonyms":["noticeable","obvious","prominent","apparent","manifest"],"kor_meaning":"뚜렷한"},{"num":"3","id":"_critical","term":"critical","synonyms":["important","vital","imperative"],"kor_meaning":"중요한"},{"num":"4","id":"_discriminate","term":"discriminate","synonyms":["distinguish","discern","perceive"],"kor_meaning":"구별하다"},{"num":"5","id":"_dorsal","term":"dorsal","synonyms":["relating to the back","on the back of"],"kor_meaning":"등(부분)의"},{"num":"6","id":"_eliminate","term":"eliminate","synonyms":["remove","get rid of","discard","eradicate"],"kor_meaning":"제거하다"},{"num":"7","id":"_fuse","term":"fuse","synonyms":["melt","dissolve","thaw"],"kor_meaning":"녹다"},{"num":"8","id":"_hinterland","term":"hinterland","synonyms":["region"],"kor_meaning":"배후지"},{"num":"9","id":"_earnest","term":"earnest","synonyms":["serious","solemn","grave","sober","steady"],"kor_meaning":"진지한"},{"num":"10","id":"_kinship","term":"kinship","synonyms":["family relationship"],"kor_meaning":"혈연 관계"},{"num":"11","id":"_laden","term":"laden","synonyms":["burdened","loaded","weighed down"],"kor_meaning":"(짐을) 실은"},{"num":"12","id":"_lumber","term":"lumber","synonyms":["board","log","timber"],"kor_meaning":"목재"},{"num":"13","id":"_mirror","term":"mirror","synonyms":["reflect","repeat"],"kor_meaning":"반영하다"},{"num":"14","id":"_mutual","term":"mutual","synonyms":["reciprocal","joint","interactive","inter-personal"],"kor_meaning":"상호간의"},{"num":"15","id":"_obtainable","term":"obtainable","synonyms":["available","achievable","attainable"],"kor_meaning":"손에 넣을 수 있는"},{"num":"16","id":"_patch","term":"patch","synonyms":["mend","repair","fix"],"kor_meaning":"수선하다"},{"num":"17","id":"_protest","term":"protest","synonyms":["remonstrate","complain","object"],"kor_meaning":"항의하다"},{"num":"18","id":"_rash","term":"rash","synonyms":["reckless","heedless","indiscreet"],"kor_meaning":"경솔한"},{"num":"19","id":"_recall","term":"recall","synonyms":["remember","recollect"],"kor_meaning":"회상하다"},{"num":"20","id":"_recite","term":"recite","synonyms":["rehearse"],"kor_meaning":"암송하다"},{"num":"21","id":"_regain","term":"regain","synonyms":["recover","retrieve"],"kor_meaning":"~을 되찾다"},{"num":"22","id":"_reinforce","term":"reinforce","synonyms":["strengthen","fortify"],"kor_meaning":"강화하다"},{"num":"23","id":"_relevant_to","term":"relevant to","synonyms":["pertinent to","applicable"],"kor_meaning":"관련된, 적절한"},{"num":"24","id":"_reminisce","term":"reminisce","synonyms":["remember","recollect","recall","look back"],"kor_meaning":"회상하다"},{"num":"25","id":"_repent","term":"repent","synonyms":["regret","atone"],"kor_meaning":"후회하다"},{"num":"26","id":"_resign","term":"resign","synonyms":["relinquish","abandon","forsake"],"kor_meaning":"포기하다"},{"num":"27","id":"_secrete","term":"secrete","synonyms":["release","produce","discharge"],"kor_meaning":"분비하다"},{"num":"28","id":"_soothe","term":"soothe","synonyms":["relieve","allay","mitigate"],"kor_meaning":"달래다"},{"num":"29","id":"_stay","term":"stay","synonyms":["remain","reside","sojourn"],"kor_meaning":"머무르다"},{"num":"30","id":"_surplus","term":"surplus","synonyms":["extra","redundance","remainder"],"kor_meaning":"나머지, 잔여"},{"num":"31","id":"_tear","term":"tear","synonyms":["rend","rip","sever"],"kor_meaning":"찢다"},{"num":"32","id":"_swear","term":"swear","synonyms":["avow","vow","promise"],"kor_meaning":"맹세하다"},{"num":"33","id":"_toothed","term":"toothed","synonyms":["uneven","jagged","ragged"],"kor_meaning":"들쑥날쑥한"},{"num":"34","id":"_transform","term":"transform","synonyms":["convert","change","alter"],"kor_meaning":"변형시키다"},{"num":"35","id":"_trustworthy","term":"trustworthy","synonyms":["reliable","true","credible"],"kor_meaning":"믿을 수 있는"},{"num":"36","id":"_unbalanced","term":"unbalanced","synonyms":["asymmetric","lopsided"],"kor_meaning":"균형을 잃은"},{"num":"37","id":"_unrelenting","term":"unrelenting","synonyms":["relentless","implacable","inexorable","cruel"],"kor_meaning":"무자비한"},{"num":"38","id":"_utilitarian","term":"utilitarian","synonyms":["practical","pragmatic"],"kor_meaning":"실용주의의"},{"num":"39","id":"_variety","term":"variety","synonyms":["diversity","multiplicity"],"kor_meaning":"다양성"},{"num":"40","id":"_variety","term":"variety","synonyms":["type","species","sort"],"kor_meaning":"종류"}],"1":[{"num":"0","id":"_advantage","term":"advantage","synonyms":["benefit","profit","behalf"],"kor_meaning":"이익"},{"num":"1","id":"_arise_from","term":"arise from","synonyms":["originate from","stem from"],"kor_meaning":"-에서 기인하다"},{"num":"2","id":"_barrier","term":"barrier","synonyms":["bar","obstacle","obstruction","barricade"],"kor_meaning":"장애물"},{"num":"3","id":"_betray","term":"betray","synonyms":["be unfaithful to","be a traitor to"],"kor_meaning":"배신하다"},{"num":"4","id":"_bind","term":"bind","synonyms":["tie","bond","fasten"],"kor_meaning":"묶다"},{"num":"5","id":"_blur","term":"blur","synonyms":["make vague","obscure","cloud"],"kor_meaning":"흐리게 하다"},{"num":"6","id":"_circumvent","term":"circumvent","synonyms":["avoid","bypass","go around"],"kor_meaning":"우회하다"},{"num":"7","id":"_clumsy","term":"clumsy","synonyms":["awkward","unskillful"],"kor_meaning":"서투른"},{"num":"8","id":"_commence","term":"commence","synonyms":["begin","start","originate"],"kor_meaning":"시작하다"},{"num":"9","id":"_conduct","term":"conduct","synonyms":["behavior","demeanor","bearing","manner"],"kor_meaning":"행동"},{"num":"10","id":"_conserve","term":"conserve","synonyms":["retain","keep","save"],"kor_meaning":"보존하다"},{"num":"11","id":"_contradiction","term":"contradiction","synonyms":["paradox"],"kor_meaning":"모순"},{"num":"12","id":"_culminate","term":"culminate","synonyms":["result","end"],"kor_meaning":"-로 끝나다."},{"num":"13","id":"_delineate","term":"delineate","synonyms":["trace","draw","describe"],"kor_meaning":"윤곽을 그리다"},{"num":"14","id":"_donation","term":"donation","synonyms":["contribution","gift","offering"],"kor_meaning":"기증"},{"num":"15","id":"_embark_on","term":"embark on","synonyms":["start","commence","begin"],"kor_meaning":"시작하다. 착수하다"},{"num":"16","id":"_foundation","term":"foundation","synonyms":["basis","underpinning","base","ground"],"kor_meaning":"기초"},{"num":"17","id":"_fundamental","term":"fundamental","synonyms":["basic","essential","primary"],"kor_meaning":"근본적인"},{"num":"18","id":"_handful","term":"handful","synonyms":["few","smattering"],"kor_meaning":"소량, 소수"},{"num":"19","id":"_height","term":"height","synonyms":["peak","apex","crest","zenith"],"kor_meaning":"절정"},{"num":"20","id":"_identical","term":"identical","synonyms":["same","alike","equal"],"kor_meaning":"동일한"},{"num":"21","id":"_impediment","term":"impediment","synonyms":["obstacle","barrier","difficulty","obstruction"],"kor_meaning":"장애"},{"num":"22","id":"_justify","term":"justify","synonyms":["prove","confirm","verify","인증하다"],"kor_meaning":"증명하다"},{"num":"23","id":"_lament","term":"lament","synonyms":["complain","deplore","grieve","bemoan","mourn"],"kor_meaning":"슬퍼하다"},{"num":"24","id":"_microorganism","term":"microorganism","synonyms":["microbe","bacterium"],"kor_meaning":"미생물"},{"num":"25","id":"_moody","term":"moody","synonyms":["gloomy","sullen","dismal","melancholy"],"kor_meaning":"우울한"},{"num":"26","id":"_origin","term":"origin","synonyms":["beginning","source"],"kor_meaning":"발생, 근원"},{"num":"27","id":"_predict","term":"predict","synonyms":["foretell","prophesy","foresee"],"kor_meaning":"예측하다"},{"num":"28","id":"_progress","term":"progress","synonyms":["strides","improvement","advance","development"],"kor_meaning":"발전"},{"num":"29","id":"_scoop","term":"scoop","synonyms":["gather","lift","pick up"],"kor_meaning":"긁어 모으다"},{"num":"30","id":"_score","term":"score","synonyms":["gain","win"],"kor_meaning":"얻다"},{"num":"31","id":"_score","term":"score","synonyms":["musical composition","musical note"],"kor_meaning":"악보"},{"num":"32","id":"_scrap","term":"scrap","synonyms":["fracture","piece","portion"],"kor_meaning":"파편"},{"num":"33","id":"_singularly","term":"singularly","synonyms":["particularly","especially"],"kor_meaning":"각별히"},{"num":"34","id":"_skilled","term":"skilled","synonyms":["skillful","adept","expert","proficient"],"kor_meaning":"숙련된"},{"num":"35","id":"_stem","term":"stem","synonyms":["base","root"],"kor_meaning":"어간"},{"num":"36","id":"_stem","term":"stem","synonyms":["stop","dam","obstruct"],"kor_meaning":"막다"},{"num":"37","id":"_stem","term":"stem","synonyms":["arise from","originate","derive","proceed"],"kor_meaning":"유래하다"},{"num":"38","id":"_subdue","term":"subdue","synonyms":["conquer","defeat","suppress"],"kor_meaning":"정복하다"},{"num":"39","id":"_subsidize","term":"subsidize","synonyms":["assist","encourage","finance","back","fund"],"kor_meaning":"후원하다"},{"num":"40","id":"_unanimity","term":"unanimity","synonyms":["accord","agreement"],"kor_meaning":"(만장) 일치"}],"2":[{"num":"0","id":"_alloy","term":"alloy","synonyms":["mix","blend","mingle","compound"],"kor_meaning":"혼합하다"},{"num":"1","id":"_barely","term":"barely","synonyms":["scarcely","hardly","seldom","rarely"],"kor_meaning":"거의 ~않다"},{"num":"2","id":"_captivity","term":"captivity","synonyms":["bondage","confinement"],"kor_meaning":"속박, 감금"},{"num":"3","id":"_clasp","term":"clasp","synonyms":["grasp","grip","clutch","capture"],"kor_meaning":"잡다"},{"num":"4","id":"_cohesion","term":"cohesion","synonyms":["bond","unity","adhesion","adherence","union"],"kor_meaning":"결합, 유대(감)"},{"num":"5","id":"_coincide","term":"coincide","synonyms":["exist or occur at the same time"],"kor_meaning":"동시에 일어나다"},{"num":"6","id":"_coincide","term":"coincide","synonyms":["agree","concur"],"kor_meaning":"의견이 일치하다"},{"num":"7","id":"_colossal","term":"colossal","synonyms":["enormous","monstrous","gigantic","tremendous"],"kor_meaning":"거대한"},{"num":"8","id":"_considerable","term":"considerable","synonyms":["significant","substantial"],"kor_meaning":"중요한"},{"num":"9","id":"_considerable","term":"considerable","synonyms":["big","sizable","large"],"kor_meaning":"상당한"},{"num":"10","id":"_converge","term":"converge","synonyms":["meet","gather","merge"],"kor_meaning":"집중되다"},{"num":"11","id":"_corpse","term":"corpse","synonyms":["dead body"],"kor_meaning":"시체"},{"num":"12","id":"_covet","term":"covet","synonyms":["desire","long for","aspire to","envy","crave for"],"kor_meaning":"갈망하다"},{"num":"13","id":"_defection","term":"defection","synonyms":["shortcoming","blemish","fault","flaw"],"kor_meaning":"결점"},{"num":"14","id":"_defection","term":"defection","synonyms":["betrayal"],"kor_meaning":"배반"},{"num":"15","id":"_deprive","term":"deprive","synonyms":["strip"],"kor_meaning":"박탈하다"},{"num":"16","id":"_dull","term":"dull","synonyms":["boring","prosaic","uninteresting","tiresome","tiring"],"kor_meaning":"지루한"},{"num":"17","id":"_endeavor","term":"endeavor","synonyms":["strive","struggle"],"kor_meaning":"노력하다, 애쓰다"},{"num":"18","id":"_flock","term":"flock","synonyms":["group","multitude"],"kor_meaning":"무리"},{"num":"19","id":"_generous","term":"generous","synonyms":["bountiful","unselfish","liberal","humane","kind"],"kor_meaning":"관대한"},{"num":"20","id":"_grant","term":"grant","synonyms":["bestow","confer","award"],"kor_meaning":"주다, 수여하다"},{"num":"21","id":"_hustle","term":"hustle","synonyms":["rush","hurry","hasten"],"kor_meaning":"서두르다"},{"num":"22","id":"_push","term":"push","synonyms":["shove"],"kor_meaning":"밀다"},{"num":"23","id":"_intermediate","term":"intermediate","synonyms":["between extremes","mean","median","halfway"],"kor_meaning":"중간의"},{"num":"24","id":"_intolerant","term":"intolerant","synonyms":["impatient","bigoted","prejudiced","biased"],"kor_meaning":"옹졸한, 편협한"},{"num":"25","id":"_kind","term":"kind","synonyms":["benign","humane","compassionate"],"kor_meaning":"친절한"},{"num":"26","id":"_limit","term":"limit","synonyms":["bound","boundary"],"kor_meaning":"경계, 한계"},{"num":"27","id":"_limit","term":"limit","synonyms":["restrict","confine"],"kor_meaning":"제한하다"},{"num":"28","id":"_margin","term":"margin","synonyms":["border","edge","rim","verge"],"kor_meaning":"가장자리"},{"num":"29","id":"_militia","term":"militia","synonyms":["military","army"],"kor_meaning":"시민군"},{"num":"30","id":"_moreover","term":"moreover","synonyms":["in addition","additionally","as well","besides","further more"],"kor_meaning":"게다가"},{"num":"31","id":"_necessary","term":"necessary","synonyms":["required","indispensable","essential","vital"],"kor_meaning":"필수적인"},{"num":"32","id":"_obstruct","term":"obstruct","synonyms":["block","bar","hinder","blockade","prevent"],"kor_meaning":"막다"},{"num":"33","id":"_on_the_spot","term":"on the spot","synonyms":["instantly","immediately"],"kor_meaning":"즉시"},{"num":"34","id":"_partial","term":"partial","synonyms":["biased","prejudiced","unfair"],"kor_meaning":"편파적인"},{"num":"35","id":"_petition","term":"petition","synonyms":["supplicate","beg","solicit"],"kor_meaning":"간청하다"},{"num":"36","id":"_placid","term":"placid","synonyms":["calm","serene","tranquil","untroubled"],"kor_meaning":"평온한"},{"num":"37","id":"_porosity","term":"porosity","synonyms":["space","porousness"],"kor_meaning":"다공성"},{"num":"38","id":"_reform","term":"reform","synonyms":["amend","improve","ameliorate"],"kor_meaning":"개정하다"},{"num":"39","id":"_rigid","term":"rigid","synonyms":["stiff","hard","inflexible"],"kor_meaning":"단단한"},{"num":"40","id":"_rigid","term":"rigid","synonyms":["strict","severe","rigorous"],"kor_meaning":"엄격한"}],"3":[{"num":"0","id":"_blame","term":"blame","synonyms":["incriminate","reproach","censure","condemn"],"kor_meaning":"비난하다"},{"num":"1","id":"_chaotic","term":"chaotic","synonyms":["disorganized","disordered","anarchic","deranged"],"kor_meaning":"무질서한"},{"num":"2","id":"_comprehend","term":"comprehend","synonyms":["grasp","perceive","conceive"],"kor_meaning":"이해하다"},{"num":"3","id":"_creditable","term":"creditable","synonyms":["reputable","honorable"],"kor_meaning":"명예로운"},{"num":"4","id":"_decided","term":"decided","synonyms":["uncompromising","determined","final"],"kor_meaning":"단호한"},{"num":"5","id":"_displace","term":"displace","synonyms":["supplant","replace","remove"],"kor_meaning":"대체하다"},{"num":"6","id":"_enclose","term":"enclose","synonyms":["surround","circle","encompass"],"kor_meaning":"에워싸다"},{"num":"7","id":"_entail","term":"entail","synonyms":["involve","require","impose"],"kor_meaning":"~을 수반하다"},{"num":"8","id":"_excel","term":"excel","synonyms":["be superior to","surpass","outdo","transcend"],"kor_meaning":"능가하다, 빼어나다"},{"num":"9","id":"_genre","term":"genre","synonyms":["kind","type","style"],"kor_meaning":"유형"},{"num":"10","id":"_illustrate","term":"illustrate","synonyms":["represent","picture","depict","describe","explain"],"kor_meaning":"설명하다"},{"num":"11","id":"_infrastructure","term":"infrastructure","synonyms":["base","basis","groundwork"],"kor_meaning":"하부구조"},{"num":"12","id":"_inhibit","term":"inhibit","synonyms":["hinder","limit","ban","prohibit","forbid"],"kor_meaning":"금지하다"},{"num":"13","id":"_involve","term":"involve","synonyms":["include","entail","require"],"kor_meaning":"을 수반하다"},{"num":"14","id":"_lease","term":"lease","synonyms":["rent","hire","charter"],"kor_meaning":"임대하다"},{"num":"15","id":"_likewise","term":"likewise","synonyms":["similarly","also"],"kor_meaning":"마찬가지로, 또한"},{"num":"16","id":"_limited","term":"limited","synonyms":["narrow","confined","restricted"],"kor_meaning":"제한된"},{"num":"17","id":"_lodge_in","term":"lodge in","synonyms":["embed","implant"],"kor_meaning":"박다, 꽂아 넣다"},{"num":"18","id":"_mingle","term":"mingle","synonyms":["unite","mix","blend"],"kor_meaning":"섞다"},{"num":"19","id":"_obligation","term":"obligation","synonyms":["requirement","duty","responsibility"],"kor_meaning":"의무"},{"num":"20","id":"_oblige","term":"oblige","synonyms":["require","urge","force","induce"],"kor_meaning":"강요하다"},{"num":"21","id":"_offer","term":"offer","synonyms":["present","proffer","tender"],"kor_meaning":"제공하다"},{"num":"22","id":"_on_occasion","term":"on occasion","synonyms":["occasionally","periodically"],"kor_meaning":"가끔"},{"num":"23","id":"_oppose","term":"oppose","synonyms":["resist","object to"],"kor_meaning":"반대하다"},{"num":"24","id":"_pare","term":"pare","synonyms":["peel","reduce","whittle","trim"],"kor_meaning":"껍질을 벗기다, 삭감하다"},{"num":"25","id":"_peril","term":"peril","synonyms":["risk","jeopardy","hazard","danger"],"kor_meaning":"위기"},{"num":"26","id":"_predominately","term":"predominately","synonyms":["primarily","predominantly","preponderantly"],"kor_meaning":"주로"},{"num":"27","id":"_refract","term":"refract","synonyms":["distort"],"kor_meaning":"굴절시키다"},{"num":"28","id":"_render","term":"render","synonyms":["represent"],"kor_meaning":"~을 표현하다"},{"num":"29","id":"_render","term":"render","synonyms":["afford","give","impart"],"kor_meaning":"주다"},{"num":"30","id":"_renown","term":"renown","synonyms":["fame","repute","distinction","reputation"],"kor_meaning":"명성"},{"num":"31","id":"_repel","term":"repel","synonyms":["drive away","repulse","parry","compel"],"kor_meaning":"물리치다"},{"num":"32","id":"_restore","term":"restore","synonyms":["renew","renovate","repair"],"kor_meaning":"복구하다"},{"num":"33","id":"_sanitation","term":"sanitation","synonyms":["health","hygiene"],"kor_meaning":"공중위생"},{"num":"34","id":"_savor","term":"savor","synonyms":["taste","flavor"],"kor_meaning":"맛"},{"num":"35","id":"_spare","term":"spare","synonyms":["save","economize"],"kor_meaning":"절약하다"},{"num":"36","id":"_spare","term":"spare","synonyms":["give","assign","offer"],"kor_meaning":"주다, (시간을) 할애하다"},{"num":"37","id":"_stimulating","term":"stimulating","synonyms":["restorative","refreshing","energizing"],"kor_meaning":"활기(자극)를 주는"},{"num":"38","id":"_typify","term":"typify","synonyms":["represent","embody","symbolize"],"kor_meaning":"대표하다"},{"num":"39","id":"_wholesale","term":"wholesale","synonyms":["enormous","extensive","indiscriminate"],"kor_meaning":"대규모의"},{"num":"40","id":"_yet","term":"yet","synonyms":["nevertheless"],"kor_meaning":"그럼에도 불구하고"}],"4":[{"num":"0","id":"_admire","term":"admire","synonyms":["esteem","revere","respect"],"kor_meaning":"존경하다"},{"num":"1","id":"_adroit","term":"adroit","synonyms":["skillful","dexterous","proficient","competent"],"kor_meaning":"능숙한"},{"num":"2","id":"_ambivalent","term":"ambivalent","synonyms":["unsure","undecided"],"kor_meaning":"불확실한, 상반된 감정이 공존하는"},{"num":"3","id":"_cheat","term":"cheat","synonyms":["deceive","trick","delude","swindle"],"kor_meaning":"속이다"},{"num":"4","id":"_composed","term":"composed","synonyms":["calm","tranquil"],"kor_meaning":"차분한"},{"num":"5","id":"_composed","term":"composed","synonyms":["created","written","formed"],"kor_meaning":"작성된"},{"num":"6","id":"_conceal","term":"conceal","synonyms":["hide","cover","obscure","mask","bury"],"kor_meaning":"숨기다"},{"num":"7","id":"_conciseness","term":"conciseness","synonyms":["brevity","shortness"],"kor_meaning":"간결함"},{"num":"8","id":"_deliberate","term":"deliberate","synonyms":["careful","thoughtful","cautious"],"kor_meaning":"신중한"},{"num":"9","id":"_deliberate","term":"deliberate","synonyms":["intentional","designed","planned","voluntary"],"kor_meaning":"의도적인"},{"num":"10","id":"_glow","term":"glow","synonyms":["shine","radiate","beam"],"kor_meaning":"빛나다"},{"num":"11","id":"_hiatus","term":"hiatus","synonyms":["break","interruption","gap"],"kor_meaning":"틈"},{"num":"12","id":"_incinerate","term":"incinerate","synonyms":["burn"],"kor_meaning":"태우다"},{"num":"13","id":"_indignity","term":"indignity","synonyms":["humiliation","insult","scorn"],"kor_meaning":"경멸, 모욕"},{"num":"14","id":"_inert","term":"inert","synonyms":["motionless","stationary"],"kor_meaning":"활동하지 않는, 비활성의"},{"num":"15","id":"_load","term":"load","synonyms":["burden"],"kor_meaning":"짐, 부담"},{"num":"16","id":"_luster","term":"luster","synonyms":["sheen","brightness","brilliance","radiance"],"kor_meaning":"광채"},{"num":"17","id":"_massive","term":"massive","synonyms":["huge","colossal","enormous","bulky","large"],"kor_meaning":"육중한"},{"num":"18","id":"_occupy","term":"occupy","synonyms":["engross","capture","seize"],"kor_meaning":"점유하다"},{"num":"19","id":"_polish","term":"polish","synonyms":["brighten","shine","gloss"],"kor_meaning":"광내다"},{"num":"20","id":"_precede","term":"precede","synonyms":["come before","antecede","forerun"],"kor_meaning":"앞서다, 우선하다"},{"num":"21","id":"_prove","term":"prove","synonyms":["verify","substantiate","confirm"],"kor_meaning":"입증하다"},{"num":"22","id":"_purchase","term":"purchase","synonyms":["buy","procure"],"kor_meaning":"사다"},{"num":"23","id":"_restful","term":"restful","synonyms":["peaceful","undisturbed","pacific"],"kor_meaning":"편안한"},{"num":"24","id":"_restrict","term":"restrict","synonyms":["limit","confine","restrain","constrain"],"kor_meaning":"제한하다"},{"num":"25","id":"_rupture","term":"rupture","synonyms":["breach","burst"],"kor_meaning":"파열, 분쟁"},{"num":"26","id":"_scrutiny","term":"scrutiny","synonyms":["examination","investigation","inspection"],"kor_meaning":"정밀조사"},{"num":"27","id":"_seductive","term":"seductive","synonyms":["tempting","enticing"],"kor_meaning":"매혹적인"},{"num":"28","id":"_seep","term":"seep","synonyms":["go through slowly","permeate"],"kor_meaning":"스며들다"},{"num":"29","id":"_shatter","term":"shatter","synonyms":["break","crumble","smash","crash"],"kor_meaning":"박살 내다"},{"num":"30","id":"_shock","term":"shock","synonyms":["jolt","startle"],"kor_meaning":"충격을 주다"},{"num":"31","id":"_significant","term":"significant","synonyms":["considerable","important","substantial","serious"],"kor_meaning":"중요한"},{"num":"32","id":"_slab","term":"slab","synonyms":["single piece of material"],"kor_meaning":"조각"},{"num":"33","id":"_slaughter","term":"slaughter","synonyms":["massacre","butcher","kill"],"kor_meaning":"학살하다"},{"num":"34","id":"_strife","term":"strife","synonyms":["conflict","struggle","fight"],"kor_meaning":"싸움"},{"num":"35","id":"_summon","term":"summon","synonyms":["convene","convoke","bid"],"kor_meaning":"모집, 소환하다"},{"num":"36","id":"_sustained","term":"sustained","synonyms":["continued","constant","prolonged","steady"],"kor_meaning":"지속적인"},{"num":"37","id":"_temperance","term":"temperance","synonyms":["moderation","continence","self-discipline"],"kor_meaning":"자제, 절제"},{"num":"38","id":"_tremendous","term":"tremendous","synonyms":["huge","great","gigantic","colossal","enormous"],"kor_meaning":"엄청난"},{"num":"39","id":"_vivid","term":"vivid","synonyms":["bright","graphic","pictorial","lifelike","realistic"],"kor_meaning":"선명한, 생생한"}]};
+        const contentHash = "2be32f6a";
+        const LONG_PRESS_DURATION = 1000;
+        const WORD_PRESS_DURATION = 300;
+
+        let currentChapterIndex = 0;
+        let currentSheet = null;
+        let pressTimer = null;
+        let highlightedElement = null;
+
+        const bottomSheet = document.getElementById('bottomSheet');
+        const wordPopup = document.getElementById('wordPopupOverlay');
+        const sentencePopup = document.getElementById('sentencePopupOverlay');
+        
+        function lockBodyScroll() {
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            if (scrollbarWidth > 0) {
+                document.body.style.paddingRight = `${scrollbarWidth}px`;
+            }
+            document.body.classList.add('no-scroll');
+        }
+
+        function unlockBodyScroll() {
+            document.body.classList.remove('no-scroll');
+            document.body.style.paddingRight = '';
+        }
+
+        function closeAllPopups() {
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+                highlightedElement = null;
+            }
+            if(wordPopup) wordPopup.classList.remove('show');
+            if(sentencePopup) sentencePopup.classList.remove('show');
+            closeSheet();
+            unlockBodyScroll();
+        }
+
+        function openSheet(type) {
+            const indexBtn = document.getElementById('index-toggle-btn');
+            const wordListBtn = document.getElementById('word-list-toggle-btn');
+            const bottomSheetTitle = document.getElementById('bottomSheetTitle');
+            const bottomSheetContent = document.getElementById('bottomSheetContent');
+            if (bottomSheet.classList.contains('show') && currentSheet === type) { return closeSheet(); }
+            if (type === 'index') {
+                bottomSheetTitle.textContent = '목차';
+                bottomSheetContent.innerHTML = document.getElementById('indexNavigationTemplate').innerHTML;
+                indexBtn.classList.add('active-btn');
+                wordListBtn.classList.remove('active-btn');
+            } else if (type === 'word') {
+                const wordsToShow = wordsByChapter[currentChapterIndex] || [];
+                bottomSheetTitle.textContent = `Chapter ${currentChapterIndex + 1} 단어 목록`;
+                bottomSheetContent.innerHTML = buildWordTableHtml(wordsToShow);
+                wordListBtn.classList.add('active-btn');
+                indexBtn.classList.remove('active-btn');
+            }
+            currentSheet = type;
+            bottomSheet.classList.add('show');
+            lockBodyScroll();
+        }
+
+        function closeSheet() {
+            if (!bottomSheet) return;
+            bottomSheet.classList.remove('show');
+            const indexBtn = document.getElementById('index-toggle-btn');
+            const wordListBtn = document.getElementById('word-list-toggle-btn');
+            if (indexBtn) indexBtn.classList.remove('active-btn');
+            if (wordListBtn) wordListBtn.classList.remove('active-btn');
+            currentSheet = null;
+            if (!wordPopup.classList.contains('show') && !sentencePopup.classList.contains('show')) {
+                 unlockBodyScroll();
+            }
+        }
+        
+        function showWordPopup(wordId) {
+            const wordInfo = wordData[wordId];
+            if (!wordPopup || !wordInfo) return;
+            wordPopup.querySelector('#popupTerm').textContent = wordInfo.term;
+            wordPopup.querySelector('#popupMeaning').innerHTML = '<strong>뜻:</strong> ' + wordInfo.kor_meaning;
+            const synonymsEl = wordPopup.querySelector('#popupSynonyms');
+            if (wordInfo.synonyms && wordInfo.synonyms.trim()) {
+                synonymsEl.innerHTML = '<strong>동의어:</strong> ' + wordInfo.synonyms;
+                synonymsEl.style.display = 'block';
+            } else {
+                synonymsEl.style.display = 'none';
+            }
+            wordPopup.classList.add('show');
+            lockBodyScroll();
+        }
+
+        function closePopup() { // 단어 팝업 닫기 전용
+            if (wordPopup) wordPopup.classList.remove('show');
+            if (!bottomSheet.classList.contains('show') && !sentencePopup.classList.contains('show')) {
+                unlockBodyScroll();
+            }
+        }
+        
+        function showSentencePopup(element) {
+            const translation = element.dataset.translation;
+            if (!sentencePopup || !translation) return;
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+            }
+            element.classList.add('highlighted-sentence');
+            highlightedElement = element;
+            sentencePopup.querySelector('#sentencePopupText').innerHTML = translation.replace(/&#34;/g, '"');
+            sentencePopup.classList.add('show');
+            lockBodyScroll();
+        }
+
+        function closeSentencePopup() {
+            if (sentencePopup) sentencePopup.classList.remove('show');
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+                highlightedElement = null;
+            }
+            if (!bottomSheet.classList.contains('show') && !wordPopup.classList.contains('show')) {
+                unlockBodyScroll();
+            }
+        }
+        
+        function toggleIndex(){ openSheet('index'); }
+        function toggleWordList(){ openSheet('word'); }
+
+        function showChapter(index) {
+            currentChapterIndex = index;
+            closeAllPopups();
+            document.querySelectorAll('.chapter-content').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
+            const chapterEl = document.getElementById('chapter-' + index);
+            if(chapterEl) {
+                chapterEl.style.display = 'block';
+                const titleEl = chapterEl.querySelector('h2');
+                if(titleEl) {
+                    titleEl.setAttribute('tabindex', '-1');
+                    titleEl.focus({ preventScroll: true });
+                }
+            }
+            const activeLink = document.querySelector(`.chapter-link[href="#chapter-${index}-${contentHash}"]`);
+            if(activeLink) activeLink.classList.add('active');
+        }
+
+        function handleNavigation() {
+            const hash = window.location.hash;
+            let chapterIndex = 0;
+            if (hash && hash.startsWith('#chapter-')) {
+                const parts = hash.substring(1).split('-');
+                if (parts.length >= 2) {
+                    const indexFromHash = parseInt(parts[1], 10);
+                    if (!isNaN(indexFromHash)) chapterIndex = indexFromHash;
+                }
+            }
+            showChapter(chapterIndex);
+        }
+
+        function buildWordTableHtml(words) {
+            if (!words || words.length === 0) return '<p style="padding: 20px; text-align: center;">이 챕터에 해당하는 단어가 없습니다.</p>';
+            const config = { term: 'term', kor_meaning: '뜻', synonyms: 'synonyms' };
+            const headers = Object.keys(config);
+            let table = '<table class="word-table"><thead><tr>';
+            Object.values(config).forEach(h => { table += `<th>${h}</th>`; });
+            table += '</tr></thead><tbody>';
+            words.forEach(word => {
+                table += '<tr>';
+                headers.forEach(key => {
+                    let cellData = Array.isArray(word[key]) ? word[key].join(', ') : word[key];
+                    table += `<td>${cellData || ''}</td>`;
+                });
+                table += '</tr>';
+            });
+            return table + '</tbody></table>';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            handleNavigation();
+
+			const SENTENCE_PRESS_DURATION = 300;
+            const mainContent = document.querySelector('.content');
+            const cancelPress = () => clearTimeout(pressTimer);
+            
+            mainContent.addEventListener('mousedown', function(e) {
+                if (e.target.closest('button') || e.target.closest('a')) return;
+                
+                const targetWord = e.target.closest('.word-link');
+                const targetSentence = e.target.closest('.sentence-unit');
+
+                if (targetWord) {
+                    pressTimer = setTimeout(() => {
+                        pressTimer = null;
+                        showWordPopup(targetWord.dataset.wordId);
+                    }, WORD_PRESS_DURATION);
+                } else if (targetSentence) {
+                    pressTimer = setTimeout(() => {
+                        pressTimer = null;
+                        showSentencePopup(targetSentence);
+                    }, SENTENCE_PRESS_DURATION);
+                }
+            });
+            
+            mainContent.addEventListener('mouseup', cancelPress);
+            mainContent.addEventListener('mouseleave', cancelPress, true);
+            mainContent.addEventListener('dragstart', cancelPress);
+            
+            document.getElementById('index-toggle-btn').addEventListener('click', toggleIndex);
+            document.getElementById('word-list-toggle-btn').addEventListener('click', toggleWordList);
+            
+            document.body.addEventListener('click', function(e) {
+                if(e.target.closest('.close-btn')) {
+                    if (e.target.closest('#wordPopupOverlay')) closePopup();
+                    else if (e.target.closest('#sentencePopupOverlay')) closeSentencePopup();
+                    else if (e.target.closest('#bottomSheet')) closeSheet();
+                    return;
+                }
+
+                if(e.target === wordPopup) return closePopup();
+                if(e.target === sentencePopup) return closeSentencePopup();
+                if(e.target === bottomSheet) return closeSheet();
+                
+                const indexItem = e.target.closest('.index-item');
+                if (indexItem && indexItem.dataset.href) {
+                    e.preventDefault();
+                    window.location.hash = indexItem.dataset.href;
+                }
+            });
+            
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllPopups(); });
+        });
+
+        window.addEventListener('hashchange', handleNavigation, false);
+    </script>
+</body>
+</html>

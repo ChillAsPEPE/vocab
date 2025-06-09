@@ -60,34 +60,62 @@ function generateChaptersHtml(storiesData, contentHash) {
 
 async function main() {
     console.log("--- HTML 파일 생성 시작 ---");
+
     const configResult = loadJsonFile('active_data.json');
     if (!configResult || !configResult.data.active_directory || !configResult.data.active_output) {
         console.error("❌ 오류: active_data.json 파일 또는 'active_directory', 'active_output' 키를 찾을 수 없습니다.");
         return;
     }
+
     const activeDirectory = configResult.data.active_directory;
     const outputDirectory = path.resolve(__dirname, configResult.data.active_output);
+
     if (!fs.existsSync(outputDirectory)) {
         fs.mkdirSync(outputDirectory, { recursive: true });
         console.log(`[정보] 출력 폴더 생성: ${outputDirectory}`);
     }
-    const dataPath = path.join(__dirname, activeDirectory);
+
     try {
-        const sets = fs.readdirSync(dataPath, { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
-        for (const set of sets) {
-            const setPath = path.join(dataPath, set);
+        const dataPath = path.join(__dirname, activeDirectory);
+        let setsToProcess = [];
+
+        // ★★★ 핵심 수정: 폴더 구조를 유연하게 감지하는 로직 ★★★
+        const potentialStoriesPath = path.join(dataPath, 'stories');
+        if (fs.existsSync(potentialStoriesPath)) {
+            // active_directory 자체가 set인 경우 (예: "data/gemini")
+            console.log(`[정보] 단일 set 모드로 '${activeDirectory}'를 처리합니다.`);
+            setsToProcess.push({ name: path.basename(activeDirectory), path: dataPath });
+        } else {
+            // active_directory 하위에 여러 set이 있는 경우 (예: "data")
+            console.log(`[정보] 다중 set 모드로 '${activeDirectory}' 하위를 탐색합니다.`);
+            setsToProcess = fs.readdirSync(dataPath, { withFileTypes: true })
+                .filter(d => d.isDirectory() && d.name !== path.basename(outputDirectory)) // 출력 폴더는 제외
+                .map(d => ({ name: d.name, path: path.join(dataPath, d.name) }));
+        }
+        
+        if (setsToProcess.length === 0) {
+            console.warn(`[경고] 처리할 유효한 set 폴더를 찾지 못했습니다. '${dataPath}' 경로와 그 하위 구조를 확인하세요.`);
+        }
+
+        for (const set of setsToProcess) {
+            const setName = set.name;
+            const setPath = set.path;
             const storiesPath = path.join(setPath, 'stories');
+
             if (fs.existsSync(storiesPath)) {
                 const parts = fs.readdirSync(storiesPath, { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
+
                 for (const part of parts) {
-                    console.log(`\n[처리중] ${set}/${part} ...`);
+                    console.log(`\n[처리중] ${setName}/${part} ...`);
                     const storyJsonPath = path.join(storiesPath, part, 'stories.json');
                     const storyFile = loadJsonFile(storyJsonPath);
                     if (!storyFile) continue;
+
                     const stories = storyFile.data.stories || [];
                     let allWords = [];
                     let combinedWordContent = '';
                     const wordsByChapter = {};
+
                     for (const [idx, chapter] of stories.entries()) {
                         if (chapter.ref_word_table) {
                             const wordTablePath = path.join(setPath, 'words_table', part, chapter.ref_word_table);
@@ -102,10 +130,12 @@ async function main() {
                     }
                     allWords = allWords.filter((word, index, self) => index === self.findIndex((w) => w.id === word.id));
                     const contentHash = crypto.createHash('md5').update(combinedWordContent).digest('hex').substring(0, 8);
+                    
                     const wordDataJs = generateWordDataJs(allWords);
                     const { numberNavigation, indexNavigation, chaptersHtml } = generateChaptersHtml(stories, contentHash);
+                    
                     const templateData = {
-                        page_title: `${storyFile.data.part_title || 'Untitled'} - ${set}`,
+                        page_title: `${storyFile.data.part_title || 'Untitled'} - ${setName}`,
                         number_navigation: numberNavigation,
                         index_navigation: indexNavigation,
                         chapters_html: chaptersHtml,
@@ -113,12 +143,15 @@ async function main() {
                         words_by_chapter_json: JSON.stringify(wordsByChapter),
                         content_hash: contentHash
                     };
+
                     const ejsTemplatePath = path.join(__dirname, 'views', 'viewer.ejs');
                     const finalHtml = await ejs.renderFile(ejsTemplatePath, templateData);
+
                     const partTitle = storyFile.data.part_title || 'Untitled';
                     const sanitizedTitle = partTitle.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
                     const outputFilename = `${part}_${sanitizedTitle}.html`;
                     const outputPath = path.join(outputDirectory, outputFilename);
+
                     fs.writeFileSync(outputPath, finalHtml, 'utf-8');
                     console.log(`✅ 성공: ${outputPath} 파일이 생성되었습니다.`);
                 }

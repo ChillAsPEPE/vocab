@@ -57,7 +57,7 @@ function generateChaptersHtml(storiesData, contentHash) {
                 const englishSentence = processWordTags(pair.english || '');
                 const koreanSentence = processWordTags(pair.korean || '', false);
                 const encodedKorean = koreanSentence.replace(/"/g, '&#34;');
-
+                
                 paragraphSentences += `<span class="sentence-unit" data-translation="${encodedKorean}">${englishSentence}</span> `;
             });
             storyContentHtml += `<p class="english-paragraph">${paragraphSentences.trim()}</p>`;
@@ -69,6 +69,7 @@ function generateChaptersHtml(storiesData, contentHash) {
 }
 
 app.get('/', (req, res) => {
+    console.log("--- 스토리 목록 요청 처리 ---");
     const dataPath = path.join(__dirname, 'data');
     let storyList = [];
     try {
@@ -99,6 +100,8 @@ app.get('/', (req, res) => {
 app.get('/view', (req, res) => {
     const { set, part } = req.query;
     if (!set || !part) return res.status(400).send("<h1>오류: set과 part 파라미터가 필요합니다.</h1>");
+
+    console.log(`--- 뷰어 요청 처리: ${set}/${part} ---`);
     const storyJsonPath = path.join('data', set, 'stories', part, 'stories.json');
     const storyFile = loadJsonFile(storyJsonPath);
     if (!storyFile) return res.status(404).send(`<h1>오류: ${storyJsonPath} 파일을 찾을 수 없습니다.</h1>`);
