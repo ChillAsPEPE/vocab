@@ -893,7 +893,7 @@
 
         // 페이지 로드 시 저장된 테마 적용
         document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme') || 'default';
+            const savedTheme = localStorage.getItem('theme') || 'sf';
             setTheme(savedTheme);
 
             document.querySelectorAll('.theme-btn').forEach(btn => {
