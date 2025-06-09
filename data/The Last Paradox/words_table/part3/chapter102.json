@@ -1,0 +1,270 @@
+{
+  "words": [
+    {
+      "num": "0",
+      "id": "_address",
+      "term": "address",
+      "synonyms": ["residence", "abode"],
+      "kor_meaning": "주소"
+    },
+    {
+      "num": "1",
+      "id": "_address",
+      "term": "address",
+      "synonyms": ["speech", "lecture", "discourse"],
+      "kor_meaning": "강연"
+    },
+    {
+      "num": "2",
+      "id": "_assume",
+      "term": "assume",
+      "synonyms": ["think", "suppose", "presume"],
+      "kor_meaning": "추측하다"
+    },
+    {
+      "num": "3",
+      "id": "_attain",
+      "term": "attain",
+      "synonyms": ["achieve", "acquire", "procure", "obtain", "gain"],
+      "kor_meaning": "얻다"
+    },
+    {
+      "num": "4",
+      "id": "_boast",
+      "term": "boast",
+      "synonyms": ["brag", "swagger", "show off"],
+      "kor_meaning": "자랑하다"
+    },
+    {
+      "num": "5",
+      "id": "_capacity",
+      "term": "capacity",
+      "synonyms": ["magnitude", "dimensions"],
+      "kor_meaning": "용량"
+    },
+    {
+      "num": "6",
+      "id": "_capacity",
+      "term": "capacity",
+      "synonyms": ["ability"],
+      "kor_meaning": "능력"
+    },
+    {
+      "num": "7",
+      "id": "_cede",
+      "term": "cede",
+      "synonyms": ["yield", "surrender", "relinquish"],
+      "kor_meaning": "양보하다"
+    },
+    {
+      "num": "8",
+      "id": "_comply",
+      "term": "comply",
+      "synonyms": ["consent", "conform", "accede"],
+      "kor_meaning": "동의하다, 따르다"
+    },
+    {
+      "num": "9",
+      "id": "_decline",
+      "term": "decline",
+      "synonyms": ["refuse", "reject"],
+      "kor_meaning": "거절하다"
+    },
+    {
+      "num": "10",
+      "id": "_decline",
+      "term": "decline",
+      "synonyms": ["fall", "descend", "weaken", "deteriorate"],
+      "kor_meaning": "쇠퇴하다"
+    },
+    {
+      "num": "11",
+      "id": "_desert",
+      "term": "desert",
+      "synonyms": ["abandon", "forsake"],
+      "kor_meaning": "버리다"
+    },
+    {
+      "num": "12",
+      "id": "_disassemble",
+      "term": "disassemble",
+      "synonyms": ["dismantle", "take apart"],
+      "kor_meaning": "분해하다"
+    },
+    {
+      "num": "13",
+      "id": "_dispose",
+      "term": "dispose",
+      "synonyms": ["array", "arrange", "place in order"],
+      "kor_meaning": "배치하다"
+    },
+    {
+      "num": "14",
+      "id": "_dispose_of",
+      "term": "dispose of",
+      "synonyms": ["get rid of", "remove", "eliminate", "discharge"],
+      "kor_meaning": "처리하다"
+    },
+    {
+      "num": "15",
+      "id": "_erode",
+      "term": "erode",
+      "synonyms": ["wear away"],
+      "kor_meaning": "침식하다, 부식되다"
+    },
+    {
+      "num": "16",
+      "id": "_fairly",
+      "term": "fairly",
+      "synonyms": ["reasonably", "moderately", "tolerably", "pretty"],
+      "kor_meaning": "꽤"
+    },
+    {
+      "num": "17",
+      "id": "_glossy",
+      "term": "glossy",
+      "synonyms": ["shiny", "bright", "glazed", "lustrous"],
+      "kor_meaning": "빛나는"
+    },
+    {
+      "num": "18",
+      "id": "_hallmark",
+      "term": "hallmark",
+      "synonyms": ["feature", "a distinguishing trait"],
+      "kor_meaning": "특징"
+    },
+    {
+      "num": "19",
+      "id": "_ideal",
+      "term": "ideal",
+      "synonyms": ["perfect", "model", "exemplary"],
+      "kor_meaning": "이상적인, 완벽한"
+    },
+    {
+      "num": "20",
+      "id": "_ideal",
+      "term": "ideal",
+      "synonyms": ["abstract", "theoretical", "hypothetical"],
+      "kor_meaning": "주상적인"
+    },
+    {
+      "num": "21",
+      "id": "_inhabit",
+      "term": "inhabit",
+      "synonyms": ["live", "occupy", "dwell", "abide", "reside"],
+      "kor_meaning": "거주하다"
+    },
+    {
+      "num": "22",
+      "id": "_laborious",
+      "term": "laborious",
+      "synonyms": ["diligent", "industrious"],
+      "kor_meaning": "근면한"
+    },
+    {
+      "num": "23",
+      "id": "_linger",
+      "term": "linger",
+      "synonyms": ["remain", "stay", "tarry"],
+      "kor_meaning": "남다"
+    },
+    {
+      "num": "24",
+      "id": "_linger",
+      "term": "linger",
+      "synonyms": ["lag", "loiter", "drag", "delay"],
+      "kor_meaning": "꾸물거리다"
+    },
+    {
+      "num": "25",
+      "id": "_loathe",
+      "term": "loathe",
+      "synonyms": ["abhor", "abominate", "detest", "hate"],
+      "kor_meaning": "혐오하다"
+    },
+    {
+      "num": "26",
+      "id": "_misgiving",
+      "term": "misgiving",
+      "synonyms": ["apprehension", "doubt", "suspicion", "distrust"],
+      "kor_meaning": "불안"
+    },
+    {
+      "num": "27",
+      "id": "_model",
+      "term": "model",
+      "synonyms": ["prototype", "pattern", "sample"],
+      "kor_meaning": "견본"
+    },
+    {
+      "num": "28",
+      "id": "_observe",
+      "term": "observe",
+      "synonyms": ["perceive", "notice", "watch"],
+      "kor_meaning": "관찰하다"
+    },
+    {
+      "num": "29",
+      "id": "_observe",
+      "term": "observe",
+      "synonyms": ["conform", "follow", "comply", "obey"],
+      "kor_meaning": "준수하다"
+    },
+    {
+      "num": "30",
+      "id": "_plentiful",
+      "term": "plentiful",
+      "synonyms": ["abundant", "wealthy", "rich"],
+      "kor_meaning": "풍부한"
+    },
+    {
+      "num": "31",
+      "id": "_preoccupied",
+      "term": "preoccupied",
+      "synonyms": ["engrossed", "absorbed"],
+      "kor_meaning": "몰두한"
+    },
+    {
+      "num": "32",
+      "id": "_property",
+      "term": "property",
+      "synonyms": ["estate", "havings", "possession", "asset"],
+      "kor_meaning": "자산"
+    },
+    {
+      "num": "33",
+      "id": "_property",
+      "term": "property",
+      "synonyms": ["character", "characteristic", "quality", "feature"],
+      "kor_meaning": "특성"
+    },
+    {
+      "num": "34",
+      "id": "_ration",
+      "term": "ration",
+      "synonyms": ["assignment", "allotment", "allocation", "apportionment"],
+      "kor_meaning": "할당량"
+    },
+    {
+      "num": "35",
+      "id": "_recurring",
+      "term": "recurring",
+      "synonyms": ["recurrent"],
+      "kor_meaning": "되풀이 되는"
+    },
+    {
+      "num": "36",
+      "id": "_rooted",
+      "term": "rooted",
+      "synonyms": ["ingrained", "fixed", "embedded"],
+      "kor_meaning": "뿌리깊은, 정착한"
+    },
+    {
+      "num": "37",
+      "id": "_sanguinary",
+      "term": "sanguinary",
+      "synonyms": ["bloody", "bloodthirsty", "cruel", "ruthless"],
+      "kor_meaning": "잔인한"
+    }
+  ]
+}

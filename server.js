@@ -1,3 +1,4 @@
+// server.js (최종 완성본)
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -8,6 +9,9 @@ const PORT = 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+app.use(express.static('public'));
+app.use('/data', express.static(path.join(__dirname, 'data')));
 
 function loadJsonFile(filePath) {
     try {
@@ -67,24 +71,52 @@ function generateChaptersHtml(storiesData, contentHash) {
     });
     return { numberNavigation, indexNavigation, chaptersHtml };
 }
-
 app.get('/', (req, res) => {
-    console.log("--- 스토리 목록 요청 처리 ---");
+    console.log("--- 스토리 목록 요청 처리 (책장 UI) ---");
     const dataPath = path.join(__dirname, 'data');
     let storyList = [];
     try {
-        const sets = fs.readdirSync(dataPath, { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
-        for (const set of sets) {
-            const storiesPath = path.join(dataPath, set, 'stories');
+        // 'data' 폴더 하위의 시리즈(set) 폴더 목록을 읽습니다. (예: ['The Last Paradox', 'gemini'])
+        const sets = fs.readdirSync(dataPath, { withFileTypes: true })
+            .filter(d => d.isDirectory() && d.name !== 'out') // 'out' 폴더는 제외
+            .map(d => d.name);
+
+        for (const set of sets) { // set: 'The Last Paradox'
+            const setPath = path.join(dataPath, set);
+            const storiesPath = path.join(setPath, 'stories');
+
             if (fs.existsSync(storiesPath)) {
-                const parts = fs.readdirSync(storiesPath, { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
-                for (const part of parts) {
+                // stories 폴더 하위의 part 폴더 목록을 읽습니다. (예: ['part1', 'part2'])
+                const parts = fs.readdirSync(storiesPath, { withFileTypes: true })
+                    .filter(d => d.isDirectory())
+                    .map(d => d.name);
+
+                for (const part of parts) { // part: 'part1'
                     const storyJsonPath = path.join(storiesPath, part, 'stories.json');
                     const storyFile = loadJsonFile(storyJsonPath);
+
                     if (storyFile && storyFile.data.part_title) {
+                        
+                        let coverImagePath = '/images/default-cover.jpg';
+                        const jpgCoverPath = path.join(storiesPath, part, 'cover.jpg');
+                        const pngCoverPath = path.join(storiesPath, part, 'cover.png');
+
+                        if (fs.existsSync(jpgCoverPath)) {
+                            coverImagePath = `/data/${set}/stories/${part}/cover.jpg`;
+                        } else if (fs.existsSync(pngCoverPath)) {
+                            coverImagePath = `/data/${set}/stories/${part}/cover.png`;
+                        }
+                        
+                        // part 폴더명에서 'part'를 제거하여 숫자만 추출합니다.
+                        const partNumber = part.replace('part', '');
+
                         storyList.push({
-                            title: `${set} - ${storyFile.data.part_title}`,
-                            url: `/view?set=${set}&part=${part}`
+                            seriesTitle: set, // 책 제목 <- set 폴더 이름
+                            partTitle: storyFile.data.part_title, // 부제 <- stories.json의 part_title
+                            partNumber: partNumber, // 파트 번호 <- part 폴더 이름
+                            genre: storyFile.data.genre || '장르 미정',
+                            url: `/view?set=${set}&part=${part}`,
+                            coverImagePath: coverImagePath
                         });
                     }
                 }
@@ -97,11 +129,12 @@ app.get('/', (req, res) => {
     }
 });
 
+
+// --- /view 라우트 및 app.listen (이전과 동일) ---
 app.get('/view', (req, res) => {
     const { set, part } = req.query;
     if (!set || !part) return res.status(400).send("<h1>오류: set과 part 파라미터가 필요합니다.</h1>");
 
-    console.log(`--- 뷰어 요청 처리: ${set}/${part} ---`);
     const storyJsonPath = path.join('data', set, 'stories', part, 'stories.json');
     const storyFile = loadJsonFile(storyJsonPath);
     if (!storyFile) return res.status(404).send(`<h1>오류: ${storyJsonPath} 파일을 찾을 수 없습니다.</h1>`);
@@ -126,6 +159,7 @@ app.get('/view', (req, res) => {
     
     allWords = allWords.filter((word, index, self) => index === self.findIndex((w) => w.id === word.id));
     const contentHash = crypto.createHash('md5').update(combinedWordContent).digest('hex').substring(0, 8);
+    
     const wordDataJs = generateWordDataJs(allWords);
     const { numberNavigation, indexNavigation, chaptersHtml } = generateChaptersHtml(stories, contentHash);
 

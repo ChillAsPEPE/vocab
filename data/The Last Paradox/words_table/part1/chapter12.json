@@ -1,0 +1,291 @@
+{
+  "words": [
+    {
+      "num": "0",
+      "id": "_blame",
+      "term": "blame",
+      "synonyms": ["incriminate", "reproach", "censure", "condemn"],
+      "kor_meaning": "비난하다"
+    },
+    {
+      "num": "1",
+      "id": "_chaotic",
+      "term": "chaotic",
+      "synonyms": ["disorganized", "disordered", "anarchic", "deranged"],
+      "kor_meaning": "무질서한"
+    },
+    {
+      "num": "2",
+      "id": "_comprehend",
+      "term": "comprehend",
+      "synonyms": ["grasp", "perceive", "conceive"],
+      "kor_meaning": "이해하다"
+    },
+    {
+      "num": "3",
+      "id": "_creditable",
+      "term": "creditable",
+      "synonyms": ["reputable", "honorable"],
+      "kor_meaning": "명예로운"
+    },
+    {
+      "num": "4",
+      "id": "_decided",
+      "term": "decided",
+      "synonyms": ["uncompromising", "determined", "final"],
+      "kor_meaning": "단호한"
+    },
+    {
+      "num": "5",
+      "id": "_displace",
+      "term": "displace",
+      "synonyms": ["supplant", "replace", "remove"],
+      "kor_meaning": "대체하다"
+    },
+    {
+      "num": "6",
+      "id": "_enclose",
+      "term": "enclose",
+      "synonyms": ["surround", "circle", "encompass"],
+      "kor_meaning": "에워싸다"
+    },
+    {
+      "num": "7",
+      "id": "_entail",
+      "term": "entail",
+      "synonyms": ["involve", "require", "impose"],
+      "kor_meaning": "~을 수반하다"
+    },
+    {
+      "num": "8",
+      "id": "_excel",
+      "term": "excel",
+      "synonyms": ["be superior to", "surpass", "outdo", "transcend"],
+      "kor_meaning": "능가하다, 빼어나다"
+    },
+    {
+      "num": "9",
+      "id": "_genre",
+      "term": "genre",
+      "synonyms": ["kind", "type", "style"],
+      "kor_meaning": "유형"
+    },
+    {
+      "num": "10",
+      "id": "_illustrate",
+      "term": "illustrate",
+      "synonyms": ["represent", "picture", "depict", "describe", "explain"],
+      "kor_meaning": "설명하다"
+    },
+    {
+      "num": "11",
+      "id": "_infrastructure",
+      "term": "infrastructure",
+      "synonyms": ["base", "basis", "groundwork"],
+      "kor_meaning": "하부구조"
+    },
+    {
+      "num": "12",
+      "id": "_inhibit",
+      "term": "inhibit",
+      "synonyms": ["hinder", "limit", "ban", "prohibit", "forbid"],
+      "kor_meaning": "금지하다"
+    },
+    {
+      "num": "13",
+      "id": "_involve",
+      "term": "involve",
+      "synonyms": ["include", "entail", "require"],
+      "kor_meaning": "을 수반하다"
+    },
+    {
+      "num": "14",
+      "id": "_lease",
+      "term": "lease",
+      "synonyms": ["rent", "hire", "charter"],
+      "kor_meaning": "임대하다"
+    },
+    {
+      "num": "15",
+      "id": "_likewise",
+      "term": "likewise",
+      "synonyms": ["similarly", "also"],
+      "kor_meaning": "마찬가지로, 또한"
+    },
+    {
+      "num": "16",
+      "id": "_limited",
+      "term": "limited",
+      "synonyms": ["narrow", "confined", "restricted"],
+      "kor_meaning": "제한된"
+    },
+    {
+      "num": "17",
+      "id": "_lodge_in",
+      "term": "lodge in",
+      "synonyms": ["embed", "implant"],
+      "kor_meaning": "박다, 꽂아 넣다"
+    },
+    {
+      "num": "18",
+      "id": "_mingle",
+      "term": "mingle",
+      "synonyms": ["unite", "mix", "blend"],
+      "kor_meaning": "섞다"
+    },
+    {
+      "num": "19",
+      "id": "_obligation",
+      "term": "obligation",
+      "synonyms": ["requirement", "duty", "responsibility"],
+      "kor_meaning": "의무"
+    },
+    {
+      "num": "20",
+      "id": "_oblige",
+      "term": "oblige",
+      "synonyms": ["require", "urge", "force", "induce"],
+      "kor_meaning": "강요하다"
+    },
+    {
+      "num": "21",
+      "id": "_offer",
+      "term": "offer",
+      "synonyms": ["present", "proffer", "tender"],
+      "kor_meaning": "제공하다"
+    },
+    {
+      "num": "22",
+      "id": "_on_occasion",
+      "term": "on occasion",
+      "synonyms": ["occasionally", "periodically"],
+      "kor_meaning": "가끔"
+    },
+    {
+      "num": "23",
+      "id": "_oppose",
+      "term": "oppose",
+      "synonyms": ["resist", "object to"],
+      "kor_meaning": "반대하다"
+    },
+    {
+      "num": "24",
+      "id": "_pare",
+      "term": "pare",
+      "synonyms": ["peel", "reduce", "whittle", "trim"],
+      "kor_meaning": "껍질을 벗기다, 삭감하다"
+    },
+    {
+      "num": "25",
+      "id": "_peril",
+      "term": "peril",
+      "synonyms": ["risk", "jeopardy", "hazard", "danger"],
+      "kor_meaning": "위기"
+    },
+    {
+      "num": "26",
+      "id": "_predominately",
+      "term": "predominately",
+      "synonyms": ["primarily", "predominantly", "preponderantly"],
+      "kor_meaning": "주로"
+    },
+    {
+      "num": "27",
+      "id": "_refract",
+      "term": "refract",
+      "synonyms": ["distort"],
+      "kor_meaning": "굴절시키다"
+    },
+    {
+      "num": "28",
+      "id": "_render",
+      "term": "render",
+      "synonyms": ["represent"],
+      "kor_meaning": "~을 표현하다"
+    },
+    {
+      "num": "29",
+      "id": "_render",
+      "term": "render",
+      "synonyms": ["afford", "give", "impart"],
+      "kor_meaning": "주다"
+    },
+    {
+      "num": "30",
+      "id": "_renown",
+      "term": "renown",
+      "synonyms": ["fame", "repute", "distinction", "reputation"],
+      "kor_meaning": "명성"
+    },
+    {
+      "num": "31",
+      "id": "_repel",
+      "term": "repel",
+      "synonyms": ["drive away", "repulse", "parry", "compel"],
+      "kor_meaning": "물리치다"
+    },
+    {
+      "num": "32",
+      "id": "_restore",
+      "term": "restore",
+      "synonyms": ["renew", "renovate", "repair"],
+      "kor_meaning": "복구하다"
+    },
+    {
+      "num": "33",
+      "id": "_sanitation",
+      "term": "sanitation",
+      "synonyms": ["health", "hygiene"],
+      "kor_meaning": "공중위생"
+    },
+    {
+      "num": "34",
+      "id": "_savor",
+      "term": "savor",
+      "synonyms": ["taste", "flavor"],
+      "kor_meaning": "맛"
+    },
+    {
+      "num": "35",
+      "id": "_spare",
+      "term": "spare",
+      "synonyms": ["save", "economize"],
+      "kor_meaning": "절약하다"
+    },
+    {
+      "num": "36",
+      "id": "_spare",
+      "term": "spare",
+      "synonyms": ["give", "assign", "offer"],
+      "kor_meaning": "주다, (시간을) 할애하다"
+    },
+    {
+      "num": "37",
+      "id": "_stimulating",
+      "term": "stimulating",
+      "synonyms": ["restorative", "refreshing", "energizing"],
+      "kor_meaning": "활기(자극)를 주는"
+    },
+    {
+      "num": "38",
+      "id": "_typify",
+      "term": "typify",
+      "synonyms": ["represent", "embody", "symbolize"],
+      "kor_meaning": "대표하다"
+    },
+    {
+      "num": "39",
+      "id": "_wholesale",
+      "term": "wholesale",
+      "synonyms": ["enormous", "extensive", "indiscriminate"],
+      "kor_meaning": "대규모의"
+    },
+    {
+      "num": "40",
+      "id": "_yet",
+      "term": "yet",
+      "synonyms": ["nevertheless"],
+      "kor_meaning": "그럼에도 불구하고"
+    }
+  ]
+}

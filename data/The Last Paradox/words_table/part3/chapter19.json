@@ -1,0 +1,291 @@
+{
+  "words": [
+    {
+      "num": "0",
+      "id": "_advent",
+      "term": "advent",
+      "synonyms": ["arrival", "introduction", "appearance"],
+      "kor_meaning": "출현"
+    },
+    {
+      "num": "1",
+      "id": "_article",
+      "term": "article",
+      "synonyms": ["item", "object", "thing"],
+      "kor_meaning": "(개개의) 물품"
+    },
+    {
+      "num": "2",
+      "id": "_assembly",
+      "term": "assembly",
+      "synonyms": ["congress", "legislature", "parliament"],
+      "kor_meaning": "의회"
+    },
+    {
+      "num": "3",
+      "id": "_associated",
+      "term": "associated",
+      "synonyms": ["connected", "correlated", "linked", "related"],
+      "kor_meaning": "연관된"
+    },
+    {
+      "num": "4",
+      "id": "_aware",
+      "term": "aware",
+      "synonyms": ["conscious"],
+      "kor_meaning": "~을 알고 있는"
+    },
+    {
+      "num": "5",
+      "id": "_bank",
+      "term": "bank",
+      "synonyms": ["edge", "brink", "margin", "shore"],
+      "kor_meaning": "둑, 기슭"
+    },
+    {
+      "num": "6",
+      "id": "_by_and_large",
+      "term": "by and large",
+      "synonyms": ["on the whole", "in general"],
+      "kor_meaning": "전반적으로, 대체로"
+    },
+    {
+      "num": "7",
+      "id": "_challenge",
+      "term": "challenge",
+      "synonyms": ["difficulty", "problem"],
+      "kor_meaning": "난제"
+    },
+    {
+      "num": "8",
+      "id": "_compress",
+      "term": "compress",
+      "synonyms": ["compact", "condense", "squeeze"],
+      "kor_meaning": "압축하다"
+    },
+    {
+      "num": "9",
+      "id": "_consort",
+      "term": "consort",
+      "synonyms": ["associate", "agree", "consent"],
+      "kor_meaning": "일치하다"
+    },
+    {
+      "num": "10",
+      "id": "_construe",
+      "term": "construe",
+      "synonyms": ["interpret", "decode", "elucidate", "explain"],
+      "kor_meaning": "해석하다"
+    },
+    {
+      "num": "11",
+      "id": "_correct",
+      "term": "correct",
+      "synonyms": ["remedy", "amend", "rectify", "modify", "mend", "alter", "revise"],
+      "kor_meaning": "고치다"
+    },
+    {
+      "num": "12",
+      "id": "_curious",
+      "term": "curious",
+      "synonyms": ["inquisitive", "nosy"],
+      "kor_meaning": "호기심이 강한"
+    },
+    {
+      "num": "13",
+      "id": "_deadly",
+      "term": "deadly",
+      "synonyms": ["fatal", "lethal", "mortal"],
+      "kor_meaning": "치명적인"
+    },
+    {
+      "num": "14",
+      "id": "_defeated",
+      "term": "defeated",
+      "synonyms": ["conquered", "overthrown", "overwhelm", "beat"],
+      "kor_meaning": "패배한"
+    },
+    {
+      "num": "15",
+      "id": "_deplete",
+      "term": "deplete",
+      "synonyms": ["exhaust", "empty", "dry up", "use up"],
+      "kor_meaning": "고갈시키다"
+    },
+    {
+      "num": "16",
+      "id": "_detain",
+      "term": "detain",
+      "synonyms": ["confine", "arrest", "keep"],
+      "kor_meaning": "억류하다"
+    },
+    {
+      "num": "17",
+      "id": "_edge",
+      "term": "edge",
+      "synonyms": ["periphery", "border", "margin", "boundary", "rim"],
+      "kor_meaning": "가장자리"
+    },
+    {
+      "num": "18",
+      "id": "_elude",
+      "term": "elude",
+      "synonyms": ["evade", "dodge", "avoid"],
+      "kor_meaning": "피하다"
+    },
+    {
+      "num": "19",
+      "id": "_exceedingly",
+      "term": "exceedingly",
+      "synonyms": ["extremely", "excessively", "surpassingly"],
+      "kor_meaning": "지나칠 정도로"
+    },
+    {
+      "num": "20",
+      "id": "_faith",
+      "term": "faith",
+      "synonyms": ["confidence", "trust", "credit"],
+      "kor_meaning": "믿음"
+    },
+    {
+      "num": "21",
+      "id": "_far-reaching",
+      "term": "far-reaching",
+      "synonyms": ["broad", "having a wide range of effect"],
+      "kor_meaning": "방대한"
+    },
+    {
+      "num": "22",
+      "id": "_guess",
+      "term": "guess",
+      "synonyms": ["conjecture", "suppose", "fancy"],
+      "kor_meaning": "추측하다"
+    },
+    {
+      "num": "23",
+      "id": "_importance",
+      "term": "importance",
+      "synonyms": ["significance", "consequence", "moment"],
+      "kor_meaning": "중요함"
+    },
+    {
+      "num": "24",
+      "id": "_interfere",
+      "term": "interfere",
+      "synonyms": ["disrupt", "influence", "intervene", "intrude"],
+      "kor_meaning": "간섭하다"
+    },
+    {
+      "num": "25",
+      "id": "_last",
+      "term": "last",
+      "synonyms": ["final", "ultimate", "conclusive"],
+      "kor_meaning": "마지막의"
+    },
+    {
+      "num": "26",
+      "id": "_last",
+      "term": "last",
+      "synonyms": ["continue"],
+      "kor_meaning": "지속하다"
+    },
+    {
+      "num": "27",
+      "id": "_manage",
+      "term": "manage",
+      "synonyms": ["control", "conduct", "direct", "administer"],
+      "kor_meaning": "관리하다"
+    },
+    {
+      "num": "28",
+      "id": "_mastery",
+      "term": "mastery",
+      "synonyms": ["expertise"],
+      "kor_meaning": "전문 기술, 숙달"
+    },
+    {
+      "num": "29",
+      "id": "_monopolize",
+      "term": "monopolize",
+      "synonyms": ["dominate", "occupy"],
+      "kor_meaning": "독점하다"
+    },
+    {
+      "num": "30",
+      "id": "_overcome",
+      "term": "overcome",
+      "synonyms": ["conquer", "defeat", "subdue"],
+      "kor_meaning": "극복하다"
+    },
+    {
+      "num": "31",
+      "id": "_prophesy",
+      "term": "prophesy",
+      "synonyms": ["foretell", "predict", "forecast", "anticipate"],
+      "kor_meaning": "예언하다"
+    },
+    {
+      "num": "32",
+      "id": "_ratify",
+      "term": "ratify",
+      "synonyms": ["endorse", "confirm", "sanction", "validate"],
+      "kor_meaning": "승인하다"
+    },
+    {
+      "num": "33",
+      "id": "_replica",
+      "term": "replica",
+      "synonyms": ["copy", "duplication", "reproduction"],
+      "kor_meaning": "복제"
+    },
+    {
+      "num": "34",
+      "id": "_shift",
+      "term": "shift",
+      "synonyms": ["move", "change", "switch"],
+      "kor_meaning": "바꾸다"
+    },
+    {
+      "num": "35",
+      "id": "_stride",
+      "term": "stride",
+      "synonyms": ["progress"],
+      "kor_meaning": "진보, 발전"
+    },
+    {
+      "num": "36",
+      "id": "_subject_to",
+      "term": "subject to",
+      "synonyms": ["susceptible to", "be supposed to"],
+      "kor_meaning": "~하기 마련이다"
+    },
+    {
+      "num": "37",
+      "id": "_subscribe",
+      "term": "subscribe",
+      "synonyms": ["consent", "agree", "assent"],
+      "kor_meaning": "(경향을) 믿기 쉬운"
+    },
+    {
+      "num": "38",
+      "id": "_successive",
+      "term": "successive",
+      "synonyms": ["consecutive", "continuous"],
+      "kor_meaning": "계속되는"
+    },
+    {
+      "num": "39",
+      "id": "_transition",
+      "term": "transition",
+      "synonyms": ["change", "alteration", "shift"],
+      "kor_meaning": "변화"
+    },
+    {
+      "num": "40",
+      "id": "_undertaking",
+      "term": "undertaking",
+      "synonyms": ["enterprise", "labor", "project", "task"],
+      "kor_meaning": "사업, 기업, 과제"
+    }
+  ]
+}
