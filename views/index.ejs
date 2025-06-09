@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스토리 선택</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background-color: #f0f2f5; padding: 40px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { margin-bottom: 25px; text-align: center; color: #333; }
+        .story-list { list-style: none; padding: 0; }
+        .story-item { margin-bottom: 15px; }
+        .story-link { display: block; padding: 20px; background-color: #f8f9fa; border-radius: 8px; text-decoration: none; color: #007bff; font-weight: 500; transition: all 0.2s ease; border: 1px solid #dee2e6; }
+        .story-link:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,123,255,0.15); border-color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>학습할 스토리 파트 선택</h1>
+        <ul class="story-list">
+            <% if (storyList.length > 0) { %>
+                <% storyList.forEach(story => { %>
+                    <li class="story-item">
+                        <a href="<%= story.url %>" class="story-link"><%= story.title %></a>
+                    </li>
+                <% }); %>
+            <% } else { %>
+                <p>표시할 스토리가 없습니다. `data` 폴더 구조를 확인해주세요.</p>
+            <% } %>
+        </ul>
+    </div>
+</body>
+</html>

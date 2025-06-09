@@ -1,0 +1,284 @@
+{
+  "words": [
+    {
+      "num": "0",
+      "id": "_admire",
+      "term": "admire",
+      "synonyms": ["esteem", "revere", "respect"],
+      "kor_meaning": "존경하다"
+    },
+    {
+      "num": "1",
+      "id": "_adroit",
+      "term": "adroit",
+      "synonyms": ["skillful", "dexterous", "proficient", "competent"],
+      "kor_meaning": "능숙한"
+    },
+    {
+      "num": "2",
+      "id": "_ambivalent",
+      "term": "ambivalent",
+      "synonyms": ["unsure", "undecided"],
+      "kor_meaning": "불확실한, 상반된 감정이 공존하는"
+    },
+    {
+      "num": "3",
+      "id": "_cheat",
+      "term": "cheat",
+      "synonyms": ["deceive", "trick", "delude", "swindle"],
+      "kor_meaning": "속이다"
+    },
+    {
+      "num": "4",
+      "id": "_composed",
+      "term": "composed",
+      "synonyms": ["calm", "tranquil"],
+      "kor_meaning": "차분한"
+    },
+    {
+      "num": "5",
+      "id": "_composed",
+      "term": "composed",
+      "synonyms": ["created", "written", "formed"],
+      "kor_meaning": "작성된"
+    },
+    {
+      "num": "6",
+      "id": "_conceal",
+      "term": "conceal",
+      "synonyms": ["hide", "cover", "obscure", "mask", "bury"],
+      "kor_meaning": "숨기다"
+    },
+    {
+      "num": "7",
+      "id": "_conciseness",
+      "term": "conciseness",
+      "synonyms": ["brevity", "shortness"],
+      "kor_meaning": "간결함"
+    },
+    {
+      "num": "8",
+      "id": "_deliberate",
+      "term": "deliberate",
+      "synonyms": ["careful", "thoughtful", "cautious"],
+      "kor_meaning": "신중한"
+    },
+    {
+      "num": "9",
+      "id": "_deliberate",
+      "term": "deliberate",
+      "synonyms": ["intentional", "designed", "planned", "voluntary"],
+      "kor_meaning": "의도적인"
+    },
+    {
+      "num": "10",
+      "id": "_glow",
+      "term": "glow",
+      "synonyms": ["shine", "radiate", "beam"],
+      "kor_meaning": "빛나다"
+    },
+    {
+      "num": "11",
+      "id": "_hiatus",
+      "term": "hiatus",
+      "synonyms": ["break", "interruption", "gap"],
+      "kor_meaning": "틈"
+    },
+    {
+      "num": "12",
+      "id": "_incinerate",
+      "term": "incinerate",
+      "synonyms": ["burn"],
+      "kor_meaning": "태우다"
+    },
+    {
+      "num": "13",
+      "id": "_indignity",
+      "term": "indignity",
+      "synonyms": ["humiliation", "insult", "scorn"],
+      "kor_meaning": "경멸, 모욕"
+    },
+    {
+      "num": "14",
+      "id": "_inert",
+      "term": "inert",
+      "synonyms": ["motionless", "stationary"],
+      "kor_meaning": "활동하지 않는, 비활성의"
+    },
+    {
+      "num": "15",
+      "id": "_load",
+      "term": "load",
+      "synonyms": ["burden"],
+      "kor_meaning": "짐, 부담"
+    },
+    {
+      "num": "16",
+      "id": "_luster",
+      "term": "luster",
+      "synonyms": ["sheen", "brightness", "brilliance", "radiance"],
+      "kor_meaning": "광채"
+    },
+    {
+      "num": "17",
+      "id": "_massive",
+      "term": "massive",
+      "synonyms": ["huge", "colossal", "enormous", "bulky", "large"],
+      "kor_meaning": "육중한"
+    },
+    {
+      "num": "18",
+      "id": "_occupy",
+      "term": "occupy",
+      "synonyms": ["engross", "capture", "seize"],
+      "kor_meaning": "점유하다"
+    },
+    {
+      "num": "19",
+      "id": "_polish",
+      "term": "polish",
+      "synonyms": ["brighten", "shine", "gloss"],
+      "kor_meaning": "광내다"
+    },
+    {
+      "num": "20",
+      "id": "_precede",
+      "term": "precede",
+      "synonyms": ["come before", "antecede", "forerun"],
+      "kor_meaning": "앞서다, 우선하다"
+    },
+    {
+      "num": "21",
+      "id": "_prove",
+      "term": "prove",
+      "synonyms": ["verify", "substantiate", "confirm"],
+      "kor_meaning": "입증하다"
+    },
+    {
+      "num": "22",
+      "id": "_purchase",
+      "term": "purchase",
+      "synonyms": ["buy", "procure"],
+      "kor_meaning": "사다"
+    },
+    {
+      "num": "23",
+      "id": "_restful",
+      "term": "restful",
+      "synonyms": ["peaceful", "undisturbed", "pacific"],
+      "kor_meaning": "편안한"
+    },
+    {
+      "num": "24",
+      "id": "_restrict",
+      "term": "restrict",
+      "synonyms": ["limit", "confine", "restrain", "constrain"],
+      "kor_meaning": "제한하다"
+    },
+    {
+      "num": "25",
+      "id": "_rupture",
+      "term": "rupture",
+      "synonyms": ["breach", "burst"],
+      "kor_meaning": "파열, 분쟁"
+    },
+    {
+      "num": "26",
+      "id": "_scrutiny",
+      "term": "scrutiny",
+      "synonyms": ["examination", "investigation", "inspection"],
+      "kor_meaning": "정밀조사"
+    },
+    {
+      "num": "27",
+      "id": "_seductive",
+      "term": "seductive",
+      "synonyms": ["tempting", "enticing"],
+      "kor_meaning": "매혹적인"
+    },
+    {
+      "num": "28",
+      "id": "_seep",
+      "term": "seep",
+      "synonyms": ["go through slowly", "permeate"],
+      "kor_meaning": "스며들다"
+    },
+    {
+      "num": "29",
+      "id": "_shatter",
+      "term": "shatter",
+      "synonyms": ["break", "crumble", "smash", "crash"],
+      "kor_meaning": "박살 내다"
+    },
+    {
+      "num": "30",
+      "id": "_shock",
+      "term": "shock",
+      "synonyms": ["jolt", "startle"],
+      "kor_meaning": "충격을 주다"
+    },
+    {
+      "num": "31",
+      "id": "_significant",
+      "term": "significant",
+      "synonyms": ["considerable", "important", "substantial", "serious"],
+      "kor_meaning": "중요한"
+    },
+    {
+      "num": "32",
+      "id": "_slab",
+      "term": "slab",
+      "synonyms": ["single piece of material"],
+      "kor_meaning": "조각"
+    },
+    {
+      "num": "33",
+      "id": "_slaughter",
+      "term": "slaughter",
+      "synonyms": ["massacre", "butcher", "kill"],
+      "kor_meaning": "학살하다"
+    },
+    {
+      "num": "34",
+      "id": "_strife",
+      "term": "strife",
+      "synonyms": ["conflict", "struggle", "fight"],
+      "kor_meaning": "싸움"
+    },
+    {
+      "num": "35",
+      "id": "_summon",
+      "term": "summon",
+      "synonyms": ["convene", "convoke", "bid"],
+      "kor_meaning": "모집, 소환하다"
+    },
+    {
+      "num": "36",
+      "id": "_sustained",
+      "term": "sustained",
+      "synonyms": ["continued", "constant", "prolonged", "steady"],
+      "kor_meaning": "지속적인"
+    },
+    {
+      "num": "37",
+      "id": "_temperance",
+      "term": "temperance",
+      "synonyms": ["moderation", "continence", "self-discipline"],
+      "kor_meaning": "자제, 절제"
+    },
+    {
+      "num": "38",
+      "id": "_tremendous",
+      "term": "tremendous",
+      "synonyms": ["huge", "great", "gigantic", "colossal", "enormous"],
+      "kor_meaning": "엄청난"
+    },
+    {
+      "num": "39",
+      "id": "_vivid",
+      "term": "vivid",
+      "synonyms": ["bright", "graphic", "pictorial", "lifelike", "realistic"],
+      "kor_meaning": "선명한, 생생한"
+    }
+  ]
+}

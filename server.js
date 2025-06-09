@@ -1,5 +1,3 @@
-// server.js
-
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -15,7 +13,7 @@ function loadJsonFile(filePath) {
     try {
         const fullPath = path.resolve(__dirname, filePath);
         if (!fs.existsSync(fullPath)) {
-            console.error(`!!! 오류: 파일이 존재하지 않습니다 - ${fullPath}`);
+            console.error(`!!! 파일 없음: ${fullPath}`);
             return null;
         }
         const content = fs.readFileSync(fullPath, 'utf-8');
@@ -53,10 +51,8 @@ function generateChaptersHtml(storiesData, contentHash) {
     storiesData.forEach((chapter, idx) => {
         const chapterTitle = chapter.chapter_title || `Chapter ${idx + 1}`;
         const href = `#chapter-${idx}-${contentHash}`;
-        
         numberNavigation += `<a href="${href}" class="chapter-link">${idx + 1}</a>`;
         indexNavigation += `<div class="index-item" data-href="${href}"><span class="index-number">${idx + 1}.</span><span class="index-title">${chapterTitle}</span></div>`;
-        
         let sentencesHtml = "";
         (chapter.story_sentences || []).forEach(pair => {
             const englishSentence = processWordTags(pair.english || '', true);
@@ -69,45 +65,76 @@ function generateChaptersHtml(storiesData, contentHash) {
 }
 
 app.get('/', (req, res) => {
-    console.log("--- 요청 처리 시작 ---");
-
-    const configResult = loadJsonFile('active_data.json');
-    if (!configResult || !configResult.data.active_directory) {
-        return res.status(500).send("<h1>오류: `active_data.json` 설정 파일이 없거나 'active_directory' 키가 없습니다.</h1>");
+    console.log("--- 스토리 목록 요청 처리 ---");
+    const dataPath = path.join(__dirname, 'data');
+    let storyList = [];
+    try {
+        const sets = fs.readdirSync(dataPath, { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
+        for (const set of sets) {
+            const storiesPath = path.join(dataPath, set, 'stories');
+            if (fs.existsSync(storiesPath)) {
+                const parts = fs.readdirSync(storiesPath, { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
+                for (const part of parts) {
+                    const storyJsonPath = path.join(storiesPath, part, 'stories.json');
+                    const storyFile = loadJsonFile(storyJsonPath);
+                    if (storyFile && storyFile.data.part_title) {
+                        storyList.push({
+                            title: `${set} - ${storyFile.data.part_title}`,
+                            url: `/view?set=${set}&part=${part}`
+                        });
+                    }
+                }
+            }
+        }
+        res.render('index', { storyList });
+    } catch (error) {
+        console.error("!!! 스토리 목록 생성 중 오류:", error);
+        res.status(500).send("<h1>스토리 목록을 만드는 중 오류가 발생했습니다.</h1>");
     }
-    
-    const activeDirectory = configResult.data.active_directory;
-    const wordTablePath = path.join(activeDirectory, 'word_table.json');
-    const storiesPath = path.join(activeDirectory, 'stories.json');
-    
-    const wordFile = loadJsonFile(wordTablePath);
-    const storyFile = loadJsonFile(storiesPath);
+});
 
-    if (!wordFile || !storyFile) {
-        return res.status(500).send(`<h1>오류: 데이터 파일을 읽을 수 없습니다.</h1><p>경로: '${activeDirectory}' 내에 'word_table.json'과 'stories.json' 파일이 있는지 확인하세요.</p>`);
-    }
+app.get('/view', (req, res) => {
+    const { set, part } = req.query;
+    if (!set || !part) return res.status(400).send("<h1>오류: set과 part 파라미터가 필요합니다.</h1>");
 
-    const words = wordFile.data.words || [];
+    console.log(`--- 뷰어 요청 처리: ${set}/${part} ---`);
+    const storyJsonPath = path.join('data', set, 'stories', part, 'stories.json');
+    const storyFile = loadJsonFile(storyJsonPath);
+    if (!storyFile) return res.status(404).send(`<h1>오류: ${storyJsonPath} 파일을 찾을 수 없습니다.</h1>`);
+    
     const stories = storyFile.data.stories || [];
-    
-    const contentHash = crypto.createHash('md5').update(storyFile.content).digest('hex').substring(0, 8);
-    console.log(`[정보] 생성된 콘텐츠 해시: ${contentHash}`);
+    let allWords = [];
+    let combinedWordContent = '';
+    const wordsByChapter = {};
 
-    const wordDataJs = generateWordDataJs(words);
-    const { numberNavigation, indexNavigation, chaptersHtml } = generateChaptersHtml(stories, contentHash);
+    stories.forEach((chapter, idx) => {
+        if (chapter.ref_word_table) {
+            const wordTablePath = path.join('data', set, 'words_table', part, chapter.ref_word_table);
+            const wordFile = loadJsonFile(wordTablePath);
+            if (wordFile) {
+                const chapterWords = wordFile.data.words || [];
+                allWords = allWords.concat(chapterWords);
+                combinedWordContent += wordFile.content;
+                wordsByChapter[idx] = chapterWords;
+            }
+        }
+    });
     
-    console.log("--- 렌더링 완료 ---");
+    allWords = allWords.filter((word, index, self) => index === self.findIndex((w) => w.id === word.id));
+    const contentHash = crypto.createHash('md5').update(combinedWordContent).digest('hex').substring(0, 8);
+    
+    const wordDataJs = generateWordDataJs(allWords);
+    const { numberNavigation, indexNavigation, chaptersHtml } = generateChaptersHtml(stories, contentHash);
 
     res.render('viewer', {
+        page_title: `${storyFile.data.part_title} - ${set}`,
         number_navigation: numberNavigation,
         index_navigation: indexNavigation,
         chapters_html: chaptersHtml,
         word_data_js: wordDataJs,
-        all_words_json: JSON.stringify(words),
+        words_by_chapter_json: JSON.stringify(wordsByChapter),
         content_hash: contentHash
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`서버가 http://localhost:${PORT} 에서 실행 중입니다.`);
-});
+app.listen(PORT, () => console.log(`서버가 http://localhost:${PORT} 에서 실행 중입니다.`));

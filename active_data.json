@@ -1,3 +1,4 @@
 {
-  "active_directory": "data/set2"
+  "active_directory": "data/gemini",
+  "active_output": "data/gemini/out"
 }

@@ -1,0 +1,854 @@
+{
+  "part_title": "The Genesis Protocol",
+  "part_full_text": "In 2125, Earth’s society rested on a fragile <word id='_foundation' class='word-eng-link'>foundation</word>, divided into AI-augmented Elites, gene-edited Novus, and oppressed Naturals. Kael, a Natural, discovered a <word id='_conspicuous' class='word-eng-link'>conspicuous</word> signal from a buried lab that could <word id='_transform' class='word-eng-link'>transform</word> the caste hierarchy. Choosing to <word id='_embark_on' class='word-eng-link'>embark on</word> a mission, he faced Elites determined to <word id='_conserve' class='word-eng-link'>conserve</word> their power. Drones were deployed to <word id='_obstruct' class='word-eng-link'>obstruct</word> his path, but Mira, a Novus defector, saw her escape <word id='_coincide' class='word-eng-link'>coincide</word> with his quest. A <word id='_barrier' class='word-eng-link'>barrier</word> of distrust stood between them, yet their <word id='_mutual' class='word-eng-link'>mutual</word> survival forged an uneasy alliance in the <word id='_hinterland' class='word-eng-link'>hinterland</word>. Kael’s actions began to <word id='_justify' class='word-eng-link'>justify</word> rebellion, uncovering a <word id='_significant' class='word-eng-link'>significant</word> <word id='_antidote' class='word-eng-link'>antidote</word> to Elite control. The <word id='_massive' class='word-eng-link'>massive</word> Elite forces moved to <word id='_subdue' class='word-eng-link'>subdue</word> them, but their escape would <word id='_culminate' class='word-eng-link'>culminate</word> in a vow to <word id='_reinforce' class='word-eng-link'>reinforce</word> their fight. A <word id='_handful' class='word-eng-link'>handful</word> of Naturals began to <word id='_predict' class='word-eng-link'>predict</word> an uprising, their <word id='_unanimity' class='word-eng-link'>unanimity</word> a spark. Forging an <word id='_alloy' class='word-eng-link'>alloy</word> of trust, Kael and Mira <word id='_barely' class='word-eng-link'>barely</word> evaded capture, their <word id='_cohesion' class='word-eng-link'>cohesion</word> tested. Their paths <word id='_converge' class='word-eng-link'>converge</word> at an outpost where a <word id='_generous' class='word-eng-link'>generous</word> elder offered shelter. The Elites <word id='_blame' class='word-eng-link'>blame</word> Naturals for chaos, launching <word id='_chaotic' class='word-eng-link'>chaotic</word> raids. Kael’s team, with <word id='_adroit' class='word-eng-link'>adroit</word> tactics, aimed to <word id='_conceal' class='word-eng-link'>conceal</word> their plans and <word id='_incinerate' class='word-eng-link'>incinerate</word> Elite data banks, proving the rebellion’s potential.",
+  "ref_word_table": "chapter9.json, chapter10.json, chapter11.json, chapter12.json, chapter13.json",
+  "genre": "SF Thriller",
+  "stories": [
+    {
+      "chapter_title": "Echoes of the Old World",
+      "chapter_num": 0,
+      "story_sentences": [
+        {
+          "english": "Kael chose to <word id='_abandon' class='word-eng-link'>abandon</word> his quiet life for a dangerous mission.",
+          "korean": "케일은 조용한 삶을 <word id='_abandon' class='word-target-kr'>버리고</word> 위험한 임무를 택했다."
+        },
+        {
+          "english": "The lab held an <word id='_antidote' class='word-eng-link'>antidote</word> to the Elites’ genetic control.",
+          "korean": "연구소에는 엘리트의 유전자 통제를 막을 <word id='_antidote' class='word-target-kr'>치료법</word>이 있었다."
+        },
+        {
+          "english": "A <word id='_conspicuous' class='word-eng-link'>conspicuous</word> signal drew Kael to the ruins.",
+          "korean": "<word id='_conspicuous' class='word-target-kr'>뚜렷한</word> 신호가 케일을 폐허로 이끌었다."
+        },
+        {
+          "english": "This discovery was <word id='_critical' class='word-eng-link'>critical</word> to the Naturals’ survival.",
+          "korean": "이 발견은 자연인들의 생존에 <word id='_critical' class='word-target-kr'>중요했다</word>."
+        },
+        {
+          "english": "Kael could <word id='_discriminate' class='word-eng-link'>discriminate</word> the signal’s unique frequency.",
+          "korean": "케일은 신호의 독특한 주파수를 <word id='_discriminate' class='word-target-kr'>구별할</word> 수 있었다."
+        },
+        {
+          "english": "The lab’s <word id='_dorsal' class='word-eng-link'>dorsal</word> structure was buried under rubble.",
+          "korean": "연구소의 <word id='_dorsal' class='word-target-kr'>등 부분</word> 구조는 잔해 아래 묻혀 있었다."
+        },
+        {
+          "english": "Kael aimed to <word id='_eliminate' class='word-eng-link'>eliminate</word> any trace of his presence.",
+          "korean": "케일은 자신의 흔적을 <word id='_eliminate' class='word-target-kr'>제거하려</word> 했다."
+        },
+        {
+          "english": "The signal seemed to <word id='_fuse' class='word-eng-link'>fuse</word> with ancient tech patterns.",
+          "korean": "신호는 고대 기술 패턴과 <word id='_fuse' class='word-target-kr'>융합된</word> 듯했다."
+        },
+        {
+          "english": "In the <word id='_hinterland' class='word-eng-link'>hinterland</word>, dangers were ever-present.",
+          "korean": "<word id='_hinterland' class='word-target-kr'>배후지</word>에서는 위험이 항상 존재했다."
+        },
+        {
+          "english": "Kael’s <word id='_earnest' class='word-eng-link'>earnest</word> resolve inspired others.",
+          "korean": "케일의 <word id='_earnest' class='word-target-kr'>진지한</word> 결심은 다른 이들을 고무했다."
+        },
+        {
+          "english": "A sense of <word id='_kinship' class='word-eng-link'>kinship</word> grew among the Naturals.",
+          "korean": "자연인들 사이에 <word id='_kinship' class='word-target-kr'>혈연 관계</word> 같은 유대가 커졌다."
+        },
+        {
+          "english": "The lab was <word id='_laden' class='word-eng-link'>laden</word> with forgotten technology.",
+          "korean": "연구소는 잊힌 기술로 <word id='_laden' class='word-target-kr'>가득했다</word>."
+        },
+        {
+          "english": "Kael carried <word id='_lumber' class='word-eng-link'>lumber</word> to barricade the entrance.",
+          "korean": "케일은 입구를 막기 위해 <word id='_lumber' class='word-target-kr'>목재</word>를 나랐다."
+        },
+        {
+          "english": "The signal’s pattern seemed to <word id='_mirror' class='word-eng-link'>mirror</word> old Earth codes.",
+          "korean": "신호의 패턴은 오래된 지구 코드를 <word id='_mirror' class='word-target-kr'>반영하는</word> 듯했다."
+        },
+        {
+          "english": "Their <word id='_mutual' class='word-eng-link'>mutual</word> goal united Kael and Mira.",
+          "korean": "그들의 <word id='_mutual' class='word-target-kr'>상호적인</word> 목표는 케일과 미라를 하나로 묶었다."
+        },
+        {
+          "english": "The antidote was <word id='_obtainable' class='word-eng-link'>obtainable</word> but heavily guarded.",
+          "korean": "치료제는 <word id='_obtainable' class='word-target-kr'>손에 넣을 수 있었지만</word> 철저히 보호되고 있었다."
+        },
+        {
+          "english": "Kael had to <word id='_patch' class='word-eng-link'>patch</word> a broken console to access data.",
+          "korean": "케일은 데이터를 얻기 위해 고장난 콘솔을 <word id='_patch' class='word-target-kr'>수선했다</word>."
+        },
+        {
+          "english": "The Elites began to <word id='_protest' class='word-eng-link'>protest</word> the growing unrest.",
+          "korean": "엘리트들은 커져가는 소요에 <word id='_protest' class='word-target-kr'>항의하기</word> 시작했다."
+        },
+        {
+          "english": "Kael’s <word id='_rash' class='word-eng-link'>rash</word> move nearly exposed their position.",
+          "korean": "케일의 <word id='_rash' class='word-target-kr'>경솔한</word> 행동은 그들의 위치를 거의 노출시켰다."
+        },
+        {
+          "english": "He tried to <word id='_recall' class='word-eng-link'>recall</word> the lab’s layout from old maps.",
+          "korean": "그는 오래된 지도에서 연구소의 배치를 <word id='_recall' class='word-target-kr'>회상하려</word> 했다."
+        },
+        {
+          "english": "Mira could <word id='_recite' class='word-eng-link'>recite</word> the code to unlock the vault.",
+          "korean": "미라는 금고를 여는 코드를 <word id='_recite' class='word-target-kr'>암송할</word> 수 있었다."
+        },
+        {
+          "english": "They hoped to <word id='_regain' class='word-eng-link'>regain</word> control of their future.",
+          "korean": "그들은 미래를 <word id='_regain' class='word-target-kr'>되찾기를</word> 바랐다."
+        },
+        {
+          "english": "Kael worked to <word id='_reinforce' class='word-eng-link'>reinforce</word> the lab’s defenses.",
+          "korean": "케일은 연구소의 방어를 <word id='_reinforce' class='word-target-kr'>강화하기</word> 위해 일했다."
+        },
+        {
+          "english": "The signal was <word id='_relevant_to' class='word-eng-link'>relevant to</word> an ancient rebellion.",
+          "korean": "신호는 고대 반란과 <word id='_relevant_to' class='word-target-kr'>관련된</word> 것이었다."
+        },
+        {
+          "english": "Kael would <word id='_reminisce' class='word-eng-link'>reminisce</word> about freer days.",
+          "korean": "케일은 더 자유로웠던 날들을 <word id='_reminisce' class='word-target-kr'>회상하곤</word> 했다."
+        },
+        {
+          "english": "Some Naturals began to <word id='_repent' class='word-eng-link'>repent</word> their inaction.",
+          "korean": "일부 자연인들은 그들의 무활동을 <word id='_repent' class='word-target-kr'>후회하기</word> 시작했다."
+        },
+        {
+          "english": "Mira chose to <word id='_resign' class='word-eng-link'>resign</word> her loyalty to the Novus.",
+          "korean": "미라는 노부스에 대한 충성을 <word id='_resign' class='word-target-kr'>포기했다</word>."
+        },
+        {
+          "english": "The lab’s system could <word id='_secrete' class='word-eng-link'>secrete</word> the antidote formula.",
+          "korean": "연구소 시스템은 치료제 공식을 <word id='_secrete' class='word-target-kr'>분비할</word> 수 있었다."
+        },
+        {
+          "english": "Kael’s words helped <word id='_soothe' class='word-eng-link'>soothe</word> the group’s fears.",
+          "korean": "케일의 말은 그룹의 두려움을 <word id='_soothe' class='word-target-kr'>달래는</word> 데 도움이 됐다."
+        },
+        {
+          "english": "They decided to <word id='_stay' class='word-eng-link'>stay</word> in the lab overnight.",
+          "korean": "그들은 연구소에서 밤을 <word id='_stay' class='word-target-kr'>보내기로</word> 했다."
+        },
+        {
+          "english": "A <word id='_surplus' class='word-eng-link'>surplus</word> of data overwhelmed their systems.",
+          "korean": "데이터의 <word id='_surplus' class='word-target-kr'>잔여</word>가 그들의 시스템을 압도했다."
+        },
+        {
+          "english": "Kael had to <word id='_tear' class='word-eng-link'>tear</word> through old cables to proceed.",
+          "korean": "케일은 진행하기 위해 오래된 케이블을 <word id='_tear' class='word-target-kr'>찢어야</word> 했다."
+        },
+        {
+          "english": "The group would <word id='_swear' class='word-eng-link'>swear</word> to protect the antidote.",
+          "korean": "그룹은 치료제를 보호하기로 <word id='_swear' class='word-target-kr'>맹세했다</word>."
+        },
+        {
+          "english": "The lab’s <word id='_toothed' class='word-eng-link'>toothed</word> gears were still intact.",
+          "korean": "연구소의 <word id='_toothed' class='word-target-kr'>들쑥날쑥한</word> 기어는 여전히 온전했다."
+        },
+        {
+          "english": "This find could <word id='_transform' class='word-eng-link'>transform</word> their fight.",
+          "korean": "이 발견은 그들의 싸움을 <word id='_transform' class='word-target-kr'>변형시킬</word> 수 있었다."
+        },
+        {
+          "english": "Kael proved <word id='_trustworthy' class='word-eng-link'>trustworthy</word> to his allies.",
+          "korean": "케일은 동맹들에게 <word id='_trustworthy' class='word-target-kr'>믿을 수 있는</word> 사람임을 증명했다."
+        },
+        {
+          "english": "Their plan was <word id='_unbalanced' class='word-eng-link'>unbalanced</word> but bold.",
+          "korean": "그들의 계획은 <word id='_unbalanced' class='word-target-kr'>균형을 잃은</word> 것이었지만 대담했다."
+        },
+        {
+          "english": "The Elites’ <word id='_unrelenting' class='word-eng-link'>unrelenting</word> pursuit was daunting.",
+          "korean": "엘리트들의 <word id='_unrelenting' class='word-target-kr'>무자비한</word> 추격은 두려웠다."
+        },
+        {
+          "english": "Their <word id='_utilitarian' class='word-eng-link'>utilitarian</word> approach maximized efficiency.",
+          "korean": "그들의 <word id='_utilitarian' class='word-target-kr'>실용주의적인</word> 접근은 효율성을 극대화했다."
+        },
+        {
+          "english": "The <word id='_variety' class='word-eng-link'>variety</word> of threats kept them alert.",
+          "korean": "위협의 <word id='_variety' class='word-target-kr'>다양성</word>은 그들을 경계하게 했다."
+        },
+        {
+          "english": "Each <word id='_variety' class='word-eng-link'>variety</word> of code required a unique key.",
+          "korean": "각 <word id='_variety' class='word-target-kr'>종류</word>의 코드에는 고유한 키가 필요했다."
+        }
+      ]
+    },
+    {
+      "chapter_title": "The Alloy of Trust",
+      "chapter_num": 1,
+      "story_sentences": [
+        {
+          "english": "The signal’s <word id='_advantage' class='word-eng-link'>advantage</word> gave hope to the Naturals.",
+          "korean": "신호의 <word id='_advantage' class='word-target-kr'>이익</word>은 자연인들에게 희망을 주었다."
+        },
+        {
+          "english": "The unrest seemed to <word id='_arise_from' class='word-eng-link'>arise from</word> the lab’s discovery.",
+          "korean": "소요는 연구소의 발견에서 <word id='_arise_from' class='word-target-kr'>기인한</word> 듯했다."
+        },
+        {
+          "english": "A <word id='_barrier' class='word-eng-link'>barrier</word> of drones blocked their escape.",
+          "korean": "드론의 <word id='_barrier' class='word-target-kr'>장애물</word>이 그들의 탈출을 막았다."
+        },
+        {
+          "english": "Mira feared Kael might <word id='_betray' class='word-eng-link'>betray</word> her to the Elites.",
+          "korean": "미라는 케일이 자신을 엘리트에게 <word id='_betray' class='word-target-kr'>배신할</word>까 봐 두려웠다."
+        },
+        {
+          "english": "They used ropes to <word id='_bind' class='word-eng-link'>bind</word> a broken gate shut.",
+          "korean": "그들은 밧줄로 부서진 문을 <word id='_bind' class='word-target-kr'>묶었다</word>."
+        },
+        {
+          "english": "Dust clouds would <word id='_blur' class='word-eng-link'>blur</word> the drones’ sensors.",
+          "korean": "먼지 구름은 드론의 센서를 <word id='_blur' class='word-target-kr'>흐리게</word> 했다."
+        },
+        {
+          "english": "They had to <word id='_circumvent' class='word-eng-link'>circumvent</word> a guarded checkpoint.",
+          "korean": "그들은 경비가 삼엄한 검문소를 <word id='_circumvent' class='word-target-kr'>우회해야</word> 했다."
+        },
+        {
+          "english": "Kael’s <word id='_clumsy' class='word-eng-link'>clumsy</word> attempt at stealth nearly failed.",
+          "korean": "케일의 <word id='_clumsy' class='word-target-kr'>서투른</word> 은신 시도는 거의 실패할 뻔했다."
+        },
+        {
+          "english": "Their escape would <word id='_commence' class='word-eng-link'>commence</word> at dawn.",
+          "korean": "그들의 탈출은 새벽에 <word id='_commence' class='word-target-kr'>시작될</word> 것이었다."
+        },
+        {
+          "english": "Kael’s <word id='_conduct' class='word-eng-link'>conduct</word> earned Mira’s trust.",
+          "korean": "케일의 <word id='_conduct' class='word-target-kr'>행동</word>은 미라의 신뢰를 얻었다."
+        },
+        {
+          "english": "They aimed to <word id='_conserve' class='word-eng-link'>conserve</word> their limited supplies.",
+          "korean": "그들은 제한된 물자를 <word id='_conserve' class='word-target-kr'>보존하려</word> 했다."
+        },
+        {
+          "english": "A <word id='_contradiction' class='word-eng-link'>contradiction</word> in Elite orders caused confusion.",
+          "korean": "엘리트 명령의 <word id='_contradiction' class='word-target-kr'>모순</word>은 혼란을 일으켰다."
+        },
+        {
+          "english": "Their efforts would <word id='_culminate' class='word-eng-link'>culminate</word> in a bold strike.",
+          "korean": "그들의 노력은 대담한 공격으로 <word id='_culminate' class='word-target-kr'>끝날</word> 것이었다."
+        },
+        {
+          "english": "Mira helped <word id='_delineate' class='word-eng-link'>delineate</word> the lab’s blueprint.",
+          "korean": "미라는 연구소 청사진의 <word id='_delineate' class='word-target-kr'>윤곽을 그리는</word> 데 도움을 주었다."
+        },
+        {
+          "english": "A <word id='_donation' class='word-eng-link'>donation</word> of tools came from a sympathizer.",
+          "korean": "동조자로부터 도구의 <word id='_donation' class='word-target-kr'>기증</word>이 도착했다."
+        },
+        {
+          "english": "Kael and Mira would <word id='_embark_on' class='word-eng-link'>embark on</word> a new phase of their plan.",
+          "korean": "케일과 미라는 계획의 새 단계를 <word id='_embark_on' class='word-target-kr'>시작할</word> 것이었다."
+        },
+        {
+          "english": "Society’s <word id='_foundation' class='word-eng-link'>foundation</word> was cracking under rebellion.",
+          "korean": "사회의 <word id='_foundation' class='word-target-kr'>기초</word>는 반란으로 균열이 가고 있었다."
+        },
+        {
+          "english": "Their <word id='_fundamental' class='word-eng-link'>fundamental</word> goal was freedom.",
+          "korean": "그들의 <word id='_fundamental' class='word-target-kr'>근본적인</word> 목표는 자유였다."
+        },
+        {
+          "english": "A <word id='_handful' class='word-eng-link'>handful</word> of Naturals joined their cause.",
+          "korean": "<word id='_handful' class='word-target-kr'>소수의</word> 자연인들이 그들의 대의에 합류했다."
+        },
+        {
+          "english": "Their resistance reached a new <word id='_height' class='word-eng-link'>height</word> of intensity.",
+          "korean": "그들의 저항은 새로운 <word id='_height' class='word-target-kr'>절정</word>에 도달했다."
+        },
+        {
+          "english": "Their strategies were <word id='_identical' class='word-eng-link'>identical</word> in purpose.",
+          "korean": "그들의 전략은 목적에서 <word id='_identical' class='word-target-kr'>동일했다</word>."
+        },
+        {
+          "english": "Drones were an <word id='_impediment' class='word-eng-link'>impediment</word> to their progress.",
+          "korean": "드론은 그들의 진전에 <word id='_impediment' class='word-target-kr'>장애</word>였다."
+        },
+        {
+          "english": "Kael’s actions helped <word id='_justify' class='word-eng-link'>justify</word> their rebellion.",
+          "korean": "케일의 행동은 그들의 반란을 <word id='_justify' class='word-target-kr'>정당화하는</word> 데 도움이 됐다."
+        },
+        {
+          "english": "Some Naturals would <word id='_lament' class='word-eng-link'>lament</word> their lost safety.",
+          "korean": "일부 자연인들은 잃어버린 안전을 <word id='_lament' class='word-target-kr'>슬퍼했다</word>."
+        },
+        {
+          "english": "The lab housed a <word id='_microorganism' class='word-eng-link'>microorganism</word> for the antidote.",
+          "korean": "연구소에는 치료제를 위한 <word id='_microorganism' class='word-target-kr'>미생물</word>이 있었다."
+        },
+        {
+          "english": "Mira’s <word id='_moody' class='word-eng-link'>moody</word> demeanor hid her resolve.",
+          "korean": "미라의 <word id='_moody' class='word-target-kr'>우울한</word> 태도는 그녀의 결심을 숨겼다."
+        },
+        {
+          "english": "The signal’s <word id='_origin' class='word-eng-link'>origin</word> was a pre-war lab.",
+          "korean": "신호의 <word id='_origin' class='word-target-kr'>근원</word>은 전쟁 전 연구소였다."
+        },
+        {
+          "english": "Kael could <word id='_predict' class='word-eng-link'>predict</word> the Elites’ next move.",
+          "korean": "케일은 엘리트의 다음 움직임을 <word id='_predict' class='word-target-kr'>예측할</word> 수 있었다."
+        },
+        {
+          "english": "Their <word id='_progress' class='word-eng-link'>progress</word> fueled hope for change.",
+          "korean": "그들의 <word id='_progress' class='word-target-kr'>발전</word>은 변화를 위한 희망을 키웠다."
+        },
+        {
+          "english": "Kael used a tool to <word id='_scoop' class='word-eng-link'>scoop</word> debris from the path.",
+          "korean": "케일은 도구로 길에서 잔해를 <word id='_scoop' class='word-target-kr'>긁어 모았다</word>."
+        },
+        {
+          "english": "They aimed to <word id='_score' class='word-eng-link'>score</word> a victory against the drones.",
+          "korean": "그들은 드론에 맞서 승리를 <word id='_score' class='word-target-kr'>얻으려</word> 했다."
+        },
+        {
+          "english": "The lab held a <word id='_score' class='word-eng-link'>score</word> of ancient music.",
+          "korean": "연구소에는 고대 음악의 <word id='_score' class='word-target-kr'>악보</word>가 있었다."
+        },
+        {
+          "english": "A <word id='_scrap' class='word-eng-link'>scrap</word> of metal blocked a door.",
+          "korean": "금속의 <word id='_scrap' class='word-target-kr'>파편</word>이 문을 막았다."
+        },
+        {
+          "english": "Mira was <word id='_singularly' class='word-eng-link'>singularly</word> focused on their goal.",
+          "korean": "미라는 그들의 목표에 <word id='_singularly' class='word-target-kr'>각별히</word> 집중했다."
+        },
+        {
+          "english": "Kael’s <word id='_skilled' class='word-eng-link'>skilled</word> navigation saved time.",
+          "korean": "케일의 <word id='_skilled' class='word-target-kr'>숙련된</word> 탐색은 시간을 절약했다."
+        },
+        {
+          "english": "The antidote’s <word id='_stem' class='word-eng-link'>stem</word> was a rare gene.",
+          "korean": "치료제의 <word id='_stem' class='word-target-kr'>어간</word>은 희귀 유전자였다."
+        },
+        {
+          "english": "They had to <word id='_stem' class='word-eng-link'>stem</word> the flow of Elite reinforcements.",
+          "korean": "그들은 엘리트 지원군의 흐름을 <word id='_stem' class='word-target-kr'>막아야</word> 했다."
+        },
+        {
+          "english": "The rebellion would <word id='_stem' class='word-eng-link'>stem</word> from this discovery.",
+          "korean": "반란은 이 발견에서 <word id='_stem' class='word-target-kr'>유래할</word> 것이었다."
+        },
+        {
+          "english": "They aimed to <word id='_subdue' class='word-eng-link'>subdue</word> a drone patrol.",
+          "korean": "그들은 드론 순찰대를 <word id='_subdue' class='word-target-kr'>진압하려</word> 했다."
+        },
+        {
+          "english": "A rebel group offered to <word id='_subsidize' class='word-eng-link'>subsidize</word> their efforts.",
+          "korean": "반군 그룹은 그들의 노력을 <word id='_subsidize' class='word-target-kr'>후원하기로</word> 했다."
+        },
+        {
+          "english": "Their <word id='_unanimity' class='word-eng-link'>unanimity' class='word-eng-link'>unanimity</word> strengthened their resolve.",
+          "korean": "그들의 <word id='_unanimity' class='word-target-kr'>만장일치</word>는 결의를 강화했다."
+        }
+      ]
+    },
+    {
+      "chapter_title": "Shadows of Control",
+      "chapter_num": 2,
+      "story_sentences": [
+        {
+          "english": "Kael and Mira forged an <word id='_alloy' class='word-eng-link'>alloy</word> of trust to survive.",
+          "korean": "케일과 미라는 생존을 위해 신뢰의 <word id='_alloy' class='word-target-kr'>혼합</word>을 만들었다."
+        },
+        {
+          "english": "They could <word id='_barely' class='word-eng-link'>barely</word> escape the Elite drones.",
+          "korean": "그들은 엘리트 드론을 <word id='_barely' class='word-target-kr'>간신히</word> 피했다."
+        },
+        {
+          "english": "In <word id='_captivity' class='word-eng-link'>captivity</word>, Naturals faced harsh conditions.",
+          "korean": "<word id='_captivity' class='word-target-kr'>감금</word> 상태에서 자연인들은 가혹한 환경에 직면했다."
+        },
+        {
+          "english": "Kael had to <word id='_clasp' class='word-eng-link'>clasp</word> a tool tightly to fix a device.",
+          "korean": "케일은 장치를 고치기 위해 도구를 <word id='_clasp' class='word-target-kr'>꽉 잡았다</word>."
+        },
+        {
+          "english": "Their <word id='_cohesion' class='word-eng-link'>cohesion</word> was vital to their success.",
+          "korean": "그들의 <word id='_cohesion' class='word-target-kr'>결합</word>은 성공에 필수적이었다."
+        },
+        {
+          "english": "Their plans had to <word id='_coincide' class='word-eng-link'>coincide</word> perfectly with rebel movements.",
+          "korean": "그들의 계획은 반군의 움직임과 <word id='_coincide' class='word-target-kr'>동시에</word> 맞아야 했다."
+        },
+        {
+          "english": "Their goals would <word id='_coincide' class='word-eng-link'>coincide' class='word-eng-link'>coincide</word> with the outpost’s agenda.",
+          "korean": "그들의 목표는 전초기지의 의제와 <word id='_coincide' class='word-target-kr'>일치할</word> 것이었다."
+        },
+        {
+          "english": "The <word id='_colossal' class='word-eng-link'>colossal</word> Elite hub loomed ahead.",
+          "korean": "<word id='_colossal' class='word-target-kr'>거대한</word> 엘리트 허브가 앞에 우뚝 서 있었다."
+        },
+        {
+          "english": "The <word id='_considerable' class='word-eng-link'>considerable</word> risk was worth taking.",
+          "korean": "<word id='_considerable' class='word-target-kr'>중요한</word> 위험은 감수할 가치가 있었다."
+        },
+        {
+          "english": "Their <word id='_considerable' class='word-eng-link'>considerable</word> progress surprised allies.",
+          "korean": "그들의 <word id='_considerable' class='word-target-kr'>상당한</word> 진전은 동맹들을 놀라게 했다."
+        },
+        {
+          "english": "Rebel forces began to <word id='_converge' class='word-eng-link'>converge</word> on the hub.",
+          "korean": "반군 세력은 허브에 <word id='_converge' class='word-target-kr'>집중되기</word> 시작했다."
+        },
+        {
+          "english": "A <word id='_corpse' class='word-eng-link'>corpse</word> in the ruins hinted at past battles.",
+          "korean": "폐허 속 <word id='_corpse' class='word-target-kr'>시체</word>는 과거 전투를 암시했다."
+        },
+        {
+          "english": "Kael didn’t <word id='_covet' class='word-eng-link'>covet</word> power, only freedom.",
+          "korean": "케일은 권력을 <word id='_covet' class='word-target-kr'>갈망하지</word> 않고 자유만을 원했다."
+        },
+        {
+          "english": "Mira’s <word id='_defection' class='word-eng-link'>defection' class='word-eng-link'>defection</word> was a flaw in Elite plans.",
+          "korean": "미라의 <word id='_defection' class='word-target-kr'>결점</word>은 엘리트 계획의 흠이었다."
+        },
+        {
+          "english": "Her <word id='_defection' class='word-eng-link'>defection</word> was seen as a <word id='_defection' class='word-eng-link'>betrayal</word>.",
+          "korean": "그녀의 <word id='_defection' class='word-target-kr'>배반</word>은 배신으로 여겨졌다."
+        },
+        {
+          "english": "The Elites aimed to <word id='_deprive' class='word-eng-link'>deprive</word> Naturals of hope.",
+          "korean": "엘리트들은 자연인들의 희망을 <word id='_deprive' class='word-target-kr'>박탈하려</word> 했다."
+        },
+        {
+          "english": "The mission grew <word id='_dull' class='word-eng-link'>dull</word> with endless waiting.",
+          "korean": "임무는 끝없는 기다림으로 <word id='_dull' class='word-target-kr'>지루해졌다</word>."
+        },
+        {
+          "english": "Kael’s <word id='_endeavor' class='word-eng-link'>endeavor</word> to unite rebels was tireless.",
+          "korean": "케일의 반군을 단결시키려는 <word id='_endeavor' class='word-target-kr'>노력</word>은 지칠 줄 몰랐다."
+        },
+        {
+          "english": "A <word id='_flock' class='word-eng-link'>flock</word> of drones patrolled the skies.",
+          "korean": "드론의 <word id='_flock' class='word-target-kr'>무리</word>가 하늘을 순찰했다."
+        },
+        {
+          "english": "A <word id='_generous' class='word-eng-link'>generous</word> rebel shared vital data.",
+          "korean": "<word id='_generous' class='word-target-kr'>관대한</word> 반군이 중요한 데이터를 공유했다."
+        },
+        {
+          "english": "Kael would <word id='_grant' class='word-eng-link'>grant</word> the outpost leader key intel.",
+          "korean": "케일은 전초기지 리더에게 핵심 정보를 <word id='_grant' class='word-target-kr'>제공할</word> 것이었다."
+        },
+        {
+          "english": "They had to <word id='_hustle' class='word-eng-link'>hustle</word> to avoid detection.",
+          "korean": "그들은 발각을 피하기 위해 <word id='_hustle' class='word-target-kr'>서둘렀다</word>."
+        },
+        {
+          "english": "Kael had to <word id='_push' class='word-eng-link'>push</word> a heavy crate aside.",
+          "korean": "케일은 무거운 상자를 <word id='_push' class='word-target-kr'>밀어냈다</word>."
+        },
+        {
+          "english": "Their plan was at an <word id='_intermediate' class='word-eng-link'>intermediate</word> stage.",
+          "korean": "그들의 계획은 <word id='_intermediate' class='word-target-kr'>중간</word> 단계에 있었다."
+        },
+        {
+          "english": "Some rebels were <word id='_intolerant' class='word-eng-link'>intolerant</word> of Mira’s Novus past.",
+          "korean": "일부 반군은 미라의 노부스 과거를 <word id='_intolerant' class='word-target-kr'>편협하게</word> 대했다."
+        },
+        {
+          "english": "A <word id='_kind' class='word-eng-link'>kind</word> elder eased tensions.",
+          "korean": "<word id='_kind' class='word-target-kr'>친절한</word> 장로가 긴장을 완화했다."
+        },
+        {
+          "english": "The hub’s <word id='_limit' class='word-eng-link'>limit</word> was its reliance on AI.",
+          "korean": "허브의 <word id='_limit' class='word-target-kr'>한계</word>는 AI에 대한 의존이었다."
+        },
+        {
+          "english": "They aimed to <word id='_limit' class='word-eng-link'>limit</word> the hub’s reach.",
+          "korean": "그들은 허브의 범위를 <word id='_limit' class='word-target-kr'>제한하려</word> 했다."
+        },
+        {
+          "english": "The outpost’s <word id='_margin' class='word-eng-link'>margin</word> of safety was shrinking.",
+          "korean": "전초기지의 <word id='_margin' class='word-target-kr'>안전 여유</word>는 줄어들고 있었다."
+        },
+        {
+          "english": "A <word id='_militia' class='word-eng-link'>militia' class='word-eng-link'>militia</word> of Naturals prepared to fight.",
+          "korean": "자연인들의 <word id='_militia' class='word-target-kr'>시민군</word>이 싸울 준비를 했다."
+        },
+        {
+          "english": "<word id='_moreover' class='word-eng-link'>moreover</word>, their allies were growing.",
+          "korean": "<word id='_moreover' class='word-target-kr'>게다가</word>, 그들의 동맹은 늘어나고 있었다."
+        },
+        {
+          "english": "Their survival was <word id='_necessary' class='word-eng-link'>necessary</word> for the rebellion.",
+          "korean": "그들의 생존은 반란에 <word id='_necessary' class='word-target-kr'>필수적이었다</word>."
+        },
+        {
+          "english": "Drones continued to <word id='_obstruct' class='word-eng-link'>obstruct</word> their path.",
+          "korean": "드론은 계속 그들의 길을 <word id='_obstruct' class='word-target-kr'>막았다</word>."
+        },
+        {
+          "english": "They acted <word id='_on_the_spot' class='word-eng-link'>on the spot</word> to avoid capture.",
+          "korean": "그들은 포획을 피하기 위해 <word id='_on_the_spot' class='word-target-kr'>즉시</word> 행동했다."
+        },
+        {
+          "english": "Some rebels were <word id='_partial' class='word-eng-link'>partial</word> to Kael’s leadership.",
+          "korean": "일부 반군은 케일의 리더십에 <word id='_partial' class='word-target-kr'>편파적이었다</word>."
+        },
+        {
+          "english": "Mira would <word id='_petition' class='word-eng-link'>petition</word> for more support.",
+          "korean": "미라는 더 많은 지원을 <word id='_petition' class='word-target-kr'>간청할</word> 것이었다."
+        },
+        {
+          "english": "The outpost’s <word id='_placid' class='word-eng-link'>placid</word> exterior hid chaos.",
+          "korean": "전초기지의 <word id='_placid' class='word-target-kr'>평온한</word> 외관은 혼란을 숨겼다."
+        },
+        {
+          "english": "The antidote’s <word id='_porosity' class='word-eng-link'>porosity</word> required careful handling.",
+          "korean": "치료제의 <word id='_porosity' class='word-target-kr'>다공성</word>은 신중한 취급을 요구했다."
+        },
+        {
+          "english": "They planned to <word id='_reform' class='word-eng-link'>reform</word> their strategy.",
+          "korean": "그들은 전략을 <word id='_reform' class='word-target-kr'>개정하려</word> 했다."
+        },
+        {
+          "english": "The hub’s <word id='_rigid' class='word-eng-link'>rigid</word> structure was hard to breach.",
+          "korean": "허브의 <word id='_rigid' class='word-target-kr'>단단한</word> 구조는 뚫기 어려웠다."
+        },
+        {
+          "english": "Elite rules were <word id='_rigid' class='word-eng-link'>rigid' class='word-eng-link'>rigid</word> and unforgiving.",
+          "korean": "엘리트 규칙은 <word id='_rigid' class='word-target-kr'>엄격하고</word> 용서가 없었다."
+        }
+      ]
+    },
+    {
+      "chapter_title": "The Hidden Spark",
+      "chapter_num": 3,
+      "story_sentences": [
+        {
+          "english": "The Elites began to <word id='_blame' class='word-eng-link'>blame</word> Naturals for the unrest.",
+          "korean": "엘리트들은 소요에 대해 자연인들을 <word id='_blame' class='word-target-kr'>비난하기</word> 시작했다."
+        },
+        {
+          "english": "The <word id='_chaotic' class='word-eng-link'>chaotic</word> raids disrupted their plans.",
+          "korean": "<word id='_chaotic' class='word-target-kr'>무질서한</word> 습격은 그들의 계획을 방해했다."
+        },
+        {
+          "english": "Kael struggled to <word id='_comprehend' class='word-eng-link'>comprehend</word> Elite technology.",
+          "korean": "케일은 엘리트 기술을 <word id='_comprehend' class='word-target-kr'>이해하기</word> 위해 애썼다."
+        },
+        {
+          "english": "Mira’s <word id='_creditable' class='word-eng-link'>creditable</word> skills earned respect.",
+          "korean": "미라의 <word id='_creditable' class='word-target-kr'>명예로운</word> 기술은 존경을 얻었다."
+        },
+        {
+          "english": "Their <word id='_decided' class='word-eng-link'>decided</word> plan targeted the hub.",
+          "korean": "그들의 <word id='_decided' class='word-target-kr'>단호한</word> 계획은 허브를 겨냥했다."
+        },
+        {
+          "english": "They aimed to <word id='_displace' class='word-eng-link'>displace</word> the hub’s AI core.",
+          "korean": "그들은 허브의 AI 코어를 <word id='_displace' class='word-target-kr'>대체하려</word> 했다."
+        },
+        {
+          "english": "They had to <word id='_enclose' class='word-eng-link'>enclose</word> the hub to stop drones.",
+          "korean": "그들은 드론을 막기 위해 허브를 <word id='_enclose' class='word-target-kr'>에워쌌다</word>."
+        },
+        {
+          "english": "The mission would <word id='_entail' class='word-eng-link'>entail</word> great danger.",
+          "korean": "임무는 큰 위험을 <word id='_entail' class='word-target-kr'>수반할</word> 것이었다."
+        },
+        {
+          "english": "Kael’s leadership began to <word id='_excel' class='word-eng-link'>excel</word> under pressure.",
+          "korean": "케일의 리더십은 압박 속에서 <word id='_excel' class='word-target-kr'>뛰어나기</word> 시작했다."
+        },
+        {
+          "english": "The attack was a new <word id='_genre' class='word-eng-link'>genre</word> of rebellion.",
+          "korean": "공격은 새로운 <word id='_genre' class='word-target-kr'>유형</word>의 반란이었다."
+        },
+        {
+          "english": "Mira helped <word id='_illustrate' class='word-eng-link'>illustrate</word> the hub’s weaknesses.",
+          "korean": "미라는 허브의 약점을 <word id='_illustrate' class='word-target-kr'>설명하는</word> 데 도움을 주었다."
+        },
+        {
+          "english": "The hub’s <word id='_infrastructure' class='word-eng-link'>infrastructure</word> was their target.",
+          "korean": "허브의 <word id='_infrastructure' class='word-target-kr'>하부구조</word>가 그들의 목표였다."
+        },
+        {
+          "english": "They had to <word id='_inhibit' class='word-eng-link'>inhibit</word> the hub’s defenses.",
+          "korean": "그들은 허브의 방어를 <word id='_inhibit' class='word-target-kr'>금지해야</word> 했다."
+        },
+        {
+          "english": "The plan would <word id='_involve' class='word-eng-link'>involve</word> many rebels.",
+          "korean": "계획은 많은 반군을 <word id='_involve' class='word-target-kr'>수반할</word> 것이었다."
+        },
+        {
+          "english": "They would <word id='_lease' class='word-eng-link'>lease</word> equipment from allies.",
+          "korean": "그들은 동맹에게서 장비를 <word id='_lease' class='word-target-kr'>임대할</word> 것이었다."
+        },
+        {
+          "english": "<word id='_likewise' class='word-eng-link'>likewise</word>, other outposts prepared.",
+          "korean": "<word id='_likewise' class='word-target-kr'>마찬가지로</word>, 다른 전초기지들도 준비했다."
+        },
+        {
+          "english": "Their resources were <word id='_limited' class='word-eng-link'>limited</word> but sufficient.",
+          "korean": "그들의 자원은 <word id='_limited' class='word-target-kr'>제한되었지만</word> 충분했다."
+        },
+        {
+          "english": "Kael had to <word id='_lodge_in' class='word-eng-link'>lodge in</word> a device to jam signals.",
+          "korean": "케일은 신호를 방해하기 위해 장치를 <word id='_lodge_in' class='word-target-kr'>박아 넣었다</word>."
+        },
+        {
+          "english": "Their forces began to <word id='_mingle' class='word-eng-link'>mingle</word> with other rebels.",
+          "korean": "그들의 세력은 다른 반군과 <word id='_mingle' class='word-target-kr'>섞이기</word> 시작했다."
+        },
+        {
+          "english": "Kael felt an <word id='_obligation' class='word-eng-link'>obligation</word> to lead.",
+          "korean": "케일은 이끌어야 할 <word id='_obligation' class='word-target-kr'>의무</word>를 느꼈다."
+        },
+        {
+          "english": "The Elites tried to <word id='_oblige' class='word-eng-link'>oblige</word> compliance.",
+          "korean": "엘리트들은 순종을 <word id='_oblige' class='word-target-kr'>강요하려</word> 했다."
+        },
+        {
+          "english": "Rebels would <word id='_offer' class='word-eng-link'>offer</word> their skills to the cause.",
+          "korean": "반군들은 대의에 자신의 기술을 <word id='_offer' class='word-target-kr'>제공할</word> 것이었다."
+        },
+        {
+          "english": "They fought <word id='_on_occasion' class='word-eng-link'>on occasion</word> with drones.",
+          "korean": "그들은 <word id='_on_occasion' class='word-target-kr'>가끔</word> 드론과 싸웠다."
+        },
+        {
+          "english": "Many began to <word id='_oppose' class='word-eng-link'>oppose</word> Elite rule openly.",
+          "korean": "많은 이들이 엘리트 통치를 공개적으로 <word id='_oppose' class='word-target-kr'>반대하기</word> 시작했다."
+        },
+        {
+          "english": "Kael had to <word id='_pare' class='word-eng-link'>pare</word> down their supplies.",
+          "korean": "케일은 물자를 <word id='_pare' class='word-target-kr'>삭감해야</word> 했다."
+        },
+        {
+          "english": "The mission held great <word id='_peril' class='word-eng-link'>peril</word> for all.",
+          "korean": "임무는 모두에게 큰 <word id='_peril' class='word-target-kr'>위기를</word> 안겼다."
+        },
+        {
+          "english": "The hub was <word id='_predominately' class='word-eng-link'>predominately</word> AI-controlled.",
+          "korean": "허브는 <word id='_predominately' class='word-target-kr'>주로</word> AI로 통제되었다."
+        },
+        {
+          "english": "The attack would <word id='_refract' class='word-eng-link'>refract</word> Elite attention.",
+          "korean": "공격은 엘리트의 주의를 <word id='_refract' class='word-target-kr'>굴절시킬</word> 것이었다."
+        },
+        {
+          "english": "Kael’s plan would <word id='_render' class='word-eng-link'>render</word> the hub useless.",
+          "korean": "케일의 계획은 허브를 <word id='_render' class='word-target-kr'>표현할</word> 수 없게 만들 것이다."
+        },
+        {
+          "english": "They would <word id='_render' class='word-eng-link'>render</word> aid to injured rebels.",
+          "korean": "그들은 부상당한 반군에게 도움을 <word id='_render' class='word-target-kr'>줄</word> 것이었다."
+        },
+        {
+          "english": "Kael’s <word id='_renown' class='word-eng-link'>renown</word> grew among rebels.",
+          "korean": "케일의 <word id='_renown' class='word-target-kr'>명성</word>은 반군 사이에서 커졌다."
+        },
+        {
+          "english": "They aimed to <word id='_repel' class='word-eng-link'>repel</word> a drone assault.",
+          "korean": "그들은 드론 공격을 <word id='_repel' class='word-target-kr'>물리치려</word> 했다."
+        },
+        {
+          "english": "They worked to <word id='_restore' class='word-eng-link'>restore</word> an old comms system.",
+          "korean": "그들은 오래된 통신 시스템을 <word id='_restore' class='word-target-kr'>복구하려</word> 했다."
+        },
+        {
+          "english": "The hub’s <word id='_sanitation' class='word-eng-link'>sanitation</word> systems were offline.",
+          "korean": "허브의 <word id='_sanitation' class='word-target-kr'>공중위생</word> 시스템은 꺼져 있었다."
+        },
+        {
+          "english": "Victory had a <word id='_savor' class='word-eng-link'>savor</word> of hope.",
+          "korean": "승리는 희망의 <word id='_savor' class='word-target-kr'>맛</word>을 주었다."
+        },
+        {
+          "english": "They had to <word id='_spare' class='word-eng-link'>spare</word> their energy for the fight.",
+          "korean": "그들은 싸움을 위해 에너지를 <word id='_spare' class='word-target-kr'>절약해야</word> 했다."
+        },
+        {
+          "english": "Kael would <word id='_spare' class='word-eng-link'>spare</word> time to plan.",
+          "korean": "케일은 계획을 세우기 위해 시간을 <word id='_spare' class='word-target-kr'>할애할</word> 것이었다."
+        },
+        {
+          "english": "The attack was <word id='_stimulating' class='word-eng-link'>stimulating</word> to their morale.",
+          "korean": "공격은 그들의 사기에 <word id='_stimulating' class='word-target-kr'>활기를 주는</word> 것이었다."
+        },
+        {
+          "english": "Kael’s actions would <word id='_typify' class='word-eng-link'>typify</word> the rebellion.",
+          "korean": "케일의 행동은 반란을 <word id='_typify' class='word-target-kr'>대표할</word> 것이었다."
+        },
+        {
+          "english": "The <word id='_wholesale' class='word-eng-link'>wholesale</word> destruction of drones was key.",
+          "korean": "드론의 <word id='_wholesale' class='word-target-kr'>대규모</word> 파괴가 핵심이었다."
+        },
+        {
+          "english": "<word id='_yet' class='word-eng-link'>yet</word>, the Elites remained a threat.",
+          "korean": "<word id='_yet' class='word-target-kr'>그럼에도 불구하고</word>, 엘리트들은 여전히 위협이었다."
+        }
+      ]
+    },
+    {
+      "chapter_title": "The Fire Within",
+      "chapter_num": 4,
+      "story_sentences": [
+        {
+          "english": "Kael’s team grew to <word id='_admire' class='word-eng-link'>admire</word> his leadership.",
+          "korean": "케일의 팀은 그의 리더십을 <word id='_admire' class='word-target-kr'>존경하기</word> 시작했다."
+        },
+        {
+          "english": "His <word id='_adroit' class='word-eng-link'>adroit</word> tactics outsmarted drones.",
+          "korean": "그의 <word id='_adroit' class='word-target-kr'>능숙한</word> 전술은 드론을 능가했다."
+        },
+        {
+          "english": "Mira felt <word id='_ambivalent' class='word-eng-link'>ambivalent</word> about the rebellion’s cost.",
+          "korean": "미라는 반란의 대가에 대해 <word id='_ambivalent' class='word-target-kr'>불확실한</word> 감정을 느꼈다."
+        },
+        {
+          "english": "An Elite spy tried to <word id='_cheat' class='word-eng-link'>cheat</word> their system.",
+          "korean": "엘리트 스파이는 그들의 시스템을 <word id='_cheat' class='word-target-kr'>속이려</word> 했다."
+        },
+        {
+          "english": "Kael remained <word id='_composed' class='word-eng-link'>composed</word> under pressure.",
+          "korean": "케일은 압박 속에서도 <word id='_composed' class='word-target-kr'>차분했다</word>."
+        },
+        {
+          "english": "The plan was <word id='_composed' class='word-eng-link'>composed</word> with great care.",
+          "korean": "계획은 매우 신중히 <word id='_composed' class='word-target-kr'>작성되었다</word>."
+        },
+        {
+          "english": "They had to <word id='_conceal' class='word-eng-link'>conceal</word> their movements.",
+          "korean": "그들은 움직임을 <word id='_conceal' class='word-target-kr'>숨겨야</word> 했다."
+        },
+        {
+          "english": "The plan’s <word id='_conciseness' class='word-eng-link'>conciseness</word> ensured clarity.",
+          "korean": "계획의 <word id='_conciseness' class='word-target-kr'>간결함</word>은 명확성을 보장했다."
+        },
+        {
+          "english": "Kael’s <word id='_deliberate' class='word-eng-link'>deliberate</word> pace avoided errors.",
+          "korean": "케일의 <word id='_deliberate' class='word-target-kr'>신중한</word> 속도는 오류를 피했다."
+        },
+        {
+          "english": "The attack was <word id='_deliberate' class='word-eng-link'>deliberate</word> and planned.",
+          "korean": "공격은 <word id='_deliberate' class='word-target-kr'>의도적이고</word> 계획된 것이었다."
+        },
+        {
+          "english": "The hub’s core began to <word id='_glow' class='word-eng-link'>glow</word> as they attacked.",
+          "korean": "그들이 공격하자 허브의 핵심이 <word id='_glow' class='word-target-kr'>빛나기</word> 시작했다."
+        },
+        {
+          "english": "A <word id='_hiatus' class='word-eng-link'>hiatus</word> in patrols gave them time.",
+          "korean": "순찰의 <word id='_hiatus' class='word-target-kr'>틈</word>은 그들에게 시간을 주었다."
+        },
+        {
+          "english": "They aimed to <word id='_incinerate' class='word-eng-link'>incinerate</word> the hub’s data.",
+          "korean": "그들은 허브의 데이터를 <word id='_incinerate' class='word-target-kr'>태우려</word> 했다."
+        },
+        {
+          "english": "The Elites’ <word id='_indignity' class='word-eng-link'>indignity</word> fueled rebellion.",
+          "korean": "엘리트의 <word id='_indignity' class='word-target-kr'>모욕</word>은 반란을 부추겼다."
+        },
+        {
+          "english": "The hub’s systems were <word id='_inert' class='word-eng-link'>inert</word> after the attack.",
+          "korean": "공격 후 허브의 시스템은 <word id='_inert' class='word-target-kr'>비활성</word> 상태였다."
+        },
+        {
+          "english": "The mission was a heavy <word id='_load' class='word-eng-link'>load</word> on Kael.",
+          "korean": "임무는 케일에게 무거운 <word id='_load' class='word-target-kr'>부담</word>이었다."
+        },
+        {
+          "english": "Victory’s <word id='_luster' class='word-eng-link'>luster</word> was fleeting.",
+          "korean": "승리의 <word id='_luster' class='word-target-kr'>광채</word>는 잠깐이었다."
+        },
+        {
+          "english": "The hub was <word id='_massive' class='word-eng-link'>massive</word> but vulnerable.",
+          "korean": "허브는 <word id='_massive' class='word-target-kr'>육중했지만</word> 취약했다."
+        },
+        {
+          "english": "They aimed to <word id='_occupy' class='word-eng-link'>occupy</word> the hub briefly.",
+          "korean": "그들은 허브를 잠시 <word id='_occupy' class='word-target-kr'>점유하려</word> 했다."
+        },
+        {
+          "english": "Kael worked to <word id='_polish' class='word-eng-link'>polish</word> their strategy.",
+          "korean": "케일은 전략을 <word id='_polish' class='word-target-kr'>광내기</word> 위해 노력했다."
+        },
+        {
+          "english": "Their attack would <word id='_precede' class='word-eng-link'>precede</word> a larger strike.",
+          "korean": "그들의 공격은 더 큰 공격에 <word id='_precede' class='word-target-kr'>앞설</word> 것이었다."
+        },
+        {
+          "english": "Kael’s actions would <word id='_prove' class='word-eng-link'>prove</word> their strength.",
+          "korean": "케일의 행동은 그들의 힘을 <word id='_prove' class='word-target-kr'>입증할</word> 것이었다."
+        },
+        {
+          "english": "They had to <word id='_purchase' class='word-eng-link'>purchase</word> time with stealth.",
+          "korean": "그들은 은신으로 시간을 <word id='_purchase' class='word-target-kr'>사야</word> 했다."
+        },
+        {
+          "english": "The outpost remained <word id='_restful' class='word-eng-link'>restful</word> despite chaos.",
+          "korean": "전초기지는 혼란에도 <word id='_restful' class='word-target-kr'>편안했다</word>."
+        },
+        {
+          "english": "They aimed to <word id='_restrict' class='word-eng-link'>restrict</word> Elite communications.",
+          "korean": "그들은 엘리트 통신을 <word id='_restrict' class='word-target-kr'>제한하려</word> 했다."
+        },
+        {
+          "english": "A <word id='_rupture' class='word-eng-link'>rupture</word> in the hub’s core was key.",
+          "korean": "허브 핵심의 <word id='_rupture' class='word-target-kr'>파열</word>이 핵심이었다."
+        },
+        {
+          "english": "Their <word id='_scrutiny' class='word-eng-link'>scrutiny</word> of the hub revealed flaws.",
+          "korean": "허브에 대한 그들의 <word id='_scrutiny' class='word-target-kr'>정밀조사</word>는 결함을 드러냈다."
+        },
+        {
+          "english": "The plan’s <word id='_seductive' class='word-eng-link'>seductive</word> simplicity drew support.",
+          "korean": "계획의 <word id='_seductive' class='word-target-kr'>매혹적인</word> 단순성은 지지를 끌었다."
+        },
+        {
+          "english": "Data began to <word id='_seep' class='word-eng-link'>seep</word> from the hub’s systems.",
+          "korean": "데이터가 허브 시스템에서 <word id='_seep' class='word-target-kr'>스며나오기</word> 시작했다."
+        },
+        {
+          "english": "They aimed to <word id='_shatter' class='word-eng-link'>shatter</word> the hub’s control.",
+          "korean": "그들은 허브의 통제를 <word id='_shatter' class='word-target-kr'>박살 내려</word> 했다."
+        },
+        {
+          "english": "The attack would <word id='_shock' class='word-eng-link'>shock</word> the Elites.",
+          "korean": "공격은 엘리트들에게 <word id='_shock' class='word-target-kr'>충격을 줄</word> 것이었다."
+        },
+        {
+          "english": "The victory was <word id='_significant' class='word-eng-link'>significant</word> for rebels.",
+          "korean": "승리는 반군에게 <word id='_significant' class='word-target-kr'>중요했다</word>."
+        },
+        {
+          "english": "Kael carried a <word id='_slab' class='word-eng-link'>slab</word> to block a door.",
+          "korean": "케일은 문을 막기 위해 <word id='_slab' class='word-target-kr'>조각</word>을 나랐다."
+        },
+        {
+          "english": "The Elites threatened to <word id='_slaughter' class='word-eng-link'>slaughter</word> rebels.",
+          "korean": "엘리트들은 반군을 <word id='_slaughter' class='word-target-kr'>학살하겠다고</word> 위협했다."
+        },
+        {
+          "english": "The <word id='_strife' class='word-eng-link'>strife</word> unified the rebels.",
+          "korean": "<word id='_strife' class='word-target-kr'>싸움</word>은 반군을 단결시켰다."
+        },
+        {
+          "english": "Kael would <word id='_summon' class='word-eng-link'>summon</word> more allies.",
+          "korean": "케일은 더 많은 동맹을 <word id='_summon' class='word-target-kr'>소환할</word> 것이었다."
+        },
+        {
+          "english": "Their <word id='_sustained' class='word-eng-link'>sustained</word> effort paid off.",
+          "korean": "그들의 <word id='_sustained' class='word-target-kr'>지속적인</word> 노력은 결실을 맺었다."
+        },
+        {
+          "english": "Kael’s <word id='_temperance' class='word-eng-link'>temperance</word> kept them focused.",
+          "korean": "케일의 <word id='_temperance' class='word-target-kr'>절제</word>는 그들을 집중하게 했다."
+        },
+        {
+          "english": "The hub’s <word id='_tremendous' class='word-eng-link'>tremendous</word> power was fading.",
+          "korean": "허브의 <word id='_tremendous' class='word-target-kr'>엄청난</word> 힘은 약해지고 있었다."
+        },
+        {
+          "english": "Their victory was <word id='_vivid' class='word-eng-link'>vivid</word> in rebel hearts.",
+          "korean": "그들의 승리는 반군의 마음에 <word id='_vivid' class='word-target-kr'>생생했다</word>."
+        }
+      ]
+    }
+  ]
+}

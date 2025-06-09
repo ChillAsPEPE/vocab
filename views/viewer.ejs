@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelly의 어휘 학습</title>
+    <title><%= page_title %></title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; }
@@ -22,12 +22,17 @@
         .chapter-link { display: inline-block; padding: 5px; text-decoration: none; color: #007bff; border: none; border-bottom: 1px solid #007bff; font-weight: 500; font-size: 10px; transition: all 0.3s ease; min-width: 25px; text-align: center; }
         .chapter-link:hover, .chapter-link.active { background: #007bff; color: white; border-bottom-color: white; transform: scale(1.1); }
         .chapter-content h2 { color: #2c3e50; margin-bottom: 30px; text-align: center; font-size: 28px; border-bottom: 3px solid #007bff; padding-bottom: 10px; }
-        .sentence-pair { margin-bottom: 25px; }
-        .english-text { font-size: 18px; line-height: 1.8; margin-bottom: 10px; color: #2c3e50; }
-        .korean-text { font-size: 16px; line-height: 1.7; color: #666; font-style: italic; background: #f8f9fa; padding: 10px 15px; border-left: 4px solid #007bff; border-radius: 0 5px 5px 0; }
-        .word-link { color: #007bff; font-weight: 600; padding: 2px 4px; border-radius: 3px; background: rgba(0, 123, 255, 0.1); cursor: pointer; transition: all 0.3s ease; text-decoration: underline; }
+        .sentence-pair { margin-bottom: 10px; }
+
+        /* ★★★ 변경된 부분 1: 영어 텍스트 줄 간격 수정 ★★★ */
+        .english-text { font-size: 18px; line-height: 1.4; margin-bottom: 10px; color: #2c3e50; }
+        
+        /* ★★★ 변경된 부분 2: 한국어 텍스트 줄 간격 수정 ★★★ */
+        .korean-text { font-size: 16px; line-height: 1.4; color: #666; font-style: italic; background: #f8f9fa; padding: 10px 15px; border-left: 4px solid #007bff; border-radius: 0 5px 5px 0; }
+        
+        .word-link { display: inline; color: #007bff; font-weight: 600; padding: 2px 4px; border-radius: 3px; background: rgba(0, 123, 255, 0.1); cursor: pointer; transition: all 0.3s ease; text-decoration: underline; }
         .word-link:hover { background: rgba(0, 123, 255, 0.3); transform: scale(1.05); }
-        .word-target-kr { color: #dc3545; font-weight: 600; padding: 2px 4px; border-radius: 3px; background: rgba(220, 53, 69, 0.1); }
+        .word-target-kr { display: inline; color: #dc3545; font-weight: 600; padding: 2px 4px; border-radius: 3px; background: rgba(220, 53, 69, 0.1); }
         .bottom-sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         .bottom-sheet-overlay.show { opacity: 1; visibility: visible; }
         .bottom-sheet-panel { background-color: white; width: 100%; max-width: 1000px; height: 65vh; border-radius: 16px 16px 0 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; }
@@ -36,7 +41,7 @@
         .bottom-sheet-title { font-size: 16px; font-weight: 600; }
         .bottom-sheet-content { padding: 0 20px 20px 20px; overflow-y: auto; }
         .word-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        .word-table th { position: sticky; top: -1px; background-color: white; z-index: 1; border-bottom: 2px solid #dee2e6; padding: 10px; text-align: left; font-weight: 600; }
+        .word-table th { position: sticky; top: 0; background-color: white; z-index: 1; border-bottom: 2px solid #dee2e6; padding: 10px; text-align: left; font-weight: 600; }
         .word-table td { padding: 10px; border-bottom: 1px solid #dee2e6; text-align: left; }
         .word-table tbody tr:nth-child(even) { background-color: #f8f9fa; }
         .index-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f3f4; cursor: pointer; transition: all 0.2s ease; }
@@ -76,198 +81,31 @@
             <%- chapters_html %>
         </div>
     </div>
-
     <div id="indexNavigationTemplate" style="display: none;"><%- index_navigation %></div>
     <div id="wordListNavigationTemplate" style="display: none;"></div>
-
-    <div id="wordPopupOverlay" class="popup-overlay">
-        <div class="popup-content">
-            <div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn" onclick="closePopup()">&times;</button></div>
-            <div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div>
-        </div>
-    </div>
-
-    <div id="bottomSheet" class="bottom-sheet-overlay">
-        <div class="bottom-sheet-panel">
-            <div class="bottom-sheet-header">
-                <h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3>
-                <button class="close-btn" onclick="closeSheet()">&times;</button>
-            </div>
-            <div id="bottomSheetContent" class="bottom-sheet-content"></div>
-        </div>
-    </div>
+    <div id="wordPopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn" onclick="closePopup()">&times;</button></div><div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div></div></div>
+    <div id="bottomSheet" class="bottom-sheet-overlay"><div class="bottom-sheet-panel"><div class="bottom-sheet-header"><h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3><button class="close-btn" onclick="closeSheet()">&times;</button></div><div id="bottomSheetContent" class="bottom-sheet-content"></div></div></div>
 
     <script>
         const wordData = <%- word_data_js %>;
-        const allWords = <%- all_words_json %>;
+        const wordsByChapter = <%- words_by_chapter_json %>;
         const contentHash = "<%- content_hash %>";
         let translationVisible = false;
-
+        let currentChapterIndex = 0;
         const bottomSheet = document.getElementById('bottomSheet');
         const bottomSheetTitle = document.getElementById('bottomSheetTitle');
         const bottomSheetContent = document.getElementById('bottomSheetContent');
         let currentSheet = null;
-
-        function openSheet(type) {
-            const indexBtn = document.getElementById('index-toggle-btn');
-            const wordListBtn = document.getElementById('word-list-toggle-btn');
-            if (bottomSheet.classList.contains('show') && currentSheet === type) {
-                closeSheet();
-                return;
-            }
-            if (type === 'index') {
-                bottomSheetTitle.textContent = '목차';
-                bottomSheetContent.innerHTML = document.getElementById('indexNavigationTemplate').innerHTML;
-                indexBtn.classList.add('active-btn');
-                wordListBtn.classList.remove('active-btn');
-            } else if (type === 'word') {
-                bottomSheetTitle.textContent = '단어 목록';
-                bottomSheetContent.innerHTML = document.getElementById('wordListNavigationTemplate').innerHTML;
-                wordListBtn.classList.add('active-btn');
-                indexBtn.classList.remove('active-btn');
-            }
-            currentSheet = type;
-            bottomSheet.classList.add('show');
-            document.body.classList.add('no-scroll');
-        }
-
-        function closeSheet() {
-            bottomSheet.classList.remove('show');
-            document.body.classList.remove('no-scroll');
-            document.getElementById('index-toggle-btn').classList.remove('active-btn');
-            document.getElementById('word-list-toggle-btn').classList.remove('active-btn');
-            currentSheet = null;
-        }
-
-        function toggleIndex() { openSheet('index'); }
-        function toggleWordList() { openSheet('word'); }
-
-        function showChapter(chapterIndex) {
-            closeSheet();
-            document.querySelectorAll('.chapter-content').forEach(c => c.style.display = 'none');
-            document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
-            const selectedChapter = document.getElementById('chapter-' + chapterIndex);
-            if (selectedChapter) {
-                selectedChapter.style.display = 'block';
-                selectedChapter.querySelectorAll('.korean-text').forEach(text => { text.style.display = translationVisible ? 'block' : 'none'; });
-                const titleElement = selectedChapter.querySelector('h2');
-                if (titleElement) {
-                    titleElement.setAttribute('tabindex', '-1');
-                    titleElement.focus();
-                }
-            }
-            const activeLink = document.querySelector(`.chapter-link[href="#chapter-${chapterIndex}-${contentHash}"]`);
-            if (activeLink) activeLink.classList.add('active');
-        }
-
-        function handleNavigation() {
-            const hash = window.location.hash;
-            let chapterIndex = 0;
-            if (hash && hash.startsWith('#chapter-')) {
-                const parts = hash.substring(1).split('-');
-                if (parts.length >= 2) {
-                    const indexFromHash = parseInt(parts[1], 10);
-                    if (!isNaN(indexFromHash)) chapterIndex = indexFromHash;
-                }
-            }
-            showChapter(chapterIndex);
-        }
-
-        function toggleTranslation() {
-            translationVisible = !translationVisible;
-            document.querySelectorAll('.korean-text').forEach(text => { text.style.display = translationVisible ? 'block' : 'none'; });
-            document.getElementById('translation-toggle-btn').classList.toggle('active-btn', translationVisible);
-        }
-
-        function buildWordTable() {
-            if (!allWords || allWords.length === 0) return;
-            const container = document.getElementById('wordListNavigationTemplate');
-            const table = document.createElement('table');
-            table.className = 'word-table';
-            const thead = document.createElement('thead');
-            const headerRow = document.createElement('tr');
-            const displayConfig = { term: 'term', kor_meaning: '뜻', synonyms: 'synonyms' };
-            Object.values(displayConfig).forEach(headerText => {
-                const th = document.createElement('th');
-                th.textContent = headerText;
-                headerRow.appendChild(th);
-            });
-            thead.appendChild(headerRow);
-            table.appendChild(thead);
-            const tbody = document.createElement('tbody');
-            const headerKeys = Object.keys(displayConfig);
-            allWords.forEach(word => {
-                const row = document.createElement('tr');
-                headerKeys.forEach(key => {
-                    const cell = document.createElement('td');
-                    let cellData = word[key];
-                    if (Array.isArray(cellData)) cellData = cellData.join(', ');
-                    cell.textContent = cellData || '';
-                    row.appendChild(cell);
-                });
-                tbody.appendChild(row);
-            });
-            table.appendChild(tbody);
-            container.innerHTML = '';
-            container.appendChild(table);
-        }
-
-        function showWordPopup(wordId) {
-            const wordInfo = wordData[wordId];
-            if (!wordInfo) { alert('단어 정보를 찾을 수 없습니다: ' + wordId); return; }
-            const overlay = document.getElementById('wordPopupOverlay');
-            if (!overlay) return;
-            const termElement = overlay.querySelector('#popupTerm');
-            const meaningElement = overlay.querySelector('#popupMeaning');
-            const synonymsElement = overlay.querySelector('#popupSynonyms');
-            if (!termElement || !meaningElement || !synonymsElement) { console.error("팝업창의 HTML 요소를 찾을 수 없습니다."); return; }
-            termElement.textContent = wordInfo.term;
-            meaningElement.innerHTML = '<strong>뜻:</strong> ' + wordInfo.kor_meaning;
-            if (wordInfo.synonyms && wordInfo.synonyms.trim()) {
-                synonymsElement.innerHTML = '<strong>동의어:</strong> ' + wordInfo.synonyms;
-                synonymsElement.style.display = 'block';
-            } else {
-                synonymsElement.style.display = 'none';
-            }
-            overlay.classList.add('show');
-            document.body.classList.add('no-scroll');
-        }
-
-        function closePopup() {
-            const overlay = document.getElementById('wordPopupOverlay');
-            if (overlay) { 
-                overlay.classList.remove('show');
-                if (!bottomSheet.classList.contains('show')) {
-                    document.body.classList.remove('no-scroll');
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            buildWordTable(); 
-            handleNavigation();
-
-            document.body.addEventListener('click', function(e) {
-                const indexItem = e.target.closest('.index-item');
-                const wordLink = e.target.closest('.word-link');
-
-                if (indexItem && indexItem.dataset.href) {
-                    e.preventDefault();
-                    window.location.hash = indexItem.dataset.href;
-                    closeSheet();
-                } else if (wordLink && wordLink.dataset.wordId) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    showWordPopup(wordLink.dataset.wordId);
-                }
-            });
-            
-            document.getElementById('wordPopupOverlay').addEventListener('click', e => { if(e.target === e.currentTarget) closePopup(); });
-            bottomSheet.addEventListener('click', e => { if(e.target === e.currentTarget) closeSheet(); });
-            document.addEventListener('keydown', e => { if (e.key === 'Escape') { closePopup(); closeSheet(); }});
-        });
-
-        window.addEventListener('hashchange', handleNavigation, false);
+        function openSheet(type){const t=document.getElementById("index-toggle-btn"),e=document.getElementById("word-list-toggle-btn");if(bottomSheet.classList.contains("show")&&currentSheet===type)return void closeSheet();"index"===type?(bottomSheetTitle.textContent="목차",bottomSheetContent.innerHTML=document.getElementById("indexNavigationTemplate").innerHTML,t.classList.add("active-btn"),e.classList.remove("active-btn")):"word"===type&&(bottomSheetTitle.textContent=`Chapter ${currentChapterIndex+1} 단어 목록`,bottomSheetContent.innerHTML=buildWordTableHtml(wordsByChapter[currentChapterIndex]||[]),e.classList.add("active-btn"),t.classList.remove("active-btn")),currentSheet=type,bottomSheet.classList.add("show"),document.body.classList.add("no-scroll")}
+        function closeSheet(){bottomSheet.classList.remove("show"),document.body.classList.remove("no-scroll"),document.getElementById("index-toggle-btn").classList.remove("active-btn"),document.getElementById("word-list-toggle-btn").classList.remove("active-btn"),currentSheet=null}
+        function toggleIndex(){openSheet("index")}function toggleWordList(){openSheet("word")}
+        function showChapter(t){currentChapterIndex=t,closeSheet(),document.querySelectorAll(".chapter-content").forEach(t=>{t.style.display="none"}),document.querySelectorAll(".chapter-link").forEach(t=>{t.classList.remove("active")});const e=document.getElementById("chapter-"+t);if(e){e.style.display="block",e.querySelectorAll(".korean-text").forEach(t=>{t.style.display=translationVisible?"block":"none"});const n=e.querySelector("h2");n&&(n.setAttribute("tabindex","-1"),n.focus())}const n=document.querySelector(`.chapter-link[href="#chapter-${t}-${contentHash}"]`);n&&n.classList.add("active")}
+        function handleNavigation(){const t=window.location.hash;let e=0;t&&t.startsWith("#chapter-")&&t.substring(1).split("-").length>=2&&!isNaN(parseInt(t.substring(1).split("-")[1],10))&&(e=parseInt(t.substring(1).split("-")[1],10)),showChapter(e)}
+        function toggleTranslation(t,e=!1){translationVisible=e?t:!translationVisible,document.querySelectorAll(".korean-text").forEach(t=>{t.style.display=translationVisible?"block":"none"}),document.getElementById("translation-toggle-btn").classList.toggle("active-btn",translationVisible)}
+        function buildWordTableHtml(t){if(!t||0===t.length)return'<p style="padding: 20px; text-align: center;">이 챕터에 해당하는 단어가 없습니다.</p>';const e={term:"term",kor_meaning:"뜻",synonyms:"synonyms"},n=Object.keys(e);let o='<table class="word-table"><thead><tr>';return Object.values(e).forEach(t=>{o+=`<th>${t}</th>`}),o+="</tr></thead><tbody>",t.forEach(t=>{o+="<tr>",n.forEach(e=>{let n=t[e];Array.isArray(n)&&(n=n.join(", ")),o+=`<td>${n||""}</td>`}),o+="</tr>"}),o+="</tbody></table>"}
+        function showWordPopup(t){const e=wordData[t];if(!e)return void alert("단어 정보를 찾을 수 없습니다: "+t);const n=document.getElementById("wordPopupOverlay");if(!n)return;const o=n.querySelector("#popupTerm"),c=n.querySelector("#popupMeaning"),s=n.querySelector("#popupSynonyms");o&&c&&s?(o.textContent=e.term,c.innerHTML="<strong>뜻:</strong> "+e.kor_meaning,e.synonyms&&e.synonyms.trim()?(s.innerHTML="<strong>동의어:</strong> "+e.synonyms,s.style.display="block"):(s.style.display="none",s.innerHTML=""),n.classList.add("show"),document.body.classList.add("no-scroll")):console.error("팝업창의 HTML 요소를 찾을 수 없습니다.")}
+        function closePopup(){const t=document.getElementById("wordPopupOverlay");t&&(t.classList.remove("show"),bottomSheet.classList.contains("show")||document.body.classList.remove("no-scroll"))}
+        document.addEventListener("DOMContentLoaded",function(){handleNavigation(),document.body.addEventListener("click",function(t){const e=t.target.closest(".index-item"),n=t.target.closest(".word-link");e&&e.dataset.href?(t.preventDefault(),window.location.hash=e.dataset.href,closeSheet()):n&&n.dataset.wordId&&(t.preventDefault(),t.stopPropagation(),showWordPopup(n.dataset.wordId))}),document.getElementById("wordPopupOverlay").addEventListener("click",t=>{t.target===t.currentTarget&&closePopup()}),bottomSheet.addEventListener("click",t=>{t.target===t.currentTarget&&closeSheet()}),document.addEventListener("keydown",t=>{"Escape"===t.key&&(closePopup(),closeSheet())})}),window.addEventListener("hashchange",handleNavigation,!1);
     </script>
 </body>
 </html>

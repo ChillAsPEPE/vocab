@@ -1,0 +1,291 @@
+{
+  "words": [
+    {
+      "num": "0",
+      "id": "_abreast",
+      "term": "abreast",
+      "synonyms": ["alongside", "in a row"],
+      "kor_meaning": "나란히"
+    },
+    {
+      "num": "1",
+      "id": "_affectation",
+      "term": "affectation",
+      "synonyms": ["airs", "pretense"],
+      "kor_meaning": "가식"
+    },
+    {
+      "num": "2",
+      "id": "_ally",
+      "term": "ally",
+      "synonyms": ["confederate", "associate"],
+      "kor_meaning": "동맹을 맺다"
+    },
+    {
+      "num": "3",
+      "id": "_anonymous",
+      "term": "anonymous",
+      "synonyms": ["unnamed", "unknown", "unsigned"],
+      "kor_meaning": "익명의"
+    },
+    {
+      "num": "4",
+      "id": "_anticipate",
+      "term": "anticipate",
+      "synonyms": ["foresee", "forecast", "foretell", "predict"],
+      "kor_meaning": "예상하다"
+    },
+    {
+      "num": "5",
+      "id": "_archaic",
+      "term": "archaic",
+      "synonyms": ["ancient", "antiquated", "antique"],
+      "kor_meaning": "고대의"
+    },
+    {
+      "num": "6",
+      "id": "_aspect",
+      "term": "aspect",
+      "synonyms": ["regard", "respect", "side", "sense", "angle"],
+      "kor_meaning": "측면, 양상"
+    },
+    {
+      "num": "7",
+      "id": "_behavior",
+      "term": "behavior",
+      "synonyms": ["conduct", "doing", "actions", "practices"],
+      "kor_meaning": "행동"
+    },
+    {
+      "num": "8",
+      "id": "_ceaseless",
+      "term": "ceaseless",
+      "synonyms": ["constant", "uninterrupted", "eternal"],
+      "kor_meaning": "끊임없는"
+    },
+    {
+      "num": "9",
+      "id": "_change",
+      "term": "change",
+      "synonyms": ["alter", "vary", "turn into", "transform"],
+      "kor_meaning": "변화시키다"
+    },
+    {
+      "num": "10",
+      "id": "_confederacy",
+      "term": "confederacy",
+      "synonyms": ["ally", "alliance", "confederation"],
+      "kor_meaning": "연합, 동맹"
+    },
+    {
+      "num": "11",
+      "id": "_cut",
+      "term": "cut",
+      "synonyms": ["sever", "chop", "divide"],
+      "kor_meaning": "나누다"
+    },
+    {
+      "num": "12",
+      "id": "_disturbance",
+      "term": "disturbance",
+      "synonyms": ["agitation", "disorder", "confusion"],
+      "kor_meaning": "혼란"
+    },
+    {
+      "num": "13",
+      "id": "_elucidate",
+      "term": "elucidate",
+      "synonyms": ["clarify", "clear up", "enlighten", "shed light on"],
+      "kor_meaning": "명료하게 하다"
+    },
+    {
+      "num": "14",
+      "id": "_enterprising",
+      "term": "enterprising",
+      "synonyms": ["energetic", "ambitious", "adventurous"],
+      "kor_meaning": "진취적인"
+    },
+    {
+      "num": "15",
+      "id": "_entice",
+      "term": "entice",
+      "synonyms": ["lure", "allure", "tempt", "seduce"],
+      "kor_meaning": "유혹하다"
+    },
+    {
+      "num": "16",
+      "id": "_equivocal",
+      "term": "equivocal",
+      "synonyms": ["ambiguous", "enigmatical", "obscure"],
+      "kor_meaning": "애매한"
+    },
+    {
+      "num": "17",
+      "id": "_exterminate",
+      "term": "exterminate",
+      "synonyms": ["die out", "eradicate"],
+      "kor_meaning": "멸종시키다"
+    },
+    {
+      "num": "18",
+      "id": "_fortify",
+      "term": "fortify",
+      "synonyms": ["strengthen", "reinforce", "intensify"],
+      "kor_meaning": "강화하다"
+    },
+    {
+      "num": "19",
+      "id": "_frightful",
+      "term": "frightful",
+      "synonyms": ["horrible", "dreadful", "fearful", "awful"],
+      "kor_meaning": "무시무시한"
+    },
+    {
+      "num": "20",
+      "id": "_immunity",
+      "term": "immunity",
+      "synonyms": ["protection", "exemption"],
+      "kor_meaning": "면제"
+    },
+    {
+      "num": "21",
+      "id": "_improve",
+      "term": "improve",
+      "synonyms": ["enhance", "refine", "enrich", "improve", "ameliorate"],
+      "kor_meaning": "개선하다"
+    },
+    {
+      "num": "22",
+      "id": "_lose_sight_of",
+      "term": "lose sight of",
+      "synonyms": ["forget"],
+      "kor_meaning": "잊다"
+    },
+    {
+      "num": "23",
+      "id": "_mammoth",
+      "term": "mammoth",
+      "synonyms": ["huge", "gigantic", "large"],
+      "kor_meaning": "거대한"
+    },
+    {
+      "num": "24",
+      "id": "_nuts_and_bolts",
+      "term": "nuts and bolts",
+      "synonyms": ["basic", "practical", "details of"],
+      "kor_meaning": "~의 기본"
+    },
+    {
+      "num": "25",
+      "id": "_permit",
+      "term": "permit",
+      "synonyms": ["let", "allow"],
+      "kor_meaning": "허락하다"
+    },
+    {
+      "num": "26",
+      "id": "_radical",
+      "term": "radical",
+      "synonyms": ["fundamental", "basic"],
+      "kor_meaning": "근본적인"
+    },
+    {
+      "num": "27",
+      "id": "_radical",
+      "term": "radical",
+      "synonyms": ["extreme", "drastic", "revolutionary"],
+      "kor_meaning": "급진적인"
+    },
+    {
+      "num": "28",
+      "id": "_reference",
+      "term": "reference",
+      "synonyms": ["allusion", "mention"],
+      "kor_meaning": "언급"
+    },
+    {
+      "num": "29",
+      "id": "_separate",
+      "term": "separate",
+      "synonyms": ["divide", "part", "sever", "disunite", "split"],
+      "kor_meaning": "분리하다"
+    },
+    {
+      "num": "30",
+      "id": "_sparse",
+      "term": "sparse",
+      "synonyms": ["scanty", "meager"],
+      "kor_meaning": "희박한"
+    },
+    {
+      "num": "31",
+      "id": "_sting",
+      "term": "sting",
+      "synonyms": ["smart", "tingle"],
+      "kor_meaning": "따끔따끔하게 하다"
+    },
+    {
+      "num": "32",
+      "id": "_support",
+      "term": "support",
+      "synonyms": ["assist", "back", "advocate"],
+      "kor_meaning": "지지하다"
+    },
+    {
+      "num": "33",
+      "id": "_tangible",
+      "term": "tangible",
+      "synonyms": ["concrete", "real", "substantial"],
+      "kor_meaning": "실질적인"
+    },
+    {
+      "num": "34",
+      "id": "_tolerate",
+      "term": "tolerate",
+      "synonyms": ["endure", "stand", "persist", "bear"],
+      "kor_meaning": "참다"
+    },
+    {
+      "num": "35",
+      "id": "_train",
+      "term": "train",
+      "synonyms": ["aim", "head"],
+      "kor_meaning": "~로 향하게 하다"
+    },
+    {
+      "num": "36",
+      "id": "_unambiguous",
+      "term": "unambiguous",
+      "synonyms": ["clear", "distinct", "definite"],
+      "kor_meaning": "명확한"
+    },
+    {
+      "num": "37",
+      "id": "_virtually",
+      "term": "virtually",
+      "synonyms": ["in fact", "practically"],
+      "kor_meaning": "사실상"
+    },
+    {
+      "num": "38",
+      "id": "_virtually",
+      "term": "virtually",
+      "synonyms": ["nearly", "almost"],
+      "kor_meaning": "거의"
+    },
+    {
+      "num": "39",
+      "id": "_wary",
+      "term": "wary",
+      "synonyms": ["cautious", "distrustful", "heedful", "alert"],
+      "kor_meaning": "주의 깊은"
+    },
+    {
+      "num": "40",
+      "id": "_wealth",
+      "term": "wealth",
+      "synonyms": ["affluence", "abundance", "profusion"],
+      "kor_meaning": "풍부함"
+    }
+  ]
+}

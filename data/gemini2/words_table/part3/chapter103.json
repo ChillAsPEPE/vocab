@@ -1,0 +1,291 @@
+{
+  "words": [
+    {
+      "num": "0",
+      "id": "_afford",
+      "term": "afford",
+      "synonyms": ["provide", "give", "grant"],
+      "kor_meaning": "주다"
+    },
+    {
+      "num": "1",
+      "id": "_announce",
+      "term": "announce",
+      "synonyms": ["proclaim", "publish", "declare"],
+      "kor_meaning": "공포하다"
+    },
+    {
+      "num": "2",
+      "id": "_a_wide_range_of",
+      "term": "a wide range of",
+      "synonyms": ["a wide variety of", "a wide selection of"],
+      "kor_meaning": "다양한"
+    },
+    {
+      "num": "3",
+      "id": "_chance",
+      "term": "chance",
+      "synonyms": ["probability", "opportunity", "likelihood"],
+      "kor_meaning": "가능성"
+    },
+    {
+      "num": "4",
+      "id": "_chart",
+      "term": "chart",
+      "synonyms": ["map", "design"],
+      "kor_meaning": "지도를 만들다"
+    },
+    {
+      "num": "5",
+      "id": "_engage_to",
+      "term": "engage to",
+      "synonyms": ["promise", "contract", "pledge"],
+      "kor_meaning": "약속하다"
+    },
+    {
+      "num": "6",
+      "id": "_engage",
+      "term": "engage",
+      "synonyms": ["reserve", "book"],
+      "kor_meaning": "예약하다"
+    },
+    {
+      "num": "7",
+      "id": "_engage",
+      "term": "engage",
+      "synonyms": ["hire", "employ"],
+      "kor_meaning": "고용하다"
+    },
+    {
+      "num": "8",
+      "id": "_esteem",
+      "term": "esteem",
+      "synonyms": ["respect", "prize", "value"],
+      "kor_meaning": "존경하다"
+    },
+    {
+      "num": "9",
+      "id": "_evidence",
+      "term": "evidence",
+      "synonyms": ["proof", "sign"],
+      "kor_meaning": "증거"
+    },
+    {
+      "num": "10",
+      "id": "_fertile",
+      "term": "fertile",
+      "synonyms": ["bountiful", "productive", "fruitful"],
+      "kor_meaning": "비옥한"
+    },
+    {
+      "num": "11",
+      "id": "_generate",
+      "term": "generate",
+      "synonyms": ["produce", "cause", "give rise to", "bring about"],
+      "kor_meaning": "발생시키다"
+    },
+    {
+      "num": "12",
+      "id": "_haughty",
+      "term": "haughty",
+      "synonyms": ["proud", "arrogant", "stuck-up"],
+      "kor_meaning": "거만한"
+    },
+    {
+      "num": "13",
+      "id": "_innate",
+      "term": "innate",
+      "synonyms": ["inborn", "natural"],
+      "kor_meaning": "타고난"
+    },
+    {
+      "num": "14",
+      "id": "_invaluable",
+      "term": "invaluable",
+      "synonyms": ["precious", "priceless"],
+      "kor_meaning": "매우 귀중한"
+    },
+    {
+      "num": "15",
+      "id": "_irreparable",
+      "term": "irreparable",
+      "synonyms": ["irremediable", "irrecoverable", "irretrievable"],
+      "kor_meaning": "돌이킬 수 없는"
+    },
+    {
+      "num": "16",
+      "id": "_maxim",
+      "term": "maxim",
+      "synonyms": ["saying", "principle", "proverb"],
+      "kor_meaning": "격언"
+    },
+    {
+      "num": "17",
+      "id": "_object",
+      "term": "object",
+      "synonyms": ["protest", "oppose"],
+      "kor_meaning": "반대하다"
+    },
+    {
+      "num": "18",
+      "id": "_object",
+      "term": "object",
+      "synonyms": ["goal", "purpose", "function"],
+      "kor_meaning": "목적"
+    },
+    {
+      "num": "19",
+      "id": "_outstanding",
+      "term": "outstanding",
+      "synonyms": ["remarkable", "prominent", "excellent", "supreme", "eminent"],
+      "kor_meaning": "눈에 띄는"
+    },
+    {
+      "num": "20",
+      "id": "_outstanding",
+      "term": "outstanding",
+      "synonyms": ["unpaid", "owed", "unsettled", "remaining"],
+      "kor_meaning": "미결제의"
+    },
+    {
+      "num": "21",
+      "id": "_patron",
+      "term": "patron",
+      "synonyms": ["protector", "supporter", "advocate", "sponsor"],
+      "kor_meaning": "후원자"
+    },
+    {
+      "num": "22",
+      "id": "_predominate",
+      "term": "predominate",
+      "synonyms": ["outweigh", "prevail", "surpass", "dominate"],
+      "kor_meaning": "우세하다"
+    },
+    {
+      "num": "23",
+      "id": "_premise",
+      "term": "premise",
+      "synonyms": ["prior", "earlier", "former", "preceding"],
+      "kor_meaning": "이전의"
+    },
+    {
+      "num": "24",
+      "id": "_premise",
+      "term": "premise",
+      "synonyms": ["assumption", "supposition"],
+      "kor_meaning": "전제"
+    },
+    {
+      "num": "25",
+      "id": "_primitive",
+      "term": "primitive",
+      "synonyms": ["primeval", "uncivilized", "savage"],
+      "kor_meaning": "원시적인"
+    },
+    {
+      "num": "26",
+      "id": "_proficiency",
+      "term": "proficiency",
+      "synonyms": ["skill", "ability", "expertise", "mastery"],
+      "kor_meaning": "능숙함"
+    },
+    {
+      "num": "27",
+      "id": "_proposition",
+      "term": "proposition",
+      "synonyms": ["suggestion", "proposal"],
+      "kor_meaning": "제안"
+    },
+    {
+      "num": "28",
+      "id": "_questionable",
+      "term": "questionable",
+      "synonyms": ["doubtful", "suspicious", "dubious"],
+      "kor_meaning": "의심스러운"
+    },
+    {
+      "num": "29",
+      "id": "_rife_with",
+      "term": "rife with",
+      "synonyms": ["full of", "fraught with", "filled with"],
+      "kor_meaning": "가득 찬, 수없이 많은"
+    },
+    {
+      "num": "30",
+      "id": "_shield",
+      "term": "shield",
+      "synonyms": ["protect", "defend", "safeguard", "guard"],
+      "kor_meaning": "보호하다"
+    },
+    {
+      "num": "31",
+      "id": "_solitary",
+      "term": "solitary",
+      "synonyms": ["isolated", "remote", "secluded", "lonely"],
+      "kor_meaning": "고독한"
+    },
+    {
+      "num": "32",
+      "id": "_stick_to",
+      "term": "stick to",
+      "synonyms": ["cling", "adhere", "cement", "cleave", "hold"],
+      "kor_meaning": "고수하다"
+    },
+    {
+      "num": "33",
+      "id": "_stimulus",
+      "term": "stimulus",
+      "synonyms": ["motivation", "incentive", "incitement", "provocation"],
+      "kor_meaning": "자극"
+    },
+    {
+      "num": "34",
+      "id": "_stir",
+      "term": "stir",
+      "synonyms": ["agitate", "provoke", "stimulate", "excite"],
+      "kor_meaning": "자극하다"
+    },
+    {
+      "num": "35",
+      "id": "_taboo",
+      "term": "taboo",
+      "synonyms": ["prohibition", "ban", "boycott", "restriction"],
+      "kor_meaning": "금기"
+    },
+    {
+      "num": "36",
+      "id": "_thrive",
+      "term": "thrive",
+      "synonyms": ["prosper", "flourish"],
+      "kor_meaning": "번성하다"
+    },
+    {
+      "num": "37",
+      "id": "_tide",
+      "term": "tide",
+      "synonyms": ["stream", "current"],
+      "kor_meaning": "조류, 흐름"
+    },
+    {
+      "num": "38",
+      "id": "_vagary",
+      "term": "vagary",
+      "synonyms": ["uncertainty", "sudden desire", "caprice", "impulse", "whim"],
+      "kor_meaning": "변덕, 충동"
+    },
+    {
+      "num": "39",
+      "id": "_wane",
+      "term": "wane",
+      "synonyms": ["decrease", "decline", "fade"],
+      "kor_meaning": "감소하다"
+    },
+    {
+      "num": "40",
+      "id": "_view",
+      "term": "view",
+      "synonyms": ["prospect", "outlook", "opinion"],
+      "kor_meaning": "의견, 견해"
+    }
+  ]
+}
