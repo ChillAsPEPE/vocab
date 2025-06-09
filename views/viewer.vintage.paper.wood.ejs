@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= page_title %></title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.7;
+            color: #3c2f2f;
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') #f4e4bc;
+            letter-spacing: 0.5px;
+        }
+        body.no-scroll { overflow: hidden; }
+        .chapter-content h2:focus {
+            outline: none;
+            border-bottom: 2px solid #8b5a2b;
+            box-shadow: 0 2px 4px rgba(139, 90, 43, 0.3);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: url('https://www.transparenttextures.com/patterns/old-wall.png') #e6d4a7;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            border: 1px solid #d2b48c;
+        }
+        .content {
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') #fdf6e3;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: 1px solid #d2b48c;
+        }
+        .navigation-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 10px;
+            padding: 15px;
+            background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') #8b5a2b;
+            border-radius: 8px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .nav-button-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        .chapter-links-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-label {
+            font-weight: 600;
+            color: #f4e4bc;
+            font-size: 14px;
+            margin-right: 9px;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+        .toggle-btn {
+            background: url('https://www.transparenttextures.com/patterns/cardboard.png') #a67c00;
+            color: #fff;
+            border: 1px solid #8b5a2b;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .toggle-btn:hover {
+            background: url('https://www.transparenttextures.com/patterns/cardboard.png') #8b5a2b;
+            transform: translateY(-1px);
+        }
+        .toggle-btn.active-btn {
+            background: url('https://www.transparenttextures.com/patterns/cardboard.png') #6b4e31;
+            color: #fff;
+        }
+        .bookshelf-link {
+            background: url('https://www.transparenttextures.com/patterns/cardboard.png') #6b4e31;
+        }
+        .bookshelf-link:hover {
+            background: url('https://www.transparenttextures.com/patterns/cardboard.png') #4a3723;
+        }
+        .chapter-link {
+            display: inline-block;
+            padding: 5px;
+            text-decoration: none;
+            color: #8b5a2b;
+            border: none;
+            border-bottom: 1px solid #8b5a2b;
+            font-weight: 500;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            min-width: 25px;
+            text-align: center;
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') #f4e4bc;
+        }
+        .chapter-link:hover, .chapter-link.active {
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') #e6d4a7;
+            color: #6b4e31;
+            border-bottom-color: #6b4e31;
+            transform: scale(1.05);
+        }
+        .chapter-content h2 {
+            color: #6b4e31;
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 28px;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        }
+        .story-content {
+            text-align: justify;
+        }
+        .english-paragraph {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #3c2f2f;
+            margin-bottom: 1.5em;
+        }
+        .english-paragraph:last-child {
+            margin-bottom: 0;
+        }
+        .sentence-unit {
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        .sentence-unit.highlighted-sentence {
+            background-color: #f4e4bc;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .word-link {
+            position: relative;
+            display: inline;
+            color: #8b5a2b;
+            font-weight: 600;
+            padding: 1px 3px;
+            border-radius: 3px;
+            background: rgba(139, 90, 43, 0.1);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .word-link:hover {
+            background: rgba(139, 90, 43, 0.2);
+        }
+        .word-target-kr {
+            color: #9b2e2e;
+            font-weight: 600;
+            background: rgba(155, 46, 46, 0.1);
+            padding: 1px 3px;
+            border-radius: 3px;
+        }
+        .bottom-sheet-overlay, .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .popup-overlay {
+            z-index: 2000;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+        .bottom-sheet-overlay {
+            z-index: 1000;
+            align-items: flex-end;
+        }
+        .bottom-sheet-overlay.show, .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .bottom-sheet-panel {
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') #fdf6e3;
+            width: 100%;
+            max-width: 1000px;
+            height: 65vh;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #d2b48c;
+        }
+        .bottom-sheet-overlay.show .bottom-sheet-panel {
+            transform: translateY(0);
+        }
+        .bottom-sheet-header {
+            padding: 10px 20px;
+            border-bottom: 1px solid #d2b48c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            background: url('https://www.transparenttextures.com/patterns/old-wall.png') #e6d4a7;
+        }
+        .bottom-sheet-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #6b4e31;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        }
+        .bottom-sheet-content {
+            padding: 0 20px 20px 20px;
+            overflow-y: auto;
+        }
+        .word-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .word-table th {
+            position: sticky;
+            top: 0;
+            background: url('https://www.transparenttextures.com/patterns/old-wall.png') #e6d4a7;
+            z-index: 1;
+            border-bottom: 2px solid #d2b48c;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            color: #6b4e31;
+        }
+        .word-table td {
+            padding: 10px;
+            border-bottom: 1px solid #d2b48c;
+            text-align: left;
+            color: #3c2f2f;
+        }
+        .word-table tbody tr:nth-child(even) {
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') #f4e4bc;
+        }
+        .index-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #d2b48c;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .index-item:hover {
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') #e6d4a7;
+        }
+        .index-item:last-child {
+            border-bottom: none;
+        }
+        .index-number {
+            font-weight: 600;
+            color: #8b5a2b;
+            margin-right: 12px;
+            min-width: 25px;
+        }
+        .index-title {
+            color: #3c2f2f;
+            font-size: 14px;
+        }
+        .popup-content {
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') #fdf6e3;
+            max-width: 400px;
+            width: 90%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: absolute;
+            border: 1px solid #d2b48c;
+        }
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 25px 5px;
+            border-bottom: 2px solid #d2b48c;
+            background: url('https://www.transparenttextures.com/patterns/old-wall.png') #e6d4a7;
+        }
+        .popup-header h3 {
+            color: #8b5a2b;
+            font-size: 24px;
+            margin: 0;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: #6b4e31;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            line-height: 1;
+        }
+        .close-btn:hover {
+            color: #3c2f2f;
+        }
+        .popup-body {
+            padding: 20px 25px;
+            color: #3c2f2f;
+        }
+        .popup-body p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .popup-body strong {
+            color: #6b4e31;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="nav-button-group">
+            <a href="/" class="toggle-btn bookshelf-link">📚 책장으로</a>
+            <button id="index-toggle-btn" class="toggle-btn">목차 보기</button>
+            <button id="word-list-toggle-btn" class="toggle-btn">단어 목록 보기</button>
+        </div>
+        <div class="navigation-controls">
+            <div class="chapter-links-container">
+                <span class="nav-label">Chapters:</span>
+                <%- number_navigation %>
+            </div>
+        </div>
+        <div class="header">
+            <%- chapters_html %>
+        </div>
+    </div>
+    <div id="indexNavigationTemplate" style="display: none;"><%- index_navigation %></div>
+    <div id="wordPopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn">×</button></div><div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div></div></div>
+    <div id="sentencePopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-body"><p id="sentencePopupText" style="margin: 0;"></p></div></div></div>
+    <div id="bottomSheet" class="bottom-sheet-overlay"><div class="bottom-sheet-panel"><div class="bottom-sheet-header"><h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3><button class="close-btn">×</button></div><div id="bottomSheetContent" class="bottom-sheet-content"></div></div></div>
+
+    <script>
+        const wordData = <%- word_data_js %>;
+        const wordsByChapter = <%- words_by_chapter_json %>;
+        const contentHash = "<%- content_hash %>";
+        let currentChapterIndex = 0;
+        let highlightedElement = null;
+        let currentSheet = null;
+
+        const bottomSheet = document.getElementById('bottomSheet');
+        const wordPopup = document.getElementById('wordPopupOverlay');
+        const sentencePopup = document.getElementById('sentencePopupOverlay');
+        
+        function lockBodyScroll() {
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+            if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+            document.body.classList.add('no-scroll');
+        }
+
+        function unlockBodyScroll() {
+            document.body.classList.remove('no-scroll');
+            document.body.style.paddingRight = '';
+        }
+
+        function closeAllPopups() {
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+                highlightedElement = null;
+            }
+            if(wordPopup) wordPopup.classList.remove('show');
+            if(sentencePopup) sentencePopup.classList.remove('show');
+            closeSheet();
+            unlockBodyScroll();
+        }
+
+        function openSheet(type) {
+            const indexBtn = document.getElementById('index-toggle-btn');
+            const wordListBtn = document.getElementById('word-list-toggle-btn');
+            const bottomSheetTitle = document.getElementById('bottomSheetTitle');
+            const bottomSheetContent = document.getElementById('bottomSheetContent');
+            if (bottomSheet.classList.contains('show') && currentSheet === type) return closeSheet();
+            if (type === 'index') {
+                bottomSheetTitle.textContent = '목차';
+                bottomSheetContent.innerHTML = document.getElementById('indexNavigationTemplate').innerHTML;
+                indexBtn.classList.add('active-btn'); wordListBtn.classList.remove('active-btn');
+            } else if (type === 'word') {
+                const wordsToShow = wordsByChapter[currentChapterIndex] || [];
+                bottomSheetTitle.textContent = `Chapter ${currentChapterIndex + 1} 단어 목록`;
+                bottomSheetContent.innerHTML = buildWordTableHtml(wordsToShow);
+                wordListBtn.classList.add('active-btn'); indexBtn.classList.remove('active-btn');
+            }
+            currentSheet = type;
+            bottomSheet.classList.add('show');
+            lockBodyScroll();
+        }
+
+        function closeSheet() {
+            if (!bottomSheet) return;
+            bottomSheet.classList.remove('show');
+            document.getElementById('index-toggle-btn').classList.remove('active-btn');
+            document.getElementById('word-list-toggle-btn').classList.remove('active-btn');
+            currentSheet = null;
+            if (!wordPopup.classList.contains('show') && !sentencePopup.classList.contains('show')) unlockBodyScroll();
+        }
+        
+        function showWordPopup(wordId, targetElement) {
+            closeAllPopups();
+            const wordInfo = wordData[wordId];
+            if (!wordPopup || !wordInfo) return;
+            wordPopup.querySelector('#popupTerm').textContent = wordInfo.term;
+            wordPopup.querySelector('#popupMeaning').innerHTML = '<strong>뜻:</strong> ' + wordInfo.kor_meaning;
+            const synonymsEl = wordPopup.querySelector('#popupSynonyms');
+            if (wordInfo.synonyms && wordInfo.synonyms.trim()) {
+                synonymsEl.innerHTML = '<strong>동의어:</strong> ' + wordInfo.synonyms;
+                synonymsEl.style.display = 'block';
+            } else {
+                synonymsEl.style.display = 'none';
+            }
+            positionAndShowPopup(wordPopup, targetElement);
+        }
+        
+        function showSentencePopup(element) {
+            closeAllPopups();
+            const translation = element.dataset.translation;
+            if (!sentencePopup || !translation) return;
+            element.classList.add('highlighted-sentence');
+            highlightedElement = element;
+            sentencePopup.querySelector('#sentencePopupText').innerHTML = translation.replace(/"/g, '"');
+            positionAndShowPopup(sentencePopup, element);
+        }
+
+        function positionAndShowPopup(popupOverlay, targetElement) {
+            const popupContent = popupOverlay.querySelector('.popup-content');
+            if (!popupContent) return;
+
+            const rect = targetElement.getBoundingClientRect();
+            
+            const top = rect.top - 10;
+            if(top < 0)
+                top = 0;
+
+            popupContent.style.top = `${top}px`;
+            popupOverlay.classList.add('show');
+            lockBodyScroll();
+        }
+
+        function closePopup() {
+            if (wordPopup) wordPopup.classList.remove('show');
+            if (!bottomSheet.classList.contains('show') && !sentencePopup.classList.contains('show')) unlockBodyScroll();
+        }
+        
+        function closeSentencePopup() {
+            if (sentencePopup) sentencePopup.classList.remove('show');
+            if (highlightedElement) {
+                highlightedElement.classList.remove('highlighted-sentence');
+                highlightedElement = null;
+            }
+            if (!bottomSheet.classList.contains('show') && !wordPopup.classList.contains('show')) unlockBodyScroll();
+        }
+        
+        function toggleIndex(){ openSheet('index'); }
+        function toggleWordList(){ openSheet('word'); }
+
+        function showChapter(index) {
+            currentChapterIndex = index;
+            closeAllPopups();
+            document.querySelectorAll('.chapter-content').forEach(c => { c.style.display = 'none'; });
+            document.querySelectorAll('.chapter-link').forEach(l => l.classList.remove('active'));
+            const chapterEl = document.getElementById('chapter-' + index);
+            if(chapterEl) {
+                chapterEl.style.display = 'block';
+                const titleEl = chapterEl.querySelector('h2');
+                if(titleEl) {
+                    titleEl.setAttribute('tabindex', '-1');
+                    titleEl.focus({ preventScroll: true });
+                }
+            }
+            const activeLink = document.querySelector(`.chapter-link[href="#chapter-${index}-${contentHash}"]`);
+            if(activeLink) activeLink.classList.add('active');
+        }
+
+        function handleNavigation() {
+            const hash = window.location.hash;
+            let chapterIndex = 0;
+            if (hash && hash.startsWith('#chapter-')) {
+                const indexFromHash = parseInt(hash.substring(1).split('-')[1], 10);
+                if (!isNaN(indexFromHash)) chapterIndex = indexFromHash;
+            }
+            showChapter(chapterIndex);
+        }
+
+        function buildWordTableHtml(words) {
+            if (!words || words.length === 0) return '<p style="padding: 20px; text-align: center;">이 챕터에 해당하는 단어가 없습니다.</p>';
+            const config = { term: 'term', kor_meaning: '뜻', synonyms: 'synonyms' };
+            const headers = Object.keys(config);
+            let table = '<table class="word-table"><thead><tr>';
+            Object.values(config).forEach(h => { table += `<th>${h}</th>`; });
+            table += '</tr></thead><tbody>';
+            words.forEach(word => {
+                table += '<tr>';
+                headers.forEach(key => {
+                    let cellData = Array.isArray(word[key]) ? word[key].join(', ') : word[key];
+                    table += `<td>${cellData || ''}</td>`;
+                });
+                table += '</tr>';
+            });
+            return table + '</tbody></table>';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            handleNavigation();
+            document.getElementById('index-toggle-btn').addEventListener('click', toggleIndex);
+            document.getElementById('word-list-toggle-btn').addEventListener('click', toggleWordList);
+            
+            document.querySelector('.content').addEventListener('dblclick', function(e) {
+                const wordLink = e.target.closest('.word-link');
+                if (wordLink) {
+                    e.preventDefault();
+                    showWordPopup(wordLink.dataset.wordId, wordLink);
+                    return;
+                }
+                const sentenceUnit = e.target.closest('.sentence-unit');
+                if (sentenceUnit) {
+                    e.preventDefault();
+                    showSentencePopup(sentenceUnit);
+                }
+            });
+
+            document.body.addEventListener('click', function(e) {
+                if(e.target.closest('.close-btn')) {
+                    if (e.target.closest('#wordPopupOverlay')) return closePopup();
+                    if (e.target.closest('#sentencePopupOverlay')) return closeSentencePopup();
+                    if (e.target.closest('#bottomSheet')) return closeSheet();
+                }
+                if(e.target === wordPopup) return closePopup();
+                if(e.target === sentencePopup) return closeSentencePopup();
+                if(e.target === bottomSheet) return closeSheet();
+                
+                const indexItem = e.target.closest('.index-item');
+                if (indexItem && indexItem.dataset.href) {
+                    e.preventDefault();
+                    window.location.hash = indexItem.dataset.href;
+                }
+            });
+            
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllPopups(); });
+            window.addEventListener('hashchange', handleNavigation, false);
+        });
+    </script>
+</body>
+</html>

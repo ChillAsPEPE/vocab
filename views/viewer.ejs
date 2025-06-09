@@ -6,68 +6,1181 @@
     <title><%= page_title %></title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; line-height: 1.6; color: #333; background-color: #f8f9fa; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            transition: all 0.3s ease;
+        }
         body.no-scroll { overflow: hidden; }
-        .chapter-content h2:focus { outline: 2px solid #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); border-radius: 3px; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-        .header { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .content { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .navigation-controls { display: flex; flex-direction: column; gap: 15px; margin-bottom: 10px; padding: 15px; background: #f8f9fa; border-radius: 8px; }
-        .nav-button-group { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
-        .chapter-links-container { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-        .nav-label { font-weight: 600; color: #495057; font-size: 14px; margin-right: 9px; }
-        .toggle-btn { background: #6c757d; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
-        .toggle-btn:hover { background: #5a6268; }
-        .toggle-btn.active-btn { background-color: #007bff; color: white; }
-        .bookshelf-link { background-color: #17a2b8; }
-        .bookshelf-link:hover { background-color: #138496; }
-        .chapter-link { display: inline-block; padding: 5px; text-decoration: none; color: #007bff; border: none; border-bottom: 1px solid #007bff; font-weight: 500; font-size: 10px; transition: all 0.3s ease; min-width: 25px; text-align: center; }
-        .chapter-link:hover, .chapter-link.active { background: #007bff; color: white; border-bottom-color: white; transform: scale(1.1); }
-        .chapter-content h2 { color: #2c3e50; margin-bottom: 30px; text-align: left; font-size: 28px; }
-        .story-content { text-align: justify; }
-        .english-paragraph { font-size: 18px; line-height: 1.8; color: #2c3e50; margin-bottom: 1.5em; }
-        .english-paragraph:last-child { margin-bottom: 0; }
-        .sentence-unit { cursor: pointer; border-radius: 3px; transition: background-color 0.2s; }
-        .sentence-unit.highlighted-sentence { background-color: #fffab0; }
-        .word-link { position: relative; display: inline; color: #007bff; font-weight: 600; padding: 1px 3px; border-radius: 3px; background: rgba(0, 123, 255, 0.1); cursor: pointer; text-decoration: underline; }
-        .word-link:hover { background: rgba(0, 123, 255, 0.2); }
-        .word-target-kr { color: #dc3545; font-weight: 600; background: rgba(220, 53, 69, 0.1); padding: 1px 3px; border-radius: 3px; }
-        .bottom-sheet-overlay, .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.4); display: flex; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
-        .popup-overlay { z-index: 2000; align-items: center; justify-content: center; }
-        .bottom-sheet-overlay { z-index: 1000; align-items: flex-end; }
-        .bottom-sheet-overlay.show, .popup-overlay.show { opacity: 1; visibility: visible; }
-        .bottom-sheet-panel { background-color: white; width: 100%; max-width: 1000px; height: 65vh; border-radius: 16px 16px 0 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; }
-        .bottom-sheet-overlay.show .bottom-sheet-panel { transform: translateY(0); }
-        .bottom-sheet-header { padding: 10px 20px; border-bottom: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
-        .bottom-sheet-title { font-size: 16px; font-weight: 600; }
-        .bottom-sheet-content { padding: 0 20px 20px 20px; overflow-y: auto; }
-        .word-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        .word-table th { position: sticky; top: 0; background-color: white; z-index: 1; border-bottom: 2px solid #dee2e6; padding: 10px; text-align: left; font-weight: 600; }
-        .word-table td { padding: 10px; border-bottom: 1px solid #dee2e6; text-align: left; }
-        .word-table tbody tr:nth-child(even) { background-color: #f8f9fa; }
-        .index-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f3f4; cursor: pointer; transition: all 0.2s ease; }
-        .index-item:hover { background: #f8f9fa; }
-        .index-item:last-child { border-bottom: none; }
-        .index-number { font-weight: 600; color: #007bff; margin-right: 12px; min-width: 25px; }
-        .index-title { color: #495057; font-size: 14px; }
-        .popup-content { background: white; max-width: 400px; width: 90%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); animation: slideIn 0.3s ease; position: absolute; transform: translate(0%, -100%); }
-        .popup-header { display: flex; justify-content: space-between; align-items: center; padding: 5px 25px 5px; border-bottom: 2px solid #f1f3f4; }
-        .popup-header h3 { color: #007bff; font-size: 24px; margin: 0; }
-        .close-btn { background: none; border: none; color: #999; font-size: 28px; font-weight: bold; cursor: pointer; transition: color 0.3s ease; padding: 0; line-height: 1; }
-        .close-btn:hover { color: #333; }
-        .popup-body { padding: 20px 25px; }
-        .popup-body p { margin: 0; font-size: 16px; line-height: 1.5; }
-        .popup-body strong { color: #2c3e50; }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .content {
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .navigation-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .nav-button-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+        .chapter-links-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-right: 9px;
+        }
+        .toggle-btn {
+            background: none;
+            border: none;
+            padding: 2px 0;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: underline;
+            text-decoration-color: currentColor;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 2px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .toggle-btn:hover {
+            opacity: 0.8;
+        }
+        .chapter-link {
+            display: inline-block;
+            padding: 5px;
+            text-decoration: none;
+            border: none;
+            border-bottom: 1px solid #007bff;
+            font-weight: 500;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            min-width: 25px;
+            text-align: center;
+        }
+        .chapter-link:hover, .chapter-link.active {
+            transform: scale(1.1);
+        }
+        .chapter-content h2 {
+            margin-bottom: 30px;
+            text-align: left;
+            font-size: 28px;
+        }
+        .story-content {
+            text-align: justify;
+        }
+        .english-paragraph {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 1.5em;
+        }
+        .english-paragraph:last-child {
+            margin-bottom: 0;
+        }
+        .sentence-unit {
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        .word-link {
+            position: relative;
+            display: inline;
+            font-weight: 600;
+            padding: 1px 3px;
+            border-radius: 3px;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .word-link:hover {
+            opacity: 0.8;
+        }
+        .word-target-kr {
+            color: #dc3545;
+            font-weight: 600;
+            background: rgba(220, 53, 69, 0.1);
+            padding: 1px 3px;
+            border-radius: 3px;
+        }
+        .bottom-sheet-overlay, .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .popup-overlay {
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .bottom-sheet-overlay {
+            z-index: 1000;
+            align-items: flex-end;
+        }
+        .bottom-sheet-overlay.show, .popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .bottom-sheet-panel {
+            width: 100%;
+            max-width: 1000px;
+            height: 65vh;
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        .bottom-sheet-overlay.show .bottom-sheet-panel {
+            transform: translateY(0);
+        }
+        .bottom-sheet-header {
+            padding: 10px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .bottom-sheet-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .bottom-sheet-content {
+            padding: 0 20px 20px 20px;
+            overflow-y: auto;
+        }
+        .word-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .word-table th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            border-bottom: 2px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .word-table td {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+            text-align: left;
+        }
+        .index-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f3f4;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .index-item:last-child {
+            border-bottom: none;
+        }
+        .index-number {
+            font-weight: 600;
+            margin-right: 12px;
+            min-width: 25px;
+        }
+        .index-title {
+            font-size: 14px;
+        }
+        .popup-content {
+            max-width: 400px;
+            width: 90%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 25px 5px;
+            border-bottom: 2px solid #f1f3f4;
+        }
+        .popup-header h3 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 0;
+            line-height: 1;
+        }
+        .close-btn:hover {
+            color: #333;
+        }
+        .popup-body {
+            padding: 20px 25px;
+        }
+        .popup-body p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .theme-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 0;
+        }
+        .theme-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .theme-btn:hover {
+            opacity: 0.9;
+        }
+        .theme-btn.active {
+            background-color: #007bff;
+            color: white;
+        }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* 기본 테마 */
+        body {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+        .header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .content, .navigation-controls {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .bookshelf-link, .index-toggle-btn, .word-list-toggle-btn, .theme-toggle-btn {
+            color: #007bff;
+            text-decoration-color: #007bff;
+        }
+        .bookshelf-link:hover, .index-toggle-btn:hover, .word-list-toggle-btn:hover, .theme-toggle-btn:hover {
+            color: #0056b3;
+            text-decoration-color: #0056b3;
+        }
+        .chapter-content h2 {
+            color: #2c3e50;
+        }
+        .english-paragraph {
+            color: #2c3e50;
+        }
+        .index-title {
+            color: #495057;
+        }
+        .bottom-sheet-panel {
+            background-color: #ffffff;
+        }
+        .word-table th {
+            background-color: #ffffff;
+        }
+        .word-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .index-item:hover {
+            background: #f8f9fa;
+        }
+        .popup-content {
+            background: #ffffff;
+        }
+        .chapter-link {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+        .chapter-link:hover, .chapter-link.active {
+            background: #007bff;
+            color: white;
+            border-bottom-color: white;
+        }
+        .word-link {
+            color: #007bff;
+            background: rgba(0, 123, 255, 0.1);
+        }
+        .word-link:hover {
+            background: rgba(0, 123, 255, 0.2);
+        }
+        .sentence-unit.highlighted-sentence {
+            background-color: #fffab0;
+        }
+        .index-number {
+            color: #007bff;
+        }
+        .popup-header h3 {
+            color: #007bff;
+        }
+        .popup-body strong {
+            color: #2c3e50;
+        }
+        .bottom-sheet-header {
+            border-bottom: 1px solid #e9ecef;
+        }
+        .index-item {
+            border-bottom: 1px solid #f1f3f4;
+        }
+        .popup-header {
+            border-bottom: 2px solid #f1f3f4;
+        }
+
+        /* 빈티지 테마 */
+        body.vintage {
+            background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #d4b99f;
+            color: #3c2f2f;
+        }
+        .vintage .header {
+            background: #f7ecd7;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #d4c7a3;
+        }
+        .vintage .content, .vintage .navigation-controls {
+            background: #f7ecd7;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #d4c7a3;
+        }
+        .vintage .bookshelf-link, .vintage .index-toggle-btn, .vintage .word-list-toggle-btn, .vintage .theme-toggle-btn {
+            color: #8b6f47;
+            text-decoration-color: #8b6f47;
+        }
+        .vintage .bookshelf-link:hover, .vintage .index-toggle-btn:hover, .vintage .word-list-toggle-btn:hover, .vintage .theme-toggle-btn:hover {
+            color: #7a5e3a;
+            text-decoration-color: #7a5e3a;
+        }
+        .vintage .chapter-content h2 {
+            color: #3c2f2f;
+            font-family: 'Times New Roman', serif;
+        }
+        .vintage .english-paragraph {
+            color: #3c2f2f;
+        }
+        .vintage .index-title {
+            color: #3c2f2f;
+        }
+        .vintage .bottom-sheet-panel {
+            background: #f7ecd7;
+        }
+        .vintage .word-table th {
+            background: #f7ecd7;
+        }
+        .vintage .word-table tbody tr:nth-child(even) {
+            background-color: #f4e4bc;
+        }
+        .vintage .index-item:hover {
+            background: #f4e4bc;
+        }
+        .vintage .popup-content {
+            background: #f7ecd7;
+            border: 1px solid #d4c7a3;
+        }
+        .vintage .chapter-link {
+            color: #8b6f47;
+            border-bottom-color: #8b6f47;
+        }
+        .vintage .chapter-link:hover, .vintage .chapter-link.active {
+            background: #8b6f47;
+            color: #f7ecd7;
+            border-bottom-color: #f7ecd7;
+        }
+        .vintage .word-link {
+            color: #8b6f47;
+            background: rgba(139, 111, 71, 0.1);
+        }
+        .vintage .word-link:hover {
+            background: rgba(139, 111, 71, 0.2);
+        }
+        .vintage .sentence-unit.highlighted-sentence {
+            background-color: #e6d2a1;
+        }
+        .vintage .index-number {
+            color: #8b6f47;
+        }
+        .vintage .popup-header h3 {
+            color: #8b6f47;
+        }
+        .vintage .popup-body strong {
+            color: #3c2f2f;
+        }
+        .vintage .bottom-sheet-header {
+            border-bottom: 1px solid #d4c7a3;
+        }
+        .vintage .index-item {
+            border-bottom: 1px solid #d4c7a3;
+        }
+        .vintage .popup-header {
+            border-bottom: 2px solid #d4c7a3;
+        }
+
+        /* SF 테마 */
+        body.sf {
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #2c3440;
+            color: #d8dfe6;
+        }
+        .sf .header {
+            background: #3b4655;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            border: 1px solid #6b8299;
+        }
+        .sf .content, .sf .navigation-controls {
+            background: #3b4655;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            border: 1px solid #6b8299;
+        }
+        .sf .bookshelf-link, .sf .index-toggle-btn, .sf .word-list-toggle-btn, .sf .theme-toggle-btn {
+            color: #6b8299;
+            text-decoration-color: #6b8299;
+        }
+        .sf .bookshelf-link:hover, .sf .index-toggle-btn:hover, .sf .word-list-toggle-btn:hover, .sf .theme-toggle-btn:hover {
+            color: #5a7085;
+            text-decoration-color: #5a7085;
+        }
+        .sf .chapter-content h2 {
+            color: #6b8299;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .sf .english-paragraph {
+            color: #d8dfe6;
+        }
+        .sf .index-title {
+            color: #d8dfe6;
+        }
+        .sf .bottom-sheet-panel {
+            background: #3b4655;
+        }
+        .sf .word-table th {
+            background: #3b4655;
+        }
+        .sf .word-table tbody tr:nth-child(even) {
+            background-color: #2c3440;
+        }
+        .sf .index-item:hover {
+            background: #2c3440;
+        }
+        .sf .popup-content {
+            background: #3b4655;
+            border: 1px solid #6b8299;
+        }
+        .sf .chapter-link {
+            color: #6b8299;
+            border-bottom-color: #6b8299;
+        }
+        .sf .chapter-link:hover, .sf .chapter-link.active {
+            background: #6b8299;
+            color: #2c3440;
+            border-bottom-color: #2c3440;
+        }
+        .sf .word-link {
+            color: #6b8299;
+            background: rgba(107, 130, 153, 0.1);
+        }
+        .sf .word-link:hover {
+            background: rgba(107, 130, 153, 0.2);
+        }
+        .sf .sentence-unit.highlighted-sentence {
+            background-color: #004aad;
+        }
+        .sf .index-number {
+            color: #6b8299;
+        }
+        .sf .popup-header h3 {
+            color: #6b8299;
+        }
+        .sf .popup-body strong {
+            color: #d8dfe6;
+        }
+        .sf .bottom-sheet-header {
+            border-bottom: 1px solid #6b8299;
+        }
+        .sf .index-item {
+            border-bottom: 1px solid #6b8299;
+        }
+        .sf .popup-header {
+            border-bottom: 2px solid #6b8299;
+        }
+
+        /* 나무 톤 테마 */
+        body.wood {
+            background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'), #8b5a2b;
+            color: #f4f0e8;
+        }
+        .wood .header {
+            background: #5c4033;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #3c2f2f;
+        }
+        .wood .content, .wood .navigation-controls {
+            background: #6b4e3f;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #3c2f2f;
+        }
+        .wood .bookshelf-link, .wood .index-toggle-btn, .wood .word-list-toggle-btn, .wood .theme-toggle-btn {
+            color: #e8d5b7;
+            text-decoration-color: #e8d5b7;
+        }
+        .wood .bookshelf-link:hover, .wood .index-toggle-btn:hover, .wood .word-list-toggle-btn:hover, .wood .theme-toggle-btn:hover {
+            color: #d4c1a3;
+            text-decoration-color: #d4c1a3;
+        }
+        .wood .chapter-content h2 {
+            color: #f4f0e8;
+            font-family: 'Georgia', serif;
+        }
+        .wood .english-paragraph {
+            color: #f4f0e8;
+        }
+        .wood .index-title {
+            color: #f4f0e8;
+        }
+        .wood .bottom-sheet-panel {
+            background: #5c4033;
+        }
+        .wood .word-table th {
+            background: #5c4033;
+        }
+        .wood .word-table tbody tr:nth-child(even) {
+            background-color: #8b5a2b;
+        }
+        .wood .index-item:hover {
+            background: #8b5a2b;
+        }
+        .wood .popup-content {
+            background: #5c4033;
+            border: 1px solid #3c2f2f;
+        }
+        .wood .chapter-link {
+            color: #e8d5b7;
+            border-bottom-color: #e8d5b7;
+        }
+        .wood .chapter-link:hover, .wood .chapter-link.active {
+            background: #e8d5b7;
+            color: #5c4033;
+            border-bottom-color: #5c4033;
+        }
+        .wood .word-link {
+            color: #e8d5b7;
+            background: rgba(232, 213, 183, 0.1);
+        }
+        .wood .word-link:hover {
+            background: rgba(232, 213, 183, 0.2);
+        }
+        .wood .sentence-unit.highlighted-sentence {
+            background-color: #a67b5b;
+        }
+        .wood .index-number {
+            color: #e8d5b7;
+        }
+        .wood .popup-header h3 {
+            color: #e8d5b7;
+        }
+        .wood .popup-body strong {
+            color: #f4f0e8;
+        }
+        .wood .bottom-sheet-header {
+            border-bottom: 1px solid #3c2f2f;
+        }
+        .wood .index-item {
+            border-bottom: 1px solid #3c2f2f;
+        }
+        .wood .popup-header {
+            border-bottom: 2px solid #3c2f2f;
+        }
+
+        /* 모던 다크 테마 */
+        body.modern-dark {
+            background: url('https://www.transparenttextures.com/patterns/dark-carbon.png'), #1f2528;
+            color: #e0e6eb;
+        }
+        .modern-dark .header {
+            background: #2e373c;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #5c6b7a;
+        }
+        .modern-dark .content, .modern-dark .navigation-controls {
+            background: #2e373c;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #5c6b7a;
+        }
+        .modern-dark .bookshelf-link, .modern-dark .index-toggle-btn, .modern-dark .word-list-toggle-btn, .modern-dark .theme-toggle-btn {
+            color: #5c6b7a;
+            text-decoration-color: #5c6b7a;
+        }
+        .modern-dark .bookshelf-link:hover, .modern-dark .index-toggle-btn:hover, .modern-dark .word-list-toggle-btn:hover, .modern-dark .theme-toggle-btn:hover {
+            color: #4b5967;
+            text-decoration-color: #4b5967;
+        }
+        .modern-dark .chapter-content h2 {
+            color: #5c6b7a;
+            font-family: 'Roboto', sans-serif;
+        }
+        .modern-dark .english-paragraph {
+            color: #e0e6eb;
+        }
+        .modern-dark .index-title {
+            color: #e0e6eb;
+        }
+        .modern-dark .bottom-sheet-panel {
+            background: #2e373c;
+        }
+        .modern-dark .word-table th {
+            background: #2e373c;
+        }
+        .modern-dark .word-table tbody tr:nth-child(even) {
+            background-color: #1f2528;
+        }
+        .modern-dark .index-item:hover {
+            background: #1f2528;
+        }
+        .modern-dark .popup-content {
+            background: #2e373c;
+            border: 1px solid #5c6b7a;
+        }
+        .modern-dark .chapter-link {
+            color: #5c6b7a;
+            border-bottom-color: #5c6b7a;
+        }
+        .modern-dark .chapter-link:hover, .modern-dark .chapter-link.active {
+            background: #5c6b7a;
+            color: #1f2528;
+            border-bottom-color: #1f2528;
+        }
+        .modern-dark .word-link {
+            color: #5c6b7a;
+            background: rgba(92, 107, 122, 0.1);
+        }
+        .modern-dark .word-link:hover {
+            background: rgba(92, 107, 122, 0.2);
+        }
+        .modern-dark .sentence-unit.highlighted-sentence {
+            background-color: #3f4e5d;
+        }
+        .modern-dark .index-number {
+            color: #5c6b7a;
+        }
+        .modern-dark .popup-header h3 {
+            color: #5c6b7a;
+        }
+        .modern-dark .popup-body strong {
+            color: #e0e6eb;
+        }
+        .modern-dark .bottom-sheet-header {
+            border-bottom: 1px solid #5c6b7a;
+        }
+        .modern-dark .index-item {
+            border-bottom: 1px solid #5c6b7a;
+        }
+        .modern-dark .popup-header {
+            border-bottom: 2px solid #5c6b7a;
+        }
+
+        /* 소프트 파스텔 테마 */
+        body.soft-pastel {
+            background: url('https://www.transparenttextures.com/patterns/subtle-white.png'), #f0f4f8;
+            color: #3f4b5c;
+        }
+        .soft-pastel .header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #d9e2ec;
+        }
+        .soft-pastel .content, .soft-pastel .navigation-controls {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #d9e2ec;
+        }
+        .soft-pastel .bookshelf-link, .soft-pastel .index-toggle-btn, .soft-pastel .word-list-toggle-btn, .soft-pastel .theme-toggle-btn {
+            color: #7a9cbf;
+            text-decoration-color: #7a9cbf;
+        }
+        .soft-pastel .bookshelf-link:hover, .soft-pastel .index-toggle-btn:hover, .soft-pastel .word-list-toggle-btn:hover, .soft-pastel .theme-toggle-btn:hover {
+            color: #698cab;
+            text-decoration-color: #698cab;
+        }
+        .soft-pastel .chapter-content h2 {
+            color: #3f4b5c;
+            font-family: 'Lora', serif;
+        }
+        .soft-pastel .english-paragraph {
+            color: #3f4b5c;
+        }
+        .soft-pastel .index-title {
+            color: #3f4b5c;
+        }
+        .soft-pastel .bottom-sheet-panel {
+            background: #ffffff;
+        }
+        .soft-pastel .word-table th {
+            background: #ffffff;
+        }
+        .soft-pastel .word-table tbody tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+        .soft-pastel .index-item:hover {
+            background: #f0f4f8;
+        }
+        .soft-pastel .popup-content {
+            background: #ffffff;
+            border: 1px solid #d9e2ec;
+        }
+        .soft-pastel .chapter-link {
+            color: #7a9cbf;
+            border-bottom-color: #7a9cbf;
+        }
+        .soft-pastel .chapter-link:hover, .soft-pastel .chapter-link.active {
+            background: #7a9cbf;
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+        .soft-pastel .word-link {
+            color: #7a9cbf;
+            background: rgba(122, 156, 191, 0.1);
+        }
+        .soft-pastel .word-link:hover {
+            background: rgba(122, 156, 191, 0.2);
+        }
+        .soft-pastel .sentence-unit.highlighted-sentence {
+            background-color: #d9e2ec;
+        }
+        .soft-pastel .index-number {
+            color: #7a9cbf;
+        }
+        .soft-pastel .popup-header h3 {
+            color: #7a9cbf;
+        }
+        .soft-pastel .popup-body strong {
+            color: #3f4b5c;
+        }
+        .soft-pastel .bottom-sheet-header {
+            border-bottom: 1px solid #d9e2ec;
+        }
+        .soft-pastel .index-item {
+            border-bottom: 1px solid #d9e2ec;
+        }
+        .soft-pastel .popup-header {
+            border-bottom: 2px solid #d9e2ec;
+        }
+
+        /* 레트로 네온 테마 */
+        body.retro-neon {
+            background: url('https://www.transparenttextures.com/patterns/retro-grid.png'), #1c2526;
+            color: #e0e0e0;
+        }
+        .retro-neon .header {
+            background: #2c3a3c;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            border: 1px solid #39c5bb;
+        }
+        .retro-neon .content, .retro-neon .navigation-controls {
+            background: #2c3a3c;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            border: 1px solid #39c5bb;
+        }
+        .retro-neon .bookshelf-link, .retro-neon .index-toggle-btn, .retro-neon .word-list-toggle-btn, .retro-neon .theme-toggle-btn {
+            color: #39c5bb;
+            text-decoration-color: #39c5bb;
+        }
+        .retro-neon .bookshelf-link:hover, .retro-neon .index-toggle-btn:hover, .retro-neon .word-list-toggle-btn:hover, .retro-neon .theme-toggle-btn:hover {
+            color: #2eb0a6;
+            text-decoration-color: #2eb0a6;
+        }
+        .retro-neon .chapter-content h2 {
+            color: #ff4d6d;
+            font-family: 'Press Start 2P', cursive;
+        }
+        .retro-neon .english-paragraph {
+            color: #e0e0e0;
+        }
+        .retro-neon .index-title {
+            color: #e0e0e0;
+        }
+        .retro-neon .bottom-sheet-panel {
+            background: #2c3a3c;
+        }
+        .retro-neon .word-table th {
+            background: #2c3a3c;
+        }
+        .retro-neon .word-table tbody tr:nth-child(even) {
+            background-color: #1c2526;
+        }
+        .retro-neon .index-item:hover {
+            background: #1c2526;
+        }
+        .retro-neon .popup-content {
+            background: #2c3a3c;
+            border: 1px solid #39c5bb;
+        }
+        .retro-neon .chapter-link {
+            color: #39c5bb;
+            border-bottom-color: #39c5bb;
+        }
+        .retro-neon .chapter-link:hover, .retro-neon .chapter-link.active {
+            background: #39c5bb;
+            color: #1c2526;
+            border-bottom-color: #1c2526;
+        }
+        .retro-neon .word-link {
+            color: #39c5bb;
+            background: rgba(57, 197, 187, 0.1);
+        }
+        .retro-neon .word-link:hover {
+            background: rgba(57, 197, 187, 0.2);
+        }
+        .retro-neon .sentence-unit.highlighted-sentence {
+            background-color: #ff4d6d;
+        }
+        .retro-neon .index-number {
+            color: #39c5bb;
+        }
+        .retro-neon .popup-header h3 {
+            color: #39c5bb;
+        }
+        .retro-neon .popup-body strong {
+            color: #e0e0e0;
+        }
+        .retro-neon .bottom-sheet-header {
+            border-bottom: 1px solid #39c5bb;
+        }
+        .retro-neon .index-item {
+            border-bottom: 1px solid #39c5bb;
+        }
+        .retro-neon .popup-header {
+            border-bottom: 2px solid #39c5bb;
+        }
+
+        /* 스튜디오 지브리 테마 (토토로 톤) */
+        body.ghibli {
+            background: url('https://www.transparenttextures.com/patterns/paper.png'), #d6e2d2;
+            color: #2f4f4f;
+        }
+        .ghibli .header {
+            background: #f0ead6;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #8aa68a;
+        }
+        .ghibli .content, .ghibli .navigation-controls {
+            background: #f0ead6;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #8aa68a;
+        }
+        .ghibli .bookshelf-link, .ghibli .index-toggle-btn, .ghibli .word-list-toggle-btn, .ghibli .theme-toggle-btn {
+            color: #4682b4;
+            text-decoration-color: #4682b4;
+        }
+        .ghibli .bookshelf-link:hover, .ghibli .index-toggle-btn:hover, .ghibli .word-list-toggle-btn:hover, .ghibli .theme-toggle-btn:hover {
+            color: #3a6b9a;
+            text-decoration-color: #3a6b9a;
+        }
+        .ghibli .chapter-content h2 {
+            color: #2f4f4f;
+            font-family: 'Lora', serif;
+        }
+        .ghibli .english-paragraph {
+            color: #2f4f4f;
+        }
+        .ghibli .index-title {
+            color: #2f4f4f;
+        }
+        .ghibli .bottom-sheet-panel {
+            background: #f0ead6;
+        }
+        .ghibli .word-table th {
+            background: #f0ead6;
+        }
+        .ghibli .word-table tbody tr:nth-child(even) {
+            background-color: #d6e2d2;
+        }
+        .ghibli .index-item:hover {
+            background: #d6e2d2;
+        }
+        .ghibli .popup-content {
+            background: #f0ead6;
+            border: 1px solid #8aa68a;
+        }
+        .ghibli .chapter-link {
+            color: #4682b4;
+            border-bottom-color: #4682b4;
+        }
+        .ghibli .chapter-link:hover, .ghibli .chapter-link.active {
+            background: #4682b4;
+            color: #f0ead6;
+            border-bottom-color: #f0ead6;
+        }
+        .ghibli .word-link {
+            color: #4682b4;
+            background: rgba(70, 130, 180, 0.1);
+        }
+        .ghibli .word-link:hover {
+            background: rgba(70, 130, 180, 0.2);
+        }
+        .ghibli .sentence-unit.highlighted-sentence {
+            background-color: #a8c0a8;
+        }
+        .ghibli .index-number {
+            color: #4682b4;
+        }
+        .ghibli .popup-header h3 {
+            color: #4682b4;
+        }
+        .ghibli .popup-body strong {
+            color: #2f4f4f;
+        }
+        .ghibli .bottom-sheet-header {
+            border-bottom: 1px solid #8aa68a;
+        }
+        .ghibli .index-item {
+            border-bottom: 1px solid #8aa68a;
+        }
+        .ghibli .popup-header {
+            border-bottom: 2px solid #8aa68a;
+        }
+
+        /* 심슨 테마 (다채로운 그라디언트 배경) */
+        body.simpsons {
+            background: linear-gradient(135deg, #87ceeb 25%, #90ee90 50%, #ffd700 75%, #ffb6c1 100%);
+            color: #3c3c3c;
+        }
+        .simpsons .header {
+            background: #f5f5f5;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #00b7eb;
+        }
+        .simpsons .content, .simpsons .navigation-controls {
+            background: #f5f5f5;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #00b7eb;
+        }
+        .simpsons .bookshelf-link, .simpsons .index-toggle-btn, .simpsons .word-list-toggle-btn, .simpsons .theme-toggle-btn {
+            color: #00b7eb;
+            text-decoration-color: #00b7eb;
+        }
+        .simpsons .bookshelf-link:hover, .simpsons .index-toggle-btn:hover, .simpsons .word-list-toggle-btn:hover, .simpsons .theme-toggle-btn:hover {
+            color: #009cd1;
+            text-decoration-color: #009cd1;
+        }
+        .simpsons .chapter-content h2 {
+            color: #3c3c3c;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .simpsons .english-paragraph {
+            color: #3c3c3c;
+        }
+        .simpsons .index-title {
+            color: #3c3c3c;
+        }
+        .simpsons .bottom-sheet-panel {
+            background: #f5f5f5;
+        }
+        .simpsons .word-table th {
+            background: #f5f5f5;
+        }
+        .simpsons .word-table tbody tr:nth-child(even) {
+            background-color: #e6e6e6;
+        }
+        .simpsons .index-item:hover {
+            background: #e6e6e6;
+        }
+        .simpsons .popup-content {
+            background: #f5f5f5;
+            border: 1px solid #00b7eb;
+        }
+        .simpsons .chapter-link {
+            color: #00b7eb;
+            border-bottom-color: #00b7eb;
+        }
+        .simpsons .chapter-link:hover, .simpsons .chapter-link.active {
+            background: #00b7eb;
+            color: #f5f5f5;
+            border-bottom-color: #f5f5f5;
+        }
+        .simpsons .word-link {
+            color: #00b7eb;
+            background: rgba(0, 183, 235, 0.1);
+        }
+        .simpsons .word-link:hover {
+            background: rgba(0, 183, 235, 0.2);
+        }
+        .simpsons .sentence-unit.highlighted-sentence {
+            background-color: #ffeb3b;
+        }
+        .simpsons .index-number {
+            color: #00b7eb;
+        }
+        .simpsons .popup-header h3 {
+            color: #00b7eb;
+        }
+        .simpsons .popup-body strong {
+            color: #3c3c3c;
+        }
+        .simpsons .bottom-sheet-header {
+            border-bottom: 1px solid #00b7eb;
+        }
+        .simpsons .index-item {
+            border-bottom: 1px solid #00b7eb;
+        }
+        .simpsons .popup-header {
+            border-bottom: 2px solid #00b7eb;
+        }
+
+        /* 스폰지밥 테마 */
+        body.spongebob {
+            background: url('https://www.transparenttextures.com/patterns/bubbles.png'), #87ceeb;
+            color: #2e2e2e;
+        }
+        .spongebob .header {
+            background: #fffacd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #ff69b4;
+        }
+        .spongebob .content, .spongebob .navigation-controls {
+            background: #fffacd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border: 1px solid #ff69b4;
+        }
+        .spongebob .bookshelf-link, .spongebob .index-toggle-btn, .spongebob .word-list-toggle-btn, .spongebob .theme-toggle-btn {
+            color: #ff69b4;
+            text-decoration-color: #ff69b4;
+        }
+        .spongebob .bookshelf-link:hover, .spongebob .index-toggle-btn:hover, .spongebob .word-list-toggle-btn:hover, .spongebob .theme-toggle-btn:hover {
+            color: #e65a9e;
+            text-decoration-color: #e65a9e;
+        }
+        .spongebob .chapter-content h2 {
+            color: #2e2e2e;
+            font-family: 'Comic Sans MS', cursive;
+        }
+        .spongebob .english-paragraph {
+            color: #2e2e2e;
+        }
+        .spongebob .index-title {
+            color: #2e2e2e;
+        }
+        .spongebob .bottom-sheet-panel {
+            background: #fffacd;
+        }
+        .spongebob .word-table th {
+            background: #fffacd;
+        }
+        .spongebob .word-table tbody tr:nth-child(even) {
+            background-color: #87ceeb;
+        }
+        .spongebob .index-item:hover {
+            background: #87ceeb;
+        }
+        .spongebob .popup-content {
+            background: #fffacd;
+            border: 1px solid #ff69b4;
+        }
+        .spongebob .chapter-link {
+            color: #ff69b4;
+            border-bottom-color: #ff69b4;
+        }
+        .spongebob .chapter-link:hover, .spongebob .chapter-link.active {
+            background: #ff69b4;
+            color: #fffacd;
+            border-bottom-color: #fffacd;
+        }
+        .spongebob .word-link {
+            color: #ff69b4;
+            background: rgba(255, 105, 180, 0.1);
+        }
+        .spongebob .word-link:hover {
+            background: rgba(255, 105, 180, 0.2);
+        }
+        .spongebob .sentence-unit.highlighted-sentence {
+            background-color: #40e0d0;
+        }
+        .spongebob .index-number {
+            color: #ff69b4;
+        }
+        .spongebob .popup-header h3 {
+            color: #ff69b4;
+        }
+        .spongebob .popup-body strong {
+            color: #2e2e2e;
+        }
+        .spongebob .bottom-sheet-header {
+            border-bottom: 1px solid #ff69b4;
+        }
+        .spongebob .index-item {
+            border-bottom: 1px solid #ff69b4;
+        }
+        .spongebob .popup-header {
+            border-bottom: 2px solid #ff69b4;
+        }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&family=Lora:wght@400;700&family=Press+Start+2P&family=Comic+Sans+MS&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="content">
+    <div class="container">
         <div class="nav-button-group">
-            <a href="/" class="toggle-btn bookshelf-link">📚 책장으로</a>
-            <button id="index-toggle-btn" class="toggle-btn">목차 보기</button>
-            <button id="word-list-toggle-btn" class="toggle-btn">단어 목록 보기</button>
+            <a href="/" class="toggle-btn bookshelf-link"><span>📚</span> 책장으로</a>
+            <button id="theme-toggle-btn" class="toggle-btn theme-toggle-btn"><span>🎨</span> 테마 설정하기</button>
+            <button id="index-toggle-btn" class="toggle-btn index-toggle-btn"><span>📖</span> 목차 보기</button>
+            <button id="word-list-toggle-btn" class="toggle-btn word-list-toggle-btn"><span>📝</span> 단어 목록 보기</button>
+        </div>
+        <div id="themePopupOverlay" class="popup-overlay">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h3>테마 선택</h3>
+                    <button class="close-btn">×</button>
+                </div>
+                <div class="popup-body">
+                    <div class="theme-selector">
+                        <button class="theme-btn" data-theme="default">기본</button>
+                        <button class="theme-btn" data-theme="vintage">빈티지</button>
+                        <button class="theme-btn" data-theme="sf">SF</button>
+                        <button class="theme-btn" data-theme="wood">나무 톤</button>
+                        <button class="theme-btn" data-theme="modern-dark">모던 다크</button>
+                        <button class="theme-btn" data-theme="soft-pastel">소프트 파스텔</button>
+                        <button class="theme-btn" data-theme="retro-neon">레트로 네온</button>
+                        <button class="theme-btn" data-theme="ghibli">지브리</button>
+                        <button class="theme-btn" data-theme="simpsons">심슨</button>
+                        <button class="theme-btn" data-theme="spongebob">스폰지밥</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="navigation-controls">
             <div class="chapter-links-container">
@@ -75,14 +1188,14 @@
                 <%- number_navigation %>
             </div>
         </div>
-        <div class="header">
+        <div class="content">
             <%- chapters_html %>
         </div>
     </div>
     <div id="indexNavigationTemplate" style="display: none;"><%- index_navigation %></div>
-    <div id="wordPopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn">&times;</button></div><div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div></div></div>
+    <div id="wordPopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-header"><h3 id="popupTerm">단어</h3><button class="close-btn">×</button></div><div class="popup-body"><p id="popupMeaning"><strong>뜻:</strong> </p><p id="popupSynonyms" style="display: none;"><strong>동의어:</strong> </p></div></div></div>
     <div id="sentencePopupOverlay" class="popup-overlay"><div class="popup-content"><div class="popup-body"><p id="sentencePopupText" style="margin: 0;"></p></div></div></div>
-    <div id="bottomSheet" class="bottom-sheet-overlay"><div class="bottom-sheet-panel"><div class="bottom-sheet-header"><h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3><button class="close-btn">&times;</button></div><div id="bottomSheetContent" class="bottom-sheet-content"></div></div></div>
+    <div id="bottomSheet" class="bottom-sheet-overlay"><div class="bottom-sheet-panel"><div class="bottom-sheet-header"><h3 id="bottomSheetTitle" class="bottom-sheet-title"></h3><button class="close-btn">×</button></div><div id="bottomSheetContent" class="bottom-sheet-content"></div></div></div>
 
     <script>
         const wordData = <%- word_data_js %>;
@@ -95,7 +1208,83 @@
         const bottomSheet = document.getElementById('bottomSheet');
         const wordPopup = document.getElementById('wordPopupOverlay');
         const sentencePopup = document.getElementById('sentencePopupOverlay');
-        
+        const themePopup = document.getElementById('themePopupOverlay');
+
+        function setTheme(theme) {
+            document.body.className = theme;
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
+            localStorage.setItem('theme', theme);
+        }
+
+        function openThemePopup() {
+            closeAllPopups();
+            themePopup.classList.add('show');
+            lockBodyScroll();
+        }
+
+        function closeThemePopup() {
+            themePopup.classList.remove('show');
+            if (!bottomSheet.classList.contains('show') && !wordPopup.classList.contains('show') && !sentencePopup.classList.contains('show')) {
+                unlockBodyScroll();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'default';
+            setTheme(savedTheme);
+
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setTheme(btn.dataset.theme);
+                    closeThemePopup();
+                });
+            });
+
+            document.getElementById('theme-toggle-btn').addEventListener('click', openThemePopup);
+
+            handleNavigation();
+            document.getElementById('index-toggle-btn').addEventListener('click', toggleIndex);
+            document.getElementById('word-list-toggle-btn').addEventListener('click', toggleWordList);
+            
+            document.querySelector('.content').addEventListener('dblclick', function(e) {
+                const wordLink = e.target.closest('.word-link');
+                if (wordLink) {
+                    e.preventDefault();
+                    showWordPopup(wordLink.dataset.wordId, wordLink);
+                    return;
+                }
+                const sentenceUnit = e.target.closest('.sentence-unit');
+                if (sentenceUnit) {
+                    e.preventDefault();
+                    showSentencePopup(sentenceUnit);
+                }
+            });
+
+            document.body.addEventListener('click', function(e) {
+                if(e.target.closest('.close-btn')) {
+                    if (e.target.closest('#wordPopupOverlay')) return closePopup();
+                    if (e.target.closest('#sentencePopupOverlay')) return closeSentencePopup();
+                    if (e.target.closest('#bottomSheet')) return closeSheet();
+                    if (e.target.closest('#themePopupOverlay')) return closeThemePopup();
+                }
+                if(e.target === wordPopup) return closePopup();
+                if(e.target === sentencePopup) return closeSentencePopup();
+                if(e.target === bottomSheet) return closeSheet();
+                if(e.target === themePopup) return closeThemePopup();
+                
+                const indexItem = e.target.closest('.index-item');
+                if (indexItem && indexItem.dataset.href) {
+                    e.preventDefault();
+                    window.location.hash = indexItem.dataset.href;
+                }
+            });
+            
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllPopups(); });
+            window.addEventListener('hashchange', handleNavigation, false);
+        });
+
         function lockBodyScroll() {
             const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
             if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
@@ -114,6 +1303,7 @@
             }
             if(wordPopup) wordPopup.classList.remove('show');
             if(sentencePopup) sentencePopup.classList.remove('show');
+            if(themePopup) themePopup.classList.remove('show');
             closeSheet();
             unlockBodyScroll();
         }
@@ -145,7 +1335,7 @@
             document.getElementById('index-toggle-btn').classList.remove('active-btn');
             document.getElementById('word-list-toggle-btn').classList.remove('active-btn');
             currentSheet = null;
-            if (!wordPopup.classList.contains('show') && !sentencePopup.classList.contains('show')) unlockBodyScroll();
+            if (!wordPopup.classList.contains('show') && !sentencePopup.classList.contains('show') && !themePopup.classList.contains('show')) unlockBodyScroll();
         }
         
         function showWordPopup(wordId, targetElement) {
@@ -170,28 +1360,24 @@
             if (!sentencePopup || !translation) return;
             element.classList.add('highlighted-sentence');
             highlightedElement = element;
-            sentencePopup.querySelector('#sentencePopupText').innerHTML = translation.replace(/&#34;/g, '"');
+            sentencePopup.querySelector('#sentencePopupText').innerHTML = translation.replace(/"/g, '"');
             positionAndShowPopup(sentencePopup, element);
         }
 
-function positionAndShowPopup(popupOverlay, targetElement) {
-    const popupContent = popupOverlay.querySelector('.popup-content');
-    if (!popupContent) return;
+        function positionAndShowPopup(popupOverlay, targetElement) {
+            const popupContent = popupOverlay.querySelector('.popup-content');
+            if (!popupContent) return;
 
-    const rect = targetElement.getBoundingClientRect();
-    
-    const top = rect.top - 10;
-    if(top < 0)
-        top = 0;
-
-    popupContent.style.top = `${top}px`;
-    popupOverlay.classList.add('show');
-    lockBodyScroll();
-}
+            const rect = targetElement.getBoundingClientRect();
+            const top = rect.top - 10;
+            popupContent.style.top = top < 0 ? '0px' : `${top}px`;
+            popupOverlay.classList.add('show');
+            lockBodyScroll();
+        }
 
         function closePopup() {
             if (wordPopup) wordPopup.classList.remove('show');
-            if (!bottomSheet.classList.contains('show') && !sentencePopup.classList.contains('show')) unlockBodyScroll();
+            if (!bottomSheet.classList.contains('show') && !sentencePopup.classList.contains('show') && !themePopup.classList.contains('show')) unlockBodyScroll();
         }
         
         function closeSentencePopup() {
@@ -200,7 +1386,7 @@ function positionAndShowPopup(popupOverlay, targetElement) {
                 highlightedElement.classList.remove('highlighted-sentence');
                 highlightedElement = null;
             }
-            if (!bottomSheet.classList.contains('show') && !wordPopup.classList.contains('show')) unlockBodyScroll();
+            if (!bottomSheet.classList.contains('show') && !wordPopup.classList.contains('show') && !themePopup.classList.contains('show')) unlockBodyScroll();
         }
         
         function toggleIndex(){ openSheet('index'); }
@@ -251,46 +1437,6 @@ function positionAndShowPopup(popupOverlay, targetElement) {
             });
             return table + '</tbody></table>';
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            handleNavigation();
-            document.getElementById('index-toggle-btn').addEventListener('click', toggleIndex);
-            document.getElementById('word-list-toggle-btn').addEventListener('click', toggleWordList);
-            
-            document.querySelector('.content').addEventListener('dblclick', function(e) {
-                const wordLink = e.target.closest('.word-link');
-                if (wordLink) {
-                    e.preventDefault();
-                    showWordPopup(wordLink.dataset.wordId, wordLink);
-                    return;
-                }
-                const sentenceUnit = e.target.closest('.sentence-unit');
-                if (sentenceUnit) {
-                    e.preventDefault();
-                    showSentencePopup(sentenceUnit);
-                }
-            });
-
-            document.body.addEventListener('click', function(e) {
-                if(e.target.closest('.close-btn')) {
-                    if (e.target.closest('#wordPopupOverlay')) return closePopup();
-                    if (e.target.closest('#sentencePopupOverlay')) return closeSentencePopup();
-                    if (e.target.closest('#bottomSheet')) return closeSheet();
-                }
-                if(e.target === wordPopup) return closePopup();
-                if(e.target === sentencePopup) return closeSentencePopup();
-                if(e.target === bottomSheet) return closeSheet();
-                
-                const indexItem = e.target.closest('.index-item');
-                if (indexItem && indexItem.dataset.href) {
-                    e.preventDefault();
-                    window.location.hash = indexItem.dataset.href;
-                }
-            });
-            
-            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllPopups(); });
-            window.addEventListener('hashchange', handleNavigation, false);
-        });
     </script>
 </body>
 </html>
